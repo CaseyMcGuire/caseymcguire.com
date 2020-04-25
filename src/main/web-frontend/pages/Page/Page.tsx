@@ -2,6 +2,7 @@ import * as React from "react";
 import {useState} from "react";
 import {createUseStyles} from "react-jss";
 import Common from './Common';
+import PageHeader from "./components/PageHeader";
 
 const getStyles = createUseStyles({
   pageContainer: {
@@ -21,11 +22,11 @@ export default function Page(props: {
   children: React.ReactNode
 }) {
   const styles = getStyles();
-  const displaySideMenu = useState(false);
+  const [displaySideMenu, setDisplaySideMenu] = useState(false);
   return (
     <div className={styles.pageContainer}>
       <div className={styles.pageContent}>
-        {/*<PageHeader onMenuButtonClick={this.toggleSideMenu}/>*/}
+        <PageHeader onMenuButtonClick={() => setDisplaySideMenu(!displaySideMenu)}/>
         {props.children}
       </div>
       {/*<SideMenu onCloseClick={this.toggleSideMenu} display={this.state.displaySideMenu}/>*/}
