@@ -22,10 +22,10 @@ const getStyles = createUseStyles({
     textDecoration: 'underline'
   },
   menuButtonContainer: {
-    display: 'block'
+    display: 'none'
   },
   navigationBarLinksContainer: {
-    display: 'none'
+    display: 'block'
   },
   '@media only screen and (max-width: 600px)': {
     navigationBarLinksContainer: {
@@ -46,7 +46,7 @@ export default function NavigationBar(props: Props) {
   return (
     <div className={style.navigationBarContainer}>
       <div className={style.navigationBarLinksContainer}>
-        <NavigationLinksList/>
+        <NavigationLinksList isMobile={false}/>
       </div>
       <div className={style.menuButtonContainer}>
         <MenuButton onClick={props.onMenuButtonClick}/>
