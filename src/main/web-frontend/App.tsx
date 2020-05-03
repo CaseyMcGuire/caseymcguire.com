@@ -9,6 +9,7 @@ import Foo from "pages/Foo";
 import Page from "./pages/Page/Page";
 import ResumePage from "./pages/Resume/Resume";
 import SinglePostPage from "./pages/Posts/ShowPostPage";
+import HomePage from "./pages/Home/HomePage";
 
 
 const styles = createUseStyles({
@@ -53,7 +54,7 @@ const Body = () => {
     <BrowserRouter>
       <Page>
         <Switch>
-          <Route exact path="/" component={Foo}/>
+          <Route exact path="/" component={HomePage}/>
           <Route exact path="/there" component={Bar}/>
           <Route exact path="/foo_bar" component={Baz}/>
           <Route exact path="/resume" component={ResumePage} />
