@@ -9,8 +9,8 @@ import Page from "./Page/Page";
 export default class Foo extends React.Component<{}> {
   render() {
     const query = graphql`
-      query FooQuery {
-        bar(baz: "asldkfj")
+      query FooQuery($baz: String!) {
+        bar(baz: $baz)
         ...FooBar_murp
       }
     `;
@@ -18,7 +18,7 @@ export default class Foo extends React.Component<{}> {
     return <QueryRenderer<FooQuery>
       environment={RelayConfig.getEnvironment()}
       query={query}
-      variables={{}}
+      variables={{baz: 'qwerqwer'}}
       render={({error, props}) => {
         if (props) {
           return <div><div>{props?.bar}</div>

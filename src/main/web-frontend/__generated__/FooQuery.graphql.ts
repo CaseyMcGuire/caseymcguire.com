@@ -1,10 +1,12 @@
 /* tslint:disable */
 /* eslint-disable */
-/* @relayHash e968f3cc7792955820b523fddcc9f259 */
+/* @relayHash e1cb54ae04b376aa70c8aa5b7e1a6c14 */
 
 import { ConcreteRequest } from "relay-runtime";
 import { FragmentRefs } from "relay-runtime";
-export type FooQueryVariables = {};
+export type FooQueryVariables = {
+    baz: string;
+};
 export type FooQueryResponse = {
     readonly bar: string;
     readonly " $fragmentRefs": FragmentRefs<"FooBar_murp">;
@@ -17,8 +19,10 @@ export type FooQuery = {
 
 
 /*
-query FooQuery {
-  bar(baz: "asldkfj")
+query FooQuery(
+  $baz: String!
+) {
+  bar(baz: $baz)
   ...FooBar_murp
 }
 
@@ -28,18 +32,25 @@ fragment FooBar_murp on Query {
 */
 
 const node: ConcreteRequest = (function () {
-    var v0 = ({
+    var v0 = [
+        ({
+            "kind": "LocalArgument",
+            "name": "baz",
+            "type": "String!",
+            "defaultValue": null
+        } as any)
+    ], v1 = ({
         "kind": "ScalarField",
         "alias": null,
         "name": "bar",
         "args": [
             {
-                "kind": "Literal",
+                "kind": "Variable",
                 "name": "baz",
-                "value": "asldkfj"
+                "variableName": "baz"
             }
         ],
-        "storageKey": "bar(baz:\"asldkfj\")"
+        "storageKey": null
     } as any);
     return {
         "kind": "Request",
@@ -48,9 +59,9 @@ const node: ConcreteRequest = (function () {
             "name": "FooQuery",
             "type": "Query",
             "metadata": null,
-            "argumentDefinitions": [],
+            "argumentDefinitions": (v0 /*: any*/),
             "selections": [
-                (v0 /*: any*/),
+                (v1 /*: any*/),
                 {
                     "kind": "FragmentSpread",
                     "name": "FooBar_murp",
@@ -61,9 +72,9 @@ const node: ConcreteRequest = (function () {
         "operation": {
             "kind": "Operation",
             "name": "FooQuery",
-            "argumentDefinitions": [],
+            "argumentDefinitions": (v0 /*: any*/),
             "selections": [
-                (v0 /*: any*/),
+                (v1 /*: any*/),
                 {
                     "kind": "ScalarField",
                     "alias": null,
@@ -77,10 +88,10 @@ const node: ConcreteRequest = (function () {
             "operationKind": "query",
             "name": "FooQuery",
             "id": null,
-            "text": "query FooQuery {\n  bar(baz: \"asldkfj\")\n  ...FooBar_murp\n}\n\nfragment FooBar_murp on Query {\n  foo\n}\n",
+            "text": "query FooQuery(\n  $baz: String!\n) {\n  bar(baz: $baz)\n  ...FooBar_murp\n}\n\nfragment FooBar_murp on Query {\n  foo\n}\n",
             "metadata": {}
         }
     } as any;
 })();
-(node as any).hash = 'b03a2748be840aaf8f16509cf45220ad';
+(node as any).hash = 'c3e9c65cdd9c9345a743f9e336ded635';
 export default node;

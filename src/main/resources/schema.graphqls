@@ -1,4 +1,12 @@
+#laskjdfljkasdfjk
+type Post {
+  content: String!
+  id: String!
+  title: String!
+}
+
 type Query {
   bar(baz: String!): String!
   foo: String!
+  post(id: String!): Post!
 }

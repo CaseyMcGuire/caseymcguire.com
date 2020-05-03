@@ -8,4 +8,9 @@ class TestQuery : GraphQLQuery {
   fun foo() = "asdf"
 
   fun bar(baz: String) = baz
+  fun post(id: String): Post = Post(
+    id = id,
+    title = "Title",
+    content = "Content"
+  )
 }

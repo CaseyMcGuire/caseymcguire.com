@@ -8,6 +8,7 @@ import {createUseStyles} from "react-jss";
 import Foo from "pages/Foo";
 import Page from "./pages/Page/Page";
 import ResumePage from "./pages/Resume/Resume";
+import SinglePostPage from "./pages/Posts/ShowPostPage";
 
 
 const styles = createUseStyles({
@@ -56,6 +57,7 @@ const Body = () => {
           <Route exact path="/there" component={Bar}/>
           <Route exact path="/foo_bar" component={Baz}/>
           <Route exact path="/resume" component={ResumePage} />
+          <Route exact path="/posts/:id" component={SinglePostPage} />
           <Route component={Forohfor}/>
         </Switch>
       </Page>

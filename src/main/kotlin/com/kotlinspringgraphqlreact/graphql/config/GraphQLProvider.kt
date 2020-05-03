@@ -1,6 +1,7 @@
 package com.kotlinspringgraphqlreact.graphql.config
 
 import com.expediagroup.graphql.SchemaGeneratorConfig
+import com.expediagroup.graphql.TopLevelNames
 import com.expediagroup.graphql.TopLevelObject
 import com.expediagroup.graphql.toSchema
 import graphql.GraphQL
@@ -17,7 +18,7 @@ class GraphQLProvider(
   val graphQL: GraphQL
 
   init {
-    val config = SchemaGeneratorConfig(supportedPackages = listOf("com.kotlinspringgraphlreact.graphql"))
+    val config = SchemaGeneratorConfig(supportedPackages = listOf("com.kotlinspringgraphqlreact.graphql"))
     val schema = toSchema(config, queries.map { TopLevelObject(it) }, listOf())
     val printer = SchemaPrinter(SchemaPrinter.Options.defaultOptions().includeDirectives(true))
     val file = File("src/main/resources/schema.graphqls")
