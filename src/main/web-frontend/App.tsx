@@ -5,7 +5,6 @@ import {RelayConfig} from "relay/RelayConfig";
 import {AppQuery} from "__generated__/AppQuery.graphql";
 import {BrowserRouter, Switch, Route, Link} from "react-router-dom";
 import {createUseStyles} from "react-jss";
-import Foo from "pages/Foo";
 import Page from "./pages/Page/Page";
 import ResumePage from "./pages/Resume/Resume";
 import SinglePostPage from "./pages/Posts/ShowPostPage";
@@ -55,8 +54,6 @@ const Body = () => {
       <Page>
         <Switch>
           <Route exact path="/" component={HomePage}/>
-          <Route exact path="/there" component={Bar}/>
-          <Route exact path="/foo_bar" component={Baz}/>
           <Route exact path="/resume" component={ResumePage} />
           <Route exact path="/posts/:id" component={SinglePostPage} />
           <Route component={Forohfor}/>
