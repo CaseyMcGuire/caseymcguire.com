@@ -15,6 +15,7 @@ export function App() {
           <Route exact path="/" component={HomePage}/>
           <Route exact path="/resume" component={ResumePage} />
           <Route exact path="/posts" component={IndexPostPage} />
+          <Route exact path="/posts/page/:id" component={IndexPostPage} />
           <Route exact path="/posts/:id" component={SinglePostPage} />
           <Route component={NotFoundPage}/>
         </Switch>

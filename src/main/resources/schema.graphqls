@@ -6,8 +6,6 @@ type Post {
 }
 
 type Query {
-  bar(baz: String!): String!
-  foo: String!
   post(id: String!): Post!
   posts(page: Int!): [Post!]!
 }

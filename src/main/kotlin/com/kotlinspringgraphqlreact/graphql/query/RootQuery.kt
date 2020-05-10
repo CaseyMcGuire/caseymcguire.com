@@ -18,9 +18,15 @@ class RootQuery : GraphQLQuery {
     Post(id = "1", title = "Title", content = "content"),
     Post(id = "1", title = "Title", content = "content"),
     Post(id = "1", title = "Title", content = "content"),
+    Post(id = "1", title = "Title", content = "content"),
+    Post(id = "1", title = "Title", content = "content"),
+    Post(id = "1", title = "Title", content = "content"),
+    Post(id = "1", title = "Title", content = "content"),
     Post(id = "1", title = "Title", content = "content"))
 
-  fun posts(page: Int): List<Post> = posts.subList(page * POSTS_PER_PAGE, page * POSTS_PER_PAGE + POSTS_PER_PAGE)
+  fun posts(page: Int): List<Post> {
+    return posts.subList(page * POSTS_PER_PAGE - POSTS_PER_PAGE, page * POSTS_PER_PAGE)
+  }
 
   fun post(id: String): Post = Post(
     id = id,

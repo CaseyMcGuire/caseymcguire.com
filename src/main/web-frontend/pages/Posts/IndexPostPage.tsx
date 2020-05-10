@@ -6,6 +6,7 @@ import {IndexPostPageQuery} from "../../__generated__/IndexPostPageQuery.graphql
 import {createUseStyles} from "react-jss";
 import Common from "../Page/Common";
 import {Link} from "react-router-dom";
+import {RouteComponentProps, Redirect} from "react-router-dom";
 
 const useStyles = createUseStyles({
   paginationPanel: {
@@ -30,7 +31,7 @@ const useStyles = createUseStyles({
   },
 });
 
-export default function IndexPostPage() {
+export default function IndexPostPage(props: RouteComponentProps<{ id?: string }>) {
     const query = graphql`
       query IndexPostPageQuery($page: Int!) {
         posts(page: $page) {
@@ -40,6 +41,14 @@ export default function IndexPostPage() {
         }
       }
     `;
+
+  const id = props.match.params.id ?? '1';
+  const page = parseInt(id);
+  const isInvalidId = Number.isNaN(page);
+  if (isInvalidId) {
+    return <Redirect to={"/"}/>
+  }
+
   return (
     <QueryRenderer<IndexPostPageQuery>
       environment={RelayConfig.getEnvironment()}
@@ -55,11 +64,12 @@ export default function IndexPostPage() {
                 return <Post key={index} id={post.id} title={post.title} contents={post.content}/>
               })
             }
-            <PaginationPanel pageNumber={1} hasNextPage={true}/>
+            <PaginationPanel pageNumber={page} hasNextPage={true}/>
           </div>
         );
       }}
-      variables={{page: 1}}/>
+      variables={{page}}
+    />
   )
 
 }
