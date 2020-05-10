@@ -1,77 +1,29 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
-import {QueryRenderer, graphql} from "react-relay";
-import {RelayConfig} from "relay/RelayConfig";
-import {AppQuery} from "__generated__/AppQuery.graphql";
 import {BrowserRouter, Switch, Route, Link} from "react-router-dom";
-import {createUseStyles} from "react-jss";
 import Page from "./pages/Page/Page";
 import ResumePage from "./pages/Resume/Resume";
 import SinglePostPage from "./pages/Posts/ShowPostPage";
 import HomePage from "./pages/Home/HomePage";
+import IndexPostPage from "./pages/Posts/IndexPostPage";
 
-
-const styles = createUseStyles({
-  foo: {
-    color: 'blue',
-    margin: '10px'
-  },
-  bar: {
-    color: 'green',
-    margin: '20px'
-  },
-  baz: {
-    color: 'grey',
-  }
-});
-
-export class App extends React.Component<{}> {
-    render() {
-        const query = graphql`
-            query AppQuery {
-                foo
-            }
-        `;
-
-      return <QueryRenderer<AppQuery>
-        environment={RelayConfig.getEnvironment()}
-        query={query}
-        variables={{}}
-        render={({error, props}) => {
-          if (props) {
-            return <Body/>
-          }
-          return <div/>;
-        }
-        }
-      />;
-    }
-}
-
-const Body = () => {
+export function App() {
   return (
     <BrowserRouter>
       <Page>
         <Switch>
           <Route exact path="/" component={HomePage}/>
           <Route exact path="/resume" component={ResumePage} />
+          <Route exact path="/posts" component={IndexPostPage} />
           <Route exact path="/posts/:id" component={SinglePostPage} />
-          <Route component={Forohfor}/>
+          <Route component={NotFoundPage}/>
         </Switch>
       </Page>
     </BrowserRouter>
   );
-};
+}
 
-const Bar = () => {
-  return <div className={styles().bar}>there</div>;
-};
-
-const Baz = () => {
-  return <div className={styles().baz}>baz</div>;
-};
-
-const Forohfor = () => {
+const NotFoundPage = () => {
   return <div>404</div>;
 };
 
