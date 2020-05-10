@@ -74,7 +74,7 @@ export default function EmploymentCard(props: Props) {
       </div>
       <ul>
         {
-          description.map(elem => <li>{elem}</li>)
+          description.map((elem, index) => <li key={index}>{elem}</li>)
         }
       </ul>
     </div>
