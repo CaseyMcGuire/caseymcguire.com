@@ -1,4 +1,4 @@
-package com.kotlinspringgraphqlreact.graphql.query
+package com.caseymcguiredotcom.graphql.query
 
 import com.expediagroup.graphql.annotations.GraphQLDescription
 

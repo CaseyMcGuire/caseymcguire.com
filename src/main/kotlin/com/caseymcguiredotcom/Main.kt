@@ -1,4 +1,4 @@
-package com.kotlinspringgraphqlreact
+package com.caseymcguiredotcom
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication

@@ -1,6 +1,6 @@
-package com.kotlinspringgraphqlreact.graphql
+package com.caseymcguiredotcom.graphql
 
-import com.kotlinspringgraphqlreact.graphql.config.GraphQLProvider
+import com.caseymcguiredotcom.graphql.config.GraphQLProvider
 import graphql.ExecutionInput
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody

@@ -1,6 +1,6 @@
-package com.kotlinspringgraphqlreact.graphql.query
+package com.caseymcguiredotcom.graphql.query
 
-import com.kotlinspringgraphqlreact.graphql.config.GraphQLQuery
+import com.caseymcguiredotcom.graphql.config.GraphQLQuery
 import org.springframework.stereotype.Component
 
 @Component

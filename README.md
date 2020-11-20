@@ -1,10 +1,4 @@
-This is a starter project for a single-page web app that uses:
-- Kotlin
-- Spring Boot
-- GraphQL
-- Relay
-- React Router
-- React
+
 
 In order to start:
 ```
@@ -22,3 +16,7 @@ In order to rebuild relay:
 ```
 ./gradlew buildRelay
 ```
+
+## Installation
+1) Set your environment variables by creating a `.env` file based on `.env.example`. 
+2) Set up database by running `./bin/setup_database` from project root

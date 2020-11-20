@@ -1,8 +1,8 @@
 import * as React from "react";
 import {graphql, QueryRenderer} from "react-relay";
 import Post from "./Post";
-import {RelayConfig} from "../../relay/RelayConfig";
-import {IndexPostPageQuery} from "../../__generated__/IndexPostPageQuery.graphql";
+import {RelayConfig} from "relay/RelayConfig";
+import {IndexPostPageQuery} from "__generated__/IndexPostPageQuery.graphql";
 import {createUseStyles} from "react-jss";
 import Common from "../Page/Common";
 import {Link} from "react-router-dom";

@@ -1,4 +1,4 @@
-package com.kotlinspringgraphqlreact.config
+package com.caseymcguiredotcom.config
 
 import org.springframework.context.annotation.Configuration
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry
@@ -10,9 +10,9 @@ open class WebConfiguration : WebMvcConfigurer {
     // map all request to root
     // note: the last js/css override causes the bundles to get overwritten somehow so I removed it
     // https://stackoverflow.com/a/42998817/11283051
-    registry.addViewController("/{spring:\\w+}")
+    /*registry.addViewController("/{spring:\\w+}")
       .setViewName("forward:/")
     registry.addViewController("/**/{spring:\\w+}")
-      .setViewName("forward:/")
+      .setViewName("forward:/")*/
   }
 }
