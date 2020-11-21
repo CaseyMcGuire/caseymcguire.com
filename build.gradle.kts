@@ -17,20 +17,20 @@ repositories {
 }
 
 dependencies {
-    compile("org.springframework.boot:spring-boot-starter-web")
-    compile("org.springframework.boot:spring-boot-starter-thymeleaf")
+    implementation("org.springframework.boot:spring-boot-starter-web")
+    implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
 
-    compile(group = "com.expediagroup", name = "graphql-kotlin-schema-generator", version = "1.4.2")
+    implementation(group = "com.expediagroup", name = "graphql-kotlin-schema-generator", version = "1.4.2")
 
-    compile(group = "com.graphql-java", name = "graphiql-spring-boot-starter", version = "5.0.2")
+    implementation(group = "com.graphql-java", name = "graphiql-spring-boot-starter", version = "5.0.2")
 
-    compile("org.jetbrains.kotlin:kotlin-reflect:1.3.0") // https://stackoverflow.com/a/47174551/11283051
+    implementation("org.jetbrains.kotlin:kotlin-reflect:1.3.0") // https://stackoverflow.com/a/47174551/11283051
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 
     // database and migrations
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("org.postgresql:postgresql")
-    compile("org.flywaydb:flyway-core:6.5.7")
+    implementation("org.flywaydb:flyway-core:6.5.7")
 }
 
 tasks.withType<KotlinCompile> {
