@@ -7,6 +7,7 @@ plugins {
     id("org.springframework.boot") version "2.2.2.RELEASE"
     id("io.spring.dependency-management") version "1.0.6.RELEASE"
     id("com.github.node-gradle.node") version "2.2.1"
+    id("nu.studer.jooq") version "5.2"
 }
 
 group = "com.kotlinspringgraphlreact"
@@ -29,9 +30,23 @@ dependencies {
 
     // database and migrations
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
-    implementation("org.postgresql:postgresql")
+    jooqGenerator("org.postgresql:postgresql:42.2.14")
+    implementation("org.postgresql:postgresql:42.2.14")
     implementation("org.flywaydb:flyway-core:6.5.7")
 }
+
+val envVariables: Map<String, String> =  {
+    val map = hashMapOf<String, String>()
+    val envFile = file(".env")
+    if (!envFile.exists()) {
+        map
+    }
+    envFile.readLines().forEach {
+        val (key, value) = it.split("=")
+        map[key] = value
+    }
+    map
+}()
 
 tasks.withType<KotlinCompile> {
     kotlinOptions {
@@ -52,28 +67,45 @@ tasks.register("buildRelay", NpmTask::class) {
 }
 
 tasks.getByName<BootRun>("bootRun") {
-    environment = getEnvVariables()
+    environment = envVariables
     dependsOn("npm_install", "webpack")
 }
 
-tasks
-
-fun getEnvVariables(): Map<String, String> {
-    val map = hashMapOf<String, String>()
-    val envFile = file(".env")
-    if (!envFile.exists()) {
-        return map
-    }
-    envFile.readLines().forEach {
-        val (key, value) = it.split("=")
-        map[key] = value
-    }
-    return map
-}
+val dbUser = envVariables.getValue("DB_USER")
+val dbPassword = envVariables.getValue("DB_PASSWORD")
+val dbUrl = envVariables.getValue("DB_URL")
 
 
 node {
     version = "12.16.0"
     npmVersion = "6.13.7"
     download = true
+}
+
+jooq {
+    version.set("3.14.1")
+    configurations {
+        create("main") {
+            jooqConfiguration.apply {
+                jdbc.apply {
+                    driver = "org.postgresql.Driver"
+                    url = dbUrl
+                    user = dbUser
+                    password = dbPassword
+                }
+                generator.apply {
+                    name = "org.jooq.codegen.KotlinGenerator"
+                    target.apply {
+                        packageName = "generated.jooq"
+                        directory = "src/main/kotlin/jooq"
+                    }
+                    database.apply {
+                        inputSchema = "public"
+                        excludes = "flyway_schema_history"
+                    }
+                }
+            }
+        }
+
+    }
 }
