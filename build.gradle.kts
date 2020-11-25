@@ -96,8 +96,8 @@ jooq {
                 generator.apply {
                     name = "org.jooq.codegen.KotlinGenerator"
                     target.apply {
-                        packageName = "generated.jooq"
-                        directory = "src/main/kotlin/jooq"
+                        packageName = "com.caseymcguiredotcom.db.generated.jooq"
+                        directory = "src/main/kotlin/com/caseymcguiredotcom/db"
                     }
                     database.apply {
                         inputSchema = "public"

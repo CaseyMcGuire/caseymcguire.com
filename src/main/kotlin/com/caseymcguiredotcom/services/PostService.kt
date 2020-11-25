@@ -1,7 +1,7 @@
 package com.caseymcguiredotcom.services
 
+import com.caseymcguiredotcom.db.generated.jooq.tables.Posts
 import com.caseymcguiredotcom.graphql.query.Post
-import generated.jooq.tables.Posts
 
 import org.jooq.DSLContext
 import org.springframework.stereotype.Service
