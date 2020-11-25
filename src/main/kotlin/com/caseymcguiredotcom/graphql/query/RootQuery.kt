@@ -1,10 +1,11 @@
 package com.caseymcguiredotcom.graphql.query
 
 import com.caseymcguiredotcom.graphql.config.GraphQLQuery
+import com.caseymcguiredotcom.services.PostService
 import org.springframework.stereotype.Component
 
 @Component
-class RootQuery : GraphQLQuery {
+class RootQuery(val postService: PostService) : GraphQLQuery {
   companion object {
     const val POSTS_PER_PAGE = 5
   }
@@ -25,7 +26,7 @@ class RootQuery : GraphQLQuery {
     Post(id = "1", title = "Title", content = "content"))
 
   fun posts(page: Int): List<Post> {
-    return posts.subList(page * POSTS_PER_PAGE - POSTS_PER_PAGE, page * POSTS_PER_PAGE)
+    return postService.getPosts()
   }
 
   fun post(id: String): Post = Post(
