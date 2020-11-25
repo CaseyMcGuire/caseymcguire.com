@@ -2,12 +2,11 @@ import * as React from "react";
 import {graphql, QueryRenderer} from "react-relay";
 import {RelayConfig} from "../../relay/RelayConfig";
 import {ShowPostPageQuery} from "../../__generated__/ShowPostPageQuery.graphql";
-import { RouteComponentProps } from "react-router-dom";
+import {RouteComponentProps} from "react-router-dom";
 import Post from "./Post";
 
 
-
-export default function SinglePostPage(props: RouteComponentProps<{id: string}>) {
+export default function SinglePostPage(props: RouteComponentProps<{ id: string }>) {
 
     const query = graphql`
       query ShowPostPageQuery($id: String!) {
@@ -28,7 +27,7 @@ export default function SinglePostPage(props: RouteComponentProps<{id: string}>)
         if (error || props == null) {
           return;
         }
-        return (<Post id={id} title={props?.post.title} contents={props?.post.content} />);
+        return (<Post id={id} title={props?.post.title} contents={props?.post.content}/>);
       }
       }/>
   );
