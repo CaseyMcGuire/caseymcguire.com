@@ -6,7 +6,9 @@ package com.caseymcguiredotcom.db.generated.jooq
 
 import com.caseymcguiredotcom.db.generated.jooq.sequences.POSTS_ID_SEQ
 import com.caseymcguiredotcom.db.generated.jooq.sequences.USERS_ID_SEQ
+import com.caseymcguiredotcom.db.generated.jooq.sequences.USER_ROLES_USER_ROLE_ID_SEQ
 import com.caseymcguiredotcom.db.generated.jooq.tables.Posts
+import com.caseymcguiredotcom.db.generated.jooq.tables.UserRoles
 import com.caseymcguiredotcom.db.generated.jooq.tables.Users
 
 import kotlin.collections.List
@@ -36,6 +38,11 @@ class Public : SchemaImpl("public", DefaultCatalog.DEFAULT_CATALOG) {
     val POSTS get() = Posts.POSTS
 
     /**
+     * The table <code>public.user_roles</code>.
+     */
+    val USER_ROLES get() = UserRoles.USER_ROLES
+
+    /**
      * The table <code>public.users</code>.
      */
     val USERS get() = Users.USERS
@@ -44,11 +51,13 @@ class Public : SchemaImpl("public", DefaultCatalog.DEFAULT_CATALOG) {
 
     override fun getSequences(): List<Sequence<*>> = listOf(
         POSTS_ID_SEQ,
+        USER_ROLES_USER_ROLE_ID_SEQ,
         USERS_ID_SEQ
     )
 
     override fun getTables(): List<Table<*>> = listOf(
         Posts.POSTS,
+        UserRoles.USER_ROLES,
         Users.USERS
     )
 }

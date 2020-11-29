@@ -8,6 +8,7 @@ plugins {
   id("io.spring.dependency-management") version "1.0.6.RELEASE"
   id("com.github.node-gradle.node") version "2.2.1"
   id("nu.studer.jooq") version "5.2"
+  //id("org.flywaydb.flyway") version "7.3.0"
 }
 
 group = "com.kotlinspringgraphlreact"
@@ -20,6 +21,7 @@ repositories {
 dependencies {
   implementation("org.springframework.boot:spring-boot-starter-web")
   implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
+  implementation(group = "org.springframework.boot", name = "spring-boot-starter-security", version = "2.3.5.RELEASE")
 
   implementation(group = "com.expediagroup", name = "graphql-kotlin-schema-generator", version = "1.4.2")
 
@@ -74,6 +76,19 @@ tasks.getByName<BootRun>("bootRun") {
 val dbUser = envVariables.getValue("DB_USER")
 val dbPassword = envVariables.getValue("DB_PASSWORD")
 val dbUrl = envVariables.getValue("DB_URL")
+
+// How to run flyway commands in command line
+// uncomment flyway dependency in plugins
+// In order to clean database: ./gradlew flywayClean
+// In order to rerun migrations: ./gradlew flywayMigrate
+// NOTE: these configurations are only for running flyway from the command line, not from inside spring. Those are
+// configured separately by Spring itself
+// (https://docs.spring.io/spring-boot/docs/current/reference/html/appendix-application-properties.html#spring.flyway.baseline-description)
+//flyway {
+//  url = dbUrl
+//  user = dbUser
+//  password = dbPassword
+//}
 
 
 node {

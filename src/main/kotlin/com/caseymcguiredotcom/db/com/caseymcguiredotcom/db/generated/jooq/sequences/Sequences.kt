@@ -18,6 +18,11 @@ import org.jooq.impl.SQLDataType
 val POSTS_ID_SEQ: Sequence<Int> = Internal.createSequence("posts_id_seq", Public.PUBLIC, SQLDataType.INTEGER.nullable(false), null, null, null, null, false, null)
 
 /**
+ * The sequence <code>public.user_roles_user_role_id_seq</code>
+ */
+val USER_ROLES_USER_ROLE_ID_SEQ: Sequence<Int> = Internal.createSequence("user_roles_user_role_id_seq", Public.PUBLIC, SQLDataType.INTEGER.nullable(false), null, null, null, null, false, null)
+
+/**
  * The sequence <code>public.users_id_seq</code>
  */
 val USERS_ID_SEQ: Sequence<Int> = Internal.createSequence("users_id_seq", Public.PUBLIC, SQLDataType.INTEGER.nullable(false), null, null, null, null, false, null)

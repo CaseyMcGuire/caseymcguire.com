@@ -1,16 +1,21 @@
 CREATE TABLE IF NOT EXISTS users (
-  id SERIAL NOT NULL UNIQUE,
+  id SERIAL PRIMARY KEY,
   is_admin BOOLEAN,
   password VARCHAR(60) NOT NULL,
-  email TEXT NOT NULL,
-  PRIMARY KEY (id)
+  email TEXT NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS posts (
-  id serial NOT NULL UNIQUE,
+  id SERIAL PRIMARY KEY,
   user_id INTEGER NOT NULL,
   title TEXT,
   contents TEXT,
-  PRIMARY KEY (id),
   CONSTRAINT fk_id FOREIGN KEY (user_id) REFERENCES users (id)
+);
+
+CREATE TABLE IF NOT EXISTS user_roles (
+  user_role_id SERIAL PRIMARY KEY,
+  user_id INTEGER,
+  role varchar(45) NOT NULL,
+  CONSTRAINT fk_user_id FOREIGN KEY (user_id) REFERENCES users (id)
 );
