@@ -21,7 +21,7 @@ repositories {
 dependencies {
   implementation("org.springframework.boot:spring-boot-starter-web")
   implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
-  implementation(group = "org.springframework.boot", name = "spring-boot-starter-security", version = "2.3.5.RELEASE")
+  implementation(group = "org.springframework.boot", name = "spring-boot-starter-security", version = "2.4.0")
 
   implementation(group = "com.expediagroup", name = "graphql-kotlin-schema-generator", version = "1.4.2")
 

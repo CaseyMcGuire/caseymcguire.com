@@ -5,10 +5,8 @@ package com.caseymcguiredotcom.db.generated.jooq.keys
 
 
 import com.caseymcguiredotcom.db.generated.jooq.tables.Posts
-import com.caseymcguiredotcom.db.generated.jooq.tables.UserRoles
 import com.caseymcguiredotcom.db.generated.jooq.tables.Users
 import com.caseymcguiredotcom.db.generated.jooq.tables.records.PostsRecord
-import com.caseymcguiredotcom.db.generated.jooq.tables.records.UserRolesRecord
 import com.caseymcguiredotcom.db.generated.jooq.tables.records.UsersRecord
 
 import org.jooq.ForeignKey
@@ -23,7 +21,6 @@ import org.jooq.impl.Internal
 // -------------------------------------------------------------------------
 
 val POSTS_PKEY: UniqueKey<PostsRecord> = Internal.createUniqueKey(Posts.POSTS, DSL.name("posts_pkey"), arrayOf(Posts.POSTS.ID), true)
-val USER_ROLES_PKEY: UniqueKey<UserRolesRecord> = Internal.createUniqueKey(UserRoles.USER_ROLES, DSL.name("user_roles_pkey"), arrayOf(UserRoles.USER_ROLES.USER_ROLE_ID), true)
 val USERS_PKEY: UniqueKey<UsersRecord> = Internal.createUniqueKey(Users.USERS, DSL.name("users_pkey"), arrayOf(Users.USERS.ID), true)
 
 // -------------------------------------------------------------------------
@@ -31,4 +28,3 @@ val USERS_PKEY: UniqueKey<UsersRecord> = Internal.createUniqueKey(Users.USERS, D
 // -------------------------------------------------------------------------
 
 val POSTS__FK_ID: ForeignKey<PostsRecord, UsersRecord> = Internal.createForeignKey(Posts.POSTS, DSL.name("fk_id"), arrayOf(Posts.POSTS.USER_ID), com.caseymcguiredotcom.db.generated.jooq.keys.USERS_PKEY, arrayOf(Users.USERS.ID), true)
-val USER_ROLES__FK_USER_ID: ForeignKey<UserRolesRecord, UsersRecord> = Internal.createForeignKey(UserRoles.USER_ROLES, DSL.name("fk_user_id"), arrayOf(UserRoles.USER_ROLES.USER_ID), com.caseymcguiredotcom.db.generated.jooq.keys.USERS_PKEY, arrayOf(Users.USERS.ID), true)

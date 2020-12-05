@@ -13,10 +13,13 @@ export class RelayConfig {
     operation: RequestParameters,
     variables: Variables
   ) {
+    const csrfToken = (document.getElementById("csrf-token") as HTMLMetaElement).content
+    const csrfHeader = (document.getElementById("csrf-header") as HTMLMetaElement).content
     return fetch("/graphql", {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        [csrfHeader]: csrfToken
       },
       body: JSON.stringify({
         query: operation.text,

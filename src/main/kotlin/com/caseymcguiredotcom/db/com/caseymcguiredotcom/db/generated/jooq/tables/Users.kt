@@ -66,9 +66,9 @@ class Users(
     val ID: TableField<UsersRecord, Int?> = createField(DSL.name("id"), SQLDataType.INTEGER.nullable(false).identity(true), this, "")
 
     /**
-     * The column <code>public.users.is_admin</code>.
+     * The column <code>public.users.role</code>.
      */
-    val IS_ADMIN: TableField<UsersRecord, Boolean?> = createField(DSL.name("is_admin"), SQLDataType.BOOLEAN, this, "")
+    val ROLE: TableField<UsersRecord, String?> = createField(DSL.name("role"), SQLDataType.VARCHAR(45), this, "")
 
     /**
      * The column <code>public.users.password</code>.
@@ -119,5 +119,5 @@ class Users(
     // -------------------------------------------------------------------------
     // Row4 type methods
     // -------------------------------------------------------------------------
-    override fun fieldsRow(): Row4<Int?, Boolean?, String?, String?> = super.fieldsRow() as Row4<Int?, Boolean?, String?, String?>
+    override fun fieldsRow(): Row4<Int?, String?, String?, String?> = super.fieldsRow() as Row4<Int?, String?, String?, String?>
 }

@@ -5,7 +5,6 @@ package com.caseymcguiredotcom.db.generated.jooq.tables.references
 
 
 import com.caseymcguiredotcom.db.generated.jooq.tables.Posts
-import com.caseymcguiredotcom.db.generated.jooq.tables.UserRoles
 import com.caseymcguiredotcom.db.generated.jooq.tables.Users
 
 
@@ -14,11 +13,6 @@ import com.caseymcguiredotcom.db.generated.jooq.tables.Users
  * The table <code>public.posts</code>.
  */
 val POSTS = Posts.POSTS
-
-/**
- * The table <code>public.user_roles</code>.
- */
-val USER_ROLES = UserRoles.USER_ROLES
 
 /**
  * The table <code>public.users</code>.

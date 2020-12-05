@@ -10,15 +10,15 @@ import java.io.File
 
 @Component
 class GraphQLProvider(
-  queries: List<GraphQLQuery>//,
-  //private val mutations: List<GraphQLMutation>,
+  queries: List<GraphQLQuery>,
+  mutations: List<GraphQLMutation>
   //private val subscriptions: List<GraphQLSubscription>
 ) {
   val graphQL: GraphQL
 
   init {
     val config = SchemaGeneratorConfig(supportedPackages = listOf("com.caseymcguiredotcom.graphql"))
-    val schema = toSchema(config, queries.map { TopLevelObject(it) }, listOf())
+    val schema = toSchema(config, queries.map { TopLevelObject(it) }, mutations.map { TopLevelObject(it) })
     val printer = SchemaPrinter(SchemaPrinter.Options.defaultOptions().includeDirectives(true))
     val file = File("src/main/resources/schema.graphqls")
     file.writeText(printer.print(schema))

@@ -1,8 +1,10 @@
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
+    <meta id="csrf-token" name="_csrf" th:content="${_csrf.token}"/>
+    <meta id="csrf-header" name="_csrf_header" th:content="${_csrf.headerName}"/>
     <title>Title</title>
     <link rel="stylesheet" type="text/css" href="/assets/fonts/Computer_Modern/Serif/cmun-serif.css">
     <script type="text/javascript" src="/assets/javascripts/sanitize-html.min.js"></script>

@@ -1,3 +1,7 @@
+type Mutation {
+  register(email: String!, password: String!): Boolean!
+}
+
 #laskjdfljkasdfjk
 type Post {
   content: String!

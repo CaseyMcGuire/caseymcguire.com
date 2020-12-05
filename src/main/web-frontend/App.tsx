@@ -6,6 +6,8 @@ import ResumePage from "./pages/Resume/Resume";
 import SinglePostPage from "./pages/Posts/ShowPostPage";
 import HomePage from "./pages/Home/HomePage";
 import IndexPostPage from "./pages/Posts/IndexPostPage";
+import LoginPage from "pages/Auth/LoginPage";
+import RegisterPage from "pages/Auth/RegisterPage";
 
 export function App() {
   return (
@@ -17,6 +19,8 @@ export function App() {
           <Route exact path="/posts" component={IndexPostPage} />
           <Route exact path="/posts/page/:id" component={IndexPostPage} />
           <Route exact path="/posts/:id" component={SinglePostPage} />
+          <Route exact path="/login" component={LoginPage} />
+          <Route exact path="/register" component={RegisterPage} />
           <Route component={NotFoundPage}/>
         </Switch>
       </Page>

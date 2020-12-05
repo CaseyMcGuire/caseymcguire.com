@@ -10,7 +10,9 @@ class MainController {
     "/",
     "/resume",
     "/posts",
-    "/posts/page/{id}"
+    "/posts/page/{id}",
+    "/login",
+    "/register"
   ])
   fun home(): String {
     return "index"
