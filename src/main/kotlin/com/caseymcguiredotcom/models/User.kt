@@ -7,10 +7,13 @@ import org.springframework.security.core.userdetails.UserDetails
 class User(
   private val email: String,
   private val password: String,
-  private val role: String
+  private val role: String?
 ) : UserDetails {
 
   override fun getAuthorities(): MutableCollection<out GrantedAuthority> {
+    if (role == null) {
+      return mutableListOf()
+    }
     return mutableListOf(SimpleGrantedAuthority(role))
   }
 
@@ -37,6 +40,4 @@ class User(
   override fun isAccountNonLocked(): Boolean {
     return true
   }
-
-
 }

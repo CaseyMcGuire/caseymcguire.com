@@ -1,8 +1,9 @@
 import {commitMutation} from "relay-runtime";
 import {RelayConfig} from "relay/RelayConfig";
 import {graphql} from "react-relay";
+import {RegisterMutationResponse} from "__generated__/RegisterMutation.graphql";
 
-export function commit(email: string, password: string) {
+export function commit(email: string, password: string, onCompleted: (success : boolean) => void) {
     const mutation = graphql`
       mutation RegisterMutation(
         $email: String!,
@@ -21,9 +22,8 @@ export function commit(email: string, password: string) {
     {
       mutation,
       variables,
-      onCompleted: (response, errors) => {
-        console.log(response)
-        console.log(errors)
+      onCompleted: (response: RegisterMutationResponse, errors) => {
+        onCompleted(response.register)
       }
     });
 }

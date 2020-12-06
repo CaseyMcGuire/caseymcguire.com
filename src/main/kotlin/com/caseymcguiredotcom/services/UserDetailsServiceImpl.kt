@@ -16,6 +16,7 @@ class UserDetailsServiceImpl(val context: DSLContext): UserDetailsService {
     val result = context
       .select()
       .from(USERS)
+      .where(USERS.EMAIL.eq(email))
       .fetchOne()
       ?: throw UsernameNotFoundException("user with given email not found")
 
@@ -24,7 +25,7 @@ class UserDetailsServiceImpl(val context: DSLContext): UserDetailsService {
         User(
           email = it[USERS.EMAIL]!!,
           password = it[USERS.PASSWORD]!!,
-          role = it[USERS.ROLE]!!
+          role = it[USERS.ROLE]
         )
       }
   }

@@ -1,20 +1,13 @@
 import * as React from "react";
 import {commit} from "mutations/RegisterMutation";
-import {createUseStyles} from "react-jss";
 import FormField from "./components/FormField";
 import {useState} from "react";
-
-const getStyles = createUseStyles({
-  homePageContainer: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'center'
-  },
-});
+import { useHistory } from "react-router-dom";
 
 export default function RegisterPage() {
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
+  const history = useHistory();
   return (
     <div>
       <FormField formName={"Email"} title={"email"} type={"text"} onChange={(text) => {
@@ -24,7 +17,11 @@ export default function RegisterPage() {
         setPassword(text);
       }}/>
       <button onClick={() => {
-        commit(email, password)
+        commit(email, password, (success) => {
+          if (success) {
+            history.push("/login?success=true")
+          }
+        })
       }
       }>
         Submit

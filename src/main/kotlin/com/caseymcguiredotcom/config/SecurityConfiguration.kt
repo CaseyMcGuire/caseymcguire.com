@@ -25,10 +25,13 @@ open class SecurityConfiguration(val userDetailsService: UserDetailsServiceImpl)
     http
       .authorizeRequests()
         .antMatchers( "/resume").permitAll()
-        .antMatchers("/").hasRole("ADMIN")
       .and()
         .formLogin()
         .loginPage("/login")
+        .usernameParameter("Email")
+        .passwordParameter("Password")
+        .defaultSuccessUrl("/")
+        .failureUrl("/login?error=true")
 
 
   }
