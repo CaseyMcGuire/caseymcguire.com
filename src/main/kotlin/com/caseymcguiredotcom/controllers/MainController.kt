@@ -13,7 +13,9 @@ class MainController {
     "/",
     "/resume",
     "/posts",
+    "/posts/{id}",
     "/posts/page/{id}",
+    "/posts/new",
     "/login",
     "/register"
   ])

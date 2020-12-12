@@ -26,7 +26,7 @@ class RootQuery(val postService: PostService) : GraphQLQuery {
     Post(id = "1", title = "Title", content = "content"))
 
   fun posts(page: Int): List<Post> {
-    return postService.getPosts()
+    return posts
   }
 
   fun post(id: String): Post = Post(

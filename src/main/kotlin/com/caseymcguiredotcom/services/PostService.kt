@@ -17,15 +17,7 @@ class PostService(val context: DSLContext) {
       .select()
       .from(POSTS)
       .fetch()
-      .map {
-        Post(
-          id = it[POSTS.ID].toString(),
-          title = it[POSTS.TITLE]!!,
-          content = it[POSTS.CONTENTS]!!
-        )
-      }
-
-
+      .into(Post::class.java)
   }
 
 }

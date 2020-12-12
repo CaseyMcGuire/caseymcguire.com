@@ -1,6 +1,14 @@
 package com.caseymcguiredotcom.graphql.query
 
-import com.expediagroup.graphql.annotations.GraphQLDescription
+import javax.persistence.Column
 
-@GraphQLDescription("laskjdfljkasdfjk")
-class Post(val id: String, val title: String, val content: String)
+data class Post(
+  @Column(name = "id")
+  val id: String,
+
+  @Column(name = "title")
+  val title: String,
+
+  @Column(name = "content")
+  val content: String
+)
