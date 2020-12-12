@@ -32,7 +32,9 @@ open class SecurityConfiguration(val userDetailsService: UserDetailsServiceImpl)
         .passwordParameter("Password")
         .defaultSuccessUrl("/")
         .failureUrl("/login?error=true")
-
+      .and()
+        .logout()
+        .logoutSuccessUrl("/")
 
   }
 }
