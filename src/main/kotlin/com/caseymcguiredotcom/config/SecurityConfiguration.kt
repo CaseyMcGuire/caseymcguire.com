@@ -24,7 +24,7 @@ open class SecurityConfiguration(val userDetailsService: UserDetailsServiceImpl)
   override fun configure(http: HttpSecurity) {
     http
       .authorizeRequests()
-        .antMatchers( "/resume").permitAll()
+        .antMatchers( "/posts/new").authenticated()
       .and()
         .formLogin()
         .loginPage("/login")

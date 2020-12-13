@@ -1,7 +1,7 @@
 package com.caseymcguiredotcom.services
 
 import com.caseymcguiredotcom.dao.PostDao
-import com.caseymcguiredotcom.graphql.query.Post
+import com.caseymcguiredotcom.models.Post
 
 import org.springframework.stereotype.Service
 
@@ -21,7 +21,7 @@ class PostService(
   fun savePost(title: String, content: String): Post? {
     val user = userService.getLoggedInUser() ?: return null
 
-    return postDao.save(user.getId(), title, content)
+    return postDao.save(user.id, title, content)
   }
 
 }

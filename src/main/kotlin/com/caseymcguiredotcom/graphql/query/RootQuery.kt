@@ -1,11 +1,17 @@
 package com.caseymcguiredotcom.graphql.query
 
 import com.caseymcguiredotcom.graphql.config.GraphQLQuery
+import com.caseymcguiredotcom.models.Post
+import com.caseymcguiredotcom.models.User
 import com.caseymcguiredotcom.services.PostService
+import com.caseymcguiredotcom.services.UserService
 import org.springframework.stereotype.Component
 
 @Component
-class RootQuery(val postService: PostService) : GraphQLQuery {
+class RootQuery(
+  val postService: PostService,
+  val userService: UserService
+) : GraphQLQuery {
   companion object {
     const val POSTS_PER_PAGE = 5
   }
@@ -15,4 +21,6 @@ class RootQuery(val postService: PostService) : GraphQLQuery {
   }
 
   fun post(id: Int): Post? = postService.getPostsById(id)
+
+  fun user(): User? = userService.getLoggedInUser()
 }

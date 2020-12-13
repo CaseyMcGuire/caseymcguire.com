@@ -1,48 +1,17 @@
 package com.caseymcguiredotcom.models
 
-import org.springframework.security.core.GrantedAuthority
-import org.springframework.security.core.authority.SimpleGrantedAuthority
-import org.springframework.security.core.userdetails.UserDetails
+import javax.persistence.Column
 
-class User(
-  private val id: Int,
-  private val email: String,
-  private val password: String,
-  private val role: String?
-) : UserDetails {
+data class User(
+  @Column(name = "id")
+  val id: Int,
 
-  override fun getAuthorities(): MutableCollection<out GrantedAuthority> {
-    if (role == null) {
-      return mutableListOf()
-    }
-    return mutableListOf(SimpleGrantedAuthority(role))
-  }
+  @Column(name = "email")
+  val email: String,
 
-  override fun isEnabled(): Boolean {
-    return true
-  }
+  @Column(name = "password")
+  val password: String,
 
-  override fun getUsername(): String {
-    return email
-  }
-
-  fun getId(): Int {
-    return id
-  }
-
-  override fun isCredentialsNonExpired(): Boolean {
-    return true
-  }
-
-  override fun getPassword(): String {
-    return password
-  }
-
-  override fun isAccountNonExpired(): Boolean {
-    return true
-  }
-
-  override fun isAccountNonLocked(): Boolean {
-    return true
-  }
-}
+  @Column(name = "role")
+  val role: String?
+)

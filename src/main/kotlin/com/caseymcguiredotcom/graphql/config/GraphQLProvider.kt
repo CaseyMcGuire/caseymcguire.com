@@ -17,7 +17,7 @@ class GraphQLProvider(
   val graphQL: GraphQL
 
   init {
-    val config = SchemaGeneratorConfig(supportedPackages = listOf("com.caseymcguiredotcom.graphql"))
+    val config = SchemaGeneratorConfig(supportedPackages = listOf("com.caseymcguiredotcom.graphql", "com.caseymcguiredotcom.models"))
     val schema = toSchema(config, queries.map { TopLevelObject(it) }, mutations.map { TopLevelObject(it) })
     val printer = SchemaPrinter(SchemaPrinter.Options.defaultOptions().includeDirectives(true))
     val file = File("src/main/resources/schema.graphqls")

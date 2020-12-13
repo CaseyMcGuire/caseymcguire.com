@@ -2,6 +2,7 @@ package com.caseymcguiredotcom.services
 
 import com.caseymcguiredotcom.dao.UserDao
 import com.caseymcguiredotcom.models.User
+import com.caseymcguiredotcom.models.UserDetailsImpl
 import org.springframework.security.authentication.AnonymousAuthenticationToken
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.crypto.password.PasswordEncoder
@@ -27,6 +28,9 @@ class UserService(
     if (authentication is AnonymousAuthenticationToken) {
       return null
     }
-    return authentication.principal as User
+    return when (val principal = authentication.principal) {
+      is UserDetailsImpl -> principal.user
+      else -> null
+    }
   }
 }

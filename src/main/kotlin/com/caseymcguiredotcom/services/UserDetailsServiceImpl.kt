@@ -1,6 +1,7 @@
 package com.caseymcguiredotcom.services
 
 import com.caseymcguiredotcom.dao.UserDao
+import com.caseymcguiredotcom.models.UserDetailsImpl
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.security.core.userdetails.UsernameNotFoundException
@@ -15,7 +16,11 @@ class UserDetailsServiceImpl(val userDao: UserDao): UserDetailsService {
     if (email == null) {
       throw exception
     }
-    return userDao.findByUsername(email) ?: throw exception
+    val user = userDao.findByUsername(email)
+    if (user != null) {
+      return UserDetailsImpl(user)
+    }
+    throw exception
   }
 
 }

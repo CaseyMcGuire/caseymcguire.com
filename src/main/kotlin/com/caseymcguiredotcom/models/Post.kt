@@ -1,4 +1,4 @@
-package com.caseymcguiredotcom.graphql.query
+package com.caseymcguiredotcom.models
 
 import javax.persistence.Column
 
