@@ -32,17 +32,19 @@ const useStyles = createUseStyles({
 });
 
 export default function IndexPostPage(props: RouteComponentProps<{ id?: string }>) {
+  // we must alias id to postID. See https://github.com/facebook/relay/issues/1682#issuecomment-296393416
     const query = graphql`
       query IndexPostPageQuery($page: Int!) {
         posts(page: $page) {
-          id
+          postId: id
           title
-          content
+          contents
         }
       }
     `;
 
   const id = props.match.params.id ?? '1';
+
   const page = parseInt(id);
   const isInvalidId = Number.isNaN(page);
   if (isInvalidId) {
@@ -54,6 +56,7 @@ export default function IndexPostPage(props: RouteComponentProps<{ id?: string }
       environment={RelayConfig.getEnvironment()}
       query={query}
       render={({error, props}) => {
+
         if (error || props == null) {
           return <div/>;
         }
@@ -61,7 +64,7 @@ export default function IndexPostPage(props: RouteComponentProps<{ id?: string }
           <div>
             {
               props.posts.map((post, index) => {
-                return <Post key={index} id={post.id} title={post.title} contents={post.content}/>
+                return <Post key={index} id={post.postId} title={post.title} contents={post.contents}/>
               })
             }
             <PaginationPanel pageNumber={page} hasNextPage={true}/>

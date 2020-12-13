@@ -1,33 +1,21 @@
 package com.caseymcguiredotcom.services
 
-import com.caseymcguiredotcom.db.generated.jooq.tables.Users.Companion.USERS
-import com.caseymcguiredotcom.models.User
-import org.jooq.DSLContext
+import com.caseymcguiredotcom.dao.UserDao
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.security.core.userdetails.UsernameNotFoundException
 import org.springframework.stereotype.Service
 
 @Service
-class UserDetailsServiceImpl(val context: DSLContext): UserDetailsService {
+class UserDetailsServiceImpl(val userDao: UserDao): UserDetailsService {
 
   @Throws(UsernameNotFoundException::class)
   override fun loadUserByUsername(email: String?): UserDetails {
-    val result = context
-      .select()
-      .from(USERS)
-      .where(USERS.EMAIL.eq(email))
-      .fetchOne()
-      ?: throw UsernameNotFoundException("user with given email not found")
-
-    return result
-      .map {
-        User(
-          email = it[USERS.EMAIL]!!,
-          password = it[USERS.PASSWORD]!!,
-          role = it[USERS.ROLE]
-        )
-      }
+    val exception = UsernameNotFoundException("User with given email not found")
+    if (email == null) {
+      throw exception
+    }
+    return userDao.findByUsername(email) ?: throw exception
   }
 
 }

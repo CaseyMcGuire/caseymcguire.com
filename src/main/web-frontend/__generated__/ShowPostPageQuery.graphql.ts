@@ -1,17 +1,16 @@
 /* tslint:disable */
 /* eslint-disable */
-/* @relayHash 28d07154b2801a59c46249bf2cbc01ae */
+/* @relayHash dc96aa8f22a401dde48ab920c1eea8d4 */
 
 import { ConcreteRequest } from "relay-runtime";
 export type ShowPostPageQueryVariables = {
-    id: string;
+    id: number;
 };
 export type ShowPostPageQueryResponse = {
     readonly post: {
-        readonly id: string;
         readonly title: string;
-        readonly content: string;
-    };
+        readonly contents: string;
+    } | null;
 };
 export type ShowPostPageQuery = {
     readonly response: ShowPostPageQueryResponse;
@@ -22,12 +21,11 @@ export type ShowPostPageQuery = {
 
 /*
 query ShowPostPageQuery(
-  $id: String!
+  $id: Int!
 ) {
   post(id: $id) {
-    id
     title
-    content
+    contents
   }
 }
 */
@@ -37,7 +35,7 @@ const node: ConcreteRequest = (function () {
         ({
             "kind": "LocalArgument",
             "name": "id",
-            "type": "String!",
+            "type": "Int!",
             "defaultValue": null
         } as any)
     ], v1 = [
@@ -59,13 +57,6 @@ const node: ConcreteRequest = (function () {
                 {
                     "kind": "ScalarField",
                     "alias": null,
-                    "name": "id",
-                    "args": null,
-                    "storageKey": null
-                },
-                {
-                    "kind": "ScalarField",
-                    "alias": null,
                     "name": "title",
                     "args": null,
                     "storageKey": null
@@ -73,7 +64,7 @@ const node: ConcreteRequest = (function () {
                 {
                     "kind": "ScalarField",
                     "alias": null,
-                    "name": "content",
+                    "name": "contents",
                     "args": null,
                     "storageKey": null
                 }
@@ -100,10 +91,10 @@ const node: ConcreteRequest = (function () {
             "operationKind": "query",
             "name": "ShowPostPageQuery",
             "id": null,
-            "text": "query ShowPostPageQuery(\n  $id: String!\n) {\n  post(id: $id) {\n    id\n    title\n    content\n  }\n}\n",
+            "text": "query ShowPostPageQuery(\n  $id: Int!\n) {\n  post(id: $id) {\n    title\n    contents\n  }\n}\n",
             "metadata": {}
         }
     } as any;
 })();
-(node as any).hash = 'a33d7f8ccc2a4e03a65a325386215d18';
+(node as any).hash = '9028b21885221e8ff91b8444f839487a';
 export default node;

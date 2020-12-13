@@ -1,6 +1,6 @@
 /* tslint:disable */
 /* eslint-disable */
-/* @relayHash cfe409b9b12001e8672269afbde08c2a */
+/* @relayHash 36d404520b0b9cda6fdfe0870c68c7bf */
 
 import { ConcreteRequest } from "relay-runtime";
 export type IndexPostPageQueryVariables = {
@@ -8,9 +8,9 @@ export type IndexPostPageQueryVariables = {
 };
 export type IndexPostPageQueryResponse = {
     readonly posts: ReadonlyArray<{
-        readonly id: string;
+        readonly postId: number;
         readonly title: string;
-        readonly content: string;
+        readonly contents: string;
     }>;
 };
 export type IndexPostPageQuery = {
@@ -25,9 +25,9 @@ query IndexPostPageQuery(
   $page: Int!
 ) {
   posts(page: $page) {
-    id
+    postId: id
     title
-    content
+    contents
   }
 }
 */
@@ -58,7 +58,7 @@ const node: ConcreteRequest = (function () {
             "selections": [
                 {
                     "kind": "ScalarField",
-                    "alias": null,
+                    "alias": "postId",
                     "name": "id",
                     "args": null,
                     "storageKey": null
@@ -73,7 +73,7 @@ const node: ConcreteRequest = (function () {
                 {
                     "kind": "ScalarField",
                     "alias": null,
-                    "name": "content",
+                    "name": "contents",
                     "args": null,
                     "storageKey": null
                 }
@@ -100,10 +100,10 @@ const node: ConcreteRequest = (function () {
             "operationKind": "query",
             "name": "IndexPostPageQuery",
             "id": null,
-            "text": "query IndexPostPageQuery(\n  $page: Int!\n) {\n  posts(page: $page) {\n    id\n    title\n    content\n  }\n}\n",
+            "text": "query IndexPostPageQuery(\n  $page: Int!\n) {\n  posts(page: $page) {\n    postId: id\n    title\n    contents\n  }\n}\n",
             "metadata": {}
         }
     } as any;
 })();
-(node as any).hash = '466ab6e288f24185050ee55afefa6d83';
+(node as any).hash = '980be6e969f14cab8d4e0a768ffad130';
 export default node;

@@ -9,15 +9,15 @@ import Post from "./Post";
 export default function SinglePostPage(props: RouteComponentProps<{ id: string }>) {
 
     const query = graphql`
-      query ShowPostPageQuery($id: String!) {
+      query ShowPostPageQuery($id: Int!) {
         post(id: $id) {
-          id
           title
-          content
+          contents
         }
       }
     `;
-  const id = props.match.params.id;
+  const id = parseInt(props.match.params.id);
+
   return (
     <QueryRenderer<ShowPostPageQuery>
       environment={RelayConfig.getEnvironment()}
@@ -27,7 +27,11 @@ export default function SinglePostPage(props: RouteComponentProps<{ id: string }
         if (error || props == null) {
           return;
         }
-        return (<Post id={id} title={props?.post.title} contents={props?.post.content}/>);
+        const {post} = props;
+        if (post == null) {
+          return;
+        }
+        return (<Post id={id} title={post.title} contents={post.contents}/>);
       }
       }/>
   );

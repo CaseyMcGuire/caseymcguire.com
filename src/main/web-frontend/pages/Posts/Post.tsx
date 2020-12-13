@@ -53,7 +53,7 @@ const getStyles = createUseStyles({
 });
 
 type Props = Readonly<{
-  id?: string,
+  id?: number,
   title: string,
   contents: string
 }>

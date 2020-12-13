@@ -10,28 +10,9 @@ class RootQuery(val postService: PostService) : GraphQLQuery {
     const val POSTS_PER_PAGE = 5
   }
 
-  val posts = listOf(Post(id = "1", title = "Title", content = "content"),
-    Post(id = "1", title = "Title", content = "content"),
-    Post(id = "1", title = "Title", content = "content"),
-    Post(id = "1", title = "Title", content = "content"),
-    Post(id = "1", title = "Title", content = "content"),
-    Post(id = "1", title = "Title", content = "content"),
-    Post(id = "1", title = "Title", content = "content"),
-    Post(id = "1", title = "Title", content = "content"),
-    Post(id = "1", title = "Title", content = "content"),
-    Post(id = "1", title = "Title", content = "content"),
-    Post(id = "1", title = "Title", content = "content"),
-    Post(id = "1", title = "Title", content = "content"),
-    Post(id = "1", title = "Title", content = "content"),
-    Post(id = "1", title = "Title", content = "content"))
-
   fun posts(page: Int): List<Post> {
-    return posts
+    return postService.getPosts()
   }
 
-  fun post(id: String): Post = Post(
-    id = id,
-    title = "Title",
-    content = "Content"
-  )
+  fun post(id: Int): Post? = postService.getPostsById(id)
 }

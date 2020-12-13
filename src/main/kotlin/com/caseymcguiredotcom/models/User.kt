@@ -5,6 +5,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails
 
 class User(
+  private val id: Int,
   private val email: String,
   private val password: String,
   private val role: String?
@@ -23,6 +24,10 @@ class User(
 
   override fun getUsername(): String {
     return email
+  }
+
+  fun getId(): Int {
+    return id
   }
 
   override fun isCredentialsNonExpired(): Boolean {

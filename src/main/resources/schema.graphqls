@@ -1,14 +1,15 @@
 type Mutation {
+  create_or_edit_post(content: String!, id: Int, title: String!): Int
   register(email: String!, password: String!): Boolean!
 }
 
 type Post {
-  content: String!
-  id: String!
+  contents: String!
+  id: Int!
   title: String!
 }
 
 type Query {
-  post(id: String!): Post!
+  post(id: Int!): Post
   posts(page: Int!): [Post!]!
 }

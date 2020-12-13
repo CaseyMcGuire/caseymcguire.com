@@ -1,23 +1,27 @@
 package com.caseymcguiredotcom.services
 
-import com.caseymcguiredotcom.db.generated.jooq.tables.Posts
+import com.caseymcguiredotcom.dao.PostDao
 import com.caseymcguiredotcom.graphql.query.Post
 
-import org.jooq.DSLContext
 import org.springframework.stereotype.Service
 
 @Service
-class PostService(val context: DSLContext) {
-  companion object {
-    val POSTS = Posts.POSTS
-  }
+class PostService(
+  val userService: UserService,
+  val postDao: PostDao
+) {
 
   fun getPosts(): List<Post> {
-    return context
-      .select()
-      .from(POSTS)
-      .fetch()
-      .into(Post::class.java)
+    return postDao.getAll()
+  }
+
+  fun getPostsById(id: Int): Post? = postDao.get(id)
+
+
+  fun savePost(title: String, content: String): Post? {
+    val user = userService.getLoggedInUser() ?: return null
+
+    return postDao.save(user.getId(), title, content)
   }
 
 }
