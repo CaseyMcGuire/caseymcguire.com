@@ -1,8 +1,8 @@
 import * as React from "react";
 import {createUseStyles} from "react-jss";
 import {Link} from "react-router-dom";
-import {isLoggedIn} from "../../../services/AuthService";
 import CsrfToken from "../../../components/csrf/CsrfToken";
+import LoggedInComponentGating from "../../../components/gating/LoggedInComponentGating";
 
 const getStyles = createUseStyles({
   navigationBarContainer: {
@@ -51,18 +51,14 @@ export default function NavigationLinksList(props: { isMobile: boolean }) {
         // <NavigationLink name={"Projects"} link={"/projects"}/>
       }
       <NavigationLink name={"Contact"} link={"mailto:caseyjaymcguire@gmail.com"} isMobile={props.isMobile} useHardLink={true}/>
-      {
-        isLoggedIn() ?
-          <NavigationLogoutLink /> : null
-      }
+      <LoggedInComponentGating>
+          <NavigationLogoutLink />
+      </LoggedInComponentGating>
     </ul>
   );
 }
 
 function NavigationLogoutLink() {
-  if (!isLoggedIn()) {
-    return null;
-  }
 
   return (
     <li>
@@ -73,7 +69,6 @@ function NavigationLogoutLink() {
     </li>
   );
 }
-
 
 function NavigationLink(props: { name: string, link: string, isMobile: boolean, useHardLink?: boolean }) {
   const styles = getStyles();
