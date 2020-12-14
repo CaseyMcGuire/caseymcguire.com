@@ -5,6 +5,7 @@ import com.caseymcguiredotcom.models.Post
 import com.caseymcguiredotcom.models.User
 import com.caseymcguiredotcom.services.PostService
 import com.caseymcguiredotcom.services.UserService
+import com.expediagroup.graphql.annotations.GraphQLName
 import org.springframework.stereotype.Component
 
 @Component
@@ -22,5 +23,6 @@ class RootQuery(
 
   fun post(id: Int): Post? = postService.getPostsById(id)
 
-  fun user(): User? = userService.getLoggedInUser()
+  @GraphQLName("current_user")
+  fun getCurrentUser(): User? = userService.getLoggedInUser()
 }

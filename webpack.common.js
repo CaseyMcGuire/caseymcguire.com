@@ -2,7 +2,7 @@ const path = require('path');
 
 module.exports = {
   entry: {
-    index: './src/main/web-frontend/App',
+    index: './src/main/web-frontend/AppRoot',
   },
   resolve: {
     // Add '.ts' and '.tsx' as resolvable extensions.

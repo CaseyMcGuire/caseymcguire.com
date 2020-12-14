@@ -10,14 +10,13 @@ type Post {
 }
 
 type Query {
+  current_user: User
   post(id: Int!): Post
   posts(page: Int!): [Post!]!
-  user: User
 }
 
 type User {
   email: String!
   id: Int!
-  password: String!
   role: String
 }
