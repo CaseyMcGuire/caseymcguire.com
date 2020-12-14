@@ -1,7 +1,7 @@
 package com.caseymcguiredotcom.dao
 
-import com.caseymcguiredotcom.db.generated.jooq.tables.Posts.Companion.POSTS
 import com.caseymcguiredotcom.models.Post
+import generated.jooq.tables.Posts.Companion.POSTS
 import org.jooq.DSLContext
 import org.springframework.stereotype.Component
 

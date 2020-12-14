@@ -111,7 +111,7 @@ jooq {
         generator.apply {
           name = "org.jooq.codegen.KotlinGenerator"
           target.apply {
-            packageName = "com.caseymcguiredotcom.db.generated.jooq"
+            packageName = "generated.jooq"
             directory = "src/main/kotlin/com/caseymcguiredotcom/db"
           }
           database.apply {
