@@ -70,7 +70,12 @@ tasks.register("buildRelay", NpmTask::class) {
 
 tasks.getByName<BootRun>("bootRun") {
   environment = envVariables
-  dependsOn("npm_install", "webpack")
+}
+
+tasks.register("fullBuildAndRun") {
+  dependsOn("bootRun", "webpack", "npm_install")
+  tasks.findByName("bootRun")?.mustRunAfter("webpack")
+  tasks.findByName("webpack")?.mustRunAfter("npm_install")
 }
 
 val dbUser = envVariables.getValue("DB_USER")
