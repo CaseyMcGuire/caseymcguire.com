@@ -20,6 +20,9 @@ class PostService(
 
   fun savePost(title: String, content: String): Post? {
     val user = userService.getLoggedInUser() ?: return null
+    if (!user.isAdmin()) {
+      return null
+    }
 
     return postDao.save(user.id, title, content)
   }

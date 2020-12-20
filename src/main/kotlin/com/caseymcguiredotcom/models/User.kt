@@ -16,4 +16,8 @@ data class User(
 
   @Column(name = "role")
   val role: String?
-)
+) {
+  fun isAdmin(): Boolean {
+    return role === Role.ADMIN.name
+  }
+}
