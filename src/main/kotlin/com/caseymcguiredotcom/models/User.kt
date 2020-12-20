@@ -1,6 +1,7 @@
 package com.caseymcguiredotcom.models
 
 import com.expediagroup.graphql.annotations.GraphQLIgnore
+import com.expediagroup.graphql.annotations.GraphQLName
 import javax.persistence.Column
 
 data class User(
@@ -17,7 +18,9 @@ data class User(
   @Column(name = "role")
   val role: String?
 ) {
+
+  @GraphQLName("is_admin")
   fun isAdmin(): Boolean {
-    return role === Role.ADMIN.name
+    return role == Role.ADMIN.name
   }
 }

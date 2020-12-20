@@ -23,7 +23,7 @@ export default function AppRouter() {
                       if (context.isLoading) {
                         return <div />;
                       }
-                      else if (context.user?.role !== "ADMIN") {
+                      else if (context.user?.isAdmin != true) {
                         return <Redirect to="/" />;
                       }
                     }

@@ -18,5 +18,6 @@ type Query {
 type User {
   email: String!
   id: Int!
+  is_admin: Boolean!
   role: String
 }

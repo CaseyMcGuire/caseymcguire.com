@@ -3,8 +3,7 @@ import * as React from "react";
 export type AppContextType = {
   isLoading: boolean,
   user?: {
-    email: string,
-    role: string | null
+    isAdmin: boolean
   }
 }
 

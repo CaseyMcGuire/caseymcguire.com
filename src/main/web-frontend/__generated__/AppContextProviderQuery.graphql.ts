@@ -1,13 +1,12 @@
 /* tslint:disable */
 /* eslint-disable */
-/* @relayHash 818d261bbdee9053f8da095a06bc5ff9 */
+/* @relayHash fc958a32e0e5c1ef8b7eda1251e5994f */
 
 import { ConcreteRequest } from "relay-runtime";
 export type AppContextProviderQueryVariables = {};
 export type AppContextProviderQueryResponse = {
     readonly current_user: {
-        readonly email: string;
-        readonly role: string | null;
+        readonly isAdmin: boolean;
     } | null;
 };
 export type AppContextProviderQuery = {
@@ -20,8 +19,7 @@ export type AppContextProviderQuery = {
 /*
 query AppContextProviderQuery {
   current_user {
-    email
-    role
+    isAdmin: is_admin
   }
 }
 */
@@ -39,15 +37,8 @@ const node: ConcreteRequest = (function () {
             "selections": [
                 {
                     "kind": "ScalarField",
-                    "alias": null,
-                    "name": "email",
-                    "args": null,
-                    "storageKey": null
-                },
-                {
-                    "kind": "ScalarField",
-                    "alias": null,
-                    "name": "role",
+                    "alias": "isAdmin",
+                    "name": "is_admin",
                     "args": null,
                     "storageKey": null
                 }
@@ -74,10 +65,10 @@ const node: ConcreteRequest = (function () {
             "operationKind": "query",
             "name": "AppContextProviderQuery",
             "id": null,
-            "text": "query AppContextProviderQuery {\n  current_user {\n    email\n    role\n  }\n}\n",
+            "text": "query AppContextProviderQuery {\n  current_user {\n    isAdmin: is_admin\n  }\n}\n",
             "metadata": {}
         }
     } as any;
 })();
-(node as any).hash = 'e9abe03a3adf5cfd10d9a56ac083100a';
+(node as any).hash = '5afbb14d2c0c8c0883206ab39c25883c';
 export default node;
