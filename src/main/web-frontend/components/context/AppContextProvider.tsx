@@ -22,10 +22,24 @@ export default function AppContextProvider(props: {
       query={query}
       render={({error, props}) => {
         const context = (() => {
-          if (props?.current_user == null) {
-            return {};
+          if (error != null) {
+            return {
+              isLoading: false
+            }
+          }
+          else if (props == null) {
+            return {
+              isLoading: true
+            }
+          }
+
+          if (props.current_user == null) {
+            return {
+              isLoading: false
+            };
           }
           return {
+            isLoading: false,
             user: {
               email: props.current_user.email,
               role: props.current_user.role

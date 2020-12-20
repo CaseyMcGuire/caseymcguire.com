@@ -19,6 +19,14 @@ export default function AppRouter() {
                   exact
                   path={route.path}
                   render={(props) => {
+                    if (route.isGated === true) {
+                      if (context.isLoading) {
+                        return <div />;
+                      }
+                      else if (context.user == null) {
+                        return <Redirect to="/" />;
+                      }
+                    }
                     return route.render(props);
                   }
                   }/>
