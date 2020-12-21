@@ -37,21 +37,23 @@ dependencies {
   implementation("org.flywaydb:flyway-core:6.5.7")
 }
 
-enum class EnvironmentVariables {
-  DB_USER,
-  DB_PASSWORD,
-  DB_URL;
-}
+val herokuEnvironmentMap = mapOf(
+  "JDBC_DATABASE_USERNAME" to "DB_USER",
+  "JDBC_DATABASE_PASSWORD" to "DB_PASSWORD",
+  "JDBC_DATABASE_URL" to "DB_URL"
+)
 
 
 val envVariables: Map<String, String> = {
   val getEnvironmentVariables = fun(): Map<String, String> {
     val map = hashMapOf<String, String>()
 
-    EnvironmentVariables.values().forEach {
-      val value = System.getenv()[it.name]
-      if (value != null) {
-        map[it.name] = value
+    herokuEnvironmentMap.entries.forEach {
+      val herokuEnvName = it.key
+      val appEnvName = it.value
+      val envValue = System.getenv()[herokuEnvName]
+      if (envValue != null) {
+        map[appEnvName] = envValue
       }
     }
 
