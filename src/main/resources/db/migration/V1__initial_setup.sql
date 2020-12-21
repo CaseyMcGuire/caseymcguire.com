@@ -2,7 +2,7 @@ CREATE TABLE IF NOT EXISTS users (
   id SERIAL PRIMARY KEY,
   role varchar(45),
   password VARCHAR(60) NOT NULL,
-  email TEXT NOT NULL
+  email TEXT NOT NULL UNIQUE
 );
 
 CREATE TABLE IF NOT EXISTS posts (
