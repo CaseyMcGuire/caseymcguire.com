@@ -93,11 +93,11 @@ tasks.getByName<BootRun>("bootRun") {
 }
 
 // make Heroku run this by setting config variable "GRADLE_TASK"
-tasks.register("fullBuildAndRun") {
+/*tasks.register("fullBuildAndRun") {
   dependsOn("bootRun", "webpack", "npm_install")
   tasks.findByName("bootRun")?.mustRunAfter("webpack")
   tasks.findByName("webpack")?.mustRunAfter("npm_install")
-}
+}*/
 
 tasks.register("herokuBuild") {
   val taskList = listOf("build", "webpack", "npm_install")
