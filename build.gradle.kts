@@ -101,12 +101,12 @@ tasks.register("fullBuildAndRun") {
 
 tasks.register("herokuBuild") {
   val taskList = listOf("build", "webpack", "npm_install")
-  dependsOn(taskList)
   taskList.forEachIndexed { index, task ->
     if (index < taskList.size - 1) {
       tasks.findByName(task)?.mustRunAfter(taskList[index + 1])
     }
   }
+  dependsOn(taskList)
 }
 
 val dbUser = envVariables.getValue("DB_USER")
