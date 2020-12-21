@@ -7,6 +7,7 @@ import CreatePostPage from "../pages/Posts/CreatePostPage";
 import SinglePostPage from "../pages/Posts/ShowPostPage";
 import LoginPage from "../pages/Auth/LoginPage";
 import RegisterPage from "../pages/Auth/RegisterPage";
+import EditPostPage from "../pages/Posts/EditPostPage";
 
 type AppRoute = {
   path: string,
@@ -41,6 +42,11 @@ const AppRoutes: Array<AppRoute> = [
   {
     path: "/posts/:id",
     render: (routeProps) => <SinglePostPage {...routeProps} />
+  },
+  {
+    path: "/posts/:id/edit",
+    render: (routeProps) => <EditPostPage {...routeProps} />,
+    isGated: true
   },
   {
     path: "/login",

@@ -12,6 +12,7 @@ class PostDao(val context: DSLContext) {
     return context
       .select()
       .from(POSTS)
+      .orderBy(POSTS.ID.desc())
       .fetch()
       .into(Post::class.java)
   }
@@ -33,6 +34,20 @@ class PostDao(val context: DSLContext) {
       .fetchOne()
       ?.component1()
       ?: return null
+    return get(id)
+  }
+
+  fun update(postId: Int, title: String, content: String): Post? {
+    val id =
+      context
+        .update(POSTS)
+        .set(POSTS.TITLE, title)
+        .set(POSTS.CONTENTS, content)
+        .where(POSTS.ID.eq(postId))
+        .returningResult(POSTS.ID)
+        .fetchOne()
+        ?.component1()
+        ?: return null
     return get(id)
   }
 

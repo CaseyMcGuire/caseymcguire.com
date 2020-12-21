@@ -31,7 +31,7 @@ export default function SinglePostPage(props: RouteComponentProps<{ id: string }
         if (post == null) {
           return;
         }
-        return (<Post id={id} title={post.title} contents={post.contents}/>);
+        return (<Post id={id} title={post.title} contents={post.contents} showEditButton={true}/>);
       }
       }/>
   );

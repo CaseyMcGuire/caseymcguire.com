@@ -64,7 +64,7 @@ export default function IndexPostPage(props: RouteComponentProps<{ id?: string }
           <div>
             {
               props.posts.map((post, index) => {
-                return <Post key={index} id={post.postId} title={post.title} contents={post.contents}/>
+                return <Post key={index} id={post.postId} title={post.title} contents={post.contents} showEditButton={true}/>
               })
             }
             <PaginationPanel pageNumber={page} hasNextPage={true}/>

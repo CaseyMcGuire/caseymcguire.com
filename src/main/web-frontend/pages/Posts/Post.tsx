@@ -5,6 +5,8 @@ import * as hljs from 'highlight.js';
 import 'highlight.js/styles/github.css';
 import {createUseStyles} from "react-jss";
 import Common from '../Page/Common';
+import AdminComponentGating from "../../components/gating/AdminComponentGating";
+import {Link} from "react-router-dom";
 
 const getStyles = createUseStyles({
   postContainer: {
@@ -55,14 +57,16 @@ const getStyles = createUseStyles({
 type Props = Readonly<{
   id?: number,
   title: string,
-  contents: string
+  contents: string,
+  showEditButton?: boolean
 }>
 
 export default function Post(props: Props) {
   const {
     id,
     title,
-    contents
+    contents,
+    showEditButton
   } = props;
   const styles = getStyles();
 
@@ -81,10 +85,18 @@ export default function Post(props: Props) {
   });
 
   const blogTitleElement = id ? <a href={"/posts/" + id}>{title}</a> : title;
+  const editButton = id ? <Link to={"/posts/" + id + "/edit"}>Edit</Link> : null;
   return (
     <div className={styles.postContainer}>
       <div className={styles.postTitleContainer}>
         <h2 className={styles.postTitle}>{blogTitleElement}</h2>
+        {
+          showEditButton == true ? (
+            <AdminComponentGating>
+              {editButton}
+            </AdminComponentGating>
+          ) : null
+        }
       </div>
       <div className={styles.postContentsContainer}
            dangerouslySetInnerHTML={{__html: sanitizedHtml}}/>

@@ -18,13 +18,19 @@ class PostService(
   fun getPostsById(id: Int): Post? = postDao.get(id)
 
 
-  fun savePost(title: String, content: String): Post? {
+  fun savePost(id: Int?, title: String, content: String): Post? {
     val user = userService.getLoggedInUser() ?: return null
     if (!user.isAdmin()) {
       return null
     }
-
-    return postDao.save(user.id, title, content)
+    return if (id != null) {
+      if (postDao.get(id) == null) {
+        return null
+      }
+      postDao.update(id, title, content)
+    } else {
+      postDao.save(user.id, title, content)
+    }
   }
 
 }
