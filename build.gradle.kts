@@ -99,12 +99,6 @@ tasks.register("fullBuildAndRun") {
   tasks.findByName("webpack")?.mustRunAfter("npm_install")
 }
 
-tasks.register("stage") {
-  dependsOn("build", "webpack", "npm_install")
-  tasks.findByName("build")?.mustRunAfter("webpack")
-  tasks.findByName("webpack")?.mustRunAfter("npm_install")
-}
-
 val dbUser = envVariables.getValue("DB_USER")
 val dbPassword = envVariables.getValue("DB_PASSWORD")
 val dbUrl = envVariables.getValue("DB_URL")
