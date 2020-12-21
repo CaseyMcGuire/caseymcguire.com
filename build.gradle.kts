@@ -37,17 +37,35 @@ dependencies {
   implementation("org.flywaydb:flyway-core:6.5.7")
 }
 
+enum class EnvironmentVariables {
+  DB_USER,
+  DB_PASSWORD,
+  DB_URL;
+}
+
+
 val envVariables: Map<String, String> = {
-  val map = hashMapOf<String, String>()
-  val envFile = file(".env")
-  if (!envFile.exists()) {
-    map
+  val getEnvironmentVariables = fun(): Map<String, String> {
+    val map = hashMapOf<String, String>()
+
+    EnvironmentVariables.values().forEach {
+      val value = System.getenv()[it.name]
+      if (value != null) {
+        map[it.name] = value
+      }
+    }
+
+    val envFile = file(".env")
+    if (!envFile.exists()) {
+      return map
+    }
+    envFile.readLines().forEach {
+      val (key, value) = it.split("=")
+      map[key] = value
+    }
+    return map
   }
-  envFile.readLines().forEach {
-    val (key, value) = it.split("=")
-    map[key] = value
-  }
-  map
+  getEnvironmentVariables()
 }()
 
 tasks.withType<KotlinCompile> {
