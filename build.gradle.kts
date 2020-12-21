@@ -90,6 +90,7 @@ tasks.getByName<BootRun>("bootRun") {
   environment = envVariables
 }
 
+// make Heroku run this by setting config variable "GRADLE_TASK"
 tasks.register("fullBuildAndRun") {
   dependsOn("bootRun", "webpack", "npm_install")
   tasks.findByName("bootRun")?.mustRunAfter("webpack")
