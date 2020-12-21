@@ -99,6 +99,18 @@ tasks.register("fullBuildAndRun") {
   tasks.findByName("webpack")?.mustRunAfter("npm_install")
 }
 
+// This task is needed for heroku
+// https://devcenter.heroku.com/articles/deploying-gradle-apps-on-heroku#verify-that-your-build-file-is-set-up-correctly
+tasks.register("stage") {
+  val taskList = listOf("build", "webpack", "npm_install")
+  dependsOn(taskList)
+  taskList.forEachIndexed { index, task ->
+    if (index < taskList.size - 1) {
+      tasks.findByName(task)?.mustRunAfter(taskList[index + 1])
+    }
+  }
+}
+
 val dbUser = envVariables.getValue("DB_USER")
 val dbPassword = envVariables.getValue("DB_PASSWORD")
 val dbUrl = envVariables.getValue("DB_URL")
