@@ -91,7 +91,7 @@ export default function Post(props: Props) {
     })
   });
 
-  const blogTitleElement = id ? <a href={"/posts/" + id}>{title}</a> : title;
+  const blogTitleElement = id ? <Link to={"/posts/" + id}>{title}</Link> : title;
   const editButton = id ? <Link to={"/posts/" + id + "/edit"}>Edit</Link> : null;
   return (
     <div className={styles.postContainer}>
