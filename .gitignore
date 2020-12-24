@@ -11,3 +11,6 @@ node_modules
 src/main/resources/static/bundles
 
 .env
+
+# generated for webpack bundle analyzer
+stats.json

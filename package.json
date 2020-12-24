@@ -6,7 +6,8 @@
   "scripts": {
     "webpack": "node_modules/webpack-cli/bin/cli.js --config webpack.production.js",
     "webpack-development": "node_modules/webpack-cli/bin/cli.js --config webpack.development.js",
-    "compile-relay": "node_modules/relay-compiler/bin/relay-compiler --src ./src/main/web-frontend/ --schema ./src/main/resources/schema.graphqls --language typescript --artifactDirectory ./src/main/web-frontend/__generated__"
+    "compile-relay": "node_modules/relay-compiler/bin/relay-compiler --src ./src/main/web-frontend/ --schema ./src/main/resources/schema.graphqls --language typescript --artifactDirectory ./src/main/web-frontend/__generated__",
+    "webpack:analyze": "./node_modules/webpack/bin/webpack.js --config webpack.production.js --json --profile > stats.json && ./node_modules/webpack-bundle-analyzer/lib/bin/analyzer.js stats.json"
   },
   "repository": {
     "type": "git",
@@ -51,6 +52,7 @@
     "ts-loader": "^6.2.1",
     "typescript": "^3.7.5",
     "webpack": "^4.41.6",
+    "webpack-bundle-analyzer": "^4.3.0",
     "webpack-cli": "^3.3.11",
     "webpack-merge": "^4.2.2"
   }
