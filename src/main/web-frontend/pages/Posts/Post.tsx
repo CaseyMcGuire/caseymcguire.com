@@ -2,7 +2,6 @@ import * as React from "react";
 import * as marked from "marked";
 import * as sanitizeHtml from "sanitize-html";
 import * as hljs from 'highlight.js';
-import 'highlight.js/styles/github.css';
 import {createUseStyles} from "react-jss";
 import Common from '../Page/Common';
 import AdminComponentGating from "../../components/gating/AdminComponentGating";
