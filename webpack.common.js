@@ -45,6 +45,8 @@ module.exports = {
     ]
   },
   externals: {
-    'sanitize-html' : 'sanitizeHtml'
+    'sanitize-html' : 'sanitizeHtml',
+    'react': 'React',
+    'react-dom': 'ReactDOM'
   },
 };
