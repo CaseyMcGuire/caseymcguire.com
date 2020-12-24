@@ -40,11 +40,19 @@ const getStyles = createUseStyles({
       marginBottom: '10px'
     },
     '& li': {
+      paddingLeft: '20px'
+    },
+    '& blockquote': {
+      margin: '10px',
+      borderLeft: '#CCCCCC solid 3px',
+      paddingLeft: '7px'
+    },
+    '& per': {
       border: '1px solid grey',
       borderRadius: '5px',
       overflow: 'scroll',
       padding: '5px',
-      marginBottom: '10px',
+      marginBottom: '10px'
     }
   },
   '@media only screen and (max-width: 600px)': {
