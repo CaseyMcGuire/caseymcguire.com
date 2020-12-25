@@ -12,11 +12,12 @@ const getStyles = createUseStyles({
     width: '100%',
     maxWidth: Common.postWidth + 'px',
     borderBottom: '1px solid #6A6A6A',
-    marginBottom: '30px'
+    marginBottom: '32px',
+    paddingBottom: '12px'
   },
   postTitleContainer: {
     borderBottom: '#CCCCCC solid 1px',
-    marginBottom: '10px'
+    marginBottom: '24px'
   },
   postTitle: {
     '& a': {
@@ -36,7 +37,7 @@ const getStyles = createUseStyles({
     padding: '0px 5px',
     listStylePosition: 'inside',
     '& p, h1, h2, h3, h4, h5, h6': {
-      marginBottom: '10px'
+      marginBottom: '16px'
     },
     '& li': {
       paddingLeft: '20px'
@@ -47,7 +48,7 @@ const getStyles = createUseStyles({
       paddingLeft: '7px'
     },
     '& pre': {
-      border: '1px solid grey',
+      backgroundColor: '#f8f8f8',
       borderRadius: '5px',
       overflow: 'auto',
       padding: '5px',
