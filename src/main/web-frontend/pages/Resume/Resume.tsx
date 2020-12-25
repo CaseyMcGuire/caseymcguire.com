@@ -16,23 +16,15 @@ export default function ResumePage() {
               employmentDate={"January 2019 - Present"}
               description={[]}/>
             <EmploymentCard
-              title={"Software Development Engineer II"}
+              title={"Software Development Engineer"}
               companyName={"Apptio, Inc."}
               location={"Bellevue, WA"}
-              employmentDate={"October 2016 - December 2018"}
+              employmentDate={"January 2016 - December 2018"}
               description={[
-                "Assisted in the design and complete rewrite of a feature which allows users to visualize how money is spent throughout their IT organization.",
+                "Worked on the design and complete rewrite of a feature which allows users to visualize how money is spent throughout their IT organization.",
                 "Led the design and implementation of a feature that allows users to see how money is either over- and/or under-allocated in their IT financial models.",
-                "Participated in the development of a new Selenium-based testing framework, which improved the stability of our application. "
-              ]}/>
-            <EmploymentCard
-              title={"Software Development Engineer I"}
-              companyName={"Apptio, Inc."}
-              location={"Bellevue, WA"}
-              employmentDate={"January 2016 - October 2016"}
-              description={[
+                "Participated in the development of a new Selenium-based testing framework, which improved the stability of our application. ",
                 "Maintained and added new features to application which allows users to create reports for their IT financial data. ",
-                "Mentored intern in the design and implementation of a new treemap chart type that users can add to their reports."
               ]}/>
             <EmploymentCard
               title={"Software Development Engineer, Intern"}
