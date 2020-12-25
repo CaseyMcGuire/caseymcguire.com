@@ -5,6 +5,7 @@ package generated.jooq.tables
 
 
 import generated.jooq.Public
+import generated.jooq.keys.USERS_EMAIL_KEY
 import generated.jooq.keys.USERS_PKEY
 import generated.jooq.tables.records.UsersRecord
 
@@ -102,7 +103,7 @@ class Users(
     override fun getSchema(): Schema = Public.PUBLIC
     override fun getIdentity(): Identity<UsersRecord, Int?> = super.getIdentity() as Identity<UsersRecord, Int?>
     override fun getPrimaryKey(): UniqueKey<UsersRecord> = USERS_PKEY
-    override fun getKeys(): List<UniqueKey<UsersRecord>> = listOf(USERS_PKEY)
+    override fun getKeys(): List<UniqueKey<UsersRecord>> = listOf(USERS_PKEY, USERS_EMAIL_KEY)
     override fun `as`(alias: String): Users = Users(DSL.name(alias), this)
     override fun `as`(alias: Name): Users = Users(alias, this)
 
