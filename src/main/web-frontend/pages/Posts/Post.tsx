@@ -46,10 +46,10 @@ const getStyles = createUseStyles({
       borderLeft: '#CCCCCC solid 3px',
       paddingLeft: '7px'
     },
-    '& per': {
+    '& pre': {
       border: '1px solid grey',
       borderRadius: '5px',
-      overflow: 'scroll',
+      overflow: 'auto',
       padding: '5px',
       marginBottom: '10px'
     }
