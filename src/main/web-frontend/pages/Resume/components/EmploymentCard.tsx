@@ -6,7 +6,11 @@ interface Props {
   employmentDate?: string,
   companyName: string,
   location?: string,
-  description: string[]
+  description: string[],
+  link?: {
+    text: string,
+    href: string
+  }
 }
 
 const getStyles = createUseStyles({
@@ -75,6 +79,13 @@ export default function EmploymentCard(props: Props) {
       <ul>
         {
           description.map((elem, index) => <li key={index}>{elem}</li>)
+        }
+        {
+          props.link != null ? (
+            <li>
+              <a href={props.link.href}>{props.link.text}</a>
+            </li>
+          ) : null
         }
       </ul>
     </div>

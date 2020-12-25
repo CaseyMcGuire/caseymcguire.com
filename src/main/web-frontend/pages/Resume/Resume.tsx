@@ -42,8 +42,13 @@ export default function ResumePage() {
               companyName={"Printopus"}
               description={[
                 "Developed the UI for an Android mobile application, using React Native and Redux, that allows users to have photos on their phones mailed to them in a variety of formats.",
-                "https://play.google.com/store/apps/details?id=us.printop.mobile.android.store&hl=en"
-              ]}/>
+              ]}
+              link={{
+                text: 'Link',
+                href: 'https://play.google.com/store/apps/details?id=us.printop.mobile.android.store&hl=en'
+              }}
+            />
+
           </Section>
           <Section title={"TECHNOLOGIES"}>
             <TechnologyInfoCard programmingLanguages={["Java", "JavaScript", "TypeScript"]}
