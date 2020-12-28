@@ -9,6 +9,8 @@ import generated.jooq.keys.POSTS_PKEY
 import generated.jooq.keys.POSTS__FK_ID
 import generated.jooq.tables.records.PostsRecord
 
+import java.time.LocalDate
+
 import kotlin.collections.List
 
 import org.jooq.Field
@@ -16,7 +18,7 @@ import org.jooq.ForeignKey
 import org.jooq.Identity
 import org.jooq.Name
 import org.jooq.Record
-import org.jooq.Row4
+import org.jooq.Row5
 import org.jooq.Schema
 import org.jooq.Table
 import org.jooq.TableField
@@ -81,6 +83,11 @@ class Posts(
      */
     val CONTENTS: TableField<PostsRecord, String?> = createField(DSL.name("contents"), SQLDataType.CLOB, this, "")
 
+    /**
+     * The column <code>public.posts.published_date</code>.
+     */
+    val PUBLISHED_DATE: TableField<PostsRecord, LocalDate?> = createField(DSL.name("published_date"), SQLDataType.LOCALDATE.nullable(false).defaultValue(DSL.field("CURRENT_DATE", SQLDataType.LOCALDATE)), this, "")
+
     private constructor(alias: Name, aliased: Table<PostsRecord>?): this(alias, null, null, aliased, null)
     private constructor(alias: Name, aliased: Table<PostsRecord>?, parameters: Array<Field<*>?>?): this(alias, null, null, aliased, parameters)
 
@@ -120,7 +127,7 @@ class Posts(
     override fun rename(name: Name): Posts = Posts(name, null)
 
     // -------------------------------------------------------------------------
-    // Row4 type methods
+    // Row5 type methods
     // -------------------------------------------------------------------------
-    override fun fieldsRow(): Row4<Int?, Int?, String?, String?> = super.fieldsRow() as Row4<Int?, Int?, String?, String?>
+    override fun fieldsRow(): Row5<Int?, Int?, String?, String?, LocalDate?> = super.fieldsRow() as Row5<Int?, Int?, String?, String?, LocalDate?>
 }

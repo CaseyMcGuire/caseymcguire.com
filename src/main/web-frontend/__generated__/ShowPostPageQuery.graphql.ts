@@ -1,6 +1,6 @@
 /* tslint:disable */
 /* eslint-disable */
-/* @relayHash dc96aa8f22a401dde48ab920c1eea8d4 */
+/* @relayHash f9a8a1a2066d6ae444c3b090ecc78b3e */
 
 import { ConcreteRequest } from "relay-runtime";
 export type ShowPostPageQueryVariables = {
@@ -10,6 +10,7 @@ export type ShowPostPageQueryResponse = {
     readonly post: {
         readonly title: string;
         readonly contents: string;
+        readonly published_date: string;
     } | null;
 };
 export type ShowPostPageQuery = {
@@ -26,6 +27,7 @@ query ShowPostPageQuery(
   post(id: $id) {
     title
     contents
+    published_date
   }
 }
 */
@@ -67,6 +69,13 @@ const node: ConcreteRequest = (function () {
                     "name": "contents",
                     "args": null,
                     "storageKey": null
+                },
+                {
+                    "kind": "ScalarField",
+                    "alias": null,
+                    "name": "published_date",
+                    "args": null,
+                    "storageKey": null
                 }
             ]
         } as any)
@@ -91,10 +100,10 @@ const node: ConcreteRequest = (function () {
             "operationKind": "query",
             "name": "ShowPostPageQuery",
             "id": null,
-            "text": "query ShowPostPageQuery(\n  $id: Int!\n) {\n  post(id: $id) {\n    title\n    contents\n  }\n}\n",
+            "text": "query ShowPostPageQuery(\n  $id: Int!\n) {\n  post(id: $id) {\n    title\n    contents\n    published_date\n  }\n}\n",
             "metadata": {}
         }
     } as any;
 })();
-(node as any).hash = '9028b21885221e8ff91b8444f839487a';
+(node as any).hash = '2f1b338bafe198a3cb02dc41f6ac5291';
 export default node;

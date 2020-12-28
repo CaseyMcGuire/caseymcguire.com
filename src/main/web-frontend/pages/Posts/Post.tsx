@@ -31,6 +31,9 @@ const getStyles = createUseStyles({
     width: Common.postWidth + 'px',
     height: '25px'
   },
+  date: {
+    color: 'grey'
+  },
   postContentsContainer: {
     fontSize: '17px',
     lineHeight: '135%',
@@ -66,6 +69,7 @@ type Props = Readonly<{
   id?: number,
   title: string,
   contents: string,
+  publishedDate?: string,
   showEditButton?: boolean
 }>
 
@@ -98,6 +102,11 @@ export default function Post(props: Props) {
     <div className={styles.postContainer}>
       <div className={styles.postTitleContainer}>
         <h2 className={styles.postTitle}>{blogTitleElement}</h2>
+        {
+          props.publishedDate != null ? (
+            <span className={styles.date}>{props.publishedDate}</span>
+          ) : null
+        }
         {
           showEditButton == true ? (
             <AdminComponentGating>

@@ -13,6 +13,7 @@ export default function SinglePostPage(props: RouteComponentProps<{ id: string }
         post(id: $id) {
           title
           contents
+          published_date
         }
       }
     `;
@@ -31,7 +32,7 @@ export default function SinglePostPage(props: RouteComponentProps<{ id: string }
         if (post == null) {
           return;
         }
-        return (<Post id={id} title={post.title} contents={post.contents} showEditButton={true}/>);
+        return (<Post id={id} title={post.title} contents={post.contents} publishedDate={post.published_date} showEditButton={true}/>);
       }
       }/>
   );

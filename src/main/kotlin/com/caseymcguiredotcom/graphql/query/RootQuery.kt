@@ -1,6 +1,7 @@
 package com.caseymcguiredotcom.graphql.query
 
 import com.caseymcguiredotcom.graphql.config.GraphQLQuery
+import com.caseymcguiredotcom.graphql.models.PostQuery
 import com.caseymcguiredotcom.models.Post
 import com.caseymcguiredotcom.models.User
 import com.caseymcguiredotcom.services.PostService
@@ -17,11 +18,12 @@ class RootQuery(
     const val POSTS_PER_PAGE = 5
   }
 
-  fun posts(page: Int): List<Post> {
-    return postService.getPosts()
-  }
+  fun posts(page: Int): List<PostQuery> = postService.getPosts().map { PostQuery(it) }
 
-  fun post(id: Int): Post? = postService.getPostsById(id)
+  fun post(id: Int): PostQuery? {
+    val post = postService.getPostsById(id) ?: return null
+    return PostQuery(post)
+  }
 
   @GraphQLName("current_user")
   fun getCurrentUser(): User? = userService.getLoggedInUser()

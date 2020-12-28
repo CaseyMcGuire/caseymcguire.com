@@ -1,6 +1,6 @@
 /* tslint:disable */
 /* eslint-disable */
-/* @relayHash 36d404520b0b9cda6fdfe0870c68c7bf */
+/* @relayHash 689705197e742c62f1e70c1eb49fb495 */
 
 import { ConcreteRequest } from "relay-runtime";
 export type IndexPostPageQueryVariables = {
@@ -11,6 +11,7 @@ export type IndexPostPageQueryResponse = {
         readonly postId: number;
         readonly title: string;
         readonly contents: string;
+        readonly publishedDate: string;
     }>;
 };
 export type IndexPostPageQuery = {
@@ -28,6 +29,7 @@ query IndexPostPageQuery(
     postId: id
     title
     contents
+    publishedDate: published_date
   }
 }
 */
@@ -76,6 +78,13 @@ const node: ConcreteRequest = (function () {
                     "name": "contents",
                     "args": null,
                     "storageKey": null
+                },
+                {
+                    "kind": "ScalarField",
+                    "alias": "publishedDate",
+                    "name": "published_date",
+                    "args": null,
+                    "storageKey": null
                 }
             ]
         } as any)
@@ -100,10 +109,10 @@ const node: ConcreteRequest = (function () {
             "operationKind": "query",
             "name": "IndexPostPageQuery",
             "id": null,
-            "text": "query IndexPostPageQuery(\n  $page: Int!\n) {\n  posts(page: $page) {\n    postId: id\n    title\n    contents\n  }\n}\n",
+            "text": "query IndexPostPageQuery(\n  $page: Int!\n) {\n  posts(page: $page) {\n    postId: id\n    title\n    contents\n    publishedDate: published_date\n  }\n}\n",
             "metadata": {}
         }
     } as any;
 })();
-(node as any).hash = '980be6e969f14cab8d4e0a768ffad130';
+(node as any).hash = '35a960a41798a62bb26917943071117b';
 export default node;

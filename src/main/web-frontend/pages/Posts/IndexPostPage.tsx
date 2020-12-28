@@ -39,6 +39,7 @@ export default function IndexPostPage(props: RouteComponentProps<{ id?: string }
           postId: id
           title
           contents
+          publishedDate: published_date
         }
       }
     `;
@@ -64,7 +65,12 @@ export default function IndexPostPage(props: RouteComponentProps<{ id?: string }
           <div>
             {
               props.posts.map((post, index) => {
-                return <Post key={index} id={post.postId} title={post.title} contents={post.contents} showEditButton={true}/>
+                return <Post key={index}
+                             id={post.postId}
+                             title={post.title}
+                             contents={post.contents}
+                             publishedDate={post.publishedDate}
+                             showEditButton={true} />
               })
             }
             <PaginationPanel pageNumber={page} hasNextPage={true}/>

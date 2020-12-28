@@ -6,6 +6,7 @@ type Mutation {
 type Post {
   contents: String!
   id: Int!
+  published_date: String!
   title: String!
 }
 
