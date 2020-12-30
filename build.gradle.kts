@@ -155,6 +155,9 @@ jooq {
             inputSchema = "public"
             excludes = "flyway_schema_history"
           }
+          generate.apply {
+            isImmutablePojos = true
+          }
         }
       }
     }

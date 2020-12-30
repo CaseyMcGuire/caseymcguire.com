@@ -1,19 +1,18 @@
 package com.caseymcguiredotcom.models
 
-import com.expediagroup.graphql.annotations.GraphQLName
-import javax.persistence.Column
+import com.expediagroup.graphql.annotations.GraphQLIgnore
+import generated.jooq.tables.pojos.Posts
+import java.time.LocalDate
 
+@GraphQLIgnore
 data class Post(
-  @Column(name = "id")
-  val id: Int,
+  private val posts: Posts
+) {
+  fun getId(): Int = posts.id!!
 
-  @Column(name = "title")
-  val title: String,
+  fun getTitle(): String = posts.title!!
 
-  @Column(name = "contents")
-  val contents: String,
+  fun getContents(): String = posts.contents!!
 
-  @GraphQLName("published_date")
-  @Column(name = "published_date")
-  val publishedDate: String
-)
+  fun getPublishedDate(): LocalDate =  posts.publishedDate!!
+}

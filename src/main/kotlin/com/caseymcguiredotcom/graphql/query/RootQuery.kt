@@ -2,8 +2,7 @@ package com.caseymcguiredotcom.graphql.query
 
 import com.caseymcguiredotcom.graphql.config.GraphQLQuery
 import com.caseymcguiredotcom.graphql.models.PostQuery
-import com.caseymcguiredotcom.models.Post
-import com.caseymcguiredotcom.models.User
+import com.caseymcguiredotcom.graphql.models.UserQuery
 import com.caseymcguiredotcom.services.PostService
 import com.caseymcguiredotcom.services.UserService
 import com.expediagroup.graphql.annotations.GraphQLName
@@ -26,5 +25,8 @@ class RootQuery(
   }
 
   @GraphQLName("current_user")
-  fun getCurrentUser(): User? = userService.getLoggedInUser()
+  fun getCurrentUser(): UserQuery? {
+    val loggedInUser = userService.getLoggedInUser() ?: return null
+    return UserQuery(loggedInUser)
+  }
 }

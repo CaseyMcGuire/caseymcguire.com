@@ -29,7 +29,7 @@ class PostService(
       }
       postDao.update(id, title, content)
     } else {
-      postDao.save(user.id, title, content)
+      postDao.save(user.getId(), title, content)
     }
   }
 

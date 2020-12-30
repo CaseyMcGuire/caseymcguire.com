@@ -2,25 +2,23 @@ package com.caseymcguiredotcom.models
 
 import com.expediagroup.graphql.annotations.GraphQLIgnore
 import com.expediagroup.graphql.annotations.GraphQLName
-import javax.persistence.Column
+import generated.jooq.tables.pojos.Users
 
+@GraphQLIgnore
 data class User(
-  @Column(name = "id")
-  val id: Int,
-
-  @Column(name = "email")
-  val email: String,
-
-  @GraphQLIgnore
-  @Column(name = "password")
-  val password: String,
-
-  @Column(name = "role")
-  val role: String?
+  private val users: Users
 ) {
+
+  fun getId(): Int = users.id!!
+
+  fun getRole(): String? = users.role
+
+  fun getPassWord(): String = users.password!!
+
+  fun getEmail(): String = users.email!!
 
   @GraphQLName("is_admin")
   fun isAdmin(): Boolean {
-    return role == Role.ADMIN.name
+    return getRole() == Role.ADMIN.name
   }
 }

@@ -9,10 +9,10 @@ data class UserDetailsImpl(
 ) : UserDetails {
 
   override fun getAuthorities(): MutableCollection<out GrantedAuthority> {
-    if (user.role == null) {
+    if (user.getRole() == null) {
       return mutableListOf()
     }
-    return mutableListOf(SimpleGrantedAuthority(user.role))
+    return mutableListOf(SimpleGrantedAuthority(user.getRole()))
   }
 
   override fun isEnabled(): Boolean {
@@ -20,7 +20,7 @@ data class UserDetailsImpl(
   }
 
   override fun getUsername(): String {
-    return user.email
+    return user.getEmail()
   }
 
   override fun isCredentialsNonExpired(): Boolean {
@@ -28,7 +28,7 @@ data class UserDetailsImpl(
   }
 
   override fun getPassword(): String {
-    return user.password
+    return user.getPassWord()
   }
 
   override fun isAccountNonExpired(): Boolean {

@@ -20,6 +20,6 @@ class RootMutation(
   @GraphQLName("create_or_edit_post")
   fun createOrEditPost(id: Int?, title: String, content: String): Int? {
     val post = postService.savePost(id, title, content)
-    return post?.id
+    return post?.getId()
   }
 }
