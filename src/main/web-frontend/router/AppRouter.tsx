@@ -33,13 +33,9 @@ export default function AppRouter() {
               );
             })
           }
-          <Route component={NotFoundPage}/>
+          <Route path="*" render={_ => <Redirect to={"/404"} />} />
         </Switch>
       </Page>
     </BrowserRouter>
   )
 }
-
-const NotFoundPage = () => {
-  return <div>404</div>;
-};

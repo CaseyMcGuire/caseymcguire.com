@@ -55,6 +55,10 @@ const AppRoutes: Array<AppRoute> = [
   {
     path: "/register",
     render: () => <RegisterPage />
+  },
+  {
+    path: "/404",
+    render: () => <div>404</div>
   }
 ];
 
