@@ -1,7 +1,5 @@
 import * as React from "react";
 import {createUseStyles} from "react-jss";
-import {useContext} from "react";
-import AppContext from "../../components/context/AppContext";
 
 const getStyles = createUseStyles({
   homePageContainer: {

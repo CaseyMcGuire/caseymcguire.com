@@ -1,12 +1,13 @@
 import * as React from "react";
 import {graphql, QueryRenderer} from "react-relay";
-import Post from "./Post";
+import Post from "./components/Post";
 import {RelayConfig} from "relay/RelayConfig";
 import {IndexPostPageQuery} from "__generated__/IndexPostPageQuery.graphql";
 import {createUseStyles} from "react-jss";
 import Common from "../Page/Common";
 import {Link} from "react-router-dom";
 import {RouteComponentProps, Redirect} from "react-router-dom";
+import LoadingPost from "./components/LoadingPost";
 
 const useStyles = createUseStyles({
   paginationPanel: {
@@ -58,8 +59,13 @@ export default function IndexPostPage(props: RouteComponentProps<{ id?: string }
       query={query}
       render={({error, props}) => {
 
-        if (error || props == null) {
+        if (error) {
           return <div/>;
+        }
+        if (props == null) {
+          return [1,2,3].map((_, index) => {
+            return <LoadingPost key={index} />
+          });
         }
         return (
           <div>

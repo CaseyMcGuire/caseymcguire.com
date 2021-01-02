@@ -3,7 +3,8 @@ import {graphql, QueryRenderer} from "react-relay";
 import {RelayConfig} from "../../relay/RelayConfig";
 import {ShowPostPageQuery} from "../../__generated__/ShowPostPageQuery.graphql";
 import {RouteComponentProps} from "react-router-dom";
-import Post from "./Post";
+import Post from "./components/Post";
+import LoadingPost from "./components/LoadingPost";
 
 
 export default function SinglePostPage(props: RouteComponentProps<{ id: string }>) {
@@ -25,8 +26,11 @@ export default function SinglePostPage(props: RouteComponentProps<{ id: string }
       query={query}
       variables={{id}}
       render={({error, props}) => {
-        if (error || props == null) {
+        if (error) {
           return;
+        }
+        if (props == null) {
+          return <LoadingPost />;
         }
         const {post} = props;
         if (post == null) {

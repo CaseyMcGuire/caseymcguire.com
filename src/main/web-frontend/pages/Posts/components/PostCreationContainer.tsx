@@ -5,7 +5,7 @@ import AceEditor from "react-ace";
 import "ace-builds/src-noconflict/theme-github";
 import 'ace-builds/src-noconflict/mode-markdown';
 import {useState} from "react";
-import Post from "../Post";
+import Post from "./Post";
 import {createUseStyles} from "react-jss";
 
 const CONTENT_WIDTH = '750px';
