@@ -59,6 +59,10 @@ const AppRoutes: Array<AppRoute> = [
   {
     path: "/404",
     render: () => <div>404</div>
+  },
+  {
+    path: "/500",
+    render: () => <div>500: Internal Server Error</div>
   }
 ];
 

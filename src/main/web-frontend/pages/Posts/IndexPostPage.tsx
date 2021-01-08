@@ -60,7 +60,7 @@ export default function IndexPostPage(props: RouteComponentProps<{ id?: string }
       render={({error, props}) => {
 
         if (error) {
-          return <div/>;
+          return <Redirect to={"/500"} />;
         }
         if (props == null) {
           return [1,2,3].map((_, index) => {
