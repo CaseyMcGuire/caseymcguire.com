@@ -1,6 +1,6 @@
 import * as React from "react";
 import {createUseStyles} from "react-jss";
-import {useEffect, useState} from "react";
+import {useDelay} from "../../utils/useDelay";
 
 const useStyles = createUseStyles({
   '@keyframes shimmer': {
@@ -26,21 +26,10 @@ export default function LoadingShimmer(props: {
   width: number | string,
   marginBottom?: number
 }) {
-  const [isShown, setIsShown] = useState(false);
-  useEffect(() => {
-    const timer = window.setTimeout(
-      () => setIsShown(() => true),
-      1000
-    );
-    return () => {
-      window.clearTimeout(timer);
-    }
-  }, [isShown])
   const styles = useStyles();
-  if (!isShown) {
-    return null;
-  }
   return (
     <div style={{...props}} className={styles.shimmerContainer}/>
   );
 }
+
+

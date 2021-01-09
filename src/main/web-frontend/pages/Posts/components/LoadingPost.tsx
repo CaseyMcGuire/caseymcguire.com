@@ -1,10 +1,14 @@
 import {usePostStyles} from "./PostHooks";
 import * as React from "react";
 import LoadingShimmer from "../../../components/LoadingShimmer/LoadingShimmer";
+import {useDelay} from "../../../utils/useDelay";
 
 export default function LoadingPost() {
   const styles = usePostStyles();
-
+  const isVisible = useDelay(1000);
+  if (!isVisible) {
+    return <div />;
+  }
   return (
     <div className={styles.postContainer}>
       <div className={styles.postTitleContainer}>
