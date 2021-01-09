@@ -25,7 +25,7 @@ dependencies {
 
   implementation(group = "com.expediagroup", name = "graphql-kotlin-schema-generator", version = "1.4.2")
 
-  implementation(group = "com.graphql-java", name = "graphiql-spring-boot-starter", version = "5.0.2")
+  implementation(group = "com.graphql-java-kickstart", name = "graphiql-spring-boot-starter", version = "8.1.0")
 
   implementation("org.jetbrains.kotlin:kotlin-reflect:1.3.0") // https://stackoverflow.com/a/47174551/11283051
   implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")

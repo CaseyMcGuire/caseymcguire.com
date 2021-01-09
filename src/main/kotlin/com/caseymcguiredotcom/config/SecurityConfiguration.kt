@@ -1,5 +1,6 @@
 package com.caseymcguiredotcom.config
 
+import com.caseymcguiredotcom.models.Role
 import com.caseymcguiredotcom.services.UserDetailsServiceImpl
 import org.springframework.context.annotation.Bean
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder
@@ -25,6 +26,7 @@ open class SecurityConfiguration(val userDetailsService: UserDetailsServiceImpl)
     http
       .authorizeRequests()
         .antMatchers( "/posts/new").authenticated()
+        .antMatchers("/graphiql").authenticated()
       .and()
         .formLogin()
         .loginPage("/login")
