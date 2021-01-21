@@ -9,6 +9,7 @@ import LoginPage from "../pages/Auth/LoginPage";
 import RegisterPage from "../pages/Auth/RegisterPage";
 import EditPostPage from "../pages/Posts/EditPostPage";
 import Page from "../pages/Page/Page";
+import TetrisPage from "../pages/Tetris/TetrisPage";
 
 type AppRoute = {
   path: string,
@@ -56,6 +57,10 @@ const AppRoutes: Array<AppRoute> = [
   {
     path: "/register",
     render: () => <RegisterPage />
+  },
+  {
+    path: "/tetris",
+    render: () => <TetrisPage />
   },
   {
     path: "/404",
