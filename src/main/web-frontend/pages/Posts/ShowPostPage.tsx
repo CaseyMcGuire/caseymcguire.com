@@ -5,6 +5,7 @@ import {ShowPostPageQuery} from "../../__generated__/ShowPostPageQuery.graphql";
 import {RouteComponentProps, Redirect} from "react-router-dom";
 import Post from "./components/Post";
 import LoadingPost from "./components/LoadingPost";
+import Page from "../Page/Page";
 
 
 export default function SinglePostPage(props: RouteComponentProps<{ id: string }>) {
@@ -21,6 +22,7 @@ export default function SinglePostPage(props: RouteComponentProps<{ id: string }
   const id = parseInt(props.match.params.id);
 
   return (
+    <Page>
     <QueryRenderer<ShowPostPageQuery>
       environment={RelayConfig.getEnvironment()}
       query={query}
@@ -39,5 +41,6 @@ export default function SinglePostPage(props: RouteComponentProps<{ id: string }
         return (<Post id={id} title={post.title} contents={post.contents} publishedDate={post.published_date} showEditButton={true}/>);
       }
       }/>
+    </Page>
   );
 }

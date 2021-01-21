@@ -3,10 +3,12 @@ import Section from "./components/Section";
 import TechnologyInfoCard from "./components/TechnologyInfoCard";
 import EmploymentCard from "./components/EmploymentCard";
 import * as React from "react";
+import Page from "../Page/Page";
 
 
 export default function ResumePage() {
     return (
+      <Page>
         <div>
           <Section title={"EMPLOYMENT"}>
             <EmploymentCard
@@ -61,5 +63,6 @@ export default function ResumePage() {
                            graduationDate={"December 2015"}/>
           </Section>
         </div>
+      </Page>
     )
   }

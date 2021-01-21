@@ -1,5 +1,6 @@
 import * as React from "react";
 import {createUseStyles} from "react-jss";
+import Page from "../Page/Page";
 
 const getStyles = createUseStyles({
   homePageContainer: {
@@ -42,6 +43,7 @@ const getStyles = createUseStyles({
 export default function HomePage() {
   const styles = getStyles();
   return (
+    <Page>
       <div className={styles.homePageContainer}>
         <div className={styles.homePagePictureContainer}>
           <img className={styles.homePagePicture} src="/assets/images/home_picture.jpeg"/>
@@ -55,7 +57,7 @@ export default function HomePage() {
           </div>
         </div>
       </div>
-
+    </Page>
   );
 }
 

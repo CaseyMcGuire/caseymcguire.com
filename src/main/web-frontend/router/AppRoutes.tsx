@@ -8,6 +8,7 @@ import SinglePostPage from "../pages/Posts/ShowPostPage";
 import LoginPage from "../pages/Auth/LoginPage";
 import RegisterPage from "../pages/Auth/RegisterPage";
 import EditPostPage from "../pages/Posts/EditPostPage";
+import Page from "../pages/Page/Page";
 
 type AppRoute = {
   path: string,
@@ -58,11 +59,11 @@ const AppRoutes: Array<AppRoute> = [
   },
   {
     path: "/404",
-    render: () => <div>404</div>
+    render: () => <Page><div>404</div></Page>
   },
   {
     path: "/500",
-    render: () => <div>500: Internal Server Error</div>
+    render: () => <Page><div>500: Internal Server Error</div></Page>
   }
 ];
 

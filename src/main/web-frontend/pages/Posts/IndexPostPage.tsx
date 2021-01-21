@@ -8,6 +8,7 @@ import Common from "../Page/Common";
 import {Link} from "react-router-dom";
 import {RouteComponentProps, Redirect} from "react-router-dom";
 import LoadingPost from "./components/LoadingPost";
+import Page from "../Page/Page";
 
 const useStyles = createUseStyles({
   paginationPanel: {
@@ -54,6 +55,7 @@ export default function IndexPostPage(props: RouteComponentProps<{ id?: string }
   }
 
   return (
+    <Page>
     <QueryRenderer<IndexPostPageQuery>
       environment={RelayConfig.getEnvironment()}
       query={query}
@@ -85,6 +87,7 @@ export default function IndexPostPage(props: RouteComponentProps<{ id?: string }
       }}
       variables={{page}}
     />
+    </Page>
   )
 
 }

@@ -5,6 +5,7 @@ import {RouteComponentProps, Redirect, useHistory} from "react-router-dom";
 import {graphql, QueryRenderer} from "react-relay";
 import {RelayConfig} from "../../relay/RelayConfig";
 import {EditPostPageQuery} from "../../__generated__/EditPostPageQuery.graphql";
+import Page from "../Page/Page";
 
 
 export default function EditPostPage(props: RouteComponentProps<{ id?: string }>) {
@@ -23,6 +24,7 @@ export default function EditPostPage(props: RouteComponentProps<{ id?: string }>
   }
 
   return (
+    <Page>
     <QueryRenderer<EditPostPageQuery>
       environment={RelayConfig.getEnvironment()}
       query={query}
@@ -50,5 +52,6 @@ export default function EditPostPage(props: RouteComponentProps<{ id?: string }>
         )
       }} variables={{postId: id}}
     />
+    </Page>
   )
 }

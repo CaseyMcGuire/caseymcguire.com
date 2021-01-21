@@ -9,7 +9,6 @@ export default function AppRouter() {
   const context = useContext(AppContext);
   return (
     <BrowserRouter>
-      <Page>
         <Switch>
           {
             AppRoutes.map(route => {
@@ -35,7 +34,6 @@ export default function AppRouter() {
           }
           <Route path="*" render={_ => <Redirect to={"/404"} />} />
         </Switch>
-      </Page>
     </BrowserRouter>
   )
 }

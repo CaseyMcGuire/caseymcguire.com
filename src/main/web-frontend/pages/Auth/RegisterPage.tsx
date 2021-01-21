@@ -3,12 +3,14 @@ import {commit} from "mutations/RegisterMutation";
 import FormField from "./components/FormField";
 import {useState} from "react";
 import { useHistory } from "react-router-dom";
+import Page from "../Page/Page";
 
 export default function RegisterPage() {
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
   const history = useHistory();
   return (
+    <Page>
     <div>
       <FormField formName={"Email"} title={"email"} type={"text"} onChange={(text) => {
         setEmail(text);
@@ -26,5 +28,6 @@ export default function RegisterPage() {
       }>
         Submit
       </button>
-    </div>)
+    </div>
+    </Page>)
 }
