@@ -24,6 +24,7 @@ export default function TetrisBoard(props: Props) {
     return (
       <tr>
         {
+          // @ts-ignore
           row.map(elem => <td className={styles.tetrisSquare} style={{backgroundColor: elem}}/>)
         }
       </tr>

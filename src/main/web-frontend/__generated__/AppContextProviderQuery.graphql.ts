@@ -1,6 +1,6 @@
 /* tslint:disable */
 /* eslint-disable */
-/* @relayHash fc958a32e0e5c1ef8b7eda1251e5994f */
+// @ts-nocheck
 
 import { ConcreteRequest } from "relay-runtime";
 export type AppContextProviderQueryVariables = {};
@@ -27,46 +27,48 @@ query AppContextProviderQuery {
 const node: ConcreteRequest = (function () {
     var v0 = [
         ({
-            "kind": "LinkedField",
             "alias": null,
-            "name": "current_user",
-            "storageKey": null,
             "args": null,
             "concreteType": "User",
+            "kind": "LinkedField",
+            "name": "current_user",
             "plural": false,
             "selections": [
                 {
-                    "kind": "ScalarField",
                     "alias": "isAdmin",
-                    "name": "is_admin",
                     "args": null,
+                    "kind": "ScalarField",
+                    "name": "is_admin",
                     "storageKey": null
                 }
-            ]
+            ],
+            "storageKey": null
         } as any)
     ];
     return {
-        "kind": "Request",
         "fragment": {
-            "kind": "Fragment",
-            "name": "AppContextProviderQuery",
-            "type": "Query",
-            "metadata": null,
             "argumentDefinitions": [],
-            "selections": (v0 /*: any*/)
+            "kind": "Fragment",
+            "metadata": null,
+            "name": "AppContextProviderQuery",
+            "selections": (v0 /*: any*/),
+            "type": "Query",
+            "abstractKey": null
         },
+        "kind": "Request",
         "operation": {
+            "argumentDefinitions": [],
             "kind": "Operation",
             "name": "AppContextProviderQuery",
-            "argumentDefinitions": [],
             "selections": (v0 /*: any*/)
         },
         "params": {
-            "operationKind": "query",
-            "name": "AppContextProviderQuery",
+            "cacheID": "c8d29343e8b91cddffba72f652df7983",
             "id": null,
-            "text": "query AppContextProviderQuery {\n  current_user {\n    isAdmin: is_admin\n  }\n}\n",
-            "metadata": {}
+            "metadata": {},
+            "name": "AppContextProviderQuery",
+            "operationKind": "query",
+            "text": "query AppContextProviderQuery {\n  current_user {\n    isAdmin: is_admin\n  }\n}\n"
         }
     } as any;
 })();

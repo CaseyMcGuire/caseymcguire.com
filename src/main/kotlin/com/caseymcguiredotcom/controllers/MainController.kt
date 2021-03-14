@@ -15,9 +15,11 @@ class MainController {
     "/posts/page/{id}",
     "/posts/new",
     "/login",
-    "/register"
+    "/register",
+    "/tetris"
   ])
-  fun home(model: Model): String {
+
+  fun home(): String {
     return "index"
   }
 }

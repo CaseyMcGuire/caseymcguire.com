@@ -1,6 +1,6 @@
 /* tslint:disable */
 /* eslint-disable */
-/* @relayHash c70c32e67482df7c1b8fb61d21b1978a */
+// @ts-nocheck
 
 import { ConcreteRequest } from "relay-runtime";
 export type RegisterMutationVariables = {
@@ -29,22 +29,18 @@ mutation RegisterMutation(
 const node: ConcreteRequest = (function () {
     var v0 = [
         ({
+            "defaultValue": null,
             "kind": "LocalArgument",
-            "name": "email",
-            "type": "String!",
-            "defaultValue": null
+            "name": "email"
         } as any),
         ({
+            "defaultValue": null,
             "kind": "LocalArgument",
-            "name": "password",
-            "type": "String!",
-            "defaultValue": null
+            "name": "password"
         } as any)
     ], v1 = [
         ({
-            "kind": "ScalarField",
             "alias": null,
-            "name": "register",
             "args": [
                 {
                     "kind": "Variable",
@@ -57,31 +53,35 @@ const node: ConcreteRequest = (function () {
                     "variableName": "password"
                 }
             ],
+            "kind": "ScalarField",
+            "name": "register",
             "storageKey": null
         } as any)
     ];
     return {
-        "kind": "Request",
         "fragment": {
-            "kind": "Fragment",
-            "name": "RegisterMutation",
-            "type": "Mutation",
-            "metadata": null,
             "argumentDefinitions": (v0 /*: any*/),
-            "selections": (v1 /*: any*/)
+            "kind": "Fragment",
+            "metadata": null,
+            "name": "RegisterMutation",
+            "selections": (v1 /*: any*/),
+            "type": "Mutation",
+            "abstractKey": null
         },
+        "kind": "Request",
         "operation": {
+            "argumentDefinitions": (v0 /*: any*/),
             "kind": "Operation",
             "name": "RegisterMutation",
-            "argumentDefinitions": (v0 /*: any*/),
             "selections": (v1 /*: any*/)
         },
         "params": {
-            "operationKind": "mutation",
-            "name": "RegisterMutation",
+            "cacheID": "a45d2ae975ab2f3912d8520a9984606d",
             "id": null,
-            "text": "mutation RegisterMutation(\n  $email: String!\n  $password: String!\n) {\n  register(email: $email, password: $password)\n}\n",
-            "metadata": {}
+            "metadata": {},
+            "name": "RegisterMutation",
+            "operationKind": "mutation",
+            "text": "mutation RegisterMutation(\n  $email: String!\n  $password: String!\n) {\n  register(email: $email, password: $password)\n}\n"
         }
     } as any;
 })();

@@ -1,6 +1,6 @@
 /* tslint:disable */
 /* eslint-disable */
-/* @relayHash f9a8a1a2066d6ae444c3b090ecc78b3e */
+// @ts-nocheck
 
 import { ConcreteRequest } from "relay-runtime";
 export type ShowPostPageQueryVariables = {
@@ -35,17 +35,13 @@ query ShowPostPageQuery(
 const node: ConcreteRequest = (function () {
     var v0 = [
         ({
+            "defaultValue": null,
             "kind": "LocalArgument",
-            "name": "id",
-            "type": "Int!",
-            "defaultValue": null
+            "name": "id"
         } as any)
     ], v1 = [
         ({
-            "kind": "LinkedField",
             "alias": null,
-            "name": "post",
-            "storageKey": null,
             "args": [
                 {
                     "kind": "Variable",
@@ -54,54 +50,59 @@ const node: ConcreteRequest = (function () {
                 }
             ],
             "concreteType": "Post",
+            "kind": "LinkedField",
+            "name": "post",
             "plural": false,
             "selections": [
                 {
-                    "kind": "ScalarField",
                     "alias": null,
+                    "args": null,
+                    "kind": "ScalarField",
                     "name": "title",
-                    "args": null,
                     "storageKey": null
                 },
                 {
-                    "kind": "ScalarField",
                     "alias": null,
+                    "args": null,
+                    "kind": "ScalarField",
                     "name": "contents",
-                    "args": null,
                     "storageKey": null
                 },
                 {
-                    "kind": "ScalarField",
                     "alias": null,
-                    "name": "published_date",
                     "args": null,
+                    "kind": "ScalarField",
+                    "name": "published_date",
                     "storageKey": null
                 }
-            ]
+            ],
+            "storageKey": null
         } as any)
     ];
     return {
-        "kind": "Request",
         "fragment": {
-            "kind": "Fragment",
-            "name": "ShowPostPageQuery",
-            "type": "Query",
-            "metadata": null,
             "argumentDefinitions": (v0 /*: any*/),
-            "selections": (v1 /*: any*/)
+            "kind": "Fragment",
+            "metadata": null,
+            "name": "ShowPostPageQuery",
+            "selections": (v1 /*: any*/),
+            "type": "Query",
+            "abstractKey": null
         },
+        "kind": "Request",
         "operation": {
+            "argumentDefinitions": (v0 /*: any*/),
             "kind": "Operation",
             "name": "ShowPostPageQuery",
-            "argumentDefinitions": (v0 /*: any*/),
             "selections": (v1 /*: any*/)
         },
         "params": {
-            "operationKind": "query",
-            "name": "ShowPostPageQuery",
+            "cacheID": "7c868f55a718c07fed8fc5cb8522b257",
             "id": null,
-            "text": "query ShowPostPageQuery(\n  $id: Int!\n) {\n  post(id: $id) {\n    title\n    contents\n    published_date\n  }\n}\n",
-            "metadata": {}
+            "metadata": {},
+            "name": "ShowPostPageQuery",
+            "operationKind": "query",
+            "text": "query ShowPostPageQuery(\n  $id: Int!\n) {\n  post(id: $id) {\n    title\n    contents\n    published_date\n  }\n}\n"
         }
     } as any;
 })();

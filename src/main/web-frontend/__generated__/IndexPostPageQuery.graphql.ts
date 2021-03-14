@@ -1,6 +1,6 @@
 /* tslint:disable */
 /* eslint-disable */
-/* @relayHash 689705197e742c62f1e70c1eb49fb495 */
+// @ts-nocheck
 
 import { ConcreteRequest } from "relay-runtime";
 export type IndexPostPageQueryVariables = {
@@ -37,17 +37,13 @@ query IndexPostPageQuery(
 const node: ConcreteRequest = (function () {
     var v0 = [
         ({
+            "defaultValue": null,
             "kind": "LocalArgument",
-            "name": "page",
-            "type": "Int!",
-            "defaultValue": null
+            "name": "page"
         } as any)
     ], v1 = [
         ({
-            "kind": "LinkedField",
             "alias": null,
-            "name": "posts",
-            "storageKey": null,
             "args": [
                 {
                     "kind": "Variable",
@@ -56,61 +52,66 @@ const node: ConcreteRequest = (function () {
                 }
             ],
             "concreteType": "Post",
+            "kind": "LinkedField",
+            "name": "posts",
             "plural": true,
             "selections": [
                 {
-                    "kind": "ScalarField",
                     "alias": "postId",
+                    "args": null,
+                    "kind": "ScalarField",
                     "name": "id",
-                    "args": null,
                     "storageKey": null
                 },
                 {
-                    "kind": "ScalarField",
                     "alias": null,
+                    "args": null,
+                    "kind": "ScalarField",
                     "name": "title",
-                    "args": null,
                     "storageKey": null
                 },
                 {
-                    "kind": "ScalarField",
                     "alias": null,
-                    "name": "contents",
                     "args": null,
+                    "kind": "ScalarField",
+                    "name": "contents",
                     "storageKey": null
                 },
                 {
-                    "kind": "ScalarField",
                     "alias": "publishedDate",
-                    "name": "published_date",
                     "args": null,
+                    "kind": "ScalarField",
+                    "name": "published_date",
                     "storageKey": null
                 }
-            ]
+            ],
+            "storageKey": null
         } as any)
     ];
     return {
-        "kind": "Request",
         "fragment": {
-            "kind": "Fragment",
-            "name": "IndexPostPageQuery",
-            "type": "Query",
-            "metadata": null,
             "argumentDefinitions": (v0 /*: any*/),
-            "selections": (v1 /*: any*/)
+            "kind": "Fragment",
+            "metadata": null,
+            "name": "IndexPostPageQuery",
+            "selections": (v1 /*: any*/),
+            "type": "Query",
+            "abstractKey": null
         },
+        "kind": "Request",
         "operation": {
+            "argumentDefinitions": (v0 /*: any*/),
             "kind": "Operation",
             "name": "IndexPostPageQuery",
-            "argumentDefinitions": (v0 /*: any*/),
             "selections": (v1 /*: any*/)
         },
         "params": {
-            "operationKind": "query",
-            "name": "IndexPostPageQuery",
+            "cacheID": "d2826968616d22e6bf31b3ba1b394450",
             "id": null,
-            "text": "query IndexPostPageQuery(\n  $page: Int!\n) {\n  posts(page: $page) {\n    postId: id\n    title\n    contents\n    publishedDate: published_date\n  }\n}\n",
-            "metadata": {}
+            "metadata": {},
+            "name": "IndexPostPageQuery",
+            "operationKind": "query",
+            "text": "query IndexPostPageQuery(\n  $page: Int!\n) {\n  posts(page: $page) {\n    postId: id\n    title\n    contents\n    publishedDate: published_date\n  }\n}\n"
         }
     } as any;
 })();

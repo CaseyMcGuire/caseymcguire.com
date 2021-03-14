@@ -1,6 +1,6 @@
 /* tslint:disable */
 /* eslint-disable */
-/* @relayHash 6ade5a907ad978ebbffa391fdafefaaf */
+// @ts-nocheck
 
 import { ConcreteRequest } from "relay-runtime";
 export type EditPostPageQueryVariables = {
@@ -33,17 +33,13 @@ query EditPostPageQuery(
 const node: ConcreteRequest = (function () {
     var v0 = [
         ({
+            "defaultValue": null,
             "kind": "LocalArgument",
-            "name": "postId",
-            "type": "Int!",
-            "defaultValue": null
+            "name": "postId"
         } as any)
     ], v1 = [
         ({
-            "kind": "LinkedField",
             "alias": null,
-            "name": "post",
-            "storageKey": null,
             "args": [
                 {
                     "kind": "Variable",
@@ -52,47 +48,52 @@ const node: ConcreteRequest = (function () {
                 }
             ],
             "concreteType": "Post",
+            "kind": "LinkedField",
+            "name": "post",
             "plural": false,
             "selections": [
                 {
-                    "kind": "ScalarField",
                     "alias": null,
-                    "name": "title",
                     "args": null,
+                    "kind": "ScalarField",
+                    "name": "title",
                     "storageKey": null
                 },
                 {
-                    "kind": "ScalarField",
                     "alias": null,
-                    "name": "contents",
                     "args": null,
+                    "kind": "ScalarField",
+                    "name": "contents",
                     "storageKey": null
                 }
-            ]
+            ],
+            "storageKey": null
         } as any)
     ];
     return {
-        "kind": "Request",
         "fragment": {
-            "kind": "Fragment",
-            "name": "EditPostPageQuery",
-            "type": "Query",
-            "metadata": null,
             "argumentDefinitions": (v0 /*: any*/),
-            "selections": (v1 /*: any*/)
+            "kind": "Fragment",
+            "metadata": null,
+            "name": "EditPostPageQuery",
+            "selections": (v1 /*: any*/),
+            "type": "Query",
+            "abstractKey": null
         },
+        "kind": "Request",
         "operation": {
+            "argumentDefinitions": (v0 /*: any*/),
             "kind": "Operation",
             "name": "EditPostPageQuery",
-            "argumentDefinitions": (v0 /*: any*/),
             "selections": (v1 /*: any*/)
         },
         "params": {
-            "operationKind": "query",
-            "name": "EditPostPageQuery",
+            "cacheID": "1e3e43bba55e98fbab6a0c3640a6361d",
             "id": null,
-            "text": "query EditPostPageQuery(\n  $postId: Int!\n) {\n  post(id: $postId) {\n    title\n    contents\n  }\n}\n",
-            "metadata": {}
+            "metadata": {},
+            "name": "EditPostPageQuery",
+            "operationKind": "query",
+            "text": "query EditPostPageQuery(\n  $postId: Int!\n) {\n  post(id: $postId) {\n    title\n    contents\n  }\n}\n"
         }
     } as any;
 })();

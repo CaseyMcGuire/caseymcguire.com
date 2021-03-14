@@ -90,6 +90,7 @@ tasks.register("buildRelay", NpmTask::class) {
 
 tasks.getByName<BootRun>("bootRun") {
   environment = envVariables
+  dependsOn("herokuBuild")
 }
 
 // make Heroku run this by setting config variable "GRADLE_TASK"
@@ -129,7 +130,7 @@ val dbUrl = envVariables.getValue("DB_URL")
 
 node {
   version = "12.16.0"
-  npmVersion = "6.13.7"
+  npmVersion = "7.6.3"
   download = true
 }
 
