@@ -21,11 +21,22 @@ const getStyles = createUseStyles({
 });
 
 export default function Page(props: {
+  title?: string,
   children: React.ReactNode
 }) {
   const styles = getStyles();
   const location = useLocation();
   const [displaySideMenu, setDisplaySideMenu] = useState(false);
+  const title = props.title;
+  useEffect(() => {
+    if (title != null ) {
+      document.title = title
+    }
+    else {
+      document.title = "Casey McGuire"
+    }
+  }, [title]);
+
   // make sure we close the menu on navigations.
   useEffect(() => {
     setDisplaySideMenu(false)

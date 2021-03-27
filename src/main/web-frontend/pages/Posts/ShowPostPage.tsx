@@ -10,12 +10,15 @@ import {useLazyLoadQuery} from "react-relay/hooks";
 
 export default function SinglePostPage(props: RouteComponentProps<{ id: string }>) {
   const id = parseInt(props.match.params.id);
-  return (
+  const loadingPage = (
     <Page>
-      <React.Suspense fallback={<LoadingPost />}>
-        <SinglePostPageImpl id={id} />
-      </React.Suspense>
+      <LoadingPost/>
     </Page>
+  )
+  return (
+    <React.Suspense fallback={loadingPage}>
+      <SinglePostPageImpl id={id}/>
+    </React.Suspense>
   );
 }
 
@@ -32,20 +35,24 @@ function SinglePostPageImpl(props: {
       }
     `;
 
+
   const response = useLazyLoadQuery<ShowPostPageQuery>(
     query,
     {id: props.id}
   );
+  const title = response.post?.title
 
   const {post} = response;
   if (post == null) {
-    return <Redirect to={"/404"} />;
+    return <Redirect to={"/404"}/>;
   }
   return (
-    <Post id={props.id}
-                title={post.title}
-                contents={post.contents}
-                publishedDate={post.published_date}
-                showEditButton={true}/>
-                );
+    <Page title={title}>
+      <Post id={props.id}
+            title={post.title}
+            contents={post.contents}
+            publishedDate={post.published_date}
+            showEditButton={true}/>
+    </Page>
+  );
 }

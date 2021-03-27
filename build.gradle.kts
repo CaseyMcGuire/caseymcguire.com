@@ -93,7 +93,7 @@ tasks.getByName<BootRun>("bootRun") {
   dependsOn("herokuBuild")
 }
 
-// make Heroku run this by setting config variable "GRADLE_TASK"
+// For reasons I don't understand, adding this task causes Gradle to bug-out
 /*tasks.register("foo") {
   tasks.findByName("bootRun")?.mustRunAfter("webpack")
   tasks.findByName("webpack")?.mustRunAfter("npm_install")
