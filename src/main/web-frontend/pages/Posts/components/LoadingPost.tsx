@@ -5,7 +5,7 @@ import {useDelay} from "../../../utils/useDelay";
 
 export default function LoadingPost() {
   const styles = usePostStyles();
-  const isVisible = useDelay(1000);
+  const isVisible = useDelay(500);
   if (!isVisible) {
     return <div />;
   }
