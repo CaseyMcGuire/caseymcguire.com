@@ -4,7 +4,7 @@ import Common from "../../Page/Common";
 export const usePostStyles = createUseStyles({
   postContainer: {
     width: '100%',
-    maxWidth: Common.postWidth + 'px',
+    maxWidth: '100%',
     borderBottom: '1px solid #6A6A6A',
     marginBottom: '32px',
     paddingBottom: '12px'
@@ -22,7 +22,7 @@ export const usePostStyles = createUseStyles({
     marginBottom: '5px'
   },
   titleInput: {
-    width: Common.postWidth + 'px',
+    width: '100%',
     height: '25px'
   },
   date: {

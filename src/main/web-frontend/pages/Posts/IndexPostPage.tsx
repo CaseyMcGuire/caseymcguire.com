@@ -16,7 +16,7 @@ const useStyles = createUseStyles({
     flexDirection: 'row',
     justifyContent: 'space-around',
     fontSize: '25px',
-    width: Common.postWidth + 'px'
+    width: '100%'
   },
   '@media only screen and (max-width: 600px)': {
     paginationPanel: {
