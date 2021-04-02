@@ -26,7 +26,7 @@ open class SecurityConfiguration(val userDetailsService: UserDetailsServiceImpl)
     http
       .authorizeRequests()
         .antMatchers( "/posts/new").authenticated()
-        .antMatchers("/graphiql").authenticated()
+        .antMatchers("/graphiql").hasAuthority("ADMIN")
       .and()
         .formLogin()
         .loginPage("/login")
