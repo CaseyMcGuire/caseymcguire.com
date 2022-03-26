@@ -50,6 +50,9 @@ export const usePostStyles = createUseStyles({
       overflow: 'auto',
       padding: '5px',
       marginBottom: '10px'
+    },
+    '&> ul': {
+      marginBottom: '16px'
     }
   },
   '@media only screen and (max-width: 600px)': {

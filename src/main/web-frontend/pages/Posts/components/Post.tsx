@@ -1,10 +1,10 @@
 import * as React from "react";
-import * as marked from "marked";
 import * as sanitizeHtml from "sanitize-html";
 import * as hljs from 'highlight.js';
 import AdminComponentGating from "../../../components/gating/AdminComponentGating";
 import {Link} from "react-router-dom";
 import {usePostStyles} from "./PostHooks";
+import {marked} from "marked";
 
 type Props = Readonly<{
   id?: number,
