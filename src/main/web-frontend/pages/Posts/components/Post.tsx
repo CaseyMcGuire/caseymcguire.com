@@ -30,7 +30,7 @@ export default function Post(props: Props) {
   });
 
   const sanitizedHtml = sanitizeHtml(unsanitized_html_DO_NOT_USE, {
-    allowedTags: sanitizeHtml.defaults.allowedTags.concat(['span']),
+    allowedTags: sanitizeHtml.defaults.allowedTags.concat(['span', 'h1', 'h2']),
     allowedAttributes: Object.assign({}, sanitizeHtml.defaults.allowedAttributes, {
       'span': ['class'],
       'code': ['class']
