@@ -34,10 +34,19 @@ export const usePostStyles = createUseStyles({
     padding: '0px 5px',
     listStylePosition: 'inside',
     '& p, h1, h2, h3, h4, h5, h6': {
-      marginBottom: '16px'
+      marginTop: '20px',
+      marginBottom: '20px'
+    },
+    '& ol, & ul': {
+      '&> ul, &> ol, &> li': {
+        marginBottom: '4px'
+      },
+      '&> li:first-child': {
+        marginTop: '4px'
+      }
     },
     '& li': {
-      paddingLeft: '20px'
+      paddingLeft: '20px',
     },
     '& blockquote': {
       margin: '10px',
@@ -51,9 +60,6 @@ export const usePostStyles = createUseStyles({
       padding: '5px',
       marginBottom: '10px'
     },
-    '&> ul': {
-      marginBottom: '16px'
-    }
   },
   '@media only screen and (max-width: 600px)': {
     pre: {
