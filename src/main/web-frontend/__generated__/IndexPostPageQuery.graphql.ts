@@ -4,15 +4,20 @@
 
 import { ConcreteRequest } from "relay-runtime";
 export type IndexPostPageQueryVariables = {
-    page: number;
+    count: number;
+    offset: number;
 };
 export type IndexPostPageQueryResponse = {
-    readonly posts: ReadonlyArray<{
-        readonly postId: number;
-        readonly title: string;
-        readonly contents: string;
-        readonly publishedDate: string;
-    }>;
+    readonly page: {
+        readonly posts: ReadonlyArray<{
+            readonly postId: number;
+            readonly title: string;
+            readonly contents: string;
+            readonly publishedDate: string;
+        }>;
+        readonly hasPreviousPage: boolean;
+        readonly hasNextPage: boolean;
+    };
 };
 export type IndexPostPageQuery = {
     readonly response: IndexPostPageQueryResponse;
@@ -23,13 +28,18 @@ export type IndexPostPageQuery = {
 
 /*
 query IndexPostPageQuery(
-  $page: Int!
+  $count: Int!
+  $offset: Int!
 ) {
-  posts(page: $page) {
-    postId: id
-    title
-    contents
-    publishedDate: published_date
+  page: posts(count: $count, offset: $offset) {
+    posts {
+      postId: id
+      title
+      contents
+      publishedDate: published_date
+    }
+    hasPreviousPage
+    hasNextPage
   }
 }
 */
@@ -39,49 +49,84 @@ const node: ConcreteRequest = (function () {
         ({
             "defaultValue": null,
             "kind": "LocalArgument",
-            "name": "page"
+            "name": "count"
+        } as any),
+        ({
+            "defaultValue": null,
+            "kind": "LocalArgument",
+            "name": "offset"
         } as any)
     ], v1 = [
         ({
-            "alias": null,
+            "alias": "page",
             "args": [
                 {
                     "kind": "Variable",
-                    "name": "page",
-                    "variableName": "page"
+                    "name": "count",
+                    "variableName": "count"
+                },
+                {
+                    "kind": "Variable",
+                    "name": "offset",
+                    "variableName": "offset"
                 }
             ],
-            "concreteType": "Post",
+            "concreteType": "PostPage",
             "kind": "LinkedField",
             "name": "posts",
-            "plural": true,
+            "plural": false,
             "selections": [
                 {
-                    "alias": "postId",
+                    "alias": null,
                     "args": null,
-                    "kind": "ScalarField",
-                    "name": "id",
+                    "concreteType": "Post",
+                    "kind": "LinkedField",
+                    "name": "posts",
+                    "plural": true,
+                    "selections": [
+                        {
+                            "alias": "postId",
+                            "args": null,
+                            "kind": "ScalarField",
+                            "name": "id",
+                            "storageKey": null
+                        },
+                        {
+                            "alias": null,
+                            "args": null,
+                            "kind": "ScalarField",
+                            "name": "title",
+                            "storageKey": null
+                        },
+                        {
+                            "alias": null,
+                            "args": null,
+                            "kind": "ScalarField",
+                            "name": "contents",
+                            "storageKey": null
+                        },
+                        {
+                            "alias": "publishedDate",
+                            "args": null,
+                            "kind": "ScalarField",
+                            "name": "published_date",
+                            "storageKey": null
+                        }
+                    ],
                     "storageKey": null
                 },
                 {
                     "alias": null,
                     "args": null,
                     "kind": "ScalarField",
-                    "name": "title",
+                    "name": "hasPreviousPage",
                     "storageKey": null
                 },
                 {
                     "alias": null,
                     "args": null,
                     "kind": "ScalarField",
-                    "name": "contents",
-                    "storageKey": null
-                },
-                {
-                    "alias": "publishedDate",
-                    "args": null,
-                    "kind": "ScalarField",
-                    "name": "published_date",
+                    "name": "hasNextPage",
                     "storageKey": null
                 }
             ],
@@ -106,14 +151,14 @@ const node: ConcreteRequest = (function () {
             "selections": (v1 /*: any*/)
         },
         "params": {
-            "cacheID": "d2826968616d22e6bf31b3ba1b394450",
+            "cacheID": "5fd822bd66b0b6d78910cd88be8217d3",
             "id": null,
             "metadata": {},
             "name": "IndexPostPageQuery",
             "operationKind": "query",
-            "text": "query IndexPostPageQuery(\n  $page: Int!\n) {\n  posts(page: $page) {\n    postId: id\n    title\n    contents\n    publishedDate: published_date\n  }\n}\n"
+            "text": "query IndexPostPageQuery(\n  $count: Int!\n  $offset: Int!\n) {\n  page: posts(count: $count, offset: $offset) {\n    posts {\n      postId: id\n      title\n      contents\n      publishedDate: published_date\n    }\n    hasPreviousPage\n    hasNextPage\n  }\n}\n"
         }
     } as any;
 })();
-(node as any).hash = '35a960a41798a62bb26917943071117b';
+(node as any).hash = 'a2445f0b1eef4aac547f1c65768287b1';
 export default node;

@@ -7,12 +7,16 @@ import org.springframework.stereotype.Service
 
 @Service
 class PostService(
-  val userService: UserService,
-  val postDao: PostDao
+  private val userService: UserService,
+  private val postDao: PostDao
 ) {
 
   fun getPosts(): List<Post> {
     return postDao.getAll()
+  }
+
+  fun getPostsAfter(count: Int, offset: Int): List<Post> {
+    return postDao.getAfter(count, offset)
   }
 
   fun getPostsById(id: Int): Post? = postDao.get(id)

@@ -9,6 +9,18 @@ import org.springframework.stereotype.Component
 @Component
 class PostDao(val context: DSLContext) {
 
+  fun getAfter(count: Int, id: Int): List<Post> {
+    return context
+      .select()
+      .from(POSTS)
+      .orderBy(POSTS.ID.desc())
+      .offset(id)
+      .limit(count)
+      .fetch()
+      .into(Posts::class.java)
+      .map { Post(it) }
+  }
+
   fun getAll(): List<Post> {
     return context
       .select()

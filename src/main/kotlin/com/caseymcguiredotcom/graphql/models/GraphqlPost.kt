@@ -5,7 +5,7 @@ import com.expediagroup.graphql.annotations.GraphQLName
 import java.time.format.DateTimeFormatter
 
 @GraphQLName("Post")
-class PostQuery(private val post: Post) {
+class GraphqlPost(private val post: Post) {
 
   @GraphQLName("id")
   fun getId(): Int = post.getId()

@@ -4,7 +4,7 @@ import com.caseymcguiredotcom.models.User
 import com.expediagroup.graphql.annotations.GraphQLName
 
 @GraphQLName("User")
-class UserQuery(private val user: User) {
+class GraphqlUser(private val user: User) {
 
   @GraphQLName("email")
   fun getEmail(): String {

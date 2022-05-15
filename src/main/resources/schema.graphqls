@@ -10,10 +10,16 @@ type Post {
   title: String!
 }
 
+type PostPage {
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+  posts: [Post!]!
+}
+
 type Query {
   current_user: User
   post(id: Int!): Post
-  posts(page: Int!): [Post!]!
+  posts(count: Int!, offset: Int!): PostPage!
 }
 
 type User {
