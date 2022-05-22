@@ -54,4 +54,9 @@ export default class ImmutableBoard<T> {
     return new ImmutableBoard<T>(List(tempBoard));
   }
 
+  public static withDimensions<T>(width: number, height: number): ImmutableBoard<T> {
+    const board = new Array(width).map(row => new Array(height));
+    return this.fromArray(board);
+  }
+
 }

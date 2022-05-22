@@ -3,12 +3,13 @@ import Tetromino from "../models/Tetromino";
 import ImmutableBoard from "../models/ImmutableBoard";
 import {Actions} from "./TetrisActions";
 
-export type State = {
+export type TetrisState = {
   currentPoint: Point,
   currentTetromino: Tetromino,
   nextTetromino: Tetromino,
   board: ImmutableBoard<string>,
   placeNewPiece: boolean,
+  score: number
 }
 
 
@@ -17,12 +18,13 @@ const TOP_POINT = new Point(5, 0);
 const DEFAULT_HEIGHT = 20;
 const DEFAULT_WIDTH = 10;
 
-export const initialState: State = {
+export const initialState: TetrisState = {
   currentPoint: TOP_POINT,
   currentTetromino: Tetromino.getRandomPiece(),
   nextTetromino: Tetromino.getRandomPiece(),
   board: ImmutableBoard.fromArray(getInitialBoard()),
   placeNewPiece: true,
+  score: 0
 };
 
 function getInitialBoard(): Array<Array<string>> {
@@ -31,7 +33,7 @@ function getInitialBoard(): Array<Array<string>> {
   );
 }
 
-export const reducer = (state: State, action: Actions): State => {
+export const reducer = (state: TetrisState, action: Actions): TetrisState => {
   switch (action.type) {
     case "TICK":
       return tick();
@@ -47,7 +49,7 @@ export const reducer = (state: State, action: Actions): State => {
       return state;
   }
 
-  function tick(): State {
+  function tick(): TetrisState {
     const newPoint = getNextPoint();
     if (state.placeNewPiece) {
       const canPlaceNewPiece = canPlacePiece(state.board, newPoint, state.currentTetromino);
@@ -64,7 +66,8 @@ export const reducer = (state: State, action: Actions): State => {
         currentTetromino: state.nextTetromino,
         nextTetromino: Tetromino.getRandomPiece(),
         currentPoint: TOP_POINT,
-        placeNewPiece: true
+        placeNewPiece: true,
+        score: state.score + getFilledRows().length
       };
     }
     return {
@@ -84,7 +87,7 @@ export const reducer = (state: State, action: Actions): State => {
     }
   }
 
-  function getBoardWithFilledRowsCleared(): ImmutableBoard<string> {
+  function getFilledRows(): Array<number> {
     const filledRows: Array<number> = [];
     for (let y = 0; y < state.board.getHeight(); y++) {
       let isFilled = true;
@@ -95,6 +98,11 @@ export const reducer = (state: State, action: Actions): State => {
         filledRows.push(y);
       }
     }
+    return filledRows
+  }
+
+  function getBoardWithFilledRowsCleared(): ImmutableBoard<string> {
+    const filledRows: Array<number> = getFilledRows()
     filledRows.sort();
     const boardArray = state.board.toArray();
 
@@ -107,7 +115,7 @@ export const reducer = (state: State, action: Actions): State => {
     return ImmutableBoard.fromArray(boardArray);
   }
 
-  function drop(): State {
+  function drop(): TetrisState {
     if (state.placeNewPiece) {
       return state;
     }
@@ -126,7 +134,7 @@ export const reducer = (state: State, action: Actions): State => {
     }
   }
 
-  function move(x: number): State {
+  function move(x: number): TetrisState {
     if (state.placeNewPiece) {
       return state;
     }
@@ -143,7 +151,7 @@ export const reducer = (state: State, action: Actions): State => {
     };
   }
 
-  function rotate(): State {
+  function rotate(): TetrisState {
     if (state.placeNewPiece) {
       return state;
     }
@@ -178,13 +186,15 @@ export const reducer = (state: State, action: Actions): State => {
     }, true);
   }
 
-  function placePiece(board: ImmutableBoard<string>, point: Point, tetromino: Tetromino): ImmutableBoard<string> {
-    return tetromino.getCurrentRotation().reduce((acc, tetrominoPoint) => {
-      const x = tetrominoPoint.getX() + point.getX();
-      const y = tetrominoPoint.getY() + point.getY();
-      return acc.set(x, y, tetromino.color);
-    }, board);
-  }
+
 
 };
+
+export function placePiece(board: ImmutableBoard<string>, point: Point, tetromino: Tetromino): ImmutableBoard<string> {
+  return tetromino.getCurrentRotation().reduce((acc, tetrominoPoint) => {
+    const x = tetrominoPoint.getX() + point.getX();
+    const y = tetrominoPoint.getY() + point.getY();
+    return acc.set(x, y, tetromino.color);
+  }, board);
+}
 

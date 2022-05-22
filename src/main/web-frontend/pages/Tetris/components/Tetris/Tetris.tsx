@@ -2,11 +2,12 @@ import TetrisBoard from "../TetrisBoard/TetrisBoard";
 import * as React from "react";
 import {useEffect, useReducer} from "react";
 import {initialState, reducer} from "../../reducers/TetrisReducer";
-import {NextTetrominoView} from "../NextTetrominoView/NextTetrominoView";
 import {createUseStyles} from "react-jss";
+import TetrisSidePanel from "../TetrisSidePanel/TetrisSidePanel";
 
 const createStyles = createUseStyles({
   tetrisContainer: {
+    justifyContent: 'center',
     display: 'flex',
     flexDirection: 'row'
   }
@@ -42,7 +43,7 @@ export default function Tetris() {
   return (
     <div className={styles.tetrisContainer}>
       <TetrisBoard board={state.board}/>
-      <NextTetrominoView/>
+      <TetrisSidePanel state={state} />
     </div>
   );
 }

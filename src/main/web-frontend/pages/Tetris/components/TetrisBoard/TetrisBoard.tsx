@@ -6,20 +6,20 @@ type Props = {
   board: ImmutableBoard<string>
 };
 
-const createStyles = createUseStyles({
+const useStyles = createUseStyles({
   tetrisBoard: {
     borderCollapse: 'separate',
     border: '1px solid grey'
   },
   tetrisSquare: {
     margin: '1px',
-    height: '50px',
-    width: '50px'
+    height: '30px',
+    width: '30px'
   }
 });
 
 export default function TetrisBoard(props: Props) {
-  const styles = createStyles();
+  const styles = useStyles();
   const board = props.board.getBoard().map(row => {
     return (
       <tr>
