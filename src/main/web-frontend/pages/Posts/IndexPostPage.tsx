@@ -6,7 +6,7 @@ import {RouteComponentProps, Redirect} from "react-router-dom";
 import LoadingPost from "./components/LoadingPost";
 import Page from "../Page/Page";
 import PaginationPanel from "./components/PaginationPanel";
-import Post from "./components/Post";
+import PostLink from "./components/PostLink";
 
 export default function IndexPostPage(props: RouteComponentProps<{ id?: string }>) {
     // we must alias id to postID. See https://github.com/facebook/relay/issues/1682#issuecomment-296393416
@@ -55,12 +55,7 @@ export default function IndexPostPage(props: RouteComponentProps<{ id?: string }
             <div>
               {
                 posts.map((post, index) => {
-                  return <Post key={index}
-                               id={post.postId}
-                               title={post.title}
-                               contents={post.contents}
-                               publishedDate={post.publishedDate}
-                               showEditButton={true}/>
+                  return <PostLink date={post.publishedDate} postId={post.postId} title={post.title} />
                 })
               }
               <PaginationPanel
