@@ -47,9 +47,7 @@ export default function NavigationLinksList(props: { isMobile: boolean }) {
       <NavigationLink name={"Home"} link={"/"} isMobile={props.isMobile}/>
       <NavigationLink name={"Resume"} link={"/resume"} isMobile={props.isMobile}/>
       <NavigationLink name={"Blog"} link={"/posts"} isMobile={props.isMobile}/>
-      {
-        // <NavigationLink name={"Projects"} link={"/projects"}/>
-      }
+      <NavigationLink name={"Projects"} link={"/projects"} isMobile={props.isMobile}/>
       <NavigationLink name={"Contact"} link={"mailto:caseyjaymcguire@gmail.com"} isMobile={props.isMobile} useHardLink={true}/>
       <LoggedInComponentGating>
           <NavigationLogoutLink />
