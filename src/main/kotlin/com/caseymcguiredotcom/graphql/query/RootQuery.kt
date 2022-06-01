@@ -2,6 +2,7 @@ package com.caseymcguiredotcom.graphql.query
 
 import com.caseymcguiredotcom.graphql.config.GraphQLQuery
 import com.caseymcguiredotcom.graphql.models.*
+import com.caseymcguiredotcom.services.MovieService
 import com.caseymcguiredotcom.services.PostService
 import com.caseymcguiredotcom.services.UserService
 import com.expediagroup.graphql.annotations.GraphQLName
@@ -10,7 +11,8 @@ import org.springframework.stereotype.Component
 @Component
 class RootQuery(
   val postService: PostService,
-  val userService: UserService
+  val userService: UserService,
+  val movieService: MovieService
 ) : GraphQLQuery {
 
   @GraphQLName("posts")
@@ -30,5 +32,10 @@ class RootQuery(
   fun getCurrentUser(): GraphqlUser? {
     val loggedInUser = userService.getLoggedInUser() ?: return null
     return GraphqlUser(loggedInUser)
+  }
+
+  @GraphQLName("movie")
+  fun getMovie(id: String): GraphQLMovie? {
+    return movieService.getMovie(id)
   }
 }

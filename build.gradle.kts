@@ -3,7 +3,7 @@ import com.moowork.gradle.node.npm.NpmTask
 import org.springframework.boot.gradle.tasks.run.BootRun
 
 plugins {
-  id("org.jetbrains.kotlin.jvm") version "1.3.41"
+  id("org.jetbrains.kotlin.jvm") version "1.6.20"
   id("org.springframework.boot") version "2.2.2.RELEASE"
   id("io.spring.dependency-management") version "1.0.6.RELEASE"
   id("com.github.node-gradle.node") version "2.2.1"
@@ -72,7 +72,7 @@ val envVariables: Map<String, String> = {
 
 tasks.withType<KotlinCompile> {
   kotlinOptions {
-    jvmTarget = "1.8"
+    jvmTarget = "11"
   }
 }
 
