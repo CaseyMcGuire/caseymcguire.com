@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Configuration
 @Configuration
 open class EnvironmentVariableConfiguration {
 
-  @Value("\${tmdb_api_key}")
+  @Value("\${tmdb_api_key:}")
   lateinit var tmbdApiKey: String
 
   @Bean
