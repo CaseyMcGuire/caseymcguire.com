@@ -1,17 +1,35 @@
 import * as React from "react";
+import {createUseStyles} from "react-jss";
 
-export default function FormField(props: { formName: string, title: string, type: string, onChange?: (text: string) => void }) {
+type Props = {
+  formName: string,
+  title: string,
+  type: string,
+  onChange?: (text: string) => void
+}
+
+const useStyles = createUseStyles({
+  formField: {
+    height: '24px',
+    width: '240px'
+  }
+});
+
+export default function FormField(props: Props) {
+  const styles = useStyles()
   return (
     <div>
       <div>
-        <span>{props.title}:</span>
-      </div>
-      <div>
-        <input name={props.formName} type={props.type} onChange={event => {
-          if (props.onChange != null) {
-            props.onChange(event.target.value)
-          }
-        }}/>
+        <input
+          className={styles.formField}
+          placeholder={props.formName}
+          name={props.formName}
+          type={props.type}
+          onChange={event => {
+            if (props.onChange != null) {
+              props.onChange(event.target.value)
+            }
+          }}/>
       </div>
     </div>
   );
