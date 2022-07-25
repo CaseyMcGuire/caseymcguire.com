@@ -13,10 +13,19 @@ export default function ResumePage() {
           <Section title={"EMPLOYMENT"}>
             <EmploymentCard
               title={"Software Engineer"}
-              companyName={"Facebook"}
+              companyName={"Airbnb"}
               location={"Seattle, WA"}
-              employmentDate={"January 2019 - Present"}
+              employmentDate={"January 2019 - May 2022"}
               description={[]}/>
+            <EmploymentCard
+              title={"Software Engineer"}
+              companyName={"Meta Platforms (formerly Facebook)"}
+              location={"Seattle, WA"}
+              employmentDate={"January 2019 - May 2022"}
+              description={[
+                "Developed new features for Facebook’s mobile buyer surfaces. These included adding support for multi-item checkout as well as writing new post-transactions surfaces, such as receipts.",
+                "Led project to merge two major Facebook business applications, Catalog Manager and Commerce Manager. This was a major initiative of Facebook’s push into e-commerce and resulted in a new application where merchants could manage their shop and catalog capabilities in one place."
+              ]}/>
             <EmploymentCard
               title={"Software Development Engineer"}
               companyName={"Apptio, Inc."}
@@ -25,8 +34,6 @@ export default function ResumePage() {
               description={[
                 "Worked on the design and complete rewrite of a feature which allows users to visualize how money is spent throughout their IT organization.",
                 "Led the design and implementation of a feature that allows users to see how money is either over- and/or under-allocated in their IT financial models.",
-                "Participated in the development of a new Selenium-based testing framework, which improved the stability of our application. ",
-                "Maintained and added new features to application which allows users to create reports for their IT financial data. ",
               ]}/>
             <EmploymentCard
               title={"Software Development Engineer, Intern"}
@@ -38,23 +45,9 @@ export default function ResumePage() {
                 "Adapted and debugged existing server-side code to allow for seamless integration of upcoming feature with existing legacy web application."
               ]}/>
           </Section>
-          <Section title={"OTHER EXPERIENCE"}>
-            <EmploymentCard
-              title={"Freelance Developer"}
-              companyName={"Printopus"}
-              description={[
-                "Developed the UI for an Android mobile application, using React Native and Redux, that allows users to have photos on their phones mailed to them in a variety of formats.",
-              ]}
-              link={{
-                text: 'Link',
-                href: 'https://play.google.com/store/apps/details?id=us.printop.mobile.android.store&hl=en'
-              }}
-            />
-
-          </Section>
           <Section title={"TECHNOLOGIES"}>
             <TechnologyInfoCard programmingLanguages={["Java", "JavaScript", "TypeScript"]}
-                                technologiesAndTools={["ReactJS", "React Native", "Redux", "HTML", "CSS", "Git", "Mercurial"]}/>
+                                technologiesAndTools={["ReactJS", "HTML", "CSS", "Git", "Mercurial"]}/>
           </Section>
           <Section title={"EDUCATION"}>
             <EducationCard universityName={"University of Puget Sound"}
