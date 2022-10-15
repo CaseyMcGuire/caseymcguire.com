@@ -15,7 +15,7 @@ export default function ResumePage() {
               title={"Software Engineer"}
               companyName={"Airbnb"}
               location={"Seattle, WA"}
-              employmentDate={"January 2019 - May 2022"}
+              employmentDate={"July 2022 - Present"}
               description={[]}/>
             <EmploymentCard
               title={"Software Engineer"}
