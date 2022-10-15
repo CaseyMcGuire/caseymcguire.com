@@ -1,12 +1,12 @@
+import com.github.gradle.node.npm.task.NpmTask
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-import com.moowork.gradle.node.npm.NpmTask
 import org.springframework.boot.gradle.tasks.run.BootRun
 
 plugins {
   id("org.jetbrains.kotlin.jvm") version "1.6.20"
   id("org.springframework.boot") version "2.2.2.RELEASE"
   id("io.spring.dependency-management") version "1.0.6.RELEASE"
-  id("com.github.node-gradle.node") version "2.2.1"
+  id("com.github.node-gradle.node") version "3.4.0"
   id("nu.studer.jooq") version "5.2"
   //id("org.flywaydb.flyway") version "7.3.0"
 }
@@ -77,15 +77,15 @@ tasks.withType<KotlinCompile> {
 }
 
 tasks.register("webpack", NpmTask::class) {
-  setNpmCommand("run", "webpack")
+  npmCommand.set(listOf("run", "webpack"))
 }
 
 tasks.register("webpackDevelopment", NpmTask::class) {
-  setNpmCommand("run", "webpack-development")
+  npmCommand.set(listOf("run", "webpack-development"))
 }
 
-tasks.register("buildRelay", NpmTask::class) {
-  setNpmCommand("run", "compile-relay")
+tasks.register<NpmTask>("buildRelay") {
+  npmCommand.set(listOf("run", "compile-relay"))
 }
 
 tasks.getByName<BootRun>("bootRun") {
@@ -129,9 +129,9 @@ val dbUrl = envVariables.getValue("DB_URL")
 
 
 node {
-  version = "12.16.0"
-  npmVersion = "7.6.3"
-  download = true
+  version.set("12.16.0")
+  npmVersion.set("7.6.3")
+  download.set(true)
 }
 
 jooq {
