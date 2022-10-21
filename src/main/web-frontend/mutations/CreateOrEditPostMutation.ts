@@ -15,7 +15,7 @@ export function commit(
         $title: String!,
         $content: String!,
       ) {
-        postId: create_or_edit_post(id: $id, content: $content, title: $title)
+        postId: createOrEditPost(id: $id, content: $content, title: $title)
       }
     `;
 

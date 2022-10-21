@@ -9,8 +9,8 @@ export default function AppContextProvider(props: {
 }) {
     const query = graphql`
       query AppContextProviderQuery {
-        current_user {
-          isAdmin: is_admin
+        currentUser {
+          isAdmin
         }
       }
     `
@@ -32,7 +32,7 @@ export default function AppContextProvider(props: {
             }
           }
 
-          if (props.current_user == null) {
+          if (props.currentUser == null) {
             return {
               isLoading: false
             };
@@ -40,7 +40,7 @@ export default function AppContextProvider(props: {
           return {
             isLoading: false,
             user: {
-              isAdmin: props.current_user.isAdmin
+              isAdmin: props.currentUser.isAdmin
             }
           }
         })();

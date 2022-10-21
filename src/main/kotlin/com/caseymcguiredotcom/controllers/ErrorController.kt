@@ -6,9 +6,6 @@ import org.springframework.web.bind.annotation.RequestMapping
 
 @Controller
 open class AppErrorController : ErrorController {
-  override fun getErrorPath(): String {
-    return "/error"
-  }
 
   @RequestMapping("/error")
   fun error(): String {

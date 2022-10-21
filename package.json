@@ -6,7 +6,7 @@
   "scripts": {
     "webpack": "node_modules/webpack-cli/bin/cli.js --config webpack.production.js",
     "webpack-development": "node_modules/webpack-cli/bin/cli.js --config webpack.development.js",
-    "compile-relay": "node_modules/relay-compiler/bin/relay-compiler --src ./src/main/web-frontend/ --schema ./src/main/resources/schema.graphqls --language typescript --artifactDirectory ./src/main/web-frontend/__generated__",
+    "compile-relay": "node_modules/relay-compiler/bin/relay-compiler --src ./src/main/web-frontend/ --schema ./src/main/resources/schema/schema.graphqls --language typescript --artifactDirectory ./src/main/web-frontend/__generated__",
     "webpack:analyze": "./node_modules/webpack/bin/webpack.js --config webpack.production.js --json --profile > stats.json && ./node_modules/webpack-bundle-analyzer/lib/bin/analyzer.js stats.json"
   },
   "repository": {

@@ -6,7 +6,7 @@ import { ConcreteRequest } from "relay-runtime";
 export type MovieAppRouterQueryVariables = {};
 export type MovieAppRouterQueryResponse = {
     readonly movie: {
-        readonly title: string;
+        readonly title: string | null;
     } | null;
 };
 export type MovieAppRouterQuery = {
@@ -35,7 +35,7 @@ const node: ConcreteRequest = (function () {
                     "value": "464052"
                 }
             ],
-            "concreteType": "GraphQLMovie",
+            "concreteType": "Movie",
             "kind": "LinkedField",
             "name": "movie",
             "plural": false,

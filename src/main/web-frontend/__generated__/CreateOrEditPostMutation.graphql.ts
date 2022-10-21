@@ -24,7 +24,7 @@ mutation CreateOrEditPostMutation(
   $title: String!
   $content: String!
 ) {
-  postId: create_or_edit_post(id: $id, content: $content, title: $title)
+  postId: createOrEditPost(id: $id, content: $content, title: $title)
 }
 */
 
@@ -62,7 +62,7 @@ const node: ConcreteRequest = (function () {
                 }
             ],
             "kind": "ScalarField",
-            "name": "create_or_edit_post",
+            "name": "createOrEditPost",
             "storageKey": null
         } as any)
     ];
@@ -92,14 +92,14 @@ const node: ConcreteRequest = (function () {
             "selections": (v3 /*: any*/)
         },
         "params": {
-            "cacheID": "cd6160b7f3a0fed9893439720db8a2a7",
+            "cacheID": "131dbe643695e7cf4a540bdc19784ca6",
             "id": null,
             "metadata": {},
             "name": "CreateOrEditPostMutation",
             "operationKind": "mutation",
-            "text": "mutation CreateOrEditPostMutation(\n  $id: Int\n  $title: String!\n  $content: String!\n) {\n  postId: create_or_edit_post(id: $id, content: $content, title: $title)\n}\n"
+            "text": "mutation CreateOrEditPostMutation(\n  $id: Int\n  $title: String!\n  $content: String!\n) {\n  postId: createOrEditPost(id: $id, content: $content, title: $title)\n}\n"
         }
     } as any;
 })();
-(node as any).hash = '2a0754b9a41e437cc71856cf1d66fdee';
+(node as any).hash = 'afcad0dfc7bcef17b9b0f0c30eb6571a';
 export default node;

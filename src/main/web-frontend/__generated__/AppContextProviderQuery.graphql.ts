@@ -5,7 +5,7 @@
 import { ConcreteRequest } from "relay-runtime";
 export type AppContextProviderQueryVariables = {};
 export type AppContextProviderQueryResponse = {
-    readonly current_user: {
+    readonly currentUser: {
         readonly isAdmin: boolean;
     } | null;
 };
@@ -18,8 +18,8 @@ export type AppContextProviderQuery = {
 
 /*
 query AppContextProviderQuery {
-  current_user {
-    isAdmin: is_admin
+  currentUser {
+    isAdmin
   }
 }
 */
@@ -31,14 +31,14 @@ const node: ConcreteRequest = (function () {
             "args": null,
             "concreteType": "User",
             "kind": "LinkedField",
-            "name": "current_user",
+            "name": "currentUser",
             "plural": false,
             "selections": [
                 {
-                    "alias": "isAdmin",
+                    "alias": null,
                     "args": null,
                     "kind": "ScalarField",
-                    "name": "is_admin",
+                    "name": "isAdmin",
                     "storageKey": null
                 }
             ],
@@ -63,14 +63,14 @@ const node: ConcreteRequest = (function () {
             "selections": (v0 /*: any*/)
         },
         "params": {
-            "cacheID": "c8d29343e8b91cddffba72f652df7983",
+            "cacheID": "0ff1208d1d442a68fd678cde008e36d2",
             "id": null,
             "metadata": {},
             "name": "AppContextProviderQuery",
             "operationKind": "query",
-            "text": "query AppContextProviderQuery {\n  current_user {\n    isAdmin: is_admin\n  }\n}\n"
+            "text": "query AppContextProviderQuery {\n  currentUser {\n    isAdmin\n  }\n}\n"
         }
     } as any;
 })();
-(node as any).hash = '5afbb14d2c0c8c0883206ab39c25883c';
+(node as any).hash = 'ae00ae647bafe236c7c72049e2cea736';
 export default node;

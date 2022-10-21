@@ -1,6 +1,6 @@
 package com.caseymcguiredotcom.services
 
-import com.caseymcguiredotcom.graphql.models.GraphQLMovie
+import com.caseymcguiredotcom.graphql.types.Movie
 import org.springframework.stereotype.Component
 import org.springframework.web.client.RestTemplate
 import org.springframework.web.client.getForEntity
@@ -15,8 +15,8 @@ class MovieService(
     const val BASE_URL = "https://api.themoviedb.org/3"
   }
 
-  fun getMovie(id: String): GraphQLMovie? {
+  fun getMovie(id: String): Movie? {
     val path = "${BASE_URL}/movie/${id}?api_key=${tmdbApiKey}"
-    return restTemplate.getForEntity<GraphQLMovie>(path).body
+    return restTemplate.getForEntity<Movie>(path).body
   }
 }

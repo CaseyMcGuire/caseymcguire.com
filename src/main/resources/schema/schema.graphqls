@@ -1,9 +1,5 @@
-type GraphQLMovie {
-  title: String!
-}
-
 type Mutation {
-  create_or_edit_post(content: String!, id: Int, title: String!): Int
+  createOrEditPost(content: String!, id: Int, title: String!): Int
   register(email: String!, password: String!): Boolean!
 }
 
@@ -21,14 +17,18 @@ type PostPage {
 }
 
 type Query {
-  current_user: User
-  movie(id: String!): GraphQLMovie
+  currentUser: User
   post(id: Int!): Post
   posts(count: Int!, offset: Int!): PostPage!
+  movie(id: String!): Movie
 }
 
 type User {
   email: String!
   id: Int!
-  is_admin: Boolean!
+  isAdmin: Boolean!
+}
+
+type Movie {
+  title: String
 }

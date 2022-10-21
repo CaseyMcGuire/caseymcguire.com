@@ -4,11 +4,12 @@ import org.springframework.boot.gradle.tasks.run.BootRun
 
 plugins {
   id("org.jetbrains.kotlin.jvm") version "1.6.20"
-  id("org.springframework.boot") version "2.2.2.RELEASE"
+  id("org.springframework.boot") version "2.6.3"
   id("io.spring.dependency-management") version "1.0.6.RELEASE"
   id("com.github.node-gradle.node") version "3.4.0"
   id("nu.studer.jooq") version "5.2"
   //id("org.flywaydb.flyway") version "7.3.0"
+  id("com.netflix.dgs.codegen") version "5.2.4"
 }
 
 group = "com.kotlinspringgraphlreact"
@@ -22,16 +23,9 @@ dependencies {
   implementation("org.springframework.boot:spring-boot-starter-web")
   implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
   implementation(group = "org.springframework.boot", name = "spring-boot-starter-security", version = "2.4.0")
-
-  implementation(group = "com.expediagroup", name = "graphql-kotlin-schema-generator", version = "1.4.2")
-
-  implementation(group = "com.graphql-java-kickstart", name = "graphiql-spring-boot-starter", version = "8.1.0")
-
-  implementation("org.jetbrains.kotlin:kotlin-reflect:1.3.0") // https://stackoverflow.com/a/47174551/11283051
-  implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
-
-  // database and migrations
   implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+  implementation(platform("com.netflix.graphql.dgs:graphql-dgs-platform-dependencies:latest.release"))
+  implementation("com.netflix.graphql.dgs:graphql-dgs-spring-boot-starter")
   jooqGenerator("org.postgresql:postgresql:42.2.14")
   implementation("org.postgresql:postgresql:42.2.14")
   implementation("org.flywaydb:flyway-core:6.5.7")
@@ -72,7 +66,7 @@ val envVariables: Map<String, String> = {
 
 tasks.withType<KotlinCompile> {
   kotlinOptions {
-    jvmTarget = "11"
+    jvmTarget = "18"
   }
 }
 
@@ -164,4 +158,10 @@ jooq {
     }
 
   }
+}
+
+tasks.withType<com.netflix.graphql.dgs.codegen.gradle.GenerateJavaTask> {
+  schemaPaths = mutableListOf("${projectDir}/src/main/resources/schema")
+  generateClient = true
+  packageName = "com.caseymcguiredotcom.graphql"
 }
