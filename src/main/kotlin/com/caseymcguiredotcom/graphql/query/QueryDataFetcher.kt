@@ -1,12 +1,12 @@
 package com.caseymcguiredotcom.graphql.query
 
+import com.caseymcguiredotcom.codegen.graphql.types.Movie
+import com.caseymcguiredotcom.codegen.graphql.types.Post
+import com.caseymcguiredotcom.codegen.graphql.types.PostPage
+import com.caseymcguiredotcom.codegen.graphql.types.User
 import com.caseymcguiredotcom.models.Role
 import com.caseymcguiredotcom.services.PostService
 import com.caseymcguiredotcom.services.UserService
-import com.kotlinspringgraphqlreact.graphql.types.Movie
-import com.netflix.dgs.codegen.generated.types.Post
-import com.netflix.dgs.codegen.generated.types.PostPage
-import com.netflix.dgs.codegen.generated.types.User
 import com.netflix.graphql.dgs.DgsComponent
 import com.netflix.graphql.dgs.DgsMutation
 import com.netflix.graphql.dgs.DgsQuery

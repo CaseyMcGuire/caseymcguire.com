@@ -163,5 +163,5 @@ jooq {
 tasks.withType<com.netflix.graphql.dgs.codegen.gradle.GenerateJavaTask> {
   schemaPaths = mutableListOf("${projectDir}/src/main/resources/schema")
   generateClient = true
-  packageName = "com.caseymcguiredotcom.graphql"
+  packageName = "com.caseymcguiredotcom.codegen.graphql"
 }
