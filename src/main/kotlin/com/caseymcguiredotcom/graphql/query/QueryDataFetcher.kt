@@ -60,9 +60,4 @@ class QueryDataFetcher(
     userService.registerUser(email, password)
     return true
   }
-
-  @DgsQuery(field = "movie")
-  fun getMovie(id: String): Movie? {
-    return null
-  }
 }
