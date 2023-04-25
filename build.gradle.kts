@@ -66,7 +66,7 @@ val envVariables: Map<String, String> = {
 
 tasks.withType<KotlinCompile> {
   kotlinOptions {
-    jvmTarget = "17"
+    jvmTarget = "11"
   }
 }
 
