@@ -24,7 +24,7 @@ dependencies {
   implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
   implementation(group = "org.springframework.boot", name = "spring-boot-starter-security", version = "2.4.0")
   implementation("org.springframework.boot:spring-boot-starter-data-jpa")
-  implementation(platform("com.netflix.graphql.dgs:graphql-dgs-platform-dependencies:latest.release"))
+  implementation(platform("com.netflix.graphql.dgs:graphql-dgs-platform-dependencies:5.5.3"))
   implementation("com.netflix.graphql.dgs:graphql-dgs-spring-boot-starter")
   jooqGenerator("org.postgresql:postgresql:42.2.14")
   implementation("org.postgresql:postgresql:42.2.14")
@@ -66,7 +66,7 @@ val envVariables: Map<String, String> = {
 
 tasks.withType<KotlinCompile> {
   kotlinOptions {
-    jvmTarget = "11"
+    jvmTarget = "17"
   }
 }
 

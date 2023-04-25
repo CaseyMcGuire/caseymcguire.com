@@ -1,7 +1,7 @@
 import {graphql} from "react-relay";
 import {commitMutation} from "relay-runtime";
 import {RelayConfig} from "../relay/RelayConfig";
-import {CreateOrEditPostMutationResponse} from "../__generated__/CreateOrEditPostMutation.graphql";
+import {CreateOrEditPostMutation} from "../__generated__/CreateOrEditPostMutation.graphql";
 
 export function commit(
   id: number | null,
@@ -25,11 +25,11 @@ export function commit(
     content
   };
 
-  commitMutation(RelayConfig.getEnvironment(),
+  commitMutation<CreateOrEditPostMutation>(RelayConfig.getEnvironment(),
     {
       mutation,
       variables,
-      onCompleted: (response: CreateOrEditPostMutationResponse, errors) => {
+      onCompleted: (response, errors) => {
         onCompleted(response.postId)
       }
     });

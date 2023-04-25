@@ -1,7 +1,7 @@
 import {commitMutation} from "relay-runtime";
 import {RelayConfig} from "relay/RelayConfig";
 import {graphql} from "react-relay";
-import {RegisterMutationResponse} from "__generated__/RegisterMutation.graphql";
+import {RegisterMutation} from "__generated__/RegisterMutation.graphql";
 
 export function commit(email: string, password: string, onCompleted: (success : boolean) => void) {
     const mutation = graphql`
@@ -18,11 +18,12 @@ export function commit(email: string, password: string, onCompleted: (success : 
       password
     };
 
-  commitMutation(RelayConfig.getEnvironment(),
+  commitMutation<RegisterMutation>(
+    RelayConfig.getEnvironment(),
     {
       mutation,
       variables,
-      onCompleted: (response: RegisterMutationResponse, errors) => {
+      onCompleted: (response, errors) => {
         onCompleted(response.register)
       }
     });
