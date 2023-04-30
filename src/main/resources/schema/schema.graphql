@@ -31,4 +31,5 @@ type User {
 
 type Movie {
   title: String
+  backdropPath: String
 }

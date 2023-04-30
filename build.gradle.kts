@@ -26,9 +26,11 @@ dependencies {
   implementation("org.springframework.boot:spring-boot-starter-data-jpa")
   implementation(platform("com.netflix.graphql.dgs:graphql-dgs-platform-dependencies:5.5.3"))
   implementation("com.netflix.graphql.dgs:graphql-dgs-spring-boot-starter")
+  implementation("org.springframework.boot:spring-boot-starter-webflux")
   jooqGenerator("org.postgresql:postgresql:42.2.14")
   implementation("org.postgresql:postgresql:42.2.14")
   implementation("org.flywaydb:flyway-core:6.5.7")
+  implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.14.2")
 }
 
 val herokuEnvironmentMap = mapOf(
