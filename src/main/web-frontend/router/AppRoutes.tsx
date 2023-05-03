@@ -11,6 +11,7 @@ import EditPostPage from "../pages/Posts/EditPostPage";
 import Page from "../pages/Page/Page";
 import TetrisPage from "../pages/Tetris/TetrisPage";
 import ProjectsPage from "../pages/Projects/ProjectsPage";
+import NftPreview from "../pages/Random/NftPreview/NftPreview";
 
 type AppRoute = {
   path: string,
@@ -74,6 +75,10 @@ const AppRoutes: Array<AppRoute> = [
   {
     path: "/projects",
     render: () => <ProjectsPage />
+  },
+  {
+    path: "/nft-preview",
+    render: () => <NftPreview />
   }
 ];
 
