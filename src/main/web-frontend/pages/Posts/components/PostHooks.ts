@@ -18,6 +18,10 @@ export const usePostStyles = createUseStyles({
       textDecoration: 'none'
     }
   },
+  postSubtitle: {
+    display: 'flex',
+    justifyContent: 'space-between'
+  },
   postFormContainer: {
     marginBottom: '5px'
   },

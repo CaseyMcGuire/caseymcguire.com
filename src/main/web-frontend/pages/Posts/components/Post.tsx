@@ -43,18 +43,20 @@ export default function Post(props: Props) {
     <div className={styles.postContainer}>
       <div className={styles.postTitleContainer}>
         <h2 className={styles.postTitle}>{blogTitleElement}</h2>
-        {
-          props.publishedDate != null ? (
-            <span className={styles.date}>{props.publishedDate}</span>
-          ) : null
-        }
-        {
-          showEditButton == true ? (
-            <AdminComponentGating>
-              {editButton}
-            </AdminComponentGating>
-          ) : null
-        }
+        <div className={styles.postSubtitle}>
+          {
+            props.publishedDate != null ? (
+              <span className={styles.date}>{props.publishedDate}</span>
+            ) : null
+          }
+          {
+            showEditButton == true ? (
+              <AdminComponentGating>
+                {editButton}
+              </AdminComponentGating>
+            ) : null
+          }
+        </div>
       </div>
       <div className={styles.postContentsContainer}
            dangerouslySetInnerHTML={{__html: sanitizedHtml}}/>
