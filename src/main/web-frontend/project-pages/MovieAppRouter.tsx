@@ -6,8 +6,10 @@ import {MovieAppRouterQuery} from "../__generated__/MovieAppRouterQuery.graphql"
 export default function MovieAppRouter() {
   const query = graphql`
     query MovieAppRouterQuery {
-      movie(id: "464052") {
-        title
+      movieApi {
+        movie(id: "464052") {
+          title
+        }        
       }
     }
   `;
@@ -15,7 +17,7 @@ export default function MovieAppRouter() {
   const response = useLazyLoadQuery<MovieAppRouterQuery>(query, {})
   return (
     <div>
-      {response.movie?.title}
+      {response?.movieApi?.movie?.title}
     </div>
   )
 }

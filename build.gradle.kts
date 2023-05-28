@@ -81,7 +81,7 @@ tasks.register("webpackDevelopment", NpmTask::class) {
 }
 
 tasks.register<NpmTask>("buildRelay") {
-  npmCommand.set(listOf("run", "compile-relay"))
+  npmCommand.set(listOf("run", "relay"))
 }
 
 tasks.getByName<BootRun>("bootRun") {

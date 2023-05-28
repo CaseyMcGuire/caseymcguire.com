@@ -20,13 +20,25 @@ type Query {
   currentUser: User
   post(id: Int!): Post
   posts(count: Int!, offset: Int!): PostPage!
-  movie(id: String!): Movie
+  movieApi: MovieApi
 }
 
 type User {
   email: String!
   id: Int!
   isAdmin: Boolean!
+}
+
+type MovieApi {
+  movie(id: String!): Movie
+  lists(listType: MovieListType): [Movie]
+}
+
+enum MovieListType {
+  NOW_PLAYING
+  POPULAR
+  TOP_RATED
+  UPCOMING
 }
 
 type Movie {
