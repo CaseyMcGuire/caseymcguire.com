@@ -35,6 +35,15 @@ const getStyles = createUseStyles({
     color: 'inherit',
     textDecoration: 'underline'
   },
+  logoutButton: {
+    backgroundColor: 'white',
+    border: 'none',
+    font: 'inherit',
+    cursor: 'pointer'
+  },
+  logoutButtonUnderline: {
+    textDecoration: 'underline'
+  },
   menuButtonContainer: {
     display: 'none'
   },
@@ -50,19 +59,24 @@ export default function NavigationLinksList(props: { isMobile: boolean }) {
       <NavigationLink name={"Projects"} link={"/projects"} isMobile={props.isMobile}/>
       <NavigationLink name={"Contact"} link={"mailto:caseyjaymcguire@gmail.com"} isMobile={props.isMobile} useHardLink={true}/>
       <LoggedInComponentGating>
-          <NavigationLogoutLink />
+          <NavigationLogoutLink isMobile={props.isMobile}/>
       </LoggedInComponentGating>
     </ul>
   );
 }
 
-function NavigationLogoutLink() {
+function NavigationLogoutLink(props: {isMobile: boolean}) {
+  const styles = getStyles();
+  const classes = [styles.logoutButton];
+  if (!props.isMobile) {
+    classes.push(styles.logoutButtonUnderline)
+  }
 
   return (
-    <li>
+    <li className={props.isMobile ? styles.navBarItemMobile : styles.navBarItem}>
       <form method="POST" action="/logout">
         <CsrfToken />
-        <input type="submit" value="Logout" />
+        <input className={classes.join(' ')} type="submit" value="Logout" />
       </form>
     </li>
   );
