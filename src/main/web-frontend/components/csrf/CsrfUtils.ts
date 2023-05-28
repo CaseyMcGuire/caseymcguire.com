@@ -1,10 +1,7 @@
 
 export default class CsrfUtils {
   static getToken(): string {
-    return (document.getElementById("csrf-token") as HTMLMetaElement).content
-  }
-
-  static getHeader(): string {
-    return (document.getElementById("csrf-header") as HTMLMetaElement).content;
+    // https://www.baeldung.com/spring-security-csrf#2-front-end-configuration
+    return document.cookie.replace(/(?:(?:^|.*;\s*)XSRF-TOKEN\s*\=\s*([^;]*).*$)|^.*$/, '$1');
   }
 }
