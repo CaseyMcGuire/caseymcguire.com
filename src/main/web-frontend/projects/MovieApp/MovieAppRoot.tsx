@@ -1,6 +1,6 @@
 import { RelayEnvironmentProvider } from "react-relay/hooks";
 import * as React from "react";
-import {RelayConfig} from "../relay/RelayConfig";
+import {RelayConfig} from "../../relay/RelayConfig";
 import MovieAppRouter from "./MovieAppRouter";
 import * as ReactDOM from "react-dom";
 

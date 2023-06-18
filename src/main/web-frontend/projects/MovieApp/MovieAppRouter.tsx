@@ -1,9 +1,9 @@
 import * as React from "react";
 import {graphql} from "react-relay";
 import {useLazyLoadQuery} from "react-relay/hooks";
-import {MovieAppRouterQuery} from "../__generated__/MovieAppRouterQuery.graphql";
-import MovieRoot from "./MovieRoot";
+import {MovieAppRouterQuery} from "../../__generated__/MovieAppRouterQuery.graphql";
 import {BrowserRouter, Route, Router, Switch} from "react-router-dom";
+import getMovieAppRoutes from "./MovieAppRoutes";
 
 export default function MovieAppRouter() {
   const query = graphql`
@@ -20,18 +20,17 @@ export default function MovieAppRouter() {
   return (
     <BrowserRouter>
       <Switch>
-        <Route key={"alsjdf"}
-               exact
-               path={"/movies"}
-               render={(props) => {
-                 return <MovieRoot>
-                   <div>
-                     {response?.movieApi?.movie?.title}
-                   </div>
-                 </MovieRoot>
-               }}
-
-               />
+        {
+          getMovieAppRoutes().map(route =>
+            <Route key={route.path}
+                   exact
+                   path={route.path}
+                   render={(props) => {
+                     return route.render(props)
+                   }}
+            />
+          )
+        }
       </Switch>
     </BrowserRouter>
 

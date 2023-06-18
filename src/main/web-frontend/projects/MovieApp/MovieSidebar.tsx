@@ -5,9 +5,8 @@ import { Link } from "react-router-dom";
 const useStyles = createUseStyles({
   sidebar: {
     minWidth: '96px',
-    minHeight: '90%',
+    height: '90%',
     maxHeight: '960px',
-    position: 'fixed',
     backgroundColor: '#404040',
     margin: '20px',
     borderRadius: '8px'
@@ -47,7 +46,9 @@ export default function MovieSidebar() {
         <img className={styles.navIcon} src={"/assets/images/movies/icon-nav-home.svg"} />
       </Link>
         <img className={styles.navIcon} src={"/assets/images/movies/icon-nav-movies.svg"} />
-        <img className={styles.navIcon} src={"/assets/images/movies/icon-nav-tv-series.svg"} />
+        <Link to={"/tv"}>
+          <img className={styles.navIcon} src={"/assets/images/movies/icon-nav-tv-series.svg"} />
+        </Link>
         <img className={styles.navIcon} src={"/assets/images/movies/icon-nav-bookmark.svg"} />
       </div>
     </div>
