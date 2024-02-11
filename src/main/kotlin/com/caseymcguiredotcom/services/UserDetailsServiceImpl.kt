@@ -1,7 +1,7 @@
 package com.caseymcguiredotcom.services
 
 import com.caseymcguiredotcom.dao.UserDao
-import com.caseymcguiredotcom.models.UserDetailsImpl
+import models.UserDetailsImpl
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.security.core.userdetails.UsernameNotFoundException

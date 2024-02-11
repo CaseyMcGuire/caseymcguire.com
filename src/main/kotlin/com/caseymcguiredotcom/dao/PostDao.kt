@@ -1,6 +1,6 @@
 package com.caseymcguiredotcom.dao
 
-import com.caseymcguiredotcom.models.Post
+import models.Post
 import generated.jooq.tables.Posts.Companion.POSTS
 import generated.jooq.tables.pojos.Posts
 import org.jooq.DSLContext

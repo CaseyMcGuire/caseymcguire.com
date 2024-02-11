@@ -31,7 +31,7 @@ type User {
 
 type MovieApi {
   movie(id: String!): Movie
-  lists(listType: MovieListType): [Movie]
+  movieList(listType: MovieListType): [Movie]
 }
 
 enum MovieListType {

@@ -1,7 +1,7 @@
 package com.caseymcguiredotcom.services
 
 import com.caseymcguiredotcom.dao.PostDao
-import com.caseymcguiredotcom.models.Post
+import models.Post
 
 import org.springframework.stereotype.Service
 

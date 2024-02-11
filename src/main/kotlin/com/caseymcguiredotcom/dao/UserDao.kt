@@ -1,6 +1,6 @@
 package com.caseymcguiredotcom.dao;
 
-import com.caseymcguiredotcom.models.User
+import models.User
 import generated.jooq.tables.Users.Companion.USERS
 import generated.jooq.tables.pojos.Users
 import org.jooq.DSLContext

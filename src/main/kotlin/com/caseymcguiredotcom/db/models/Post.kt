@@ -1,4 +1,4 @@
-package com.caseymcguiredotcom.models
+package models
 
 import generated.jooq.tables.pojos.Posts
 import java.time.LocalDate

@@ -23,7 +23,7 @@ const useStyles = createUseStyles({
 });
 
 type Props = {
-  children: JSX.Element
+  children: JSX.Element | null
 }
 
 export default function MovieRoot(props: Props) {

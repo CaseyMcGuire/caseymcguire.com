@@ -1,8 +1,8 @@
 package com.caseymcguiredotcom.services
 
 import com.caseymcguiredotcom.dao.UserDao
-import com.caseymcguiredotcom.models.User
-import com.caseymcguiredotcom.models.UserDetailsImpl
+import models.User
+import models.UserDetailsImpl
 import org.springframework.security.authentication.AnonymousAuthenticationToken
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.crypto.password.PasswordEncoder

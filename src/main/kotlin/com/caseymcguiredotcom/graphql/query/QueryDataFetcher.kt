@@ -4,7 +4,7 @@ import com.caseymcguiredotcom.codegen.graphql.types.Movie
 import com.caseymcguiredotcom.codegen.graphql.types.Post
 import com.caseymcguiredotcom.codegen.graphql.types.PostPage
 import com.caseymcguiredotcom.codegen.graphql.types.User
-import com.caseymcguiredotcom.models.Role
+import models.Role
 import com.caseymcguiredotcom.services.PostService
 import com.caseymcguiredotcom.services.UserService
 import com.netflix.graphql.dgs.DgsComponent
