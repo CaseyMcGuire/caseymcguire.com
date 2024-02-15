@@ -29,7 +29,7 @@ module.exports = {
           // then run it through babel (to, for example, convert our graphql queries)
           {loader: 'babel-loader'},
           // first compile our typescript into javascript
-          {loader: 'ts-loader',},
+          {loader: 'ts-loader'},
         ]
       },
 

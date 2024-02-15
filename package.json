@@ -52,18 +52,18 @@
     "@types/webfontloader": "^1.6.35",
     "babel-loader": "^8.0.6",
     "babel-plugin-relay": "^8.0.0",
-    "css-loader": "^3.5.3",
+    "css-loader": "^6.10.0",
     "graphql": "^15.0.0",
     "graphql-compiler": "^1.7.0",
     "relay-compiler": "^15.0.0",
     "relay-config": "^8.0.0",
     "source-map-loader": "^0.2.4",
     "style-loader": "^1.2.1",
-    "ts-loader": "^6.2.1",
-    "typescript": "^3.7.5",
-    "webpack": "^4.41.6",
+    "ts-loader": "^9.5.0",
+    "typescript": "^5.3.3",
+    "webpack": "^5.90.1",
     "webpack-bundle-analyzer": "^4.3.0",
-    "webpack-cli": "^3.3.11",
+    "webpack-cli": "^5.1.4",
     "webpack-merge": "^4.2.2"
   }
 }

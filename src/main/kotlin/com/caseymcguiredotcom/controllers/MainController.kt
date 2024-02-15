@@ -22,7 +22,8 @@ class MainController {
   }
 
   @GetMapping(value = [
-    "/movies"
+    "/movies",
+    "/tv"
   ])
   fun movies(): String {
     return "movie"

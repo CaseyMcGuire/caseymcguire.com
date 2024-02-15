@@ -125,8 +125,8 @@ val dbUrl = envVariables.getValue("DB_URL")
 
 
 node {
-  version.set("12.16.0")
-  npmVersion.set("7.6.3")
+  version.set("20.11.0")
+  npmVersion.set("10.4.0")
   download.set(true)
 }
 
