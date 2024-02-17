@@ -67,15 +67,18 @@ val envVariables: Map<String, String> = {
   getEnvironmentVariables()
 }()
 
+// if you change this, you must update the `java.runtime.version` param in the 'system.properties' file to the same value
+val javaVersion = "17"
+
 tasks.withType<KotlinCompile> {
   kotlinOptions {
-    jvmTarget = "17"
+    jvmTarget = javaVersion
   }
 }
 
 tasks.withType<JavaCompile> {
-  sourceCompatibility = "17"
-  targetCompatibility = "17"
+  sourceCompatibility = javaVersion
+  targetCompatibility = javaVersion
 }
 
 tasks.register("webpack", NpmTask::class) {
