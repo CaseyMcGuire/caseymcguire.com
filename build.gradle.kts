@@ -3,13 +3,14 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.springframework.boot.gradle.tasks.run.BootRun
 
 plugins {
-  id("org.jetbrains.kotlin.jvm") version "1.6.20"
+  id("org.jetbrains.kotlin.jvm") version "1.9.22"
   id("org.springframework.boot") version "2.6.3"
   id("io.spring.dependency-management") version "1.0.6.RELEASE"
   id("com.github.node-gradle.node") version "3.4.0"
   id("nu.studer.jooq") version "5.2"
   //id("org.flywaydb.flyway") version "7.3.0"
   id("com.netflix.dgs.codegen") version "5.2.4"
+  id("java")
 }
 
 group = "com.kotlinspringgraphlreact"
@@ -68,8 +69,13 @@ val envVariables: Map<String, String> = {
 
 tasks.withType<KotlinCompile> {
   kotlinOptions {
-    jvmTarget = "11"
+    jvmTarget = "17"
   }
+}
+
+tasks.withType<JavaCompile> {
+  sourceCompatibility = "17"
+  targetCompatibility = "17"
 }
 
 tasks.register("webpack", NpmTask::class) {
