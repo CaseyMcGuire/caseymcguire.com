@@ -3,9 +3,10 @@ import {useContext} from "react";
 import AppContext from "../context/AppContext";
 
 export default function AdminComponentGating(props: {
-  children: JSX.Element | null
-}): JSX.Element | null {
+  children: React.JSX.Element | null
+}): React.JSX.Element | null {
   const context = useContext(AppContext);
+  console.log(context)
   if (context?.user?.isAdmin != true || props.children == null) {
     return null;
   }

@@ -1,14 +1,32 @@
 import PostCreationContainer from "./components/PostCreationContainer";
 import * as React from "react";
 import * as CreateOrEditPostMutation from "../../mutations/CreateOrEditPostMutation";
-import {RouteComponentProps, Redirect, useHistory} from "react-router-dom";
+import { useNavigate} from "react-router-dom";
 import {graphql, QueryRenderer} from "react-relay";
 import {RelayConfig} from "../../relay/RelayConfig";
 import {EditPostPageQuery} from "../../__generated__/EditPostPageQuery.graphql";
 import Page from "../Page/Page";
+import {useParams} from "react-router-dom";
+import {redirect} from "react-router-dom";
+import {useLazyLoadQuery} from "react-relay/hooks";
 
 
-export default function EditPostPage(props: RouteComponentProps<{ id?: string }>) {
+export default function EditPostPage() {
+  const params = useParams();
+  const idStr = params.id
+  if (idStr == null) {
+    redirect("/404")
+    return null;
+  }
+  const id = parseInt(idStr);
+  if (Number.isNaN(id)) {
+    redirect("/404")
+    return null;
+  }
+  return <EditPostPageImpl id={id} />
+}
+
+function EditPostPageImpl(props: {id: number}) {
     const query = graphql`
       query EditPostPageQuery($postId: Int!) {
         post(id: $postId) {
@@ -17,41 +35,28 @@ export default function EditPostPage(props: RouteComponentProps<{ id?: string }>
         }
       }
     `
-  const id = parseInt(props.match.params?.id ?? '');
-  const history = useHistory();
-  if (Number.isNaN(id)) {
-    return <Redirect to={"/"}/>
-  }
 
+  const navigate = useNavigate();
+  const id = props.id;
+  const response = useLazyLoadQuery<EditPostPageQuery>(query, {
+    postId: id
+  });
+  const title = response.post?.title;
+  const contents = response.post?.contents;
   return (
     <Page>
-    <QueryRenderer<EditPostPageQuery>
-      environment={RelayConfig.getEnvironment()}
-      query={query}
-      render={({error, props}) => {
-        if (error) {
-          return <Redirect to={"/#error=true"}/>;
-        } else if (!props) {
-          return <div>Loading...</div>;
-        }
-        const title = props.post?.title;
-        const contents = props.post?.contents;
-        return (
-          <div>
-            <PostCreationContainer title={title} content={contents} onSubmit={(title, content) => {
-              CreateOrEditPostMutation.commit(id, title, content, (id: number | null) => {
-                if (id == null) {
-                  console.log("error... ")
-                }
-                else {
-                  history.push("/posts/" + id)
-                }
-              })
-            }}/>
-          </div>
-        )
-      }} variables={{postId: id}}
-    />
+      <div>
+        <PostCreationContainer title={title} content={contents} onSubmit={(title, content) => {
+          CreateOrEditPostMutation.commit(id, title, content, (id: number | null) => {
+            if (id == null) {
+              console.log("error... ")
+            }
+            else {
+              navigate("/posts/" + id)
+            }
+          })
+        }}/>
+      </div>
     </Page>
   )
 }

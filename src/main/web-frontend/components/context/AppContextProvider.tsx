@@ -3,6 +3,7 @@ import * as React from "react";
 import {RelayConfig} from "../../relay/RelayConfig";
 import {AppContextProviderQuery} from "../../__generated__/AppContextProviderQuery.graphql";
 import AppContext from "./AppContext";
+import {useLazyLoadQuery} from "react-relay/hooks";
 
 export default function AppContextProvider(props: {
   children: React.ReactNode
@@ -14,43 +15,18 @@ export default function AppContextProvider(props: {
         }
       }
     `
+  const response = useLazyLoadQuery<AppContextProviderQuery>(query, {});
   const componentProps = props;
+
+  const context = {
+    user: {
+      isAdmin: response.currentUser?.isAdmin == true
+    }
+  }
+
   return (
-    <QueryRenderer<AppContextProviderQuery>
-      environment={RelayConfig.getEnvironment()}
-      query={query}
-      render={({error, props}) => {
-        const context = (() => {
-          if (error != null) {
-            return {
-              isLoading: false
-            }
-          }
-          else if (props == null) {
-            return {
-              isLoading: true
-            }
-          }
-
-          if (props.currentUser == null) {
-            return {
-              isLoading: false
-            };
-          }
-          return {
-            isLoading: false,
-            user: {
-              isAdmin: props.currentUser.isAdmin
-            }
-          }
-        })();
-
-        return (
-          <AppContext.Provider value={context}>
-            {componentProps.children}
-          </AppContext.Provider>
-        )
-      }}
-      variables={{}}/>
+    <AppContext.Provider value={context}>
+      {componentProps.children}
+    </AppContext.Provider>
   );
 }

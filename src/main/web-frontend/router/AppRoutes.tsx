@@ -2,7 +2,6 @@ import HomePage from "../pages/Home/HomePage";
 import * as React from "react";
 import ResumePage from "../pages/Resume/Resume";
 import IndexPostPage from "../pages/Posts/IndexPostPage";
-import { RouteComponentProps } from "react-router-dom";
 import CreatePostPage from "../pages/Posts/CreatePostPage";
 import SinglePostPage from "../pages/Posts/ShowPostPage";
 import LoginPage from "../pages/Auth/LoginPage";
@@ -12,73 +11,72 @@ import Page from "../pages/Page/Page";
 import TetrisPage from "../pages/Tetris/TetrisPage";
 import ProjectsPage from "../pages/Projects/ProjectsPage";
 import NftPreview from "../pages/Random/NftPreview/NftPreview";
+import {ReactNode} from "react";
 
 type AppRoute = {
   path: string,
-  render: (routeProps: RouteComponentProps<any>) => JSX.Element
+  element: React.JSX.Element  | null
   isGated?: boolean
 }
 
 const AppRoutes: Array<AppRoute> = [
   {
     path: "/",
-    render: () => <HomePage />
+    element: <HomePage />
   },
   {
     path: "/resume",
-    render: () => <ResumePage />
+    element: <ResumePage />
   },
   {
     path: "/posts",
-    render: (routeProps) =>
-      <IndexPostPage {...routeProps} />
+    element: <IndexPostPage />
   },
   {
     path: "/posts/page/:id",
-    render: (routeProps) =>
-      <IndexPostPage {...routeProps} />
+    element: <IndexPostPage />
   },
   {
     path: "/posts/new",
-    render: () => <CreatePostPage />,
+    element: <CreatePostPage />,
     isGated: true
   },
   {
     path: "/posts/:id",
-    render: (routeProps) => <SinglePostPage {...routeProps} />
+    element: <SinglePostPage />
   },
   {
     path: "/posts/:id/edit",
-    render: (routeProps) => <EditPostPage {...routeProps} />,
+    element: <EditPostPage />,
     isGated: true
   },
   {
     path: "/login",
-    render: () => <LoginPage />
+    element: <LoginPage />
   },
   {
     path: "/register",
-    render: () => <RegisterPage />
+    element: <RegisterPage />
   },
   {
     path: "/tetris",
-    render: () => <TetrisPage />
+    element: <TetrisPage />
   },
   {
     path: "/404",
-    render: () => <Page><div>404</div></Page>
+    element: <Page><div>404</div></Page>
   },
   {
     path: "/500",
-    render: () => <Page><div>500: Internal Server Error</div></Page>
+    element: <Page><div>500: Internal Server Error</div></Page>
   },
   {
     path: "/projects",
-    render: () => <ProjectsPage />
+    element: <ProjectsPage />
   },
   {
     path: "/nft-preview",
-    render: () => <NftPreview />
+    element:  <NftPreview />
   }
 ];
 

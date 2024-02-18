@@ -1,11 +1,11 @@
 import * as React from "react";
 import PostCreationContainer from "./components/PostCreationContainer";
 import {commit} from "../../mutations/CreateOrEditPostMutation";
-import {useHistory} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import Page from "../Page/Page";
 
 export default function CreatePostPage() {
-  const history = useHistory();
+  const navigate = useNavigate();
   return (
     <Page>
     <div>
@@ -15,7 +15,7 @@ export default function CreatePostPage() {
             console.log("error... ")
           }
           else {
-            history.push("/posts/" + id)
+            navigate("/posts/" + id)
           }
         })
       }} />

@@ -1,15 +1,26 @@
 import * as React from "react";
 import {graphql} from "react-relay";
 import {ShowPostPageQuery} from "../../__generated__/ShowPostPageQuery.graphql";
-import {Redirect, RouteComponentProps, useParams} from "react-router-dom";
+import {redirect, useNavigate, useParams} from "react-router-dom";
 import Post from "./components/Post";
 import LoadingPost from "./components/LoadingPost";
 import Page from "../Page/Page";
 import {useLazyLoadQuery} from "react-relay/hooks";
 
 
-export default function SinglePostPage(props: RouteComponentProps<{ id: string }>) {
-  const id = parseInt(props.match.params.id);
+export default function SinglePostPage() {
+  const params = useParams();
+  const navigate = useNavigate();
+  const idStr = params.id;
+  if (idStr == null) {
+    navigate("/500")
+    return null
+  }
+  const id = parseInt(idStr);
+  if (Number.isNaN(id)) {
+    redirect("/404")
+    return null;
+  }
   const loadingPage = (
     <Page>
       <LoadingPost/>
@@ -35,7 +46,7 @@ function SinglePostPageImpl(props: {
       }
     `;
 
-
+  const navigate = useNavigate();
   const response = useLazyLoadQuery<ShowPostPageQuery>(
     query,
     {id: props.id}
@@ -44,7 +55,8 @@ function SinglePostPageImpl(props: {
 
   const {post} = response;
   if (post == null) {
-    return <Redirect to={"/404"}/>;
+    navigate("/404");
+    return null;
   }
   return (
     <Page title={title}>

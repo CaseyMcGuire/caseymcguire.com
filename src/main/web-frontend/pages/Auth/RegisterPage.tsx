@@ -2,13 +2,13 @@ import * as React from "react";
 import {commit} from "mutations/RegisterMutation";
 import FormField from "./components/FormField";
 import {useState} from "react";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Page from "../Page/Page";
 
 export default function RegisterPage() {
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
-  const history = useHistory();
+  const navigate = useNavigate();
   return (
     <Page>
     <div>
@@ -21,7 +21,7 @@ export default function RegisterPage() {
       <button onClick={() => {
         commit(email, password, (success) => {
           if (success) {
-            history.push("/login?success=true")
+            navigate("/login?success=true")
           }
         })
       }
