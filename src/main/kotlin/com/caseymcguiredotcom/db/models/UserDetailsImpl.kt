@@ -12,7 +12,7 @@ data class UserDetailsImpl(
     if (user.getRole() == null) {
       return mutableListOf()
     }
-    return mutableListOf(SimpleGrantedAuthority(user.getRole()))
+    return mutableListOf(SimpleGrantedAuthority("ROLE_${user.getRole()}"))
   }
 
   override fun isEnabled(): Boolean {

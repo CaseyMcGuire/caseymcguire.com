@@ -18,10 +18,14 @@ export default function AppContextProvider(props: {
   const response = useLazyLoadQuery<AppContextProviderQuery>(query, {});
   const componentProps = props;
 
-  const context = {
+  const user = response.currentUser == null ? null : {
     user: {
       isAdmin: response.currentUser?.isAdmin == true
     }
+  }
+
+  const context = {
+    ...user
   }
 
   return (

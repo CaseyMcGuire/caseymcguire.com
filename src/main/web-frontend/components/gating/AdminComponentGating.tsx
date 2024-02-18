@@ -6,7 +6,6 @@ export default function AdminComponentGating(props: {
   children: React.JSX.Element | null
 }): React.JSX.Element | null {
   const context = useContext(AppContext);
-  console.log(context)
   if (context?.user?.isAdmin != true || props.children == null) {
     return null;
   }

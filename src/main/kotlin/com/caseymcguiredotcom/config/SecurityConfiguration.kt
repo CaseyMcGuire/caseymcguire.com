@@ -48,8 +48,7 @@ open class SecurityConfiguration(private val userDetailsService: UserDetailsServ
       authorizeRequests {
         authorize("/posts/new", hasRole("ADMIN"))
         authorize("/posts/*/edit", hasRole("ADMIN"))
-        // this isn't working for some reason
-//        authorize("/graphiql", hasRole("ADMIN"))
+        authorize("/graphiql/**", hasRole("ADMIN"))
         authorize("/**", permitAll)
       }
       formLogin {
