@@ -2,18 +2,22 @@ package com.caseymcguiredotcom.config
 
 import com.caseymcguiredotcom.services.UserDetailsServiceImpl
 import org.springframework.context.annotation.Bean
+import org.springframework.context.annotation.Configuration
 import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
+import org.springframework.security.config.annotation.web.invoke
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.security.web.SecurityFilterChain
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository
+import org.springframework.security.web.csrf.CsrfTokenRequestAttributeHandler
 
 
 @EnableWebSecurity
-open class SecurityConfiguration(val userDetailsService: UserDetailsServiceImpl){
+@Configuration
+open class SecurityConfiguration(private val userDetailsService: UserDetailsServiceImpl){
 
   @Bean
   open fun passwordEncoder(): PasswordEncoder? {
@@ -31,27 +35,39 @@ open class SecurityConfiguration(val userDetailsService: UserDetailsServiceImpl)
   }
 
   @Bean
-  open fun securityFilterChain(http: HttpSecurity): SecurityFilterChain {
-    http
-      .authorizeRequests()
-        .antMatchers( "/posts/new").authenticated()
-        .antMatchers("/graphiql").hasAuthority("ADMIN")
-      .and()
-        .formLogin()
-        .loginPage("/login")
-        .usernameParameter("Email")
-        .passwordParameter("Password")
-        .defaultSuccessUrl("/")
-        .failureUrl("/login?error=true")
-      .and()
-        .logout()
-        .logoutSuccessUrl("/")
-      .and()
-      .csrf()
-      // this makes it so that the CSRF token is sent in the cookie.
-      // See https://www.baeldung.com/spring-security-csrf#2-front-end-configuration
-      .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+  open fun filterChain(http: HttpSecurity): SecurityFilterChain {
 
-    return http.build()
+    // Spring Security 6 introduced new behavior around CSRF tokens. This was preventing
+    // me from logging in so I added the below code to opt out of the new default. It might
+    // be worth revisiting at some point because I didn't spend the time to figure out how to
+    // make it work
+    // https://docs.spring.io/spring-security/reference/5.8/migration/servlet/exploits.html#_i_need_to_opt_out_of_deferred_tokens_for_another_reason
+    val requestHandler = CsrfTokenRequestAttributeHandler()
+    requestHandler.setCsrfRequestAttributeName(null)
+    http {
+      authorizeRequests {
+        authorize("/posts/new", hasRole("ADMIN"))
+        authorize("/posts/*/edit", hasRole("ADMIN"))
+        // this isn't working for some reason
+//        authorize("/graphiql", hasRole("ADMIN"))
+        authorize("/**", permitAll)
+      }
+      formLogin {
+        loginPage = "/login"
+        defaultSuccessUrl("/", true)
+        failureUrl = "/login?error=true"
+        // note usernameParameter and password parameter aren't available yet but they will be at some point:
+        // https://github.com/spring-projects/spring-security/issues/14474
+      }
+      csrf {
+        csrfTokenRepository = CookieCsrfTokenRepository.withHttpOnlyFalse()
+        csrfTokenRequestHandler = requestHandler
+      }
+      logout {
+        logoutSuccessUrl = "/"
+      }
+    }
+
+    return http.build();
   }
 }

@@ -4,16 +4,22 @@ import org.springframework.boot.gradle.tasks.run.BootRun
 
 plugins {
   id("org.jetbrains.kotlin.jvm") version "1.9.22"
-  id("org.springframework.boot") version "2.6.3"
-  id("io.spring.dependency-management") version "1.0.6.RELEASE"
+  id("org.springframework.boot") version "3.2.2"
+  id("io.spring.dependency-management") version "1.1.4"
   id("com.github.node-gradle.node") version "3.4.0"
   id("nu.studer.jooq") version "5.2"
-  //id("org.flywaydb.flyway") version "7.3.0"
-  id("com.netflix.dgs.codegen") version "5.2.4"
+  id("org.flywaydb.flyway") version "9.16.0"
+  id("com.netflix.dgs.codegen") version "6.1.4"
   id("java")
 }
 
-group = "com.kotlinspringgraphlreact"
+dependencyManagement {
+  imports {
+    mavenBom("com.netflix.graphql.dgs:graphql-dgs-platform-dependencies:latest.release")
+  }
+}
+
+group = "com.caseymcguiredotcom"
 version = "1.0-SNAPSHOT"
 
 repositories {
@@ -23,14 +29,13 @@ repositories {
 dependencies {
   implementation("org.springframework.boot:spring-boot-starter-web")
   implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
-  implementation(group = "org.springframework.boot", name = "spring-boot-starter-security", version = "2.4.0")
+  implementation("org.springframework.boot:spring-boot-starter-security")
   implementation("org.springframework.boot:spring-boot-starter-data-jpa")
-  implementation(platform("com.netflix.graphql.dgs:graphql-dgs-platform-dependencies:5.5.3"))
   implementation("com.netflix.graphql.dgs:graphql-dgs-spring-boot-starter")
   implementation("org.springframework.boot:spring-boot-starter-webflux")
   jooqGenerator("org.postgresql:postgresql:42.2.14")
   implementation("org.postgresql:postgresql:42.2.14")
-  implementation("org.flywaydb:flyway-core:6.5.7")
+  implementation("org.flywaydb:flyway-core:9.16.0")
   implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.14.2")
 }
 

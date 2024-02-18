@@ -38,10 +38,10 @@ export default function LoginPage() {
         <form action="/login" method="POST">
           <CsrfToken />
           <div className={styles.formContainer}>
-            <FormField formName={"Email"} title={"email"} type={"text"}/>
+            <FormField formName={"username"} title={"email"} type={"text"}/>
           </div>
           <div className={styles.formContainer}>
-            <FormField formName={"Password"} title={"password"} type={"password"}/>
+            <FormField formName={"password"} title={"password"} type={"password"}/>
           </div>
           <input className={styles.submitButton} name="submit" type="submit" value="Submit" />
         </form>
