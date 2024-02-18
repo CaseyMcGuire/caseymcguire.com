@@ -1,5 +1,4 @@
 import {BrowserRouter, Route, Switch, Redirect} from "react-router-dom";
-import Page from "../pages/Page/Page";
 import AppRoutes from "./AppRoutes";
 import * as React from "react";
 import {useContext} from "react";

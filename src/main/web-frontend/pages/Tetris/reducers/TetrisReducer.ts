@@ -104,7 +104,7 @@ export const reducer = (state: TetrisState, action: Actions): TetrisState => {
   function getBoardWithFilledRowsCleared(): ImmutableBoard<string> {
     const filledRows: Array<number> = getFilledRows()
     filledRows.sort();
-    const boardArray = state.board.toArray();
+    const boardArray = state.board.convertToArray();
 
     for (const rowIndex of filledRows) {
       boardArray[0] = new Array(DEFAULT_WIDTH).fill(EMPTY_SQUARE_COLOR);

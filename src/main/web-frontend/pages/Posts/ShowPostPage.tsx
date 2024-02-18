@@ -1,7 +1,7 @@
 import * as React from "react";
 import {graphql} from "react-relay";
 import {ShowPostPageQuery} from "../../__generated__/ShowPostPageQuery.graphql";
-import {RouteComponentProps, Redirect} from "react-router-dom";
+import {Redirect, RouteComponentProps, useParams} from "react-router-dom";
 import Post from "./components/Post";
 import LoadingPost from "./components/LoadingPost";
 import Page from "../Page/Page";

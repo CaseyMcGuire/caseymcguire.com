@@ -35,7 +35,7 @@ export default class ImmutableBoard<T> {
     return this.board;
   }
 
-  public toArray(): Array<Array<T>> {
+  public convertToArray(): Array<Array<T>> {
     return this.board.map(row => row?.toArray() ?? []).toArray();
   }
 

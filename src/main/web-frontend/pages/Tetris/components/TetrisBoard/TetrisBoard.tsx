@@ -20,13 +20,13 @@ const useStyles = createUseStyles({
 
 export default function TetrisBoard(props: Props) {
   const styles = useStyles();
-  const board = props.board.getBoard().map(row => {
+  const board = props.board.convertToArray().map(row => {
+    if (row == null) {
+      return null;
+    }
     return (
       <tr>
-        {
-          // @ts-ignore
-          row.map(elem => <td className={styles.tetrisSquare} style={{backgroundColor: elem}}/>)
-        }
+        {row.map((elem) => <td className={styles.tetrisSquare} style={{backgroundColor: elem}}/>)}
       </tr>
     );
   });
