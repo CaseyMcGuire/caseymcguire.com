@@ -28,4 +28,9 @@ class MainController {
   fun movies(): String {
     return "movie"
   }
+
+  @GetMapping("/graphiql")
+  fun graphiql(): String {
+    return "graphiql"
+  }
 }

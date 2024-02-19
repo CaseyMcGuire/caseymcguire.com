@@ -3,7 +3,8 @@ const path = require('path');
 module.exports = {
   entry: {
     index: './src/main/web-frontend/AppRoot',
-    movies: './src/main/web-frontend/projects/MovieApp/MovieAppRoot'
+    movies: './src/main/web-frontend/projects/MovieApp/MovieAppRoot',
+    graphiql: './src/main/web-frontend/projects/Graphiql/GraphiqlPage'
   },
   resolve: {
     // Add '.ts' and '.tsx' as resolvable extensions.
