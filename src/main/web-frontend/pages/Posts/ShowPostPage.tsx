@@ -1,11 +1,13 @@
 import * as React from "react";
-import {graphql} from "react-relay";
+import {FetchPolicy, graphql} from "react-relay";
 import {ShowPostPageQuery} from "../../__generated__/ShowPostPageQuery.graphql";
 import {redirect, useNavigate, useParams} from "react-router-dom";
 import Post from "./components/Post";
 import LoadingPost from "./components/LoadingPost";
 import Page from "../Page/Page";
 import {useLazyLoadQuery} from "react-relay/hooks";
+import {useContext} from "react";
+import AppContext from "../../components/context/AppContext";
 
 
 export default function SinglePostPage() {
@@ -45,11 +47,19 @@ function SinglePostPageImpl(props: {
         }
       }
     `;
+    const context = useContext(AppContext);
+    const isAdmin = context.user?.isAdmin == true;
+
+    // Since an admin might've just updated a post, always do a refetch lest we get stale data
+    let options: { fetchPolicy?: FetchPolicy | undefined } = {
+      fetchPolicy: isAdmin ? 'network-only' : 'store-or-network'
+    };
 
   const navigate = useNavigate();
   const response = useLazyLoadQuery<ShowPostPageQuery>(
     query,
-    {id: props.id}
+    {id: props.id},
+    options
   );
   const title = response.post?.title
 
