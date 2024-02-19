@@ -9,7 +9,8 @@ export type TetrisState = {
   nextTetromino: Tetromino,
   board: ImmutableBoard<string>,
   placeNewPiece: boolean,
-  score: number
+  score: number,
+  isPaused: boolean
 }
 
 
@@ -24,7 +25,8 @@ export const initialState: TetrisState = {
   nextTetromino: Tetromino.getRandomPiece(),
   board: ImmutableBoard.fromArray(getInitialBoard()),
   placeNewPiece: true,
-  score: 0
+  score: 0,
+  isPaused: false
 };
 
 function getInitialBoard(): Array<Array<string>> {
@@ -45,11 +47,19 @@ export const reducer = (state: TetrisState, action: Actions): TetrisState => {
       return move(-1);
     case "MOVE_PIECE_RIGHT":
       return move(1);
+    case "PAUSE":
+      return {
+        ...state,
+        isPaused: !state.isPaused
+      }
     default:
       return state;
   }
 
   function tick(): TetrisState {
+    if (state.isPaused) {
+      return state;
+    }
     const newPoint = getNextPoint();
     if (state.placeNewPiece) {
       const canPlaceNewPiece = canPlacePiece(state.board, newPoint, state.currentTetromino);
@@ -116,7 +126,7 @@ export const reducer = (state: TetrisState, action: Actions): TetrisState => {
   }
 
   function drop(): TetrisState {
-    if (state.placeNewPiece) {
+    if (state.placeNewPiece || state.isPaused) {
       return state;
     }
     for (let y = state.currentPoint.getY() + 1;; y++) {
@@ -135,7 +145,7 @@ export const reducer = (state: TetrisState, action: Actions): TetrisState => {
   }
 
   function move(x: number): TetrisState {
-    if (state.placeNewPiece) {
+    if (state.placeNewPiece || state.isPaused) {
       return state;
     }
     const newPoint = new Point(state.currentPoint.getX() + x, state.currentPoint.getY());
@@ -152,7 +162,7 @@ export const reducer = (state: TetrisState, action: Actions): TetrisState => {
   }
 
   function rotate(): TetrisState {
-    if (state.placeNewPiece) {
+    if (state.placeNewPiece || state.isPaused) {
       return state;
     }
     const clearedBoard = clearCurrentPiece();

@@ -18,9 +18,14 @@ type MovePieceLeftAction = {
   type: "MOVE_PIECE_LEFT"
 };
 
+type PauseAction = {
+  type: "PAUSE"
+}
+
 export type Actions =
   TickAction
   | RotatePieceAction
   | DropPieceAction
   | MovePieceLeftAction
-  | MovePieceRightAction;
+  | MovePieceRightAction
+  | PauseAction;

@@ -1,6 +1,6 @@
 import TetrisBoard from "../TetrisBoard/TetrisBoard";
 import * as React from "react";
-import {useEffect, useReducer} from "react";
+import {useEffect, useReducer, useState} from "react";
 import {initialState, reducer} from "../../reducers/TetrisReducer";
 import {createUseStyles} from "react-jss";
 import TetrisSidePanel from "../TetrisSidePanel/TetrisSidePanel";
@@ -9,7 +9,8 @@ const createStyles = createUseStyles({
   tetrisContainer: {
     justifyContent: 'center',
     display: 'flex',
-    flexDirection: 'row'
+    flexDirection: 'row',
+    fontFamily: 'monospace'
   }
 });
 
@@ -22,7 +23,7 @@ export default function Tetris() {
     }, 400);
 
     window.onkeydown = (event: KeyboardEvent) => {
-      switch (event.keyCode) {
+      switch (event.key) {
         case Move.Spin:
           dispatch({type: "ROTATE_PIECE"});
           break;
@@ -34,6 +35,9 @@ export default function Tetris() {
           break;
         case Move.Drop:
           dispatch({type: "DROP_PIECE"});
+          break;
+        case Move.Pause:
+          dispatch({type: "PAUSE"})
           break;
       }
     }
@@ -50,9 +54,9 @@ export default function Tetris() {
 
 enum Move {
   // These are key codes
-  Spin = 38, // up key
-  Left = 37,
-  Right = 39,
-  Drop = 40,
-  Pause = 80,
+  Spin = "ArrowUp", // up key
+  Left = "ArrowLeft",
+  Right = "ArrowRight",
+  Drop = "ArrowDown",
+  Pause = "p",
 }

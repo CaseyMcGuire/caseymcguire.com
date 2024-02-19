@@ -12,7 +12,8 @@ const useStyles = createUseStyles({
     justifyContent: 'center',
     alignItems: 'center',
     height: '100px',
-    width: '100px'
+    width: '100px',
+    fontSize: '24px'
   }
 })
 
