@@ -77,7 +77,7 @@ export const reducer = (state: TetrisState, action: Actions): TetrisState => {
         nextTetromino: Tetromino.getRandomPiece(),
         currentPoint: TOP_POINT,
         placeNewPiece: true,
-        score: state.score + getFilledRows().length
+        score: state.score + getAdditionalScore()
       };
     }
     return {
@@ -86,6 +86,26 @@ export const reducer = (state: TetrisState, action: Actions): TetrisState => {
       currentPoint: newPoint,
       placeNewPiece: false
     };
+  }
+
+  function getAdditionalScore(): number {
+    const numFilledRows = getFilledRows().length
+    console.log(numFilledRows);
+    switch (numFilledRows) {
+      case 0:
+        return 0;
+      case 1:
+        return 100;
+      case 2:
+        return 300;
+      case 3:
+        return 500;
+      case 4:
+        return 800;
+      default:
+        // I don't think this case is actually possible
+        return 800 + (numFilledRows - 4) * 200
+    }
   }
 
   function getNextPoint(): Point {
