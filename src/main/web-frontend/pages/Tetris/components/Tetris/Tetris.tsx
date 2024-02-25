@@ -46,7 +46,22 @@ export default function Tetris() {
 
   return (
     <div className={styles.tetrisContainer}>
-      <TetrisBoard board={state.board}/>
+      <TetrisBoard
+        board={state.board}
+        isPaused={state.isPaused}
+        isGameOver={state.isGameOver}
+        handleUnpauseButtonPress={() => {
+          if (state.isPaused) {
+            dispatch({type: "PAUSE"})
+          }
+        }
+        }
+        handleRestartButtonPress={() => {
+          if (state.isGameOver) {
+            dispatch({type: 'RESTART'})
+          }
+        }
+      }/>
       <TetrisSidePanel state={state} />
     </div>
   );

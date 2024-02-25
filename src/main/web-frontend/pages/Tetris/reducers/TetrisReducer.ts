@@ -10,7 +10,8 @@ export type TetrisState = {
   board: ImmutableBoard<string>,
   placeNewPiece: boolean,
   score: number,
-  isPaused: boolean
+  isPaused: boolean,
+  isGameOver: boolean
 }
 
 
@@ -26,7 +27,8 @@ export const initialState: TetrisState = {
   board: ImmutableBoard.fromArray(getInitialBoard()),
   placeNewPiece: true,
   score: 0,
-  isPaused: false
+  isPaused: false,
+  isGameOver: false
 };
 
 function getInitialBoard(): Array<Array<string>> {
@@ -52,19 +54,24 @@ export const reducer = (state: TetrisState, action: Actions): TetrisState => {
         ...state,
         isPaused: !state.isPaused
       }
+    case "RESTART":
+      return initialState
     default:
       return state;
   }
 
   function tick(): TetrisState {
-    if (state.isPaused) {
+    if (state.isPaused || state.isGameOver) {
       return state;
     }
     const newPoint = getNextPoint();
     if (state.placeNewPiece) {
       const canPlaceNewPiece = canPlacePiece(state.board, newPoint, state.currentTetromino);
       if (!canPlaceNewPiece) {
-        return state;
+        return {
+          ...state,
+          isGameOver: true
+        };
       }
     }
     const clearedBoard = clearCurrentPiece();
@@ -90,7 +97,6 @@ export const reducer = (state: TetrisState, action: Actions): TetrisState => {
 
   function getAdditionalScore(): number {
     const numFilledRows = getFilledRows().length
-    console.log(numFilledRows);
     switch (numFilledRows) {
       case 0:
         return 0;
@@ -146,7 +152,7 @@ export const reducer = (state: TetrisState, action: Actions): TetrisState => {
   }
 
   function drop(): TetrisState {
-    if (state.placeNewPiece || state.isPaused) {
+    if (state.placeNewPiece || state.isPaused || state.isGameOver) {
       return state;
     }
     for (let y = state.currentPoint.getY() + 1;; y++) {
@@ -165,7 +171,7 @@ export const reducer = (state: TetrisState, action: Actions): TetrisState => {
   }
 
   function move(x: number): TetrisState {
-    if (state.placeNewPiece || state.isPaused) {
+    if (state.placeNewPiece || state.isPaused || state.isGameOver) {
       return state;
     }
     const newPoint = new Point(state.currentPoint.getX() + x, state.currentPoint.getY());
@@ -182,7 +188,7 @@ export const reducer = (state: TetrisState, action: Actions): TetrisState => {
   }
 
   function rotate(): TetrisState {
-    if (state.placeNewPiece || state.isPaused) {
+    if (state.placeNewPiece || state.isPaused || state.isGameOver) {
       return state;
     }
     const clearedBoard = clearCurrentPiece();

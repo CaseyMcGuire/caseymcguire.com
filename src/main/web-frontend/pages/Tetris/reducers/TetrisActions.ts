@@ -22,10 +22,15 @@ type PauseAction = {
   type: "PAUSE"
 }
 
+type RestartAction = {
+  type: "RESTART"
+}
+
 export type Actions =
   TickAction
   | RotatePieceAction
   | DropPieceAction
   | MovePieceLeftAction
   | MovePieceRightAction
-  | PauseAction;
+  | PauseAction
+  | RestartAction;

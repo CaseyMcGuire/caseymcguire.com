@@ -15,7 +15,12 @@ export function NextTetrominoView(props: Props) {
 
   return (
     <div>
-      <TetrisBoard board={board}/>
+      <TetrisBoard
+        board={board}
+        isPaused={false}
+        isGameOver={false}
+        handleUnpauseButtonPress={() => {}}
+        handleRestartButtonPress={() => {}}/>
     </div>
   );
 }
