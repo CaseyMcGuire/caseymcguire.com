@@ -2,9 +2,11 @@ import com.github.gradle.node.npm.task.NpmTask
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.springframework.boot.gradle.tasks.run.BootRun
 
+val springVersion = "3.2.2"
+
 plugins {
   id("org.jetbrains.kotlin.jvm") version "1.9.22"
-  id("org.springframework.boot") version "3.2.2"
+  id("org.springframework.boot") version "3.2.2" // can't use variable here :(
   id("io.spring.dependency-management") version "1.1.4"
   id("com.github.node-gradle.node") version "3.4.0"
   id("nu.studer.jooq") version "5.2"
@@ -16,6 +18,7 @@ plugins {
 dependencyManagement {
   imports {
     mavenBom("com.netflix.graphql.dgs:graphql-dgs-platform-dependencies:latest.release")
+    mavenBom("org.springframework.boot:spring-boot-dependencies:${springVersion}")
   }
 }
 
