@@ -16,7 +16,9 @@ export default function ResumePage() {
               companyName={"Airbnb"}
               location={"Seattle, WA"}
               employmentDate={"July 2022 - Present"}
-              description={[]}/>
+              description={[
+                "Currently work on Airbnb's Listing Backend team where I ensure the reliability and scalability of the company's core listing services and data models. Additionally, I am responsible for designing changes to our architecture and APIs to accommodate new product features."
+              ]}/>
             <EmploymentCard
               title={"Software Engineer"}
               companyName={"Meta Platforms (formerly Facebook)"}
@@ -46,7 +48,7 @@ export default function ResumePage() {
               ]}/>
           </Section>
           <Section title={"TECHNOLOGIES"}>
-            <TechnologyInfoCard programmingLanguages={["Java", "JavaScript", "TypeScript"]}
+            <TechnologyInfoCard programmingLanguages={["Kotlin", "Java", "TypeScript"]}
                                 technologiesAndTools={["ReactJS", "HTML", "CSS", "Git", "Mercurial"]}/>
           </Section>
           <Section title={"EDUCATION"}>
