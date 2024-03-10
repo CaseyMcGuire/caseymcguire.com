@@ -101,6 +101,12 @@ tasks.register<NpmTask>("buildRelay") {
   npmCommand.set(listOf("run", "relay"))
 }
 
+// make sure webpack runs before the processResources task so the TypeScript files are compiled before
+// being copied into the build folder
+tasks.processResources {
+  dependsOn("webpack")
+}
+
 tasks.getByName<BootRun>("bootRun") {
   environment = envVariables
   dependsOn("herokuBuild")
@@ -114,7 +120,7 @@ tasks.getByName<BootRun>("bootRun") {
 }*/
 
 tasks.register("herokuBuild") {
-  val taskList = listOf("build", "webpack", "npm_install")
+  val taskList = listOf("build", "npm_install")
   taskList.forEachIndexed { index, task ->
     if (index < taskList.size - 1) {
       tasks.findByName(task)?.mustRunAfter(taskList[index + 1])
