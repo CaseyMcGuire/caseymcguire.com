@@ -1,0 +1,26 @@
+
+extend type Query {
+  leetcode: LeetCodeRoot
+}
+
+type LeetCodeRoot {
+  problems: [LeetcodeProblem]
+}
+
+type LeetcodeProblem {
+  id: Int!
+  name: String!
+  url: String!
+  topics: [LeetcodeTopic!]!
+  difficulty: LeetcodeDifficulty!
+}
+
+enum LeetcodeTopic {
+  LINKED_LIST
+}
+
+enum LeetcodeDifficulty {
+  EASY
+  MEDIUM
+  HARD
+}
