@@ -48,8 +48,8 @@ export default function ResumePage() {
               ]}/>
           </Section>
           <Section title={"TECHNOLOGIES"}>
-            <TechnologyInfoCard programmingLanguages={["Kotlin", "Java", "TypeScript"]}
-                                technologiesAndTools={["ReactJS", "HTML", "CSS", "Git", "Mercurial"]}/>
+            <TechnologyInfoCard programmingLanguages={["Kotlin", "Java", "JavaScript", "TypeScript"]}
+                                technologiesAndTools={["ReactJS", "Spring", "HTML", "CSS", "Git", "Mercurial"]}/>
           </Section>
           <Section title={"EDUCATION"}>
             <EducationCard universityName={"University of Puget Sound"}
