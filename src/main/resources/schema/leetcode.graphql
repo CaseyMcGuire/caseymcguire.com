@@ -17,6 +17,8 @@ type LeetcodeProblem {
 
 enum LeetcodeTopic {
   LINKED_LIST
+  HASH_TABLE
+  BINARY_SEARCH
 }
 
 enum LeetcodeDifficulty {
