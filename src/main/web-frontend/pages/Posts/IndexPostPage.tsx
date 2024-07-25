@@ -23,13 +23,13 @@ export default function IndexPostPage() {
   }
   return (
     <Suspense fallback={
-      <div>
+      <Page>
         {
           [1, 2, 3].map((_, index) => {
             return <LoadingPost key={index}/>
           })
         }
-      </div>
+      </Page>
     }>
       <IndexPostPageImpl page={page} />
     </Suspense>
