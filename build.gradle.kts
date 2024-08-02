@@ -169,7 +169,7 @@ jooq {
           name = "org.jooq.codegen.KotlinGenerator"
           target.apply {
             packageName = "generated.jooq"
-            directory = "src/main/kotlin/com/caseymcguiredotcom/db"
+            directory = "src/main/kotlin/com/caseymcguiredotcom/db/codegen"
           }
           database.apply {
             inputSchema = "public"

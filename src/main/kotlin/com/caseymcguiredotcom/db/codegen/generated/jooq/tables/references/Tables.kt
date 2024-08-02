@@ -6,6 +6,8 @@ package generated.jooq.tables.references
 
 import generated.jooq.tables.Posts
 import generated.jooq.tables.Users
+import generated.jooq.tables.Workout
+import generated.jooq.tables.WorkoutSet
 
 
 
@@ -18,3 +20,13 @@ val POSTS = Posts.POSTS
  * The table <code>public.users</code>.
  */
 val USERS = Users.USERS
+
+/**
+ * The table <code>public.workout</code>.
+ */
+val WORKOUT = Workout.WORKOUT
+
+/**
+ * The table <code>public.workout_set</code>.
+ */
+val WORKOUT_SET = WorkoutSet.WORKOUT_SET

@@ -6,8 +6,12 @@ package generated.jooq
 
 import generated.jooq.sequences.POSTS_ID_SEQ
 import generated.jooq.sequences.USERS_ID_SEQ
+import generated.jooq.sequences.WORKOUT_ID_SEQ
+import generated.jooq.sequences.WORKOUT_SET_ID_SEQ
 import generated.jooq.tables.Posts
 import generated.jooq.tables.Users
+import generated.jooq.tables.Workout
+import generated.jooq.tables.WorkoutSet
 
 import kotlin.collections.List
 
@@ -40,15 +44,29 @@ class Public : SchemaImpl("public", DefaultCatalog.DEFAULT_CATALOG) {
      */
     val USERS get() = Users.USERS
 
+    /**
+     * The table <code>public.workout</code>.
+     */
+    val WORKOUT get() = Workout.WORKOUT
+
+    /**
+     * The table <code>public.workout_set</code>.
+     */
+    val WORKOUT_SET get() = WorkoutSet.WORKOUT_SET
+
     override fun getCatalog(): Catalog = DefaultCatalog.DEFAULT_CATALOG
 
     override fun getSequences(): List<Sequence<*>> = listOf(
         POSTS_ID_SEQ,
-        USERS_ID_SEQ
+        USERS_ID_SEQ,
+        WORKOUT_ID_SEQ,
+        WORKOUT_SET_ID_SEQ
     )
 
     override fun getTables(): List<Table<*>> = listOf(
         Posts.POSTS,
-        Users.USERS
+        Users.USERS,
+        Workout.WORKOUT,
+        WorkoutSet.WORKOUT_SET
     )
 }
