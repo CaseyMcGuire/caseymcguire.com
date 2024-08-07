@@ -10,6 +10,7 @@
     "target": "ES2019",
     "moduleResolution": "node",
     "jsx": "react",
-    "allowJs": false
+    "allowJs": false,
+    "allowSyntheticDefaultImports": true
   }
 }
