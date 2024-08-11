@@ -1,6 +1,8 @@
 package com.caseymcguiredotcom.dao
 
 import com.caseymcguiredotcom.lib.Time
+import com.caseymcguiredotcom.lib.exceptions.EntityNotFoundException
+import generated.jooq.tables.pojos.WorkoutSet
 import generated.jooq.tables.references.WORKOUT
 import generated.jooq.tables.references.WORKOUT_SET
 import models.Workout
@@ -14,17 +16,45 @@ class WorkoutDao(
 ) {
 
   fun getWorkouts(userId: Int, offset: Int): List<Workout> {
-    return context
+    val workouts = context
       .select()
       .from(WORKOUT)
-      .join(WORKOUT_SET)
-      .on(WORKOUT.ID.eq(WORKOUT_SET.WORKOUT_ID))
       .where(WORKOUT.USER_ID.eq(userId))
       .fetchArray()
-      .map { it.into(Workout::class.java) }
+      .map { it.into(generated.jooq.tables.pojos.Workout::class.java) }
+
+    val workoutIds = workouts.mapNotNull { it.id }
+
+    val sets = context
+      .select()
+      .from(WORKOUT_SET)
+      .where(WORKOUT_SET.WORKOUT_ID.`in`(workoutIds))
+      .fetchArray()
+      .map { it.into(WorkoutSet::class.java) }
+
+    val workoutIdToSet = sets.groupBy { it.workoutId }
+    return workouts.map { Workout(it, workoutIdToSet[it.id!!] ?: emptyList()) }
   }
 
-  fun createWorkout(userId: Int, description: String): Int? {
+  fun getWorkout(workoutId: Int): Workout? {
+
+    val workout = context.select()
+      .from(WORKOUT)
+      .where(WORKOUT.ID.eq(workoutId))
+      .fetchOne()
+      ?.into(generated.jooq.tables.pojos.Workout::class.java)
+      ?: return null
+
+    val sets = context.select()
+      .from(WORKOUT_SET)
+      .where(WORKOUT_SET.WORKOUT_ID.eq(workoutId))
+      .fetchArray()
+      .map { it.into(WorkoutSet::class.java) }
+
+    return Workout(workout, sets)
+  }
+
+  fun createWorkout(userId: Int, description: String?): Int? {
     return context
       .insertInto(
         WORKOUT,
@@ -50,7 +80,7 @@ class WorkoutDao(
     exerciseType: ExerciseType,
     numReps: Int,
     weight: Int
-  ): Int? {
+  ): Int {
     return context.insertInto(
       WORKOUT_SET,
       WORKOUT_SET.WORKOUT_ID,
@@ -75,11 +105,16 @@ class WorkoutDao(
       .returningResult(WORKOUT_SET.ID)
       .fetchOne()
       ?.value1()
+      ?: throw EntityNotFoundException()
   }
 }
 
 enum class ExerciseType {
-  DUMBBELL_BENCH_PRESS
+  DUMBBELL_BENCH_PRESS;
+
+  fun toGraphqlType(): com.caseymcguiredotcom.codegen.graphql.types.ExerciseType {
+    return com.caseymcguiredotcom.codegen.graphql.types.ExerciseType.valueOf(this.name)
+  }
 }
 
 enum class UnitOfMass {

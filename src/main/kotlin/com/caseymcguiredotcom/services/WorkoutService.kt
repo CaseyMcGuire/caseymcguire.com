@@ -1,0 +1,60 @@
+package com.caseymcguiredotcom.services
+
+import com.caseymcguiredotcom.dao.ExerciseType
+import com.caseymcguiredotcom.dao.WorkoutDao
+import com.caseymcguiredotcom.lib.UserProvider
+import com.caseymcguiredotcom.lib.exceptions.EntityNotFoundException
+import com.caseymcguiredotcom.lib.exceptions.PermissionDeniedException
+import com.caseymcguiredotcom.lib.exceptions.UserNotLoggedInException
+import models.Workout
+import org.springframework.stereotype.Component
+
+@Component
+class WorkoutService(
+  private val workoutDao: WorkoutDao,
+  private val userProvider: UserProvider
+) {
+
+  fun getWorkouts(): List<Workout> {
+    val userId = userProvider.getLoggedInUser()?.getId()
+      ?: throw UserNotLoggedInException()
+    return workoutDao.getWorkouts(userId, 0)
+  }
+
+  fun createWorkout(description: String?): Workout? {
+    val userId = userProvider.getLoggedInUser()?.getId()
+      ?: throw UserNotLoggedInException()
+    val workoutId = workoutDao.createWorkout(userId, description)
+      ?: return null
+    return workoutDao.getWorkout(workoutId)
+  }
+
+  fun addSet(
+    workoutId: Int,
+    description: String,
+    exerciseType: ExerciseType,
+    numReps: Int,
+    weight: Int
+  ): Workout {
+    val userId = userProvider.getLoggedInUser()?.getId()
+      ?: throw UserNotLoggedInException()
+    val workout = workoutDao.getWorkout(workoutId)
+      ?: throw EntityNotFoundException()
+
+    if (workout.userId != userId) {
+      throw PermissionDeniedException()
+    }
+
+    workoutDao.insertWorkoutSet(
+      workoutId,
+      description,
+      exerciseType,
+      numReps,
+      weight
+    )
+
+    return workoutDao.getWorkout(workoutId)
+      ?: throw EntityNotFoundException()
+  }
+
+}
