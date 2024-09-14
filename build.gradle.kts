@@ -40,6 +40,7 @@ dependencies {
   implementation("org.postgresql:postgresql:42.2.14")
   implementation("org.flywaydb:flyway-core:9.16.0")
   implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.17.1")
+  implementation("org.jetbrains.kotlinx:kotlinx-html-jvm:0.8.0")
 }
 
 val herokuEnvironmentMap = mapOf(

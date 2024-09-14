@@ -4,7 +4,8 @@ module.exports = {
   entry: {
     index: './src/main/web-frontend/AppRoot',
     movies: './src/main/web-frontend/projects/MovieApp/MovieAppRoot',
-    graphiql: './src/main/web-frontend/projects/Graphiql/GraphiqlPage'
+    graphiql: './src/main/web-frontend/projects/Graphiql/GraphiqlPage',
+    workout: './src/main/web-frontend/projects/WorkoutTracker/WorkoutTrackerRoot'
   },
   resolve: {
     // Add '.ts' and '.tsx' as resolvable extensions.
