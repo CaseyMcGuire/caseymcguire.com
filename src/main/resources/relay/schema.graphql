@@ -1,0 +1,111 @@
+"""
+type Query {
+  workoutTracker: WorkoutTracker
+  leetcode: LeetCodeRoot
+  currentUser: User
+  post(id: Int!): Post
+  posts(count: Int!, offset: Int!): PostPage!
+  movieApi: MovieApi
+}
+
+type WorkoutTracker {
+  workouts: [Workout]
+}
+
+type Workout {
+  id: ID!
+  description: String
+  sets: [WorkoutSet]!
+}
+
+type WorkoutSet {
+  id: ID!
+  description: String
+  exerciseType: ExerciseType!
+  numReps: Int!
+  weight: Int!
+}
+
+enum ExerciseType {
+  DUMBBELL_BENCH_PRESS
+}
+
+interface WorkoutMutationResponse {
+  success: Boolean!
+}
+
+type SuccessfulWorkoutMutationResponse implements WorkoutMutationResponse {
+  success: Boolean!
+  workout: Workout
+}
+
+type FailedWorkoutMutationResponse implements WorkoutMutationResponse {
+  success: Boolean!
+  userFacingErrorMessage: String
+}
+
+type LeetCodeRoot {
+  problems: [LeetcodeProblem]
+}
+
+type LeetcodeProblem {
+  id: Int!
+  name: String!
+  url: String!
+  topics: [LeetcodeTopic!]!
+  difficulty: LeetcodeDifficulty!
+}
+
+enum LeetcodeTopic {
+  LINKED_LIST
+  HASH_TABLE
+  BINARY_SEARCH
+}
+
+enum LeetcodeDifficulty {
+  EASY
+  MEDIUM
+  HARD
+}
+
+type Mutation {
+  createOrEditPost(content: String!, id: Int, title: String!): Int
+  register(email: String!, password: String!): Boolean!
+}
+
+type Post {
+  contents: String!
+  id: Int!
+  published_date: String!
+  title: String!
+}
+
+type PostPage {
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+  posts: [Post!]!
+}
+
+type User {
+  email: String!
+  id: Int!
+  isAdmin: Boolean!
+}
+
+type MovieApi {
+  movie(id: String!): Movie
+  movieList(listType: MovieListType): [Movie]
+}
+
+enum MovieListType {
+  NOW_PLAYING
+  POPULAR
+  TOP_RATED
+  UPCOMING
+}
+
+type Movie {
+  title: String
+  backdropPath: String
+}
+"""
