@@ -1,10 +1,47 @@
 """
 type Query {
+  workoutTracker: WorkoutTracker
   leetcode: LeetCodeRoot
   currentUser: User
   post(id: Int!): Post
   posts(count: Int!, offset: Int!): PostPage!
   movieApi: MovieApi
+}
+
+type WorkoutTracker {
+  workouts: [Workout]
+}
+
+type Workout {
+  id: ID!
+  description: String
+  sets: [WorkoutSet]!
+}
+
+type WorkoutSet {
+  id: ID!
+  description: String
+  exerciseType: ExerciseType!
+  numReps: Int!
+  weight: Int!
+}
+
+enum ExerciseType {
+  DUMBBELL_BENCH_PRESS
+}
+
+interface WorkoutMutationResponse {
+  success: Boolean!
+}
+
+type SuccessfulWorkoutMutationResponse implements WorkoutMutationResponse {
+  success: Boolean!
+  workout: Workout
+}
+
+type FailedWorkoutMutationResponse implements WorkoutMutationResponse {
+  success: Boolean!
+  userFacingErrorMessage: String
 }
 
 type LeetCodeRoot {
