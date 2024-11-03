@@ -4,10 +4,12 @@
 package generated.jooq.keys
 
 
+import generated.jooq.tables.Exercise
 import generated.jooq.tables.Posts
 import generated.jooq.tables.Users
 import generated.jooq.tables.Workout
 import generated.jooq.tables.WorkoutSet
+import generated.jooq.tables.records.ExerciseRecord
 import generated.jooq.tables.records.PostsRecord
 import generated.jooq.tables.records.UsersRecord
 import generated.jooq.tables.records.WorkoutRecord
@@ -24,6 +26,7 @@ import org.jooq.impl.Internal
 // UNIQUE and PRIMARY KEY definitions
 // -------------------------------------------------------------------------
 
+val EXERCISE_PKEY: UniqueKey<ExerciseRecord> = Internal.createUniqueKey(Exercise.EXERCISE, DSL.name("exercise_pkey"), arrayOf(Exercise.EXERCISE.ID), true)
 val POSTS_PKEY: UniqueKey<PostsRecord> = Internal.createUniqueKey(Posts.POSTS, DSL.name("posts_pkey"), arrayOf(Posts.POSTS.ID), true)
 val USERS_EMAIL_KEY: UniqueKey<UsersRecord> = Internal.createUniqueKey(Users.USERS, DSL.name("users_email_key"), arrayOf(Users.USERS.EMAIL), true)
 val USERS_PKEY: UniqueKey<UsersRecord> = Internal.createUniqueKey(Users.USERS, DSL.name("users_pkey"), arrayOf(Users.USERS.ID), true)
@@ -36,4 +39,5 @@ val WORKOUT_SET_PKEY: UniqueKey<WorkoutSetRecord> = Internal.createUniqueKey(Wor
 
 val POSTS__FK_ID: ForeignKey<PostsRecord, UsersRecord> = Internal.createForeignKey(Posts.POSTS, DSL.name("fk_id"), arrayOf(Posts.POSTS.USER_ID), generated.jooq.keys.USERS_PKEY, arrayOf(Users.USERS.ID), true)
 val WORKOUT__FK_USER: ForeignKey<WorkoutRecord, UsersRecord> = Internal.createForeignKey(Workout.WORKOUT, DSL.name("fk_user"), arrayOf(Workout.WORKOUT.USER_ID), generated.jooq.keys.USERS_PKEY, arrayOf(Users.USERS.ID), true)
+val WORKOUT_SET__FK_EXERCISE: ForeignKey<WorkoutSetRecord, ExerciseRecord> = Internal.createForeignKey(WorkoutSet.WORKOUT_SET, DSL.name("fk_exercise"), arrayOf(WorkoutSet.WORKOUT_SET.EXERCISE_ID), generated.jooq.keys.EXERCISE_PKEY, arrayOf(Exercise.EXERCISE.ID), true)
 val WORKOUT_SET__FK_WORKOUT: ForeignKey<WorkoutSetRecord, WorkoutRecord> = Internal.createForeignKey(WorkoutSet.WORKOUT_SET, DSL.name("fk_workout"), arrayOf(WorkoutSet.WORKOUT_SET.WORKOUT_ID), generated.jooq.keys.WORKOUT_PKEY, arrayOf(Workout.WORKOUT.ID), true)

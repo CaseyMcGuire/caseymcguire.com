@@ -4,12 +4,18 @@
 package generated.jooq.tables.references
 
 
+import generated.jooq.tables.Exercise
 import generated.jooq.tables.Posts
 import generated.jooq.tables.Users
 import generated.jooq.tables.Workout
 import generated.jooq.tables.WorkoutSet
 
 
+
+/**
+ * The table <code>public.exercise</code>.
+ */
+val EXERCISE = Exercise.EXERCISE
 
 /**
  * The table <code>public.posts</code>.

@@ -141,11 +141,11 @@ val dbUrl = envVariables.getValue("DB_URL")
 // NOTE: these configurations are only for running flyway from the command line, not from inside spring. Those are
 // configured separately by Spring itself
 // (https://docs.spring.io/spring-boot/docs/current/reference/html/appendix-application-properties.html#spring.flyway.baseline-description)
-//flyway {
-//  url = dbUrl
-//  user = dbUser
-//  password = dbPassword
-//}
+flyway {
+  url = dbUrl
+  user = dbUser
+  password = dbPassword
+}
 
 
 node {

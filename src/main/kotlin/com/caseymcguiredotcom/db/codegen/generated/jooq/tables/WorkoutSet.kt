@@ -6,6 +6,7 @@ package generated.jooq.tables
 
 import generated.jooq.Public
 import generated.jooq.keys.WORKOUT_SET_PKEY
+import generated.jooq.keys.WORKOUT_SET__FK_EXERCISE
 import generated.jooq.keys.WORKOUT_SET__FK_WORKOUT
 import generated.jooq.tables.records.WorkoutSetRecord
 
@@ -18,7 +19,7 @@ import org.jooq.ForeignKey
 import org.jooq.Identity
 import org.jooq.Name
 import org.jooq.Record
-import org.jooq.Row9
+import org.jooq.Row10
 import org.jooq.Schema
 import org.jooq.Table
 import org.jooq.TableField
@@ -108,6 +109,11 @@ class WorkoutSet(
      */
     val UPDATED_AT: TableField<WorkoutSetRecord, LocalDateTime?> = createField(DSL.name("updated_at"), SQLDataType.LOCALDATETIME(6).nullable(false), this, "")
 
+    /**
+     * The column <code>public.workout_set.exercise_id</code>.
+     */
+    val EXERCISE_ID: TableField<WorkoutSetRecord, Int?> = createField(DSL.name("exercise_id"), SQLDataType.INTEGER, this, "")
+
     private constructor(alias: Name, aliased: Table<WorkoutSetRecord>?): this(alias, null, null, aliased, null)
     private constructor(alias: Name, aliased: Table<WorkoutSetRecord>?, parameters: Array<Field<*>?>?): this(alias, null, null, aliased, parameters)
 
@@ -131,8 +137,9 @@ class WorkoutSet(
     override fun getIdentity(): Identity<WorkoutSetRecord, Int?> = super.getIdentity() as Identity<WorkoutSetRecord, Int?>
     override fun getPrimaryKey(): UniqueKey<WorkoutSetRecord> = WORKOUT_SET_PKEY
     override fun getKeys(): List<UniqueKey<WorkoutSetRecord>> = listOf(WORKOUT_SET_PKEY)
-    override fun getReferences(): List<ForeignKey<WorkoutSetRecord, *>> = listOf(WORKOUT_SET__FK_WORKOUT)
+    override fun getReferences(): List<ForeignKey<WorkoutSetRecord, *>> = listOf(WORKOUT_SET__FK_WORKOUT, WORKOUT_SET__FK_EXERCISE)
     fun workout(): Workout = Workout(this, WORKOUT_SET__FK_WORKOUT)
+    fun exercise(): Exercise = Exercise(this, WORKOUT_SET__FK_EXERCISE)
     override fun `as`(alias: String): WorkoutSet = WorkoutSet(DSL.name(alias), this)
     override fun `as`(alias: Name): WorkoutSet = WorkoutSet(alias, this)
 
@@ -147,7 +154,7 @@ class WorkoutSet(
     override fun rename(name: Name): WorkoutSet = WorkoutSet(name, null)
 
     // -------------------------------------------------------------------------
-    // Row9 type methods
+    // Row10 type methods
     // -------------------------------------------------------------------------
-    override fun fieldsRow(): Row9<Int?, Int?, String?, String?, Int?, Int?, String?, LocalDateTime?, LocalDateTime?> = super.fieldsRow() as Row9<Int?, Int?, String?, String?, Int?, Int?, String?, LocalDateTime?, LocalDateTime?>
+    override fun fieldsRow(): Row10<Int?, Int?, String?, String?, Int?, Int?, String?, LocalDateTime?, LocalDateTime?, Int?> = super.fieldsRow() as Row10<Int?, Int?, String?, String?, Int?, Int?, String?, LocalDateTime?, LocalDateTime?, Int?>
 }

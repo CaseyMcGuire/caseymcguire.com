@@ -4,10 +4,12 @@
 package generated.jooq
 
 
+import generated.jooq.sequences.EXERCISE_ID_SEQ
 import generated.jooq.sequences.POSTS_ID_SEQ
 import generated.jooq.sequences.USERS_ID_SEQ
 import generated.jooq.sequences.WORKOUT_ID_SEQ
 import generated.jooq.sequences.WORKOUT_SET_ID_SEQ
+import generated.jooq.tables.Exercise
 import generated.jooq.tables.Posts
 import generated.jooq.tables.Users
 import generated.jooq.tables.Workout
@@ -35,6 +37,11 @@ class Public : SchemaImpl("public", DefaultCatalog.DEFAULT_CATALOG) {
     }
 
     /**
+     * The table <code>public.exercise</code>.
+     */
+    val EXERCISE get() = Exercise.EXERCISE
+
+    /**
      * The table <code>public.posts</code>.
      */
     val POSTS get() = Posts.POSTS
@@ -57,6 +64,7 @@ class Public : SchemaImpl("public", DefaultCatalog.DEFAULT_CATALOG) {
     override fun getCatalog(): Catalog = DefaultCatalog.DEFAULT_CATALOG
 
     override fun getSequences(): List<Sequence<*>> = listOf(
+        EXERCISE_ID_SEQ,
         POSTS_ID_SEQ,
         USERS_ID_SEQ,
         WORKOUT_ID_SEQ,
@@ -64,6 +72,7 @@ class Public : SchemaImpl("public", DefaultCatalog.DEFAULT_CATALOG) {
     )
 
     override fun getTables(): List<Table<*>> = listOf(
+        Exercise.EXERCISE,
         Posts.POSTS,
         Users.USERS,
         Workout.WORKOUT,

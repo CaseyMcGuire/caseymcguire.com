@@ -22,5 +22,6 @@ data class WorkoutSet(
     , val unitOfMass: String? = null
     , val createdAt: LocalDateTime? = null
     , val updatedAt: LocalDateTime? = null
+    , val exerciseId: Int? = null
 ): Serializable {
 }
