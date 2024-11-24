@@ -6,6 +6,7 @@ import com.caseymcguiredotcom.lib.UserProvider
 import com.caseymcguiredotcom.lib.exceptions.EntityNotFoundException
 import com.caseymcguiredotcom.lib.exceptions.PermissionDeniedException
 import com.caseymcguiredotcom.lib.exceptions.UserNotLoggedInException
+import models.Exercise
 import models.Workout
 import org.springframework.stereotype.Component
 
@@ -55,6 +56,21 @@ class WorkoutService(
 
     return workoutDao.getWorkout(workoutId)
       ?: throw EntityNotFoundException()
+  }
+
+  fun createExercise(name: String): Int {
+    userProvider.getLoggedInUser()
+      ?: throw UserNotLoggedInException()
+    return workoutDao.createExercise(name)
+      ?: throw EntityNotFoundException()
+  }
+
+  fun getExerciseById(id: Int): Exercise? {
+    return workoutDao.getExerciseById(id)
+  }
+
+  fun getExerciseByName(name: String): Exercise? {
+    return workoutDao.getExerciseByName(name)
   }
 
 }

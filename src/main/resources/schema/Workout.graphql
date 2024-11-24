@@ -5,6 +5,7 @@ extend type Query {
 
 type WorkoutTracker {
   workouts: [Workout]
+  exerciseByName(name: String): Exercise
 }
 
 type Workout {
@@ -19,6 +20,11 @@ type WorkoutSet {
   exerciseType: ExerciseType!
   numReps: Int!
   weight: Int!
+}
+
+type Exercise {
+  id: ID!
+  name: String!
 }
 
 enum ExerciseType {

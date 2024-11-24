@@ -1,0 +1,19 @@
+extend type Mutation {
+  createExercise(
+    name: String
+  ): ExerciseMutationResponse
+}
+
+interface ExerciseMutationResponse {
+  success: Boolean!
+}
+
+type SuccessfulExerciseMutationResponse implements ExerciseMutationResponse {
+  success: Boolean!
+  exercise: Exercise!
+}
+
+type FailedExerciseMutationResponse implements ExerciseMutationResponse {
+  success: Boolean!
+  userFacingErrorMessage: String
+}

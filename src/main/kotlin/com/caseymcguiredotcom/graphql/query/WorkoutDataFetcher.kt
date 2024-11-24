@@ -2,6 +2,7 @@ package com.caseymcguiredotcom.graphql.query
 
 import com.caseymcguiredotcom.codegen.graphql.DgsConstants
 import com.caseymcguiredotcom.codegen.graphql.types.*
+import com.caseymcguiredotcom.lib.exceptions.EntityNotFoundException
 import com.caseymcguiredotcom.services.WorkoutService
 import com.netflix.graphql.dgs.DgsComponent
 import com.netflix.graphql.dgs.DgsData
@@ -14,9 +15,14 @@ class WorkoutDataFetcher(
 ) {
 
   companion object {
-    val FAILED_RESPONSE = FailedWorkoutMutationResponse(
+    val DEFAULT_FAILED_WORKOUT_RESPONSE = FailedWorkoutMutationResponse(
       success = false,
       userFacingErrorMessage = "Something went wrong. Please try again"
+    )
+
+    val DEFAULT_FAILED_EXERCISE_RESPONSE = FailedExerciseMutationResponse(
+      success = false,
+      userFacingErrorMessage = "Something went wrong. Please try again."
     )
   }
 
@@ -43,11 +49,21 @@ class WorkoutDataFetcher(
     }
   }
 
+  @DgsData(parentType = DgsConstants.WORKOUTTRACKER.TYPE_NAME, field = "exerciseByName")
+  fun getExerciseByName(name: String): Exercise? {
+    return workoutService.getExerciseByName(name)?.let {
+      Exercise(
+        id = it.id.toString(),
+        name = it.name
+      )
+    }
+  }
+
   @DgsMutation
   fun createWorkout(description: String?): WorkoutMutationResponse {
     try {
       val workout = workoutService.createWorkout(description)
-        ?: return FAILED_RESPONSE
+        ?: return DEFAULT_FAILED_WORKOUT_RESPONSE
 
       return SuccessfulWorkoutMutationResponse(
         success = true,
@@ -58,7 +74,7 @@ class WorkoutDataFetcher(
         )
       )
     } catch (e: Exception) {
-      return FAILED_RESPONSE
+      return DEFAULT_FAILED_WORKOUT_RESPONSE
     }
   }
 
@@ -97,7 +113,25 @@ class WorkoutDataFetcher(
         )
       )
     } catch (e: Exception) {
-      return FAILED_RESPONSE
+      return DEFAULT_FAILED_WORKOUT_RESPONSE
+    }
+  }
+
+  @DgsMutation
+  fun createExercise(name: String): ExerciseMutationResponse {
+    try {
+      val newlyCreatedExerciseId = workoutService.createExercise(name)
+      val exercise = workoutService.getExerciseById(newlyCreatedExerciseId)
+        ?: throw EntityNotFoundException()
+      return SuccessfulExerciseMutationResponse(
+        success = true,
+        exercise = Exercise(
+          id = exercise.id.toString(),
+          name = exercise.name
+        )
+      )
+    } catch (e: Exception) {
+      return DEFAULT_FAILED_EXERCISE_RESPONSE
     }
   }
 

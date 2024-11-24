@@ -3,8 +3,10 @@ package com.caseymcguiredotcom.dao
 import com.caseymcguiredotcom.lib.Time
 import com.caseymcguiredotcom.lib.exceptions.EntityNotFoundException
 import generated.jooq.tables.pojos.WorkoutSet
+import generated.jooq.tables.references.EXERCISE
 import generated.jooq.tables.references.WORKOUT
 import generated.jooq.tables.references.WORKOUT_SET
+import models.Exercise
 import models.Workout
 import org.jooq.DSLContext
 import org.springframework.stereotype.Component
@@ -106,6 +108,33 @@ class WorkoutDao(
       .fetchOne()
       ?.value1()
       ?: throw EntityNotFoundException()
+  }
+
+  fun createExercise(name: String): Int? {
+    return context.insertInto(
+      EXERCISE,
+      EXERCISE.NAME
+    )
+      .values(
+        name
+      )
+      .returningResult(EXERCISE.ID)
+      .fetchOne()
+      ?.value1()
+  }
+
+  fun getExerciseById(id: Int): Exercise? {
+    return context.select()
+      .from(EXERCISE)
+      .where(EXERCISE.ID.eq(id))
+      .fetchOneInto(Exercise::class.java)
+  }
+
+  fun getExerciseByName(name: String): Exercise? {
+    return context.select()
+      .from(EXERCISE)
+      .where(EXERCISE.NAME.eq(name))
+      .fetchOneInto(Exercise::class.java)
   }
 }
 

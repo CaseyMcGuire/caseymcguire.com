@@ -27,3 +27,8 @@ data class WorkoutSet(
   val weight: Int,
   val exerciseType: ExerciseType
 )
+
+data class Exercise(
+  val id: Int,
+  val name: String
+)
