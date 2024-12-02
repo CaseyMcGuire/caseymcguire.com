@@ -43,6 +43,6 @@ class MainController {
   @GetMapping("/workout")
   @ResponseBody
   fun workout(): String {
-    return BasePage()
+    return BasePage("workout")
   }
 }

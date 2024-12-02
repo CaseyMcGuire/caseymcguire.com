@@ -3,7 +3,7 @@ package com.caseymcguiredotcom.views
 import kotlinx.html.*
 import kotlinx.html.stream.createHTML
 
-fun BasePage(): String =
+fun BasePage(bundleName: String): String =
   createHTML().html {
     head {
       meta(charset = "UTF-8")
@@ -39,7 +39,7 @@ fun BasePage(): String =
       div {
         attributes["id"] = "root"
       }
-      script(src = "/bundles/workout.bundle.js") {}
+      script(src = "/bundles/${bundleName}.bundle.js") {}
     }
   }
 
