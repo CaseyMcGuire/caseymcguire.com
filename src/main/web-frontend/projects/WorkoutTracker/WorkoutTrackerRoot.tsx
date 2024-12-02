@@ -1,6 +1,7 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 import {graphql} from "react-relay";
+import {createBrowserRouter, Link, RouterProvider} from "react-router-dom";
 
 export function WorkoutTrackerRoot() {
   const query = graphql`
@@ -14,11 +15,23 @@ export function WorkoutTrackerRoot() {
     }
   `
   return <div>
-    Workout Tracker!
+    <Link to={"/workout/12"}>Workout Tracker!</Link>
   </div>
 }
 
+
+const router = createBrowserRouter([
+  {
+    path: "/workout",
+    element: <WorkoutTrackerRoot />,
+  },
+  {
+    path: "/workout/:id",
+    element: <div>hello</div>
+  }
+]);
+
 ReactDOM.render(
-  <WorkoutTrackerRoot />,
+  <RouterProvider router={router} />,
   document.getElementById("root")
 );

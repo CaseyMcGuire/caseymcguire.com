@@ -39,7 +39,7 @@
     "react-dom": "^18.2.0",
     "react-jss": "^10.0.4",
     "react-relay": "^16.2.0",
-    "react-router-dom": "^6.22.1",
+    "react-router-dom": "^7.0.1",
     "relay-runtime": "^16.2.0",
     "webfontloader": "^1.6.28"
   },
