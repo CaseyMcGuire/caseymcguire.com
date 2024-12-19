@@ -11,7 +11,8 @@ const useStyles = createUseStyles({
     height: '100%',
     width: SIDEBAR_WIDTH,
     borderRight: 'solid 1px rgb(229, 231, 235)',
-    position: 'fixed'
+    position: 'fixed',
+    overflowY: 'scroll'
   },
   header: {
     display: 'flex',
