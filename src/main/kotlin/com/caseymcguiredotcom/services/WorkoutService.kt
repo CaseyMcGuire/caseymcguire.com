@@ -8,9 +8,11 @@ import com.caseymcguiredotcom.lib.exceptions.PermissionDeniedException
 import com.caseymcguiredotcom.lib.exceptions.UserNotLoggedInException
 import models.Exercise
 import models.Workout
+import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.stereotype.Component
 
 @Component
+@PreAuthorize("hasRole('ADMIN')")
 class WorkoutService(
   private val workoutDao: WorkoutDao,
   private val userProvider: UserProvider

@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<2e28fd5be2528c820d5d8d16d1e863ef>>
+ * @generated SignedSource<<e69d04e84d8f516e11f058007b635717>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -9,8 +9,8 @@
 // @ts-nocheck
 
 import { ConcreteRequest, Query } from 'relay-runtime';
-export type WorkoutTrackerRootQuery$variables = {};
-export type WorkoutTrackerRootQuery$data = {
+export type WorkoutTrackerHomePageQuery$variables = {};
+export type WorkoutTrackerHomePageQuery$data = {
   readonly workoutTracker: {
     readonly workouts: ReadonlyArray<{
       readonly description: string | null;
@@ -18,9 +18,9 @@ export type WorkoutTrackerRootQuery$data = {
     } | null> | null;
   } | null;
 };
-export type WorkoutTrackerRootQuery = {
-  response: WorkoutTrackerRootQuery$data;
-  variables: WorkoutTrackerRootQuery$variables;
+export type WorkoutTrackerHomePageQuery = {
+  response: WorkoutTrackerHomePageQuery$data;
+  variables: WorkoutTrackerHomePageQuery$variables;
 };
 
 const node: ConcreteRequest = (function(){
@@ -67,7 +67,7 @@ return {
     "argumentDefinitions": [],
     "kind": "Fragment",
     "metadata": null,
-    "name": "WorkoutTrackerRootQuery",
+    "name": "WorkoutTrackerHomePageQuery",
     "selections": (v0/*: any*/),
     "type": "Query",
     "abstractKey": null
@@ -76,20 +76,20 @@ return {
   "operation": {
     "argumentDefinitions": [],
     "kind": "Operation",
-    "name": "WorkoutTrackerRootQuery",
+    "name": "WorkoutTrackerHomePageQuery",
     "selections": (v0/*: any*/)
   },
   "params": {
-    "cacheID": "479bddc3f84fad52853d68a3d53f18c1",
+    "cacheID": "573835aa6dc07271c991333ad6ed0b66",
     "id": null,
     "metadata": {},
-    "name": "WorkoutTrackerRootQuery",
+    "name": "WorkoutTrackerHomePageQuery",
     "operationKind": "query",
-    "text": "query WorkoutTrackerRootQuery {\n  workoutTracker {\n    workouts {\n      id\n      description\n    }\n  }\n}\n"
+    "text": "query WorkoutTrackerHomePageQuery {\n  workoutTracker {\n    workouts {\n      id\n      description\n    }\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "c4df91cfcaf8065c657704f5189af526";
+(node as any).hash = "9a974e327518496eb58dd75a1fb0ed2c";
 
 export default node;

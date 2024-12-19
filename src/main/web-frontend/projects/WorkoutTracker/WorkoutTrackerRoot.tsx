@@ -1,37 +1,39 @@
-import * as React from "react";
+import {createBrowserRouter, RouterProvider} from "react-router-dom";
 import * as ReactDOM from "react-dom";
-import {graphql} from "react-relay";
-import {createBrowserRouter, Link, RouterProvider} from "react-router-dom";
-
-export function WorkoutTrackerRoot() {
-  const query = graphql`
-    query WorkoutTrackerRootQuery {
-      workoutTracker {
-        workouts {
-          id
-          description
-        }
-      }
-    }
-  `
-  return <div>
-    <Link to={"/workout/12"}>Workout Tracker!</Link>
-  </div>
-}
-
+import * as React from "react";
+import {WorkoutTrackerHomePage} from "./pages/WorkoutTrackerHomePage";
+import {RelayConfig} from "../../relay/RelayConfig";
+import {RelayEnvironmentProvider} from "react-relay/hooks";
+import {Suspense} from "react";
 
 const router = createBrowserRouter([
   {
-    path: "/workout",
-    element: <WorkoutTrackerRoot />,
+    path: "/workout_tracker",
+    element: <WorkoutTrackerHomePage text={"Home"}/>,
   },
   {
-    path: "/workout/:id",
-    element: <div>hello</div>
+    path: "/workout_tracker/workout",
+    element: <WorkoutTrackerHomePage text={"Workouts"} />
+  },
+  {
+    path: "/workout_tracker/workout/:id",
+    element: <WorkoutTrackerHomePage text="Workout specific"/>
+  },
+  {
+    path: "/workout_tracker/workout/create",
+    element: <WorkoutTrackerHomePage text="Create Workout"/>
+  },
+  {
+    path: "/workout_tracker/workout",
+    element: <WorkoutTrackerHomePage text={"Workout History"}/>,
   }
 ]);
 
 ReactDOM.render(
-  <RouterProvider router={router} />,
+  <RelayEnvironmentProvider environment={RelayConfig.getEnvironment()}>
+    <Suspense fallback={<div>Loading</div>}>
+      <RouterProvider router={router} />
+    </Suspense>
+  </RelayEnvironmentProvider>,
   document.getElementById("root")
 );

@@ -1,0 +1,160 @@
+import * as React from "react";
+import {createUseStyles} from "react-jss";
+import {Dumbbell, LayoutDashboard, LucideIcon, Plus} from "lucide-react";
+import {combineClasses} from "../../../utils/CssUtils";
+import {Link} from "react-router-dom";
+
+export const SIDEBAR_WIDTH = '256px';
+
+const useStyles = createUseStyles({
+  body: {
+    height: '100%',
+    width: SIDEBAR_WIDTH,
+    borderRight: 'solid 1px rgb(229, 231, 235)',
+    position: 'fixed'
+  },
+  header: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: '16',
+    borderBottom: 'solid 1px rgb(229, 231, 235)'
+  },
+  headerTitle: {
+    marginLeft: '8px',
+    fontSize: '20px',
+    fontWeight: '700'
+  },
+  menuItemsContainer: {
+    padding: '16px 0px'
+  }
+})
+
+export default function WorkoutSidebar() {
+  const styles = useStyles();
+  return (
+    <div className={styles.body}>
+      <div className={styles.header}>
+        <Dumbbell size={"2rem"} color="rgb(59, 130, 246)"/>
+        <div className={styles.headerTitle}>FitTrack</div>
+      </div>
+      <div className={styles.menuItemsContainer}>
+        {
+          MENU_ITEMS.map((item) => {
+            return <WorkoutSidebarMenuItem {...item} />
+          })
+        }
+      </div>
+    </div>
+  )
+}
+
+
+const MENU_ITEMS: MenuItemProps[] = [
+  {
+    text: "Dashboard",
+    isSelected: true,
+    icon: LayoutDashboard,
+    link: "/workout_tracker"
+  },
+  {
+    text: "New Workout",
+    isSelected: false,
+    icon: Plus,
+    link: "/workout_tracker/workout/create"
+  },
+  {
+    text: "Exercises",
+    isSelected: false,
+    icon: Dumbbell,
+    link: "/workout_tracker/workout/exercises"
+  },
+  {
+    text: "History",
+    isSelected: false,
+    icon: Dumbbell,
+    link: "/workout_tracker/workout/history"
+  }
+]
+
+type MenuItemProps = {
+  text: string,
+  isSelected: boolean,
+  icon: LucideIcon,
+  link: string
+}
+
+const useMenuItemStyles = createUseStyles({
+  menuItemContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    margin: '0px 8px',
+    padding: '12px 16px',
+    borderRadius: '6px'
+  },
+  menuItemContainerNotSelected: {
+    '&:hover': {
+      backgroundColor: 'rgba(0, 0, 0, 0.05)'
+    }
+  },
+  menuItemContainerSelected: {
+    backgroundColor: 'rgb(219, 234, 254)',
+    '&:hover': {
+      backgroundColor: 'rgb(197, 211, 229)'
+    }
+  },
+  link: {
+    textDecoration: 'none'
+  },
+  menuItemText: {
+    marginLeft: '12px',
+    fontSize: '.875rem',
+    fontWeight: '500',
+    color: 'rgb(107, 114, 128)'
+  },
+  menuItemTextSelected: {
+    color: 'rgb(29, 78, 216)'
+  }
+})
+
+function WorkoutSidebarMenuItem(props: MenuItemProps) {
+  const styles = useMenuItemStyles();
+  const containerClasses = combineClasses([
+    {
+      className: styles.menuItemContainer,
+      include: true
+    },
+    {
+      className: styles.menuItemContainerSelected,
+      include: props.isSelected
+    },
+    {
+      className: styles.menuItemContainerNotSelected,
+      include: !props.isSelected
+    }
+  ]);
+
+  const textClass = combineClasses([
+    {
+      className: styles.menuItemText,
+      include: true
+    },
+    {
+      className: styles.menuItemTextSelected,
+      include: props.isSelected
+    }
+  ]);
+
+  const color = props.isSelected ? "rgb(29, 78, 216)" : "rgb(107, 114, 128)"
+
+  return (
+    <Link className={styles.link} to={props.link}>
+      <div className={containerClasses}>
+        <props.icon color={color} size={24} />
+        <div className={textClass}>{props.text}</div>
+      </div>
+    </Link>
+  )
+}
+

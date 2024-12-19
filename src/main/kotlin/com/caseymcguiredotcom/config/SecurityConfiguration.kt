@@ -1,5 +1,6 @@
 package com.caseymcguiredotcom.config
 
+import com.caseymcguiredotcom.controllers.WorkoutTrackerController
 import com.caseymcguiredotcom.services.UserDetailsServiceImpl
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration

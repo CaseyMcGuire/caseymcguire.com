@@ -1,6 +1,7 @@
 package com.caseymcguiredotcom.controllers
 
 import com.caseymcguiredotcom.views.BasePage
+import org.springframework.context.annotation.Configuration
 import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.ResponseBody
@@ -38,11 +39,5 @@ class MainController {
   @GetMapping("/graphiql")
   fun graphiql(): String {
     return "graphiql"
-  }
-
-  @GetMapping("/workout")
-  @ResponseBody
-  fun workout(): String {
-    return BasePage("workout")
   }
 }

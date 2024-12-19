@@ -17,7 +17,7 @@ plugins {
 
 dependencyManagement {
   imports {
-    mavenBom("com.netflix.graphql.dgs:graphql-dgs-platform-dependencies:latest.release")
+    mavenBom("com.netflix.graphql.dgs:graphql-dgs-platform-dependencies:9.2.2")
     mavenBom("org.springframework.boot:spring-boot-dependencies:${springVersion}")
   }
 }
