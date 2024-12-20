@@ -1,9 +1,9 @@
-import fs from "fs";
 
 import {join} from "path";
 
 import { makeExecutableSchema } from '@graphql-tools/schema'
 import { printSchema } from "graphql/utilities";
+import fs from "fs";
 
 /**
  * DGS supports defining your GraphQL schema across multiple files whereas Relay does not. As such,
@@ -12,17 +12,15 @@ import { printSchema } from "graphql/utilities";
  */
 
 const schemaDirectory = join(__dirname, '../src/main/resources/schema');
-const existingSchemaFile = 'src/main/resources/relay/schema.graphql'
 
 function combineFiles(path: string, graphqlFiles: string[]) {
   for (const file of fs.readdirSync(path, 'utf8')) {
-    if (!file.endsWith(".graphql")) {
-      continue
-    }
     const newPath = `${path}/${file}`
     const isFile = fs.lstatSync(newPath).isFile()
     if (isFile) {
-      graphqlFiles.push(newPath)
+      if (file.endsWith(".graphql")) {
+        graphqlFiles.push(newPath)
+      }
     }
     else {
       combineFiles(newPath, graphqlFiles)

@@ -1,4 +1,4 @@
-import getGraphqlSchema from "./generateCombinedGraphQLSchema";
+import getGraphqlSchema from "./getCombinedGraphQLSchema";
 import fs from "fs";
 import { execSync } from 'child_process'
 

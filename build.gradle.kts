@@ -99,7 +99,7 @@ tasks.register("webpackDevelopment", NpmTask::class) {
 }
 
 tasks.register<NpmTask>("buildRelay") {
-  npmCommand.set(listOf("run", "relay"))
+  npmCommand.set(listOf("run", "relay-compiler"))
 }
 
 // make sure webpack runs before the processResources task so the TypeScript files are compiled before

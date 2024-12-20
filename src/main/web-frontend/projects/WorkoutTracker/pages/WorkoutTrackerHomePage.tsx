@@ -1,5 +1,4 @@
 import * as React from "react";
-import {Link} from "react-router-dom";
 import WorkoutPage from "../components/WorkoutPage";
 import {graphql} from "react-relay";
 import {useLazyLoadQuery} from "react-relay/hooks";

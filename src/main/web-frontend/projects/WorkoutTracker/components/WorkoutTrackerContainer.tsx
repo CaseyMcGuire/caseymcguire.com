@@ -27,9 +27,11 @@ export default function WorkoutTrackerContainer(props: Props) {
   const styles = useStyles();
   return (
     <div className={styles.container}>
-      <div className={styles.containerTitle}>
-        {props.title}
-      </div>
+      {
+        props.title && <div className={styles.containerTitle}>
+          {props.title}
+          </div>
+      }
       {props.children}
     </div>
   )

@@ -75,8 +75,25 @@ enum LeetcodeDifficulty {
 }
 
 type Mutation {
+  addWorkoutSet(workoutId: ID!, description: String, exerciseType: ExerciseType!, numReps: Int!, weight: Int!): WorkoutMutationResponse
+  createExercise(name: String): ExerciseMutationResponse
+  createWorkout(description: String): WorkoutMutationResponse
   createOrEditPost(content: String!, id: Int, title: String!): Int
   register(email: String!, password: String!): Boolean!
+}
+
+interface ExerciseMutationResponse {
+  success: Boolean!
+}
+
+type SuccessfulExerciseMutationResponse implements ExerciseMutationResponse {
+  success: Boolean!
+  exercise: Exercise!
+}
+
+type FailedExerciseMutationResponse implements ExerciseMutationResponse {
+  success: Boolean!
+  userFacingErrorMessage: String
 }
 
 type Post {

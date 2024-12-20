@@ -5,6 +5,7 @@ import {WorkoutTrackerHomePage} from "./pages/WorkoutTrackerHomePage";
 import {RelayConfig} from "../../relay/RelayConfig";
 import {RelayEnvironmentProvider} from "react-relay/hooks";
 import {Suspense} from "react";
+import WorkoutTrackerCreateWorkoutPage from "./pages/WorkoutTrackerCreateWorkoutPage";
 
 const router = createBrowserRouter([
   {
@@ -21,7 +22,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/workout_tracker/workout/create",
-    element: <WorkoutTrackerHomePage text="Create Workout"/>
+    element: <WorkoutTrackerCreateWorkoutPage />
   },
   {
     path: "/workout_tracker/workout",
