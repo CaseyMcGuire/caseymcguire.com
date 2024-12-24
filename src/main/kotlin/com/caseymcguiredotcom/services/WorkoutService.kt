@@ -24,6 +24,18 @@ class WorkoutService(
     return workoutDao.getWorkouts(userId, 0)
   }
 
+  fun getWorkoutById(id: Int): Workout? {
+    val userId = userProvider.getLoggedInUser()?.getId()
+      ?: throw UserNotLoggedInException()
+
+
+    val workout = workoutDao.getWorkout(id) ?: return null
+    if (workout.userId != userId) {
+      throw PermissionDeniedException()
+    }
+    return workout
+  }
+
   fun createWorkout(description: String?): Workout? {
     val userId = userProvider.getLoggedInUser()?.getId()
       ?: throw UserNotLoggedInException()

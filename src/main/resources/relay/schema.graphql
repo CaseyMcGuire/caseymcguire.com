@@ -10,6 +10,7 @@ type Query {
 
 type WorkoutTracker {
   workouts: [Workout]
+  workoutById(id: ID!): Workout
   exerciseByName(name: String): Exercise
 }
 

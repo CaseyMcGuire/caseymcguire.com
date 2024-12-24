@@ -1,13 +1,14 @@
 import * as React from "react";
 import {createUseStyles} from "react-jss";
 import {Dumbbell, LayoutDashboard, LucideIcon, Plus} from "lucide-react";
-import {combineClasses} from "../../../utils/CssUtils";
+import {combineClasses} from "utils/CssUtils";
 import {Link} from "react-router-dom";
 
 export const SIDEBAR_WIDTH = '256px';
 
 const useStyles = createUseStyles({
   body: {
+    backgroundColor: 'rgb(255, 255, 255)',
     height: '100%',
     width: SIDEBAR_WIDTH,
     borderRight: 'solid 1px rgb(229, 231, 235)',

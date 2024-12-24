@@ -4,8 +4,9 @@ import {graphql} from "react-relay";
 import {useLazyLoadQuery} from "react-relay/hooks";
 import {
   WorkoutTrackerHomePageQuery
-} from "../../../__generated__/WorkoutTrackerHomePageQuery.graphql";
+} from "__generated__/WorkoutTrackerHomePageQuery.graphql";
 import WorkoutTrackerContainer from "../components/WorkoutTrackerContainer";
+import {Link} from "react-router-dom";
 
 type Props = {
   text: string
@@ -30,7 +31,11 @@ export function WorkoutTrackerHomePage(props: Props) {
     <WorkoutTrackerContainer title={"Recent Workouts"}>
       {
         result.workoutTracker?.workouts?.map(workout => {
-          return <div>{workout?.id}</div>
+          const id = workout?.id
+          if (id == null) {
+            return null
+          }
+          return <div><Link to={`/workout_tracker/workout/${id}`}>{id}</Link></div>
         })
       }
     </WorkoutTrackerContainer>

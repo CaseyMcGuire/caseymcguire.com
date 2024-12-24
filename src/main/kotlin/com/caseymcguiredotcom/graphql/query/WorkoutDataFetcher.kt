@@ -49,6 +49,32 @@ class WorkoutDataFetcher(
     }
   }
 
+  fun models.Workout.toGraphqlType(): Workout {
+    return Workout(
+      id = this.id.toString(),
+      description = this.description,
+      sets = this.sets.map {
+        WorkoutSet(
+          id = it.id.toString(),
+          exerciseType = it.exerciseType.toGraphqlType(),
+          numReps = it.numReps,
+          weight = it.weight
+        )
+      }
+    )
+  }
+
+  @DgsData(
+    parentType = DgsConstants.WORKOUTTRACKER.TYPE_NAME,
+    field = DgsConstants.WORKOUTTRACKER.WorkoutById
+  )
+  fun getWorkoutById(id: String): Workout? {
+    val idNum = id.toIntOrNull() ?:
+      throw IllegalArgumentException("$id is not a valid ID. Must be a integer.")
+    return workoutService.getWorkoutById(idNum)
+      ?.toGraphqlType()
+  }
+
   @DgsData(parentType = DgsConstants.WORKOUTTRACKER.TYPE_NAME, field = "exerciseByName")
   fun getExerciseByName(name: String): Exercise? {
     return workoutService.getExerciseByName(name)?.let {

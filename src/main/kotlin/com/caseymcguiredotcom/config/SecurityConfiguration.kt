@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.config.annotation.web.invoke
@@ -17,6 +18,7 @@ import org.springframework.security.web.csrf.CsrfTokenRequestAttributeHandler
 
 
 @EnableWebSecurity
+@EnableMethodSecurity
 @Configuration
 open class SecurityConfiguration(private val userDetailsService: UserDetailsServiceImpl){
 
@@ -50,6 +52,7 @@ open class SecurityConfiguration(private val userDetailsService: UserDetailsServ
         authorize("/posts/new", hasRole("ADMIN"))
         authorize("/posts/*/edit", hasRole("ADMIN"))
         authorize("/graphiql/**", hasRole("ADMIN"))
+        //authorize("/workout_tracker/**", hasRole("ADMIN"))
         authorize("/**", permitAll)
       }
       formLogin {

@@ -28,6 +28,9 @@ const useStyles = createUseStyles({
     padding: '32px',
     maxWidth: '1208px'
   },
+  titleContainer: {
+    marginBottom: '8px'
+  },
   title: {
     fontSize: '32px',
     fontWeight: '700'
@@ -44,7 +47,7 @@ export default function WorkoutPage(props: Props) {
           <Suspense fallback={<div>Loading</div>}>
             {
               props.title &&
-                <div>
+                <div className={styles.titleContainer}>
                     <span className={styles.title}>{props.title}</span>
                 </div>
             }
