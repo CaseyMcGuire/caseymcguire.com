@@ -12,6 +12,7 @@ type WorkoutTracker {
   workouts: [Workout]
   workoutById(id: ID!): Workout
   exerciseByName(name: String): Exercise
+  exercises: [Exercise]
 }
 
 type Workout {
@@ -23,7 +24,6 @@ type Workout {
 type WorkoutSet {
   id: ID!
   description: String
-  exerciseType: ExerciseType!
   numReps: Int!
   weight: Int!
 }
@@ -31,10 +31,6 @@ type WorkoutSet {
 type Exercise {
   id: ID!
   name: String!
-}
-
-enum ExerciseType {
-  DUMBBELL_BENCH_PRESS
 }
 
 interface WorkoutMutationResponse {
@@ -76,7 +72,7 @@ enum LeetcodeDifficulty {
 }
 
 type Mutation {
-  addWorkoutSet(workoutId: ID!, description: String, exerciseType: ExerciseType!, numReps: Int!, weight: Int!): WorkoutMutationResponse
+  addWorkoutSet(workoutId: ID!, exerciseId: ID!, description: String, numReps: Int!, weight: Int!): WorkoutMutationResponse
   createExercise(name: String): ExerciseMutationResponse
   createWorkout(description: String): WorkoutMutationResponse
   createOrEditPost(content: String!, id: Int, title: String!): Int

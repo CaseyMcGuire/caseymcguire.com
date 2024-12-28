@@ -6,6 +6,13 @@ import {Link} from "react-router-dom";
 
 export const SIDEBAR_WIDTH = '256px';
 
+export enum WorkoutSidebarMenuId {
+  DASHBOARD,
+  WORKOUT,
+  EXERCISES,
+  HISTORY
+}
+
 const useStyles = createUseStyles({
   body: {
     backgroundColor: 'rgb(255, 255, 255)',
@@ -30,9 +37,13 @@ const useStyles = createUseStyles({
   menuItemsContainer: {
     padding: '16px 0px'
   }
-})
+});
 
-export default function WorkoutSidebar() {
+type WorkoutSidebarProps = {
+  selectedMenuItemId: WorkoutSidebarMenuId
+}
+
+export default function WorkoutSidebar(props: WorkoutSidebarProps) {
   const styles = useStyles();
   return (
     <div className={styles.body}>
@@ -43,7 +54,10 @@ export default function WorkoutSidebar() {
       <div className={styles.menuItemsContainer}>
         {
           MENU_ITEMS.map((item) => {
-            return <WorkoutSidebarMenuItem {...item} />
+            return <WorkoutSidebarMenuItem
+              {...item}
+              isSelected={item.id == props.selectedMenuItemId}
+            />
           })
         }
       </div>
@@ -51,31 +65,37 @@ export default function WorkoutSidebar() {
   )
 }
 
+type MenuItemConfig = {
+  text: string,
+  icon: LucideIcon,
+  link: string,
+  id: WorkoutSidebarMenuId
+}
 
-const MENU_ITEMS: MenuItemProps[] = [
+const MENU_ITEMS: MenuItemConfig[] = [
   {
     text: "Dashboard",
-    isSelected: true,
     icon: LayoutDashboard,
-    link: "/workout_tracker"
+    link: "/workout_tracker",
+    id: WorkoutSidebarMenuId.DASHBOARD
   },
   {
     text: "New Workout",
-    isSelected: false,
     icon: Plus,
-    link: "/workout_tracker/workout/create"
+    link: "/workout_tracker/workout/create",
+    id: WorkoutSidebarMenuId.WORKOUT
   },
   {
     text: "Exercises",
-    isSelected: false,
     icon: Dumbbell,
-    link: "/workout_tracker/workout/exercises"
+    link: "/workout_tracker/exercise",
+    id: WorkoutSidebarMenuId.EXERCISES
   },
   {
     text: "History",
-    isSelected: false,
     icon: Dumbbell,
-    link: "/workout_tracker/workout/history"
+    link: "/workout_tracker/workout/history",
+    id: WorkoutSidebarMenuId.HISTORY
   }
 ]
 
@@ -83,7 +103,7 @@ type MenuItemProps = {
   text: string,
   isSelected: boolean,
   icon: LucideIcon,
-  link: string
+  link: string,
 }
 
 const useMenuItemStyles = createUseStyles({
@@ -122,6 +142,7 @@ const useMenuItemStyles = createUseStyles({
 
 function WorkoutSidebarMenuItem(props: MenuItemProps) {
   const styles = useMenuItemStyles();
+
   const containerClasses = combineClasses([
     {
       className: styles.menuItemContainer,

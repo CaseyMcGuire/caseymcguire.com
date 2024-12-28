@@ -7,6 +7,8 @@ import {RelayEnvironmentProvider} from "react-relay/hooks";
 import {Suspense} from "react";
 import WorkoutTrackerCreateWorkoutPage from "./pages/WorkoutTrackerCreateWorkoutPage";
 import WorkoutTrackerShowWorkoutPage from "./pages/WorkoutTrackerShowWorkoutPage";
+import WorkoutTrackerExerciseIndexPage from "./pages/WorkoutTrackerExercisesIndexPage";
+import WorkoutTrackerCreateExercisePage from "./pages/WorkoutTrackerCreateExercisePage";
 
 const router = createBrowserRouter([
   {
@@ -18,12 +20,20 @@ const router = createBrowserRouter([
     element: <WorkoutTrackerHomePage text={"Workouts"} />
   },
   {
-    path: "/workout_tracker/workout/:id",
-    element: <WorkoutTrackerShowWorkoutPage />
+    path: "/workout_tracker/workout/create",
+    element: <WorkoutTrackerCreateWorkoutPage />
   },
   {
-    path: "/workΩout_tracker/workout/create",
-    element: <WorkoutTrackerCreateWorkoutPage />
+    path: "/workout_tracker/exercise",
+    element: <WorkoutTrackerExerciseIndexPage />
+  },
+  {
+    path: "/workout_tracker/exercise/create",
+    element: <WorkoutTrackerCreateExercisePage />
+  },
+  {
+    path: "/workout_tracker/workout/:id",
+    element: <WorkoutTrackerShowWorkoutPage />
   },
   {
     path: "/workout_tracker/workout/:id/update",

@@ -3,6 +3,7 @@ package com.caseymcguiredotcom.services
 import com.caseymcguiredotcom.dao.ExerciseType
 import com.caseymcguiredotcom.dao.WorkoutDao
 import com.caseymcguiredotcom.lib.UserProvider
+import com.caseymcguiredotcom.lib.exceptions.DuplicateEntityException
 import com.caseymcguiredotcom.lib.exceptions.EntityNotFoundException
 import com.caseymcguiredotcom.lib.exceptions.PermissionDeniedException
 import com.caseymcguiredotcom.lib.exceptions.UserNotLoggedInException
@@ -46,15 +47,17 @@ class WorkoutService(
 
   fun addSet(
     workoutId: Int,
+    exerciseId: Int,
     description: String,
-    exerciseType: ExerciseType,
     numReps: Int,
     weight: Int
   ): Workout {
     val userId = userProvider.getLoggedInUser()?.getId()
       ?: throw UserNotLoggedInException()
     val workout = workoutDao.getWorkout(workoutId)
-      ?: throw EntityNotFoundException()
+      ?: throw EntityNotFoundException("No workout with id: $workoutId")
+    workoutDao.getExerciseById(exerciseId)
+      ?: throw EntityNotFoundException("No exercise with id: $exerciseId")
 
     if (workout.userId != userId) {
       throw PermissionDeniedException()
@@ -62,8 +65,8 @@ class WorkoutService(
 
     workoutDao.insertWorkoutSet(
       workoutId,
+      exerciseId,
       description,
-      exerciseType,
       numReps,
       weight
     )
@@ -75,6 +78,10 @@ class WorkoutService(
   fun createExercise(name: String): Int {
     userProvider.getLoggedInUser()
       ?: throw UserNotLoggedInException()
+    val existingExercise = workoutDao.getExerciseByName(name)
+    if (existingExercise != null) {
+      throw DuplicateEntityException("An exercise with name $name already exists")
+    }
     return workoutDao.createExercise(name)
       ?: throw EntityNotFoundException()
   }
@@ -85,6 +92,10 @@ class WorkoutService(
 
   fun getExerciseByName(name: String): Exercise? {
     return workoutDao.getExerciseByName(name)
+  }
+
+  fun getExercises(): List<Exercise> {
+    return workoutDao.getAllExercises()
   }
 
 }

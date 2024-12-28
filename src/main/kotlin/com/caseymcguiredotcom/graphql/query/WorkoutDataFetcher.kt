@@ -40,7 +40,6 @@ class WorkoutDataFetcher(
         sets = workout.sets.map {
           WorkoutSet(
             id = it.id.toString(),
-            exerciseType = it.exerciseType.toGraphqlType(),
             numReps = it.numReps,
             weight = it.weight
           )
@@ -56,7 +55,6 @@ class WorkoutDataFetcher(
       sets = this.sets.map {
         WorkoutSet(
           id = it.id.toString(),
-          exerciseType = it.exerciseType.toGraphqlType(),
           numReps = it.numReps,
           weight = it.weight
         )
@@ -107,18 +105,16 @@ class WorkoutDataFetcher(
   @DgsMutation
   fun addWorkoutSet(
     workoutId: String,
+    exerciseId: String,
     description: String,
-    exerciseType: ExerciseType,
     numReps: Int,
     weight: Int
   ): WorkoutMutationResponse {
     try {
       val workout = workoutService.addSet(
         workoutId.toInt(),
+        exerciseId.toInt(),
         description,
-        com.caseymcguiredotcom.dao.ExerciseType.valueOf(
-          exerciseType.name
-        ),
         numReps,
         weight
       )
@@ -131,7 +127,6 @@ class WorkoutDataFetcher(
           sets = workout.sets.map {
             WorkoutSet(
               id = it.id.toString(),
-              exerciseType = ExerciseType.DUMBBELL_BENCH_PRESS,
               numReps = it.numReps,
               weight = it.weight
             )
@@ -158,6 +153,19 @@ class WorkoutDataFetcher(
       )
     } catch (e: Exception) {
       return DEFAULT_FAILED_EXERCISE_RESPONSE
+    }
+  }
+
+  @DgsData(
+    parentType = DgsConstants.WORKOUTTRACKER.TYPE_NAME,
+    field = DgsConstants.WORKOUTTRACKER.Exercises
+  )
+  fun getExercises(): List<Exercise> {
+    return workoutService.getExercises().map {
+      Exercise(
+        id = it.id.toString(),
+        name = it.name
+      )
     }
   }
 

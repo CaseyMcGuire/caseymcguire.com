@@ -78,14 +78,15 @@ class WorkoutDao(
 
   fun insertWorkoutSet(
     workoutId: Int,
+    exerciseId: Int,
     description: String,
-    exerciseType: ExerciseType,
     numReps: Int,
     weight: Int
   ): Int {
     return context.insertInto(
       WORKOUT_SET,
       WORKOUT_SET.WORKOUT_ID,
+      WORKOUT_SET.EXERCISE_ID,
       WORKOUT_SET.DESCRIPTION,
       WORKOUT_SET.EXERCISE_TYPE,
       WORKOUT_SET.NUM_REPS,
@@ -96,8 +97,9 @@ class WorkoutDao(
     )
       .values(
         workoutId,
+        exerciseId,
         description,
-        exerciseType.name,
+        ExerciseType.NULL.name,
         numReps,
         weight,
         UnitOfMass.LB.name,
@@ -136,10 +138,17 @@ class WorkoutDao(
       .where(EXERCISE.NAME.eq(name))
       .fetchOneInto(Exercise::class.java)
   }
+
+  fun getAllExercises(): List<Exercise> {
+    return context.select()
+      .from(EXERCISE)
+      .fetchInto(Exercise::class.java)
+  }
 }
 
 enum class ExerciseType {
-  DUMBBELL_BENCH_PRESS;
+  DUMBBELL_BENCH_PRESS,
+  NULL;
 
   fun toGraphqlType(): com.caseymcguiredotcom.codegen.graphql.types.ExerciseType {
     return com.caseymcguiredotcom.codegen.graphql.types.ExerciseType.valueOf(this.name)

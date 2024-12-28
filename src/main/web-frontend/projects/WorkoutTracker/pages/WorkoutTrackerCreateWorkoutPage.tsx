@@ -1,14 +1,14 @@
 import * as React from "react";
+import {useState} from "react";
 import {graphql, useMutation} from "react-relay";
 import WorkoutPage from "projects/WorkoutTracker/components/WorkoutPage";
-import {
-  WorkoutTrackerCreateWorkoutPageMutation
-} from "__generated__/WorkoutTrackerCreateWorkoutPageMutation.graphql";
+import {WorkoutTrackerCreateWorkoutPageMutation} from "__generated__/WorkoutTrackerCreateWorkoutPageMutation.graphql";
 import {useNavigate} from "react-router-dom";
 import WorkoutTrackerContainer from "../components/WorkoutTrackerContainer";
 import {createUseStyles} from "react-jss";
 import WorkoutTrackerButton from "../components/WorkoutTrackerButton";
-import {useState} from "react";
+import WorkoutTrackerInputField from "../components/WorkoutTrackerInputField";
+import {WorkoutSidebarMenuId} from "../components/WorkoutSidebar";
 
 const useStyles = createUseStyles({
   formElementContainer: {
@@ -81,17 +81,12 @@ export default function WorkoutTrackerCreateWorkoutPage() {
   }
 
   return (
-    <WorkoutPage title={"Workout"}>
+    <WorkoutPage title={"Workout"} selectedMenuItemId={WorkoutSidebarMenuId.WORKOUT}>
       <WorkoutTrackerContainer title={"Create New Workout"}>
-        <div className={styles.formElementContainer}>
-          <label className={styles.label} htmlFor="workoutDescription">Workout Description</label>
-          <input className={styles.textInput}
-                 name="workoutDescription"
-                 type="text"
-                 onChange={event => setState({
-                   description: event.target.value
-                 })}/>
-        </div>
+        <WorkoutTrackerInputField
+          label={"workoutDescription"}
+          name={"Workout Description"}
+          handleTextChange={(text) => setState({description: text})} />
         <div className={styles.buttonContainer}>
           <WorkoutTrackerButton text={"Save"} onClick={onClick} />
         </div>

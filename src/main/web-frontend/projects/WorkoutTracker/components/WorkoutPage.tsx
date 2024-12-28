@@ -1,12 +1,16 @@
 import * as React from "react";
 import {createUseStyles} from "react-jss";
-import WorkoutSidebar, {SIDEBAR_WIDTH} from "./WorkoutSidebar";
+import WorkoutSidebar, {SIDEBAR_WIDTH, WorkoutSidebarMenuId} from "./WorkoutSidebar";
 import {Suspense} from "react";
+import WorkoutTrackerButton from "./WorkoutTrackerButton";
+import {useNavigate} from "react-router-dom";
 
 
 type Props = {
   children: React.ReactNode,
-  title?: string
+  title?: string,
+  titleLink?: string,
+  selectedMenuItemId: WorkoutSidebarMenuId,
 }
 
 const useStyles = createUseStyles({
@@ -29,6 +33,9 @@ const useStyles = createUseStyles({
     maxWidth: '1208px'
   },
   titleContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
     marginBottom: '8px'
   },
   title: {
@@ -41,15 +48,15 @@ export default function WorkoutPage(props: Props) {
   const styles = useStyles();
   return (
     <div className={styles.pageContainer}>
-      <WorkoutSidebar />
+      <WorkoutSidebar selectedMenuItemId={props.selectedMenuItemId} />
       <div className={styles.contentsContainer}>
         <div className={styles.contents}>
           <Suspense fallback={<div>Loading</div>}>
             {
-              props.title &&
-                <div className={styles.titleContainer}>
-                    <span className={styles.title}>{props.title}</span>
-                </div>
+              props.title && <WorkoutTrackerPageHeader
+                    title={props.title}
+                    link={props.titleLink}
+                />
             }
             {props.children}
           </Suspense>
@@ -57,4 +64,24 @@ export default function WorkoutPage(props: Props) {
       </div>
     </div>
   )
+}
+
+type WorkoutPageHeaderProps = {
+  title: string,
+  link?: string | null
+}
+
+function WorkoutTrackerPageHeader(props: WorkoutPageHeaderProps) {
+  const styles = useStyles();
+  const navigate = useNavigate();
+  const { link } = props;
+  return (
+    <div className={styles.titleContainer}>
+      <span className={styles.title}>{props.title}</span>
+      {
+        link &&
+          <WorkoutTrackerButton text={"Create Exercise"} onClick={() => navigate(link)} />
+      }
+    </div>
+  );
 }

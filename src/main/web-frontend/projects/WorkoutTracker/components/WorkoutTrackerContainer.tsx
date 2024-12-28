@@ -1,10 +1,13 @@
 import * as React from "react";
 import {createUseStyles} from "react-jss";
+import WorkoutTrackerButton from "./WorkoutTrackerButton";
+import {useNavigate} from "react-router-dom";
 
 
 type Props = {
-  children: React.ReactNode,
-  title?: string
+  children?: React.ReactNode,
+  title?: string,
+  headerLink?: string
 }
 
 const useStyles = createUseStyles({
@@ -16,10 +19,16 @@ const useStyles = createUseStyles({
     minHeight: '24px',
     padding: '24px'
   },
+  containerHeader: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: '16px'
+  },
   containerTitle: {
     fontSize: '18px',
-    fontWeight: '600',
-    marginBottom: '16px'
+    fontWeight: '600'
   }
 });
 
@@ -27,12 +36,36 @@ export default function WorkoutTrackerContainer(props: Props) {
   const styles = useStyles();
   return (
     <div className={styles.container}>
-      {
-        props.title && <div className={styles.containerTitle}>
-          {props.title}
-          </div>
-      }
+      <WorkoutTrackerContainerHeader title={props.title} link={props.headerLink} />
       {props.children}
+    </div>
+  )
+}
+
+function WorkoutTrackerContainerHeader(props: {
+  title?: string,
+  link?: string
+}) {
+  const styles = useStyles();
+  const navigate = useNavigate();
+  const {title, link} = props;
+  if (title == null && link == null) {
+    return null
+  }
+  const titleContainer = title && <div className={styles.containerTitle}>
+    {title}
+  </div>;
+  const buttonContainer =
+    link &&
+      <WorkoutTrackerButton
+          text="Add New Workout"
+          onClick={() => navigate(link)}
+      />;
+
+  return (
+    <div className={styles.containerHeader}>
+      {titleContainer}
+      {buttonContainer}
     </div>
   )
 }

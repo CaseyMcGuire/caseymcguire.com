@@ -2,10 +2,11 @@ import {graphql} from "react-relay";
 import {useNavigate, useParams} from "react-router-dom";
 import {useLazyLoadQuery} from "react-relay/hooks";
 import * as React from "react";
-import {WorkoutTrackerShowWorkoutPageQuery} from "__generated__/WorkoutTrackerShowWorkoutPageQuery.graphql";
 import {useEffect} from "react";
+import {WorkoutTrackerShowWorkoutPageQuery} from "__generated__/WorkoutTrackerShowWorkoutPageQuery.graphql";
 import WorkoutPage from "../components/WorkoutPage";
 import WorkoutTrackerContainer from "../components/WorkoutTrackerContainer";
+import {WorkoutSidebarMenuId} from "../components/WorkoutSidebar";
 
 
 export default function WorkoutTrackerShowWorkoutPage() {
@@ -44,7 +45,7 @@ export default function WorkoutTrackerShowWorkoutPage() {
 
   if (!workout) {
     return (
-      <WorkoutPage>
+      <WorkoutPage selectedMenuItemId={WorkoutSidebarMenuId.WORKOUT}>
         <WorkoutTrackerContainer title="Workout">
           <div>Workout not found.</div>
         </WorkoutTrackerContainer>
@@ -53,7 +54,7 @@ export default function WorkoutTrackerShowWorkoutPage() {
   }
 
   return (
-    <WorkoutPage>
+    <WorkoutPage selectedMenuItemId={WorkoutSidebarMenuId.WORKOUT}>
       <div>
         <WorkoutTrackerContainer title="Workout">
           {response.workoutTracker?.workoutById?.description}

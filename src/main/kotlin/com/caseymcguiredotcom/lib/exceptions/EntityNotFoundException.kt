@@ -1,3 +1,3 @@
 package com.caseymcguiredotcom.lib.exceptions
 
-class EntityNotFoundException : Exception()
+class EntityNotFoundException(message: String = "") : Exception(message)

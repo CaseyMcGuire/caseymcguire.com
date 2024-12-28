@@ -7,6 +7,7 @@ type WorkoutTracker {
   workouts: [Workout]
   workoutById(id: ID!): Workout
   exerciseByName(name: String): Exercise
+  exercises: [Exercise]
 }
 
 type Workout {
@@ -18,7 +19,6 @@ type Workout {
 type WorkoutSet {
   id: ID!
   description: String
-  exerciseType: ExerciseType!
   numReps: Int!
   weight: Int!
 }
@@ -28,9 +28,6 @@ type Exercise {
   name: String!
 }
 
-enum ExerciseType {
-  DUMBBELL_BENCH_PRESS
-}
 
 interface WorkoutMutationResponse {
   success: Boolean!
