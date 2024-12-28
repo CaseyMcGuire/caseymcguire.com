@@ -1,6 +1,5 @@
 package com.caseymcguiredotcom.config
 
-import com.caseymcguiredotcom.controllers.WorkoutTrackerController
 import com.caseymcguiredotcom.services.UserDetailsServiceImpl
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -13,6 +12,7 @@ import org.springframework.security.config.annotation.web.invoke
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.security.web.SecurityFilterChain
+import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository
 import org.springframework.security.web.csrf.CsrfTokenRequestAttributeHandler
 
@@ -58,6 +58,7 @@ open class SecurityConfiguration(private val userDetailsService: UserDetailsServ
       formLogin {
         loginPage = "/login"
         defaultSuccessUrl("/", true)
+        authenticationSuccessHandler = SavedRequestAwareAuthenticationSuccessHandler()
         failureUrl = "/login?error=true"
         // note usernameParameter and password parameter aren't available yet but they will be at some point:
         // https://github.com/spring-projects/spring-security/issues/14474
