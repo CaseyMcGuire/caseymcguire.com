@@ -1,27 +1,28 @@
 package models
 
 import com.caseymcguiredotcom.dao.ExerciseType
-import generated.jooq.tables.pojos.Workout
-import generated.jooq.tables.pojos.WorkoutSet
+import generated.jooq.tables.pojos.ExerciseTableRow
+import generated.jooq.tables.pojos.WorkoutTableRow
+import generated.jooq.tables.pojos.WorkoutSetTableRow
 
 class Workout(
-  private val workout: Workout,
-  private val workoutSets: List<WorkoutSet>,
-  private val exercises: List<generated.jooq.tables.pojos.Exercise>
+  private val workout: WorkoutTableRow,
+  private val workoutSets: List<WorkoutSetTableRow>,
+  private val exercises: List<ExerciseTableRow>
 ) {
   val id: Int = workout.id!!
   val userId: Int = workout.userId!!
   val description: String? = workout.description
-  val sets: List<models.WorkoutSet> by lazy {
+  val sets: List<WorkoutSet> by lazy {
     val exerciseIdToExercise = exercises.map {
-      models.Exercise(
+      Exercise(
         id = it.id!!,
         name = it.name!!
       )
     }.associateBy { it.id }
     workoutSets
       .map {
-        models.WorkoutSet(
+        WorkoutSet(
         id = it.id!!,
         numReps = it.numReps!!,
         weight = it.weight!!,

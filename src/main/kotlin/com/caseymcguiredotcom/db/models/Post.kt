@@ -1,10 +1,10 @@
 package models
 
-import generated.jooq.tables.pojos.Posts
+import generated.jooq.tables.pojos.PostsTableRow
 import java.time.LocalDate
 
 data class Post(
-  private val posts: Posts
+  private val posts: PostsTableRow
 ) {
   fun getId(): Int = posts.id!!
 

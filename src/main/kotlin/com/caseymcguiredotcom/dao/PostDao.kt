@@ -2,7 +2,7 @@ package com.caseymcguiredotcom.dao
 
 import models.Post
 import generated.jooq.tables.Posts.Companion.POSTS
-import generated.jooq.tables.pojos.Posts
+import generated.jooq.tables.pojos.PostsTableRow
 import org.jooq.DSLContext
 import org.springframework.stereotype.Component
 
@@ -17,7 +17,7 @@ class PostDao(val context: DSLContext) {
       .offset(id)
       .limit(count)
       .fetch()
-      .into(Posts::class.java)
+      .into(PostsTableRow::class.java)
       .map { Post(it) }
   }
 
@@ -27,7 +27,7 @@ class PostDao(val context: DSLContext) {
       .from(POSTS)
       .orderBy(POSTS.ID.desc())
       .fetch()
-      .into(Posts::class.java)
+      .into(PostsTableRow::class.java)
       .map { Post(it) }
   }
 
@@ -37,7 +37,7 @@ class PostDao(val context: DSLContext) {
       .from(POSTS)
       .where(POSTS.ID.eq(id))
       .fetchOne()
-      ?.into(Posts::class.java) ?: return null
+      ?.into(PostsTableRow::class.java) ?: return null
     return Post(posts)
   }
 

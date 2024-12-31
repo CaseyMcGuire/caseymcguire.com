@@ -15,24 +15,24 @@ import generated.jooq.tables.WorkoutSet
 /**
  * The table <code>public.exercise</code>.
  */
-val EXERCISE = Exercise.EXERCISE
+val EXERCISE: Exercise = Exercise.EXERCISE
 
 /**
  * The table <code>public.posts</code>.
  */
-val POSTS = Posts.POSTS
+val POSTS: Posts = Posts.POSTS
 
 /**
  * The table <code>public.users</code>.
  */
-val USERS = Users.USERS
+val USERS: Users = Users.USERS
 
 /**
  * The table <code>public.workout</code>.
  */
-val WORKOUT = Workout.WORKOUT
+val WORKOUT: Workout = Workout.WORKOUT
 
 /**
  * The table <code>public.workout_set</code>.
  */
-val WORKOUT_SET = WorkoutSet.WORKOUT_SET
+val WORKOUT_SET: WorkoutSet = WorkoutSet.WORKOUT_SET

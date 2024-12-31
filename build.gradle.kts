@@ -3,6 +3,8 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.springframework.boot.gradle.tasks.run.BootRun
 
 val springVersion = "3.2.2"
+val jooqVersion = "3.19.16"
+val postgresVersion = "42.7.2"
 
 plugins {
   id("org.jetbrains.kotlin.jvm") version "1.9.22"
@@ -16,7 +18,7 @@ plugins {
   id("org.springframework.boot") version "3.2.2" // can't use variable here :(
   id("io.spring.dependency-management") version "1.1.4"
   id("com.github.node-gradle.node") version "3.4.0"
-  id("nu.studer.jooq") version "5.2"
+  id("org.jooq.jooq-codegen-gradle") version "3.19.16"
   id("org.flywaydb.flyway") version "9.16.0"
   id("com.netflix.dgs.codegen") version "6.1.4"
   id("java")
@@ -43,8 +45,18 @@ dependencies {
   implementation("org.springframework.boot:spring-boot-starter-data-jpa")
   implementation("com.netflix.graphql.dgs:graphql-dgs-spring-boot-starter")
   implementation("org.springframework.boot:spring-boot-starter-webflux")
-  jooqGenerator("org.postgresql:postgresql:42.2.14")
-  implementation("org.postgresql:postgresql:42.2.14")
+
+  // for application runtime
+  implementation("org.jooq:jooq:$jooqVersion")
+  implementation("org.jooq:jooq-meta:$jooqVersion")
+  implementation("org.jooq:jooq-codegen:$jooqVersion")
+
+  // This ensures these libraries will be on the classpath for the jooqCodegen gradle task
+  jooqCodegen("org.jooq:jooq-codegen:$jooqVersion")
+  jooqCodegen("org.jooq:jooq-meta:$jooqVersion")
+  jooqCodegen("org.postgresql:postgresql:$postgresVersion")
+
+  implementation("org.postgresql:postgresql:$postgresVersion")
   implementation("org.flywaydb:flyway-core:9.16.0")
   implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.17.1")
   implementation("org.jetbrains.kotlinx:kotlinx-html-jvm:0.8.0")
@@ -161,35 +173,48 @@ node {
 }
 
 jooq {
-  version.set("3.14.1")
-  configurations {
-    create("main") {
-      generateSchemaSourceOnCompilation.set(false)
-      jooqConfiguration.apply {
-        jdbc.apply {
+  configuration {
+        jdbc {
           driver = "org.postgresql.Driver"
           url = dbUrl
           user = dbUser
           password = dbPassword
         }
-        generator.apply {
+        generator {
           name = "org.jooq.codegen.KotlinGenerator"
-          target.apply {
+          target {
             packageName = "generated.jooq"
             directory = "src/main/kotlin/com/caseymcguiredotcom/db/codegen"
           }
-          database.apply {
+          database {
             inputSchema = "public"
             excludes = "flyway_schema_history"
           }
-          generate.apply {
+          generate {
             isImmutablePojos = true
           }
+         strategy {
+           name = "com.caseymcguiredotcom.config.CustomGeneratorStrategy"
+           java = "package com.caseymcguiredotcom.config;\n" +
+               "\n" +
+               "import org.jooq.codegen.DefaultGeneratorStrategy;\n" +
+               "import org.jooq.meta.Definition;\n" +
+               "\n" +
+               "public class CustomGeneratorStrategy extends DefaultGeneratorStrategy {\n" +
+               "\n" +
+               "    @Override\n" +
+               "    public String getJavaClassName(Definition definition, Mode mode) {\n" +
+               "        if (mode == Mode.POJO) {\n" +
+               "            // Add \"TableRow\" suffix to POJOs\n" +
+               "            return super.getJavaClassName(definition, mode) + \"TableRow\";\n" +
+               "        }\n" +
+               "        return super.getJavaClassName(definition, mode);\n" +
+               "    }\n" +
+               "}"
+          }
         }
-      }
-    }
-
   }
+
 }
 
 tasks.withType<com.netflix.graphql.dgs.codegen.gradle.GenerateJavaTask> {

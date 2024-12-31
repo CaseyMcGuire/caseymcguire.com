@@ -2,7 +2,9 @@ package com.caseymcguiredotcom.dao
 
 import com.caseymcguiredotcom.lib.Time
 import com.caseymcguiredotcom.lib.exceptions.EntityNotFoundException
-import generated.jooq.tables.pojos.WorkoutSet
+import generated.jooq.tables.pojos.ExerciseTableRow
+import generated.jooq.tables.pojos.WorkoutSetTableRow
+import generated.jooq.tables.pojos.WorkoutTableRow
 import generated.jooq.tables.references.EXERCISE
 import generated.jooq.tables.references.WORKOUT
 import generated.jooq.tables.references.WORKOUT_SET
@@ -23,7 +25,7 @@ class WorkoutDao(
       .from(WORKOUT)
       .where(WORKOUT.USER_ID.eq(userId))
       .fetchArray()
-      .map { it.into(generated.jooq.tables.pojos.Workout::class.java) }
+      .map { it.into(WorkoutTableRow::class.java) }
 
     val workoutIds = workouts.mapNotNull { it.id }
 
@@ -32,7 +34,7 @@ class WorkoutDao(
       .from(WORKOUT_SET)
       .where(WORKOUT_SET.WORKOUT_ID.`in`(workoutIds))
       .fetchArray()
-      .map { it.into(WorkoutSet::class.java) }
+      .map { it.into(WorkoutSetTableRow::class.java) }
 
     val workoutIdToSet = sets.groupBy { it.workoutId }
     return workouts.map { Workout(it, workoutIdToSet[it.id!!] ?: emptyList(), getExercisesForSets(sets)) }
@@ -44,19 +46,19 @@ class WorkoutDao(
       .from(WORKOUT)
       .where(WORKOUT.ID.eq(workoutId))
       .fetchOne()
-      ?.into(generated.jooq.tables.pojos.Workout::class.java)
+      ?.into(WorkoutTableRow::class.java)
       ?: return null
 
     val sets = context.select()
       .from(WORKOUT_SET)
       .where(WORKOUT_SET.WORKOUT_ID.eq(workoutId))
       .fetchArray()
-      .map { it.into(WorkoutSet::class.java) }
+      .map { it.into(WorkoutSetTableRow::class.java) }
 
     return Workout(workout, sets, getExercisesForSets(sets))
   }
 
-  private fun getExercisesForSets(sets: List<WorkoutSet>): List<generated.jooq.tables.pojos.Exercise> {
+  private fun getExercisesForSets(sets: List<WorkoutSetTableRow>): List<ExerciseTableRow> {
     val exerciseIds = sets.mapNotNull { it.exerciseId }
 
     return context
@@ -64,7 +66,7 @@ class WorkoutDao(
       .from(EXERCISE)
       .where(EXERCISE.ID.`in`(exerciseIds))
       .fetchArray()
-      .map { it.into(generated.jooq.tables.pojos.Exercise::class.java) }
+      .map { it.into(ExerciseTableRow::class.java) }
   }
 
   fun createWorkout(userId: Int, description: String?): Int? {
@@ -160,10 +162,6 @@ class WorkoutDao(
 enum class ExerciseType {
   DUMBBELL_BENCH_PRESS,
   NULL;
-
-  fun toGraphqlType(): com.caseymcguiredotcom.codegen.graphql.types.ExerciseType {
-    return com.caseymcguiredotcom.codegen.graphql.types.ExerciseType.valueOf(this.name)
-  }
 }
 
 enum class UnitOfMass {
