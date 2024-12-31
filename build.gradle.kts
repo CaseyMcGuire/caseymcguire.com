@@ -55,6 +55,7 @@ dependencies {
   jooqCodegen("org.jooq:jooq-codegen:$jooqVersion")
   jooqCodegen("org.jooq:jooq-meta:$jooqVersion")
   jooqCodegen("org.postgresql:postgresql:$postgresVersion")
+  jooqCodegen(project(":customgenerator"))
 
   implementation("org.postgresql:postgresql:$postgresVersion")
   implementation("org.flywaydb:flyway-core:9.16.0")
@@ -194,23 +195,10 @@ jooq {
             isImmutablePojos = true
           }
          strategy {
-           name = "com.caseymcguiredotcom.config.CustomGeneratorStrategy"
-           java = "package com.caseymcguiredotcom.config;\n" +
-               "\n" +
-               "import org.jooq.codegen.DefaultGeneratorStrategy;\n" +
-               "import org.jooq.meta.Definition;\n" +
-               "\n" +
-               "public class CustomGeneratorStrategy extends DefaultGeneratorStrategy {\n" +
-               "\n" +
-               "    @Override\n" +
-               "    public String getJavaClassName(Definition definition, Mode mode) {\n" +
-               "        if (mode == Mode.POJO) {\n" +
-               "            // Add \"TableRow\" suffix to POJOs\n" +
-               "            return super.getJavaClassName(definition, mode) + \"TableRow\";\n" +
-               "        }\n" +
-               "        return super.getJavaClassName(definition, mode);\n" +
-               "    }\n" +
-               "}"
+           // Note: In order for this to work, this class must be in a different gradle project and the gradle project
+           // must be included as a dependency of the jooqCodegen gradle task (see above in 'dependencies' block).
+           // See https://github.com/etiennestuder/gradle-jooq-plugin/blob/ac7f25ada8c8a15b0e3692ef038f6dd0fd6a42ac/example/configure_custom_generator_strategy/build.gradle#L12
+           name = "com.caseymcguiredotcom.CustomGeneratorStrategy"
           }
         }
   }
