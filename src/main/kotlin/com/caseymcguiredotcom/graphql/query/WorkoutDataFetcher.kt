@@ -4,10 +4,7 @@ import com.caseymcguiredotcom.codegen.graphql.DgsConstants
 import com.caseymcguiredotcom.codegen.graphql.types.*
 import com.caseymcguiredotcom.lib.exceptions.EntityNotFoundException
 import com.caseymcguiredotcom.services.WorkoutService
-import com.netflix.graphql.dgs.DgsComponent
-import com.netflix.graphql.dgs.DgsData
-import com.netflix.graphql.dgs.DgsMutation
-import com.netflix.graphql.dgs.DgsQuery
+import com.netflix.graphql.dgs.*
 
 @DgsComponent
 class WorkoutDataFetcher(
@@ -41,7 +38,8 @@ class WorkoutDataFetcher(
           WorkoutSet(
             id = it.id.toString(),
             numReps = it.numReps,
-            weight = it.weight
+            weight = it.weight,
+            exercise = it.exercise.toGraphqlType()
           )
         }
       )
@@ -56,11 +54,20 @@ class WorkoutDataFetcher(
         WorkoutSet(
           id = it.id.toString(),
           numReps = it.numReps,
-          weight = it.weight
+          weight = it.weight,
+          exercise = it.exercise.toGraphqlType()
         )
       }
     )
   }
+
+  fun models.Exercise.toGraphqlType(): Exercise {
+    return Exercise(
+      id = this.id.toString(),
+      name = this.name
+    )
+  }
+
 
   @DgsData(
     parentType = DgsConstants.WORKOUTTRACKER.TYPE_NAME,
@@ -128,7 +135,8 @@ class WorkoutDataFetcher(
             WorkoutSet(
               id = it.id.toString(),
               numReps = it.numReps,
-              weight = it.weight
+              weight = it.weight,
+              exercise = it.exercise.toGraphqlType()
             )
           }
         )

@@ -6,7 +6,7 @@ import {RelayConfig} from "../../relay/RelayConfig";
 import {RelayEnvironmentProvider} from "react-relay/hooks";
 import {Suspense} from "react";
 import WorkoutTrackerCreateWorkoutPage from "./pages/WorkoutTrackerCreateWorkoutPage";
-import WorkoutTrackerShowWorkoutPage from "./pages/WorkoutTrackerShowWorkoutPage";
+import WorkoutTrackerShowWorkoutPage from "./pages/WorkoutTrackerShowWorkoutPage/WorkoutTrackerShowWorkoutPage";
 import WorkoutTrackerExerciseIndexPage from "./pages/WorkoutTrackerExercisesIndexPage";
 import WorkoutTrackerCreateExercisePage from "./pages/WorkoutTrackerCreateExercisePage";
 

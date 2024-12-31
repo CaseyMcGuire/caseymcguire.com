@@ -24,6 +24,7 @@ type WorkoutSet {
   exerciseType: ExerciseType!
   numReps: Int!
   weight: Int!
+  exercise: Exercise!
 }
 
 enum ExerciseType {

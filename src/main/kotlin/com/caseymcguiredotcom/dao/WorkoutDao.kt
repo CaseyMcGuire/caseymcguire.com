@@ -35,7 +35,7 @@ class WorkoutDao(
       .map { it.into(WorkoutSet::class.java) }
 
     val workoutIdToSet = sets.groupBy { it.workoutId }
-    return workouts.map { Workout(it, workoutIdToSet[it.id!!] ?: emptyList()) }
+    return workouts.map { Workout(it, workoutIdToSet[it.id!!] ?: emptyList(), getExercisesForSets(sets)) }
   }
 
   fun getWorkout(workoutId: Int): Workout? {
@@ -53,7 +53,18 @@ class WorkoutDao(
       .fetchArray()
       .map { it.into(WorkoutSet::class.java) }
 
-    return Workout(workout, sets)
+    return Workout(workout, sets, getExercisesForSets(sets))
+  }
+
+  private fun getExercisesForSets(sets: List<WorkoutSet>): List<generated.jooq.tables.pojos.Exercise> {
+    val exerciseIds = sets.mapNotNull { it.exerciseId }
+
+    return context
+      .select()
+      .from(EXERCISE)
+      .where(EXERCISE.ID.`in`(exerciseIds))
+      .fetchArray()
+      .map { it.into(generated.jooq.tables.pojos.Exercise::class.java) }
   }
 
   fun createWorkout(userId: Int, description: String?): Int? {

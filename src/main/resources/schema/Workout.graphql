@@ -21,6 +21,7 @@ type WorkoutSet {
   description: String
   numReps: Int!
   weight: Int!
+  exercise: Exercise!
 }
 
 type Exercise {

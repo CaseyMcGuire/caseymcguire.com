@@ -1,16 +1,11 @@
 import {createUseStyles} from "react-jss";
 import * as React from "react";
+import WorkoutTrackerInputLabel from "./WorkoutTrackerInputLabel";
 
 const useStyles = createUseStyles({
   formElementContainer: {
     display: 'flex',
     flexDirection: 'column'
-  },
-  label: {
-    color: 'rgb(55, 65, 81)',
-    fontSize: '14px',
-    fontWeight: '500',
-    marginBottom: '4px'
   },
   textInput: {
     padding: '12px 8px',
@@ -21,7 +16,7 @@ const useStyles = createUseStyles({
 })
 
 type Props = {
-  label: string,
+  label?: string,
   name: string,
   handleTextChange: (elem: string) => void
 }
@@ -31,7 +26,9 @@ export default function WorkoutTrackerInputField(props: Props) {
   return (
     <div>
       <div className={styles.formElementContainer}>
-        <label className={styles.label} htmlFor={props.name}>{props.name}</label>
+        {
+          props.label && <WorkoutTrackerInputLabel labelText={props.label} name={props.name} />
+        }
         <input className={styles.textInput}
                name={props.name}
                type="text"

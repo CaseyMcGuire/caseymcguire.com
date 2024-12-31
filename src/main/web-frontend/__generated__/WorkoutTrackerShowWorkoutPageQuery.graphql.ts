@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<88158029aa24d81a633989f776315cef>>
+ * @generated SignedSource<<260d6b83715f1f9bfa808b7284ddc8ac>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -9,6 +9,7 @@
 // @ts-nocheck
 
 import { ConcreteRequest, Query } from 'relay-runtime';
+import { FragmentRefs } from "relay-runtime";
 export type WorkoutTrackerShowWorkoutPageQuery$variables = {
   id: string;
 };
@@ -18,9 +19,15 @@ export type WorkoutTrackerShowWorkoutPageQuery$data = {
       readonly description: string | null;
       readonly id: string;
       readonly sets: ReadonlyArray<{
+        readonly exercise: {
+          readonly id: string;
+          readonly name: string;
+        };
         readonly numReps: number;
+        readonly weight: number;
       } | null>;
     } | null;
+    readonly " $fragmentSpreads": FragmentRefs<"WorkoutTrackerExerciseSection_workoutTracker">;
   } | null;
 };
 export type WorkoutTrackerShowWorkoutPageQuery = {
@@ -61,7 +68,34 @@ v4 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
+  "name": "weight",
+  "storageKey": null
+},
+v5 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
   "name": "numReps",
+  "storageKey": null
+},
+v6 = [
+  (v2/*: any*/),
+  {
+    "alias": null,
+    "args": null,
+    "kind": "ScalarField",
+    "name": "name",
+    "storageKey": null
+  }
+],
+v7 = {
+  "alias": null,
+  "args": null,
+  "concreteType": "Exercise",
+  "kind": "LinkedField",
+  "name": "exercise",
+  "plural": false,
+  "selections": (v6/*: any*/),
   "storageKey": null
 };
 return {
@@ -97,12 +131,19 @@ return {
                 "name": "sets",
                 "plural": true,
                 "selections": [
-                  (v4/*: any*/)
+                  (v4/*: any*/),
+                  (v5/*: any*/),
+                  (v7/*: any*/)
                 ],
                 "storageKey": null
               }
             ],
             "storageKey": null
+          },
+          {
+            "args": null,
+            "kind": "FragmentSpread",
+            "name": "WorkoutTrackerExerciseSection_workoutTracker"
           }
         ],
         "storageKey": null
@@ -144,11 +185,23 @@ return {
                 "plural": true,
                 "selections": [
                   (v4/*: any*/),
+                  (v5/*: any*/),
+                  (v7/*: any*/),
                   (v2/*: any*/)
                 ],
                 "storageKey": null
               }
             ],
+            "storageKey": null
+          },
+          {
+            "alias": null,
+            "args": null,
+            "concreteType": "Exercise",
+            "kind": "LinkedField",
+            "name": "exercises",
+            "plural": true,
+            "selections": (v6/*: any*/),
             "storageKey": null
           }
         ],
@@ -157,16 +210,16 @@ return {
     ]
   },
   "params": {
-    "cacheID": "c47a7f41e2cd914e616f8b7ec798c913",
+    "cacheID": "25f4745f9ce34d0c2097c00cee71437f",
     "id": null,
     "metadata": {},
     "name": "WorkoutTrackerShowWorkoutPageQuery",
     "operationKind": "query",
-    "text": "query WorkoutTrackerShowWorkoutPageQuery(\n  $id: ID!\n) {\n  workoutTracker {\n    workoutById(id: $id) {\n      id\n      description\n      sets {\n        numReps\n        id\n      }\n    }\n  }\n}\n"
+    "text": "query WorkoutTrackerShowWorkoutPageQuery(\n  $id: ID!\n) {\n  workoutTracker {\n    workoutById(id: $id) {\n      id\n      description\n      sets {\n        weight\n        numReps\n        exercise {\n          id\n          name\n        }\n        id\n      }\n    }\n    ...WorkoutTrackerExerciseSection_workoutTracker\n  }\n}\n\nfragment WorkoutTrackerExerciseSection_workoutTracker on WorkoutTracker {\n  exercises {\n    id\n    name\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "ca70b6a98a48b72a9b09701870725310";
+(node as any).hash = "0b8795a2a49d9a43cbd9691b527768f7";
 
 export default node;

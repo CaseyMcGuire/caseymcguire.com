@@ -26,17 +26,19 @@ export function WorkoutTrackerHomePage(props: Props) {
 
   const result = useLazyLoadQuery<WorkoutTrackerHomePageQuery>(query, {})
 
-  return <WorkoutPage title={"Dashboard"} selectedMenuItemId={WorkoutSidebarMenuId.DASHBOARD}>
-    <WorkoutTrackerContainer title={"Recent Workouts"} headerLink={"/workout_tracker/workout/create"}>
-      {
-        result.workoutTracker?.workouts?.map(workout => {
-          const id = workout?.id
-          if (id == null) {
-            return null
-          }
-          return <div><Link to={`/workout_tracker/workout/${id}`}>{id}</Link></div>
+  return (
+      <WorkoutPage title={"Dashboard"} selectedMenuItemId={WorkoutSidebarMenuId.DASHBOARD}>
+        <WorkoutTrackerContainer title={"Recent Workouts"} headerLink={"/workout_tracker/workout/create"}>
+         {
+            result.workoutTracker?.workouts?.map(workout => {
+            const id = workout?.id
+            if (id == null) {
+              return null
+            }
+            return <div><Link to={`/workout_tracker/workout/${id}`}>{id}</Link></div>
         })
       }
     </WorkoutTrackerContainer>
   </WorkoutPage>
+  );
 }
