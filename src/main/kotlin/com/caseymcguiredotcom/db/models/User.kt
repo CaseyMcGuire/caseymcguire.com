@@ -1,10 +1,10 @@
 package models
 
-import generated.jooq.tables.pojos.Users
+import generated.jooq.tables.pojos.UsersTableRow
 
 
 data class User(
-  private val users: Users
+  private val users: UsersTableRow
 ) {
 
   fun getId(): Int = users.id!!

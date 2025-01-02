@@ -5,17 +5,20 @@ import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.config.annotation.web.invoke
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.security.web.SecurityFilterChain
+import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository
 import org.springframework.security.web.csrf.CsrfTokenRequestAttributeHandler
 
 
 @EnableWebSecurity
+@EnableMethodSecurity
 @Configuration
 open class SecurityConfiguration(private val userDetailsService: UserDetailsServiceImpl){
 
@@ -49,11 +52,13 @@ open class SecurityConfiguration(private val userDetailsService: UserDetailsServ
         authorize("/posts/new", hasRole("ADMIN"))
         authorize("/posts/*/edit", hasRole("ADMIN"))
         authorize("/graphiql/**", hasRole("ADMIN"))
+        //authorize("/workout_tracker/**", hasRole("ADMIN"))
         authorize("/**", permitAll)
       }
       formLogin {
         loginPage = "/login"
         defaultSuccessUrl("/", true)
+        authenticationSuccessHandler = SavedRequestAwareAuthenticationSuccessHandler()
         failureUrl = "/login?error=true"
         // note usernameParameter and password parameter aren't available yet but they will be at some point:
         // https://github.com/spring-projects/spring-security/issues/14474

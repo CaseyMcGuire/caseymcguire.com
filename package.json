@@ -6,13 +6,13 @@
   "scripts": {
     "webpack": "node_modules/webpack-cli/bin/cli.js --config webpack.production.js",
     "webpack-development": "node_modules/webpack-cli/bin/cli.js --config webpack.development.js",
-    "relay": "babel-node -x .ts -- bin/generateRelay.ts",
+    "relay-compiler": "babel-node -x .ts -- bin/generateSchemaAndRunRelayCompiler.ts",
     "webpack:analyze": "./node_modules/webpack/bin/webpack.js --config webpack.production.js --json --profile > stats.json && ./node_modules/webpack-bundle-analyzer/lib/bin/analyzer.js stats.json"
   },
   "relay": {
     "src": "src/main/web-frontend",
     "language": "typescript",
-    "schema": "src/main/resources/schema/schema.graphql",
+    "schema": "src/main/resources/relay/schema.graphql",
     "artifactDirectory": "./src/main/web-frontend/__generated__"
   },
   "repository": {
@@ -33,20 +33,21 @@
     "graphql-tools": "^9.0.1",
     "highlight.js": "^10.0.1",
     "images": "^3.2.4",
+    "lucide-react": "^0.468.0",
     "marked": "^4.0.0",
     "react": "^18.2.0",
     "react-ace": "^9.2.1",
     "react-dom": "^18.2.0",
     "react-jss": "^10.0.4",
     "react-relay": "^16.2.0",
-    "react-router-dom": "^6.22.1",
+    "react-router-dom": "^7.0.1",
     "relay-runtime": "^16.2.0",
     "webfontloader": "^1.6.28"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",
     "@babel/node": "^7.25.0",
-    "@babel/preset-env": "^7.25.3",
+    "@babel/preset-env": "^7.25.4",
     "@babel/preset-react": "^7.24.7",
     "@babel/preset-typescript": "^7.24.7",
     "@types/highlight.js": "^9.12.3",

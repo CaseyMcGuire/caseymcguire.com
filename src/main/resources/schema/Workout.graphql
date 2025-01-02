@@ -1,0 +1,45 @@
+
+extend type Query {
+  workoutTracker: WorkoutTracker
+}
+
+type WorkoutTracker {
+  workouts: [Workout]
+  workoutById(id: ID!): Workout
+  exerciseByName(name: String): Exercise
+  exercises: [Exercise]
+}
+
+type Workout {
+  id: ID!
+  description: String
+  sets: [WorkoutSet]!
+}
+
+type WorkoutSet {
+  id: ID!
+  description: String
+  numReps: Int!
+  weight: Int!
+  exercise: Exercise!
+}
+
+type Exercise {
+  id: ID!
+  name: String!
+}
+
+
+interface WorkoutMutationResponse {
+  success: Boolean!
+}
+
+type SuccessfulWorkoutMutationResponse implements WorkoutMutationResponse {
+  success: Boolean!
+  workout: Workout
+}
+
+type FailedWorkoutMutationResponse implements WorkoutMutationResponse {
+  success: Boolean!
+  userFacingErrorMessage: String
+}

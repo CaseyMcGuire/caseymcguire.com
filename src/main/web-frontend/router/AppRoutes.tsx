@@ -11,7 +11,6 @@ import Page from "../pages/Page/Page";
 import TetrisPage from "../pages/Tetris/TetrisPage";
 import ProjectsPage from "../pages/Projects/ProjectsPage";
 import NftPreview from "../pages/Random/NftPreview/NftPreview";
-import {ReactNode} from "react";
 
 type AppRoute = {
   path: string,

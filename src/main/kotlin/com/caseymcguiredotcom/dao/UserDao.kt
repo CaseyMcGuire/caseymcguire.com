@@ -2,7 +2,7 @@ package com.caseymcguiredotcom.dao;
 
 import models.User
 import generated.jooq.tables.Users.Companion.USERS
-import generated.jooq.tables.pojos.Users
+import generated.jooq.tables.pojos.UsersTableRow
 import org.jooq.DSLContext
 import org.springframework.stereotype.Component
 
@@ -15,7 +15,7 @@ class UserDao(val context: DSLContext) {
       .from(USERS)
       .where(USERS.EMAIL.eq(email))
       .fetchOne()
-      ?.into(Users::class.java) ?: return null
+      ?.into(UsersTableRow::class.java) ?: return null
     return User(users)
   }
 

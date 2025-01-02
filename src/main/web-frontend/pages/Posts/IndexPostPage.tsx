@@ -1,6 +1,5 @@
 import * as React from "react";
 import {graphql, QueryRenderer} from "react-relay";
-import {RelayConfig} from "relay/RelayConfig";
 import {IndexPostPageQuery} from "__generated__/IndexPostPageQuery.graphql";
 import {redirect, useNavigate, useParams} from "react-router-dom";
 import LoadingPost from "./components/LoadingPost";

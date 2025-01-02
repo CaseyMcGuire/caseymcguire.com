@@ -3,13 +3,22 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.springframework.boot.gradle.tasks.run.BootRun
 
 val springVersion = "3.2.2"
+val jooqVersion = "3.19.16"
+val postgresVersion = "42.7.2"
 
 plugins {
   id("org.jetbrains.kotlin.jvm") version "1.9.22"
+  // Kotlin makes all classes final by default but Spring relies
+  // upon classes being extendable to implement certain functionality.
+  // In my case, Spring Security's `@PreAuthorize` annotation wasn't working
+  // but when I marked the class as `open`, dependency injection wouldn't work.
+  // However, this plugin seems to fix both issues.
+  // Read here for more info: https://kotlinlang.org/docs/all-open-plugin.html
+  id("org.jetbrains.kotlin.plugin.spring") version "1.9.22"
   id("org.springframework.boot") version "3.2.2" // can't use variable here :(
   id("io.spring.dependency-management") version "1.1.4"
   id("com.github.node-gradle.node") version "3.4.0"
-  id("nu.studer.jooq") version "5.2"
+  id("org.jooq.jooq-codegen-gradle") version "3.19.16"
   id("org.flywaydb.flyway") version "9.16.0"
   id("com.netflix.dgs.codegen") version "6.1.4"
   id("java")
@@ -17,7 +26,7 @@ plugins {
 
 dependencyManagement {
   imports {
-    mavenBom("com.netflix.graphql.dgs:graphql-dgs-platform-dependencies:latest.release")
+    mavenBom("com.netflix.graphql.dgs:graphql-dgs-platform-dependencies:9.2.2")
     mavenBom("org.springframework.boot:spring-boot-dependencies:${springVersion}")
   }
 }
@@ -36,10 +45,22 @@ dependencies {
   implementation("org.springframework.boot:spring-boot-starter-data-jpa")
   implementation("com.netflix.graphql.dgs:graphql-dgs-spring-boot-starter")
   implementation("org.springframework.boot:spring-boot-starter-webflux")
-  jooqGenerator("org.postgresql:postgresql:42.2.14")
-  implementation("org.postgresql:postgresql:42.2.14")
+
+  // for application runtime
+  implementation("org.jooq:jooq:$jooqVersion")
+  implementation("org.jooq:jooq-meta:$jooqVersion")
+  implementation("org.jooq:jooq-codegen:$jooqVersion")
+
+  // This ensures these libraries will be on the classpath for the jooqCodegen gradle task
+  jooqCodegen("org.jooq:jooq-codegen:$jooqVersion")
+  jooqCodegen("org.jooq:jooq-meta:$jooqVersion")
+  jooqCodegen("org.postgresql:postgresql:$postgresVersion")
+  jooqCodegen(project(":customgenerator"))
+
+  implementation("org.postgresql:postgresql:$postgresVersion")
   implementation("org.flywaydb:flyway-core:9.16.0")
   implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.17.1")
+  implementation("org.jetbrains.kotlinx:kotlinx-html-jvm:0.8.0")
 }
 
 val herokuEnvironmentMap = mapOf(
@@ -98,7 +119,7 @@ tasks.register("webpackDevelopment", NpmTask::class) {
 }
 
 tasks.register<NpmTask>("buildRelay") {
-  npmCommand.set(listOf("run", "relay"))
+  npmCommand.set(listOf("run", "relay-compiler"))
 }
 
 // make sure webpack runs before the processResources task so the TypeScript files are compiled before
@@ -134,17 +155,16 @@ val dbPassword = envVariables.getValue("DB_PASSWORD")
 val dbUrl = envVariables.getValue("DB_URL")
 
 // How to run flyway commands in command line
-// uncomment flyway dependency in plugins
 // In order to clean database: ./gradlew flywayClean
 // In order to rerun migrations: ./gradlew flywayMigrate
 // NOTE: these configurations are only for running flyway from the command line, not from inside spring. Those are
 // configured separately by Spring itself
 // (https://docs.spring.io/spring-boot/docs/current/reference/html/appendix-application-properties.html#spring.flyway.baseline-description)
-//flyway {
-//  url = dbUrl
-//  user = dbUser
-//  password = dbPassword
-//}
+flyway {
+  url = dbUrl
+  user = dbUser
+  password = dbPassword
+}
 
 
 node {
@@ -154,35 +174,35 @@ node {
 }
 
 jooq {
-  version.set("3.14.1")
-  configurations {
-    create("main") {
-      generateSchemaSourceOnCompilation.set(false)
-      jooqConfiguration.apply {
-        jdbc.apply {
+  configuration {
+        jdbc {
           driver = "org.postgresql.Driver"
           url = dbUrl
           user = dbUser
           password = dbPassword
         }
-        generator.apply {
+        generator {
           name = "org.jooq.codegen.KotlinGenerator"
-          target.apply {
+          target {
             packageName = "generated.jooq"
-            directory = "src/main/kotlin/com/caseymcguiredotcom/db"
+            directory = "src/main/kotlin/com/caseymcguiredotcom/db/codegen"
           }
-          database.apply {
+          database {
             inputSchema = "public"
             excludes = "flyway_schema_history"
           }
-          generate.apply {
+          generate {
             isImmutablePojos = true
           }
+         strategy {
+           // Note: In order for this to work, this class must be in a different gradle project and the gradle project
+           // must be included as a dependency of the jooqCodegen gradle task (see above in 'dependencies' block).
+           // See https://github.com/etiennestuder/gradle-jooq-plugin/blob/ac7f25ada8c8a15b0e3692ef038f6dd0fd6a42ac/example/configure_custom_generator_strategy/build.gradle#L12
+           name = "com.caseymcguiredotcom.CustomGeneratorStrategy"
+          }
         }
-      }
-    }
-
   }
+
 }
 
 tasks.withType<com.netflix.graphql.dgs.codegen.gradle.GenerateJavaTask> {

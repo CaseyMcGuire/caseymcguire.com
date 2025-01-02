@@ -1,5 +1,6 @@
 package com.caseymcguiredotcom.config
 
+import com.caseymcguiredotcom.lib.Time
 import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.PropertyNamingStrategies
@@ -17,6 +18,11 @@ open class BeanProvider {
   @Bean
   open fun restTemplate(): RestTemplate {
     return RestTemplate()
+  }
+
+  @Bean
+  open fun time(): Time {
+    return Time()
   }
 
   @Bean

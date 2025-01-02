@@ -1,0 +1,10 @@
+
+extend type Mutation {
+  addWorkoutSet(
+    workoutId: ID!
+    exerciseId: ID!
+    description: String
+    numReps: Int!
+    weight: Int!
+  ): WorkoutMutationResponse
+}
