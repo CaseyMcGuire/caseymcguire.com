@@ -1,4 +1,5 @@
 const path = require('path');
+const StylexPlugin = require('@stylexjs/webpack-plugin');
 
 module.exports = {
   entry: {
@@ -34,7 +35,6 @@ module.exports = {
           {loader: 'ts-loader'},
         ]
       },
-
       // All output '.js' files will have any sourcemaps re-processed by 'source-map-loader'.
       {
         enforce: "pre",
@@ -47,6 +47,11 @@ module.exports = {
       },
     ]
   },
+  plugins: [
+    new StylexPlugin({
+      filename: 'styles.css',
+    }),
+  ],
   externals: {
     'sanitize-html' : 'sanitizeHtml',
     'react': 'React',

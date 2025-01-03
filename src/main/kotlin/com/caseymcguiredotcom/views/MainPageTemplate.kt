@@ -55,6 +55,10 @@ fun MainPageTemplate(): String {
       }
       link {
         rel = "stylesheet"
+        href = "/bundles/styles.css"
+      }
+      link {
+        rel = "stylesheet"
         href = "/assets/fonts/Computer_Modern/Serif/cmun-serif.css"
       }
       link {

@@ -12,6 +12,10 @@ fun BasePage(
       title {
         +title
       }
+      link {
+        rel = "stylesheet"
+        href = "/bundles/styles.css"
+      }
       reactScripts()
       style {
         unsafe {

@@ -27,6 +27,7 @@
   "homepage": "https://github.com/CaseyMcGuire/puzzlr-kotlin#readme",
   "dependencies": {
     "@graphiql/toolkit": "^0.9.1",
+    "@stylexjs/stylex": "^0.10.0",
     "@types/marked": "^4.0.3",
     "ace-builds": "^1.4.12",
     "graphiql": "^3.1.1",
@@ -50,6 +51,7 @@
     "@babel/preset-env": "^7.25.4",
     "@babel/preset-react": "^7.24.7",
     "@babel/preset-typescript": "^7.24.7",
+    "@stylexjs/webpack-plugin": "^0.10.0",
     "@types/highlight.js": "^9.12.3",
     "@types/react": "^18.2.0",
     "@types/react-dom": "^18.2.0",

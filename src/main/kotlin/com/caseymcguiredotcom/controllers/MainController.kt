@@ -1,6 +1,7 @@
 package com.caseymcguiredotcom.controllers
 
 import com.caseymcguiredotcom.views.BasePage
+import com.caseymcguiredotcom.views.MainPageTemplate
 import org.springframework.context.annotation.Configuration
 import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.GetMapping
@@ -22,8 +23,9 @@ class MainController {
       "/tetris"
     ]
   )
+  @ResponseBody
   fun home(): String {
-    return "index"
+    return MainPageTemplate()
   }
 
   @GetMapping(
