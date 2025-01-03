@@ -1,7 +1,10 @@
-const path = require('path');
-const StylexPlugin = require('@stylexjs/webpack-plugin');
+import path from "path";
 
-module.exports = {
+// @ts-ignore
+import StylexPlugin from "@stylexjs/webpack-plugin";
+import { Configuration } from "webpack";
+
+const config : Configuration = {
   entry: {
     index: './src/main/web-frontend/AppRoot',
     movies: './src/main/web-frontend/projects/MovieApp/MovieAppRoot',
@@ -59,3 +62,5 @@ module.exports = {
     'highlight.js': 'hljs'
   },
 };
+
+export default config;

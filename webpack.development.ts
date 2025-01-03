@@ -1,8 +1,10 @@
-const merge = require("webpack-merge");
-const common = require("./webpack.common.js");
-const path = require('path');
+import common from "./webpack.common";
 
-module.exports = merge(common, {
+import merge from "webpack-merge";
+
+import path from "path";
+
+export default merge(common, {
   watchOptions: {
     poll: true
   },
