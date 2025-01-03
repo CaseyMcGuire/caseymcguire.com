@@ -65,7 +65,10 @@ export default function HomePage() {
           <img alt="Picture of Casey McGuire" {...randomPicture} />
         </div>
         <div className={styles.infoContainer}>
-          <h3>Software Engineer in Seattle, WA.</h3>
+          <div>
+            Hi, my name is Casey McGuire and I'm a software engineer currently working in the Seattle area. This is my personal
+            website where I occasionally blog and host my side projects. 
+          </div>
           <div className={styles.pictureContainer}>
             <SocialMediaIcon src={"/assets/images/linkedin_picture.png"}
                              link={"https://www.linkedin.com/in/casey-mcguire-68966891/"}/>
