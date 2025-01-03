@@ -17,7 +17,8 @@ export default function ResumePage() {
               location={"Seattle, WA"}
               employmentDate={"July 2022 - Present"}
               description={[
-                "Currently work on Airbnb's Listing Backend team where I ensure the reliability and scalability of the company's core listing services and data models. Additionally, I am responsible for designing changes to our architecture and APIs to accommodate new product features."
+                "Currently work on the Payments Platform team where I develop and maintain the services that power all financial transactions and billing at Airbnb.",
+                "Previously worked on the Listing Backend team where I ensured the reliability and scalability of the company's core listing services and data models. Additionally, I was responsible for designing changes to our architecture and APIs to accommodate new product features."
               ]}/>
             <EmploymentCard
               title={"Software Engineer"}

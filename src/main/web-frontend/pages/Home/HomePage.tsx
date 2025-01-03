@@ -28,6 +28,11 @@ const getStyles = createUseStyles({
     height: '200px',
     borderRadius: '40%'
   },
+  homePagePicture2: {
+    width: '230px',
+    height: '200px',
+    borderRadius: '30%'
+  },
   socialMediaIcon: {
     width: '50px',
     height: '45px',
@@ -42,11 +47,22 @@ const getStyles = createUseStyles({
 
 export default function HomePage() {
   const styles = getStyles();
+  const pictures = [
+    {
+      className: styles.homePagePicture,
+      src: "/assets/images/home_picture.jpeg"
+    },
+    {
+      className: styles.homePagePicture2,
+      src: "/assets/images/home_picture_2.png"
+    }
+  ]
+  const randomPicture = pictures[Math.floor(Math.random() * pictures.length)];
   return (
     <Page>
       <div className={styles.homePageContainer}>
         <div className={styles.homePagePictureContainer}>
-          <img className={styles.homePagePicture} src="/assets/images/home_picture.jpeg"/>
+          <img alt="Picture of Casey McGuire" {...randomPicture} />
         </div>
         <div className={styles.infoContainer}>
           <h3>Software Engineer in Seattle, WA.</h3>
