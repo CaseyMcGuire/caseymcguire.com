@@ -1,6 +1,7 @@
 package com.caseymcguiredotcom.controllers
 
 import com.caseymcguiredotcom.views.BasePage
+import com.caseymcguiredotcom.views.ReactPage
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.GetMapping
@@ -24,6 +25,6 @@ class WorkoutTrackerController {
   )
   @ResponseBody
   fun workout(): String {
-    return BasePage("workout", "Workout Tracker")
+    return ReactPage("workout", "Workout Tracker").render()
   }
 }

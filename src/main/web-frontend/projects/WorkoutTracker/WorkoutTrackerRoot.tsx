@@ -1,14 +1,12 @@
 import {createBrowserRouter, RouterProvider} from "react-router-dom";
-import * as ReactDOM from "react-dom";
 import * as React from "react";
 import {WorkoutTrackerHomePage} from "./pages/WorkoutTrackerHomePage";
-import {RelayConfig} from "../../relay/RelayConfig";
-import {RelayEnvironmentProvider} from "react-relay/hooks";
-import {Suspense} from "react";
 import WorkoutTrackerCreateWorkoutPage from "./pages/WorkoutTrackerCreateWorkoutPage";
 import WorkoutTrackerShowWorkoutPage from "./pages/WorkoutTrackerShowWorkoutPage/WorkoutTrackerShowWorkoutPage";
 import WorkoutTrackerExerciseIndexPage from "./pages/WorkoutTrackerExercisesIndexPage";
 import WorkoutTrackerCreateExercisePage from "./pages/WorkoutTrackerCreateExercisePage";
+import RelayRoot from "components/relay/RelayRoot";
+import {renderComponent} from "utils/ReactPageUtils";
 
 const router = createBrowserRouter([
   {
@@ -41,11 +39,8 @@ const router = createBrowserRouter([
   }
 ]);
 
-ReactDOM.render(
-  <RelayEnvironmentProvider environment={RelayConfig.getEnvironment()}>
-    <Suspense fallback={<div>Loading</div>}>
-      <RouterProvider router={router} />
-    </Suspense>
-  </RelayEnvironmentProvider>,
-  document.getElementById("root")
+renderComponent(
+  <RelayRoot fallbackComponent={<div>Loading</div>}>
+    <RouterProvider router={router} />
+  </RelayRoot>
 );
