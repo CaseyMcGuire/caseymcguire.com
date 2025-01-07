@@ -8,6 +8,7 @@ val postgresVersion = "42.7.2"
 
 plugins {
   id("org.jetbrains.kotlin.jvm") version "1.9.22"
+  kotlin("kapt") version "1.9.22"
   // Kotlin makes all classes final by default but Spring relies
   // upon classes being extendable to implement certain functionality.
   // In my case, Spring Security's `@PreAuthorize` annotation wasn't working
@@ -61,6 +62,9 @@ dependencies {
   implementation("org.flywaydb:flyway-core:9.16.0")
   implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.17.1")
   implementation("org.jetbrains.kotlinx:kotlinx-html-jvm:0.8.0")
+
+  implementation(project(":route-annotation-processor"))
+  kapt(project(":route-annotation-processor"))
 }
 
 val herokuEnvironmentMap = mapOf(

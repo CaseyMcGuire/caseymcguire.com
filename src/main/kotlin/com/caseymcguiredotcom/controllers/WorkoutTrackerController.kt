@@ -1,27 +1,28 @@
 package com.caseymcguiredotcom.controllers
 
-import com.caseymcguiredotcom.views.BasePage
 import com.caseymcguiredotcom.views.ReactPage
 import org.springframework.security.access.prepost.PreAuthorize
-import org.springframework.stereotype.Controller
-import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.ResponseBody
+import org.springframework.web.bind.annotation.RestController
+import routeannotatonprocessor.*
 
-@Controller
+@RestController
 @PreAuthorize("hasRole('ADMIN')")
+@ReactRouterController("WorkoutTracker")
 class WorkoutTrackerController {
   companion object {
     const val APP_PREFIX = "/workout_tracker"
   }
-  // TODO: find some way of keeping these routes in sync with client-side routes
-  @GetMapping(
-    APP_PREFIX,
-    "$APP_PREFIX/workout",
-    "$APP_PREFIX/workout/{id:\\d+}",
-    "$APP_PREFIX/workout/create",
-    "$APP_PREFIX/workout/{id}/update",
-    "$APP_PREFIX/exercise",
-    "$APP_PREFIX/exercise/create"
+  @ReactRouterGetMapping(
+    routes = [
+      ReactRouterRoute(path = APP_PREFIX, "IndexRoute"),
+      ReactRouterRoute(path = "$APP_PREFIX/workout", name = "ShowWorkoutsRoute"),
+      ReactRouterRoute(path = "$APP_PREFIX/workout/{id:\\d+}", name = "ShowSingleWorkoutRoute"),
+      ReactRouterRoute(path = "$APP_PREFIX/workout/create", "CreateWorkoutRoute"),
+      ReactRouterRoute(path = "$APP_PREFIX/workout/{id}/update", "UpdateWorkoutRoute"),
+      ReactRouterRoute("$APP_PREFIX/exercise", "ShowExercisesRoute"),
+      ReactRouterRoute("$APP_PREFIX/exercise/create", "CreateExerciseRoute")
+    ]
   )
   @ResponseBody
   fun workout(): String {

@@ -1,5 +1,4 @@
 rootProject.name = "caseymcguiredotcom"
-include("customgenerator")
 
 fun includeSubmodulesFromDirectory(directoryName: String) {
   val submodulesDir = file(directoryName)
