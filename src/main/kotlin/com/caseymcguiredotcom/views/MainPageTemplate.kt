@@ -46,6 +46,11 @@ fun MainPageTemplate(): String {
       link {
         rel = "preload"
         attributes["as"] = "image"
+        href = "/assets/images/home_picture_2.jpeg"
+      }
+      link {
+        rel = "preload"
+        attributes["as"] = "image"
         href = "/assets/images/github_picture.png"
       }
       link {

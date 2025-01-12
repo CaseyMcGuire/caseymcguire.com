@@ -1,12 +1,19 @@
 import * as React from "react";
-import {createUseStyles} from "react-jss";
 import Page from "../Page/Page";
+import * as stylex from '@stylexjs/stylex';
 
-const getStyles = createUseStyles({
+
+const styles = stylex.create({
   homePageContainer: {
     display: 'flex',
-    flexDirection: 'row',
+    flexDirection: {
+      default: 'row',
+      '@media only screen and (max-width: 600px)': 'column'
+    },
     justifyContent: 'center'
+  },
+  textContainer: {
+    fontSize: '18px'
   },
   infoContainer: {
     display: 'flex',
@@ -21,7 +28,8 @@ const getStyles = createUseStyles({
   },
   homePagePictureContainer: {
     display: 'flex',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    minWidth: '230px'
   },
   homePagePicture: {
     width: '200px',
@@ -37,16 +45,10 @@ const getStyles = createUseStyles({
     width: '50px',
     height: '45px',
     margin: '5px'
-  },
-  '@media only screen and (max-width: 600px)': {
-    homePageContainer: {
-      flexDirection: 'column'
-    }
   }
 });
 
 export default function HomePage() {
-  const styles = getStyles();
   const pictures = [
     {
       className: styles.homePagePicture,
@@ -60,16 +62,16 @@ export default function HomePage() {
   const randomPicture = pictures[Math.floor(Math.random() * pictures.length)];
   return (
     <Page>
-      <div className={styles.homePageContainer}>
-        <div className={styles.homePagePictureContainer}>
-          <img alt="Picture of Casey McGuire" {...randomPicture} />
+      <div {...stylex.props(styles.homePageContainer)}>
+        <div {...stylex.props(styles.homePagePictureContainer)}>
+          <img alt="Picture of Casey McGuire" {...stylex.props(randomPicture.className)} src={randomPicture.src}/>
         </div>
-        <div className={styles.infoContainer}>
-          <div>
+        <div {...stylex.props(styles.infoContainer)}>
+          <div {...stylex.props(styles.textContainer)}>
             Hi, my name is Casey McGuire and I'm a software engineer currently working in the Seattle area. This is my personal
             website where I occasionally blog and host my side projects. 
           </div>
-          <div className={styles.pictureContainer}>
+          <div {...stylex.props(styles.pictureContainer)}>
             <SocialMediaIcon src={"/assets/images/linkedin_picture.png"}
                              link={"https://www.linkedin.com/in/casey-mcguire-68966891/"}/>
             <SocialMediaIcon src={"/assets/images/github_picture.png"} link={"https://github.com/CaseyMcGuire"}/>
@@ -82,10 +84,9 @@ export default function HomePage() {
 
 
 function SocialMediaIcon(props: { src: string, link: string }) {
-  const styles = getStyles();
   return (
     <a href={props.link}>
-      <img className={styles.socialMediaIcon} src={props.src}/>
+      <img {...stylex.props(styles.socialMediaIcon)} src={props.src}/>
     </a>
   )
 }
