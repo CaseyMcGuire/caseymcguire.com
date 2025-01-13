@@ -6,14 +6,30 @@ import kotlinx.html.stream.createHTML
 class ReactPage(
   private val bundleName: String,
   private val pageTitle: String
-) {
+) : RenderablePage {
 
-  fun render(): String {
+  private var customHead: (HEAD.() -> Unit)? = null
+  private var customBody: (BODY.() -> Unit)? = null
+  fun customHead(block: HEAD.() -> Unit): ReactPage {
+    customHead = block
+    return this
+  }
+
+  fun customBody(block: BODY.() -> Unit): ReactPage {
+    customBody = block
+    return this
+  }
+
+  override fun render(): String {
     return createHTML().html {
       head {
         meta(charset = "UTF-8")
         title {
           +pageTitle
+        }
+        meta {
+          name = "viewport"
+          content = "initial-scale=1.0, maximum-scale=1.0, width=device-width"
         }
         link {
           rel = "stylesheet"
@@ -23,17 +39,11 @@ class ReactPage(
         style {
           unsafe {
             +"""
-                    body {
-                        font-family: ui-sans-serif, system-ui, sans-serif, 
-                                     Apple Color Emoji, Segoe UI Emoji, 
-                                     Segoe UI Symbol, Noto Color Emoji;
-                    }
 
                     * {
                         margin: 0;
                         padding: 0;
                         box-sizing: border-box;
-                        color: #2f2f2f;
                     }
 
                     html, body, #root {
@@ -42,6 +52,7 @@ class ReactPage(
             """.trimIndent()
           }
         }
+        customHead?.invoke(this)
       }
       body {
         div {
@@ -50,6 +61,7 @@ class ReactPage(
         script {
           src = "/bundles/${bundleName}.bundle.js"
         }
+        customBody?.invoke(this)
       }
     }
   }

@@ -21,12 +21,12 @@ open class BeanProvider {
   }
 
   @Bean
-  open fun time(): Time {
+  fun time(): Time {
     return Time()
   }
 
   @Bean
-  open fun webClient(): WebClient {
+  fun webClient(): WebClient {
     val executionStrategies = ExchangeStrategies.builder()
       .codecs {
         it.defaultCodecs().jackson2JsonDecoder(
