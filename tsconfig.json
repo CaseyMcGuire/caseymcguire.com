@@ -6,10 +6,10 @@
     "noImplicitThis": true,
     "strictNullChecks": true,
     "noImplicitAny": true,
-    "module": "es2015",
-    "target": "es2015",
-    "moduleResolution": "node",
-    "jsx": "react",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "target": "ES2022",
+    "jsx": "react-jsx",
     "allowJs": false,
     "allowSyntheticDefaultImports": true
   }

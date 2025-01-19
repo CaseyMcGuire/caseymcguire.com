@@ -20,7 +20,8 @@ class MainController {
       "/posts/new",
       "/login",
       "/register",
-      "/tetris"
+      "/tetris",
+      "/projects"
     ]
   )
   @ResponseBody
