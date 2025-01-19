@@ -1,4 +1,4 @@
-import {createBrowserRouter, RouterProvider} from "react-router-dom";
+import {createBrowserRouter, RouterProvider} from "react-router";
 import * as React from "react";
 import {WorkoutTrackerHomePage} from "./pages/WorkoutTrackerHomePage";
 import WorkoutTrackerCreateWorkoutPage from "./pages/WorkoutTrackerCreateWorkoutPage";

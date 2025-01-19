@@ -1,7 +1,7 @@
 import * as React from "react";
 import PostCreationContainer from "./components/PostCreationContainer";
 import {commit} from "../../mutations/CreateOrEditPostMutation";
-import {useNavigate} from "react-router-dom";
+import {useNavigate} from "react-router";
 import Page from "../Page/Page";
 
 export default function CreatePostPage() {

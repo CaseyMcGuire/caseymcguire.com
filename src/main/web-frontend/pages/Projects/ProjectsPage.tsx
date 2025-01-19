@@ -1,6 +1,6 @@
 import * as React from "react";
 import Page from "../Page/Page";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 import {createUseStyles} from "react-jss";
 
 const useStyles = createUseStyles({

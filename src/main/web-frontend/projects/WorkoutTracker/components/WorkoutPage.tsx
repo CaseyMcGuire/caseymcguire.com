@@ -3,7 +3,7 @@ import {createUseStyles} from "react-jss";
 import WorkoutSidebar, {SIDEBAR_WIDTH, WorkoutSidebarMenuId} from "./WorkoutSidebar";
 import {Suspense} from "react";
 import WorkoutTrackerButton from "./WorkoutTrackerButton";
-import {useNavigate} from "react-router-dom";
+import {useNavigate} from "react-router";
 
 
 type Props = {

@@ -1,7 +1,7 @@
 import React, {ReactNode, Suspense} from "react";
 import {IEnvironment} from "relay-runtime";
 import {RelayConfig} from "relay/RelayConfig";
-import {RouterProvider} from "react-router-dom";
+import {RouterProvider} from "react-router";
 import {RelayEnvironmentProvider} from "react-relay/hooks";
 
 type RelayRootProps = {

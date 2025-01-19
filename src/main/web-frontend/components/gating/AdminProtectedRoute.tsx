@@ -1,7 +1,7 @@
 import * as React from "react";
 import { useContext } from "react";
 import AppContext from "../context/AppContext";
-import {redirect} from "react-router-dom";
+import {redirect} from "react-router";
 
 
 type Props = {

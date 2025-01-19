@@ -3,7 +3,7 @@ import {WorkoutSidebarMenuId} from "../components/WorkoutSidebar";
 import React, {useState} from "react";
 import {graphql, useMutation} from "react-relay";
 import WorkoutTrackerInputField from "../components/WorkoutTrackerInputField";
-import {useNavigate} from "react-router-dom";
+import {useNavigate} from "react-router";
 import WorkoutTrackerContainer from "../components/WorkoutTrackerContainer";
 import WorkoutTrackerButton from "../components/WorkoutTrackerButton";
 import {

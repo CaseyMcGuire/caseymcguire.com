@@ -2,7 +2,7 @@ import * as React from "react";
 import {createUseStyles} from "react-jss";
 import {Dumbbell, LayoutDashboard, LucideIcon, Plus} from "lucide-react";
 import {combineClasses} from "utils/CssUtils";
-import {Link} from "react-router-dom";
+import {Link} from "react-router";
 
 export const SIDEBAR_WIDTH = '256px';
 

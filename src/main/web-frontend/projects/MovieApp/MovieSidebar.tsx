@@ -1,6 +1,6 @@
 import {createUseStyles} from "react-jss";
 import * as React from "react";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 
 const useStyles = createUseStyles({
   sidebar: {

@@ -2,7 +2,7 @@ import * as React from "react";
 import {commit} from "mutations/RegisterMutation";
 import FormField from "./components/FormField";
 import {useState} from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import Page from "../Page/Page";
 
 export default function RegisterPage() {

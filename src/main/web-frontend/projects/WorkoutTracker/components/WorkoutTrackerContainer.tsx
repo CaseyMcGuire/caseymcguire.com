@@ -1,7 +1,7 @@
 import * as React from "react";
 import {createUseStyles} from "react-jss";
 import WorkoutTrackerButton from "./WorkoutTrackerButton";
-import {useNavigate} from "react-router-dom";
+import {useNavigate} from "react-router";
 
 
 type Props = {

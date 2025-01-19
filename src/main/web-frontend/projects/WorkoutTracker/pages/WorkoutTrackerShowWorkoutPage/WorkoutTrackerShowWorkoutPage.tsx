@@ -1,5 +1,5 @@
 import {graphql} from "react-relay";
-import {useNavigate, useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router";
 import {useLazyLoadQuery} from "react-relay/hooks";
 import * as React from "react";
 import {useEffect} from "react";

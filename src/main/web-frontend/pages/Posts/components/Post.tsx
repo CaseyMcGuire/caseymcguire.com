@@ -2,7 +2,7 @@ import * as React from "react";
 import * as sanitizeHtml from "sanitize-html";
 import * as hljs from 'highlight.js';
 import AdminComponentGating from "../../../components/gating/AdminComponentGating";
-import {Link} from "react-router-dom";
+import {Link} from "react-router";
 import {usePostStyles} from "./PostHooks";
 import {marked} from "marked";
 

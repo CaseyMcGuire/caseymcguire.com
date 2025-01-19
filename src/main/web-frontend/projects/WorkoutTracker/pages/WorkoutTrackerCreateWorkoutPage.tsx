@@ -3,7 +3,7 @@ import {useState} from "react";
 import {graphql, useMutation} from "react-relay";
 import WorkoutPage from "projects/WorkoutTracker/components/WorkoutPage";
 import {WorkoutTrackerCreateWorkoutPageMutation} from "__generated__/WorkoutTrackerCreateWorkoutPageMutation.graphql";
-import {useNavigate} from "react-router-dom";
+import {useNavigate} from "react-router";
 import WorkoutTrackerContainer from "../components/WorkoutTrackerContainer";
 import {createUseStyles} from "react-jss";
 import WorkoutTrackerButton from "../components/WorkoutTrackerButton";

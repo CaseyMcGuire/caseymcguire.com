@@ -1,7 +1,7 @@
 import * as React from "react";
 import {graphql, QueryRenderer} from "react-relay";
 import {IndexPostPageQuery} from "__generated__/IndexPostPageQuery.graphql";
-import {redirect, useNavigate, useParams} from "react-router-dom";
+import {redirect, useNavigate, useParams} from "react-router";
 import LoadingPost from "./components/LoadingPost";
 import Page from "../Page/Page";
 import PaginationPanel from "./components/PaginationPanel";
