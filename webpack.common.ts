@@ -24,7 +24,8 @@ const config : Configuration = {
   },
   output: {
     filename: '[name].bundle.js',
-    path: path.resolve(__dirname, 'src/main/resources/static/bundles')
+    path: path.resolve(__dirname, 'src/main/resources/static/bundles'),
+    module: true, // Output your bundle as an actual ES module
   },
   module: {
     rules: [
@@ -55,11 +56,15 @@ const config : Configuration = {
       filename: 'styles.css',
     }),
   ],
-  externals: {
-    'sanitize-html' : 'sanitizeHtml',
-    'react': 'React',
-    'react-dom': 'ReactDOM',
-    'highlight.js': 'hljs'
+  externalsType: "module",
+  externals: [
+    'sanitize-html',
+    'react',
+    'react-dom',
+    'highlight.js'
+  ],
+  experiments: {
+    outputModule: true, // Tells webpack it can output ES modules
   },
 };
 

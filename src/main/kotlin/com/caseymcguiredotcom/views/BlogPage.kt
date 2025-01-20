@@ -6,6 +6,10 @@ class BlogPage : RenderablePage {
 
   override fun render(): String {
     return ReactPage("index", "Casey McGuire")
+      .importMapInputs(
+        ImportMapInput("highlight.js", "/assets/javascripts/highlight.min.js"),
+        ImportMapInput("sanitize-html", "/assets/javascripts/sanitize-html.min.js")
+      )
       .customHead {
         link {
           rel = "preload"
@@ -70,14 +74,6 @@ class BlogPage : RenderablePage {
         link {
           rel = "stylesheet"
           href = "/assets/stylesheets/github.min.css"
-        }
-        script {
-          type = "text/javascript"
-          src = "/assets/javascripts/sanitize-html.min.js"
-        }
-        script {
-          type = "text/javascript"
-          src = "/assets/javascripts/highlight.min.js"
         }
         meta {
           name = "viewport"
