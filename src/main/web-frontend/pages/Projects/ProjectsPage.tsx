@@ -4,13 +4,20 @@ import { Link } from "react-router";
 import {createUseStyles} from "react-jss";
 
 const useStyles = createUseStyles({
+  cardContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: "center",
+    justifyContent: 'center'
+  },
   card: {
     display: 'flex',
     flexDirection: 'column',
     border: '1px #CCCCCC solid',
-    width: '360px',
+    width: '100%',
     padding: '12px',
-    borderRadius: '16px'
+    borderRadius: '16px',
+    marginBottom: '16px'
   },
   cardImage: {
     height: 'auto',
@@ -25,9 +32,16 @@ const useStyles = createUseStyles({
 })
 
 export default function ProjectsPage() {
+  const styles = useStyles();
   return (
    <Page>
-     <div>
+     <div className={styles.cardContainer}>
+       <ProjectCard imgUrl={"foo"}
+                    title={"Personal Website"}
+                    description={"This is the source code for this website. It's written using Spring Boot and Kotlin on the backend, and TypeScript and React on the frontend. "}
+                    link={"https://github.com/CaseyMcGuire/caseymcguire.com"}
+                    />
+
        <ProjectCard imgUrl={"/assets/images/tetris.png"}
                     title={"Tetris"}
                     description={"The game of tetris implemented using React"}

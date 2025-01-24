@@ -7,8 +7,8 @@ class BlogPage : RenderablePage {
   override fun render(): String {
     return ReactPage("index", "Casey McGuire")
       .importMapInputs(
-        ImportMapInput("highlight.js", "/assets/javascripts/highlight.min.js"),
-        ImportMapInput("sanitize-html", "/assets/javascripts/sanitize-html.min.js")
+        ImportMapInput("highlight.js", "https://esm.sh/highlight.js@11.11.1"),
+        ImportMapInput("sanitize-html", "https://esm.sh/sanitize-html@2.13.0")
       )
       .customHead {
         link {

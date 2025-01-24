@@ -75,7 +75,7 @@ function IndexPostPageImpl(props: {page: number}) {
       <div>
         {
           posts.map((post, index) =>
-            <PostLink date={post.publishedDate} postId={post.postId} title={post.title} />
+            <PostLink key={index} date={post.publishedDate} postId={post.postId} title={post.title} />
           )
         }
         <PaginationPanel

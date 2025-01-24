@@ -5,7 +5,7 @@ import {initialState, reducer} from "../../reducers/TetrisReducer";
 import {createUseStyles} from "react-jss";
 import TetrisSidePanel from "../TetrisSidePanel/TetrisSidePanel";
 
-const createStyles = createUseStyles({
+const useStyles = createUseStyles({
   tetrisContainer: {
     justifyContent: 'center',
     display: 'flex',
@@ -15,7 +15,7 @@ const createStyles = createUseStyles({
 });
 
 export default function Tetris() {
-  const styles = createStyles();
+  const styles = useStyles();
   const [state, dispatch] = useReducer(reducer, initialState);
   useEffect(() => {
     window.setInterval(() => {

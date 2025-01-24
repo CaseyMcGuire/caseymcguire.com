@@ -1,4 +1,3 @@
-import * as React from "react";
 import ImmutableBoard from "../../models/ImmutableBoard";
 import {createUseStyles} from "react-jss";
 
@@ -55,13 +54,13 @@ const useStyles = createUseStyles({
 
 export default function TetrisBoard(props: Props) {
   const styles = useStyles();
-  const board = props.board.convertToArray().map(row => {
+  const board = props.board.convertToArray().map((row, rowIndex) => {
     if (row == null) {
       return null;
     }
     return (
-      <tr>
-        {row.map((elem) => <td className={styles.tetrisSquare} style={{backgroundColor: elem}}/>)}
+      <tr key={rowIndex}>
+        {row.map((elem, index) => <td key={`${rowIndex}-${index}`} className={styles.tetrisSquare} style={{backgroundColor: elem}}/>)}
       </tr>
     );
   });
