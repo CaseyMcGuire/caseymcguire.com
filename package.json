@@ -27,7 +27,7 @@
   "homepage": "https://github.com/CaseyMcGuire/puzzlr-kotlin#readme",
   "dependencies": {
     "@graphiql/toolkit": "^0.11.1",
-    "@stylexjs/stylex": "^0.10.0",
+    "@stylexjs/stylex": "^0.10.1",
     "@types/marked": "^4.0.3",
     "ace-builds": "^1.4.12",
     "graphiql": "^3.8.3",
@@ -40,7 +40,7 @@
     "react-dom": "^18.3.1",
     "react-jss": "^10.0.4",
     "react-relay": "^16.2.0",
-    "react-router": "^7.0.1",
+    "react-router": "^7.1.2",
     "relay-runtime": "^16.2.0",
     "webfontloader": "^1.6.28"
   },
@@ -50,7 +50,7 @@
     "@babel/preset-env": "^7.25.4",
     "@babel/preset-react": "^7.24.7",
     "@babel/preset-typescript": "^7.24.7",
-    "@stylexjs/webpack-plugin": "^0.10.0",
+    "@stylexjs/webpack-plugin": "^0.10.1",
     "@types/react": "^18.3.1",
     "@types/react-dom": "^18.3.1",
     "@types/react-relay": "^16.0.6",

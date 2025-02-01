@@ -1,9 +1,10 @@
 import * as React from "react";
-import * as ReactDOM from "react-dom";
 import AppContextProvider from "./components/context/AppContextProvider";
 import AppRouter from "./router/AppRouter";
-import {RelayConfig} from "./relay/RelayConfig";
+import {RelayConfig} from "relay/RelayConfig";
 import {RelayEnvironmentProvider} from "react-relay/hooks";
+import {renderComponent} from "utils/ReactPageUtils";
+
 
 export function AppRoot() {
   return (
@@ -17,7 +18,6 @@ export function AppRoot() {
   )
 }
 
-ReactDOM.render(
-  <AppRoot/>,
-  document.getElementById("root")
+renderComponent(
+  <AppRoot />
 );

@@ -1,12 +1,13 @@
 import * as React from "react";
-import {useEffect, useState} from "react";
+import {useContext, useEffect, useState} from "react";
 import {createUseStyles} from "react-jss";
 import Common from './Common';
 import PageHeader from "./components/PageHeader";
 import SideMenu from "./components/SideMenu";
-import { useLocation } from 'react-router';
+import {useLocation} from 'react-router';
 
-const getStyles = createUseStyles({
+
+const useStyles = createUseStyles({
   pageContainer: {
     flexDirection: 'column',
     display: 'flex',
@@ -24,7 +25,7 @@ export default function Page(props: {
   title?: string,
   children: React.ReactNode
 }) {
-  const styles = getStyles();
+  const styles = useStyles();
   const location = useLocation();
   const [displaySideMenu, setDisplaySideMenu] = useState(false);
   const title = props.title;
