@@ -1,7 +1,7 @@
 import path from "path";
 
 // @ts-ignore
-import StylexPlugin from "@stylexjs/webpack-plugin";
+import StylexPlugin from "./bin/stylex-webpack-plugin/index";
 import { Configuration } from "webpack";
 
 const config : Configuration = {

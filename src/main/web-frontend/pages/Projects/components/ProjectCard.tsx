@@ -1,6 +1,7 @@
 import * as stylex from "@stylexjs/stylex";
 import * as React from "react";
 import ProjectCardLink from "pages/Projects/components/ProjectCardLink";
+import {Link} from "react-router";
 
 const styles = stylex.create({
   card: {
@@ -51,10 +52,10 @@ export default function ProjectCard(props: CardProps) {
       </div>
       <div {...stylex.props(styles.linksContainer)}>
         <div {...stylex.props(styles.linkContainer)}>
-          <ProjectCardLink to={props.href} text={"View"} />
+          <Link to={props.href}>{'View'}</Link>
         </div>
         <div>
-          <ProjectCardLink to={props.sourceHref} text={"Source"} />
+          <Link to={props.sourceHref}>{'Source'}</Link>
         </div>
       </div>
     </div>

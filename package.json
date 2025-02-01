@@ -45,11 +45,15 @@
     "webfontloader": "^1.6.28"
   },
   "devDependencies": {
-    "@babel/core": "^7.26.0",
+    "@babel/core": "^7.26.7",
     "@babel/node": "^7.26.0",
+    "@babel/plugin-syntax-flow": "^7.26.0",
+    "@babel/plugin-syntax-jsx": "^7.25.9",
+    "@babel/plugin-syntax-typescript": "^7.25.9",
     "@babel/preset-env": "^7.25.4",
     "@babel/preset-react": "^7.24.7",
     "@babel/preset-typescript": "^7.24.7",
+    "@stylexjs/babel-plugin": "^0.10.1",
     "@stylexjs/webpack-plugin": "^0.10.1",
     "@types/react": "^18.3.1",
     "@types/react-dom": "^18.3.1",
