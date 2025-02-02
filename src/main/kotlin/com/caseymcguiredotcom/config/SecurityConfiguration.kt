@@ -20,15 +20,15 @@ import org.springframework.security.web.csrf.CsrfTokenRequestAttributeHandler
 @EnableWebSecurity
 @EnableMethodSecurity
 @Configuration
-class SecurityConfiguration(private val userDetailsService: UserDetailsServiceImpl){
+open class SecurityConfiguration(private val userDetailsService: UserDetailsServiceImpl){
 
   @Bean
-  fun passwordEncoder(): PasswordEncoder? {
+  open fun passwordEncoder(): PasswordEncoder? {
     return BCryptPasswordEncoder()
   }
 
   @Bean
-  fun authenticationManager(http: HttpSecurity): AuthenticationManager {
+  open fun authenticationManager(http: HttpSecurity): AuthenticationManager {
     val authenticationManagerBuilder = http.getSharedObject(
       AuthenticationManagerBuilder::class.java
     )
@@ -38,7 +38,7 @@ class SecurityConfiguration(private val userDetailsService: UserDetailsServiceIm
   }
 
   @Bean
-  fun filterChain(http: HttpSecurity): SecurityFilterChain {
+  open fun filterChain(http: HttpSecurity): SecurityFilterChain {
 
     // Spring Security 6 introduced new behavior around CSRF tokens. This was preventing
     // me from logging in so I added the below code to opt out of the new default. It might

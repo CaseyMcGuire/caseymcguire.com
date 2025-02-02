@@ -12,10 +12,10 @@ export default function RegisterPage() {
   return (
     <Page>
     <div>
-      <FormField formName={"Email"} title={"email"} type={"text"} onChange={(text) => {
+      <FormField formName={"Email"} placeholder={"Enter your email"} type={"text"} onChange={(text) => {
         setEmail(text);
       }}/>
-      <FormField formName={"Password"} title={"password"} type={"password"} onChange={(text) => {
+      <FormField formName={"Password"} placeholder={"Enter your password"} type={"password"} onChange={(text) => {
         setPassword(text);
       }}/>
       <button onClick={() => {

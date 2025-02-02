@@ -1,36 +1,57 @@
+import * as stylex from "@stylexjs/stylex";
 import * as React from "react";
 import {createUseStyles} from "react-jss";
 
 type Props = {
+  labelText?: string
   formName: string,
-  title: string,
+  placeholder: string,
   type: string,
   onChange?: (text: string) => void
 }
 
-const useStyles = createUseStyles({
+const styles = stylex.create({
+  formContainer: {
+    marginBottom: '24px'
+  },
   formField: {
-    height: '24px',
-    width: '240px'
+    height: '42px',
+    width: '380px',
+    paddingLeft: '.75rem',
+    paddingRight: '.75rem',
+    paddingTop: '.5rem',
+    paddingBottom: '.5rem',
+    border: '1px solid rgb(209 213 219)',
+    borderRadius: '.5rem',
+    fontSize: '16px',
+  },
+  formLabel: {
+    marginBottom: '4px'
   }
 });
 
 export default function FormField(props: Props) {
-  const styles = useStyles()
   return (
-    <div>
-      <div>
-        <input
-          className={styles.formField}
-          placeholder={props.formName}
+    <div {...stylex.props(styles.formContainer)}>
+        {
+          props.labelText && (
+            <div {...stylex.props(styles.formLabel)}>
+              <label htmlFor={props.formName}>
+                {props.labelText}
+              </label>
+            </div>
+          )
+        }
+        <input {...stylex.props(styles.formField)}
+          placeholder={props.placeholder}
           name={props.formName}
+          id={props.formName}
           type={props.type}
           onChange={event => {
             if (props.onChange != null) {
               props.onChange(event.target.value)
             }
           }}/>
-      </div>
     </div>
   );
 }

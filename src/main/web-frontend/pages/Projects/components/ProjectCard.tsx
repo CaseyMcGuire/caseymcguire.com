@@ -1,6 +1,5 @@
 import * as stylex from "@stylexjs/stylex";
 import * as React from "react";
-import ProjectCardLink from "pages/Projects/components/ProjectCardLink";
 import {Link} from "react-router";
 
 const styles = stylex.create({
