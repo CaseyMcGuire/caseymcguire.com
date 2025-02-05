@@ -3,6 +3,7 @@ import FormField from "./components/FormField";
 import CsrfToken from "../../components/csrf/CsrfToken";
 import Page from "../Page/Page";
 import * as stylex from '@stylexjs/stylex';
+import AuthFormContainer from "pages/Auth/components/AuthFormContainer";
 
 const styles = stylex.create({
   loginFormContainer: {
@@ -53,8 +54,7 @@ export default function LoginPage() {
 
   return (
     <Page>
-      <div {...stylex.props(styles.loginFormContainer)}>
-        <div {...stylex.props(styles.loginForm)}>
+      <AuthFormContainer>
           <div {...stylex.props(styles.loginHeader)}>
             {'Sign In'}
           </div>
@@ -69,8 +69,7 @@ export default function LoginPage() {
             </div>
             <input {...stylex.props(styles.submitButton)} name="submit" type="submit" value="Sign In" />
           </form>
-        </div>
-      </div>
+      </AuthFormContainer>
     </Page>
   )
 }
