@@ -5,6 +5,8 @@ import org.springframework.boot.gradle.tasks.run.BootRun
 val springVersion = "3.2.2"
 val jooqVersion = "3.19.16"
 val postgresVersion = "42.7.2"
+val exposedVersion = "1.0.0-beta-2"
+val migrationScriptPath = "com.caseymcguiredotcom.scripts.GenerateMigrationScriptKt"
 
 plugins {
   id("org.jetbrains.kotlin.jvm") version "1.9.22"
@@ -56,6 +58,11 @@ dependencies {
   jooqCodegen("org.postgresql:postgresql:$postgresVersion")
   jooqCodegen(project(":customgenerator"))
 
+  implementation("org.jetbrains.exposed:exposed-core:$exposedVersion")
+  implementation("org.jetbrains.exposed:exposed-jdbc:$exposedVersion")
+  implementation("org.jetbrains.exposed:spring-transaction:$exposedVersion")
+  implementation("org.jetbrains.exposed:exposed-migration:$exposedVersion")
+  implementation("org.jetbrains.exposed:exposed-java-time:$exposedVersion")
   implementation("org.postgresql:postgresql:$postgresVersion")
   implementation("org.flywaydb:flyway-core:9.16.0")
   implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.17.1")
@@ -124,12 +131,24 @@ tasks.register<NpmTask>("buildRelay") {
 // make sure webpack runs before the processResources task so the TypeScript files are compiled before
 // being copied into the build folder
 tasks.processResources {
-  dependsOn("webpack")
+  val taskNames = gradle.startParameter.taskNames
+  // only run frontend tasks when we're doing a full build
+  if (taskNames.any { it.contains("bootRun", ignoreCase = true) }) {
+    dependsOn("npm_install", "webpack")
+  }
 }
 
 tasks.getByName<BootRun>("bootRun") {
   environment = envVariables
   dependsOn("herokuBuild")
+}
+
+tasks.register<JavaExec>("generateMigrationScript") {
+  description = "Generates a SQL migration script which can be used by Flyway."
+  // This tells Gradle to use the project's compiled classes and all its dependencies
+  classpath = sourceSets.main.get().runtimeClasspath
+  environment = envVariables
+  mainClass.set(migrationScriptPath)
 }
 
 // For reasons I don't understand, adding this task causes Gradle to bug-out
