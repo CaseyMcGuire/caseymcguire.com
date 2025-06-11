@@ -5,7 +5,9 @@ import com.caseymcguiredotcom.db.tables.PostsTable
 import com.caseymcguiredotcom.db.tables.UsersTable
 import com.caseymcguiredotcom.db.tables.WorkoutSetsTable
 import com.caseymcguiredotcom.db.tables.WorkoutsTable
+import io.github.classgraph.ClassGraph
 import org.jetbrains.exposed.v1.core.ExperimentalDatabaseMigrationApi
+import org.jetbrains.exposed.v1.core.Table
 import org.jetbrains.exposed.v1.jdbc.Database
 import org.jetbrains.exposed.v1.jdbc.transactions.transaction
 import org.jetbrains.exposed.v1.migration.MigrationUtils
@@ -26,14 +28,17 @@ fun generateSingleScript() {
     password = databasePassword
   )
 
+  val tableObjects = ClassGraph()
+    .enableAllInfo()
+    .acceptPackages("com.caseymcguiredotcom.db.tables")
+    .scan()
+    .getSubclasses(Table::class.java.name)
+    .loadClasses(Table::class.java)
+    .mapNotNull { it.kotlin.objectInstance }
+    .toTypedArray()
+
   val statements = transaction {
-    MigrationUtils.statementsRequiredForDatabaseMigration(
-      UsersTable,
-      PostsTable,
-      WorkoutsTable,
-      WorkoutSetsTable,
-      ExercisesTable
-    )
+    MigrationUtils.statementsRequiredForDatabaseMigration(*tableObjects)
   }
 
   println("Database migration statements: ")
