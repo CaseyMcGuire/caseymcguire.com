@@ -11,6 +11,10 @@ class BlogPage : RenderablePage {
         ImportMapInput("sanitize-html", "https://esm.sh/sanitize-html@2.13.0")
       )
       .customHead {
+        link(
+          rel = "stylesheet",
+          href = "https://cdn.jsdelivr.net/npm/charter-webfont@4.1.0/charter.css"
+        )
         link {
           rel = "preload"
           href = "/assets/fonts/Computer_Modern/Serif/cmunrm.woff"
@@ -84,7 +88,7 @@ class BlogPage : RenderablePage {
             raw(
               """
                 body {
-                  font-family: "Computer Modern Serif", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+                  font-family: "Charter", "Bitstream Charter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
                                "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans",
                                "Droid Sans", "Helvetica Neue", sans-serif;
                   
