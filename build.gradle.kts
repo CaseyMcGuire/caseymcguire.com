@@ -2,27 +2,27 @@ import com.github.gradle.node.npm.task.NpmTask
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.springframework.boot.gradle.tasks.run.BootRun
 
-val springVersion = "3.2.2"
+val springVersion = "3.2.9"
 val jooqVersion = "3.19.16"
 val postgresVersion = "42.7.2"
 val exposedVersion = "1.0.0-beta-2"
 val migrationScriptPath = "com.caseymcguiredotcom.scripts.GenerateMigrationScriptKt"
 
 plugins {
-  id("org.jetbrains.kotlin.jvm") version "1.9.22"
+  id("org.jetbrains.kotlin.jvm") version "2.0.0"
   // Kotlin makes all classes final by default but Spring relies
   // upon classes being extendable to implement certain functionality.
   // In my case, Spring Security's `@PreAuthorize` annotation wasn't working
   // but when I marked the class as `open`, dependency injection wouldn't work.
   // However, this plugin seems to fix both issues.
   // Read here for more info: https://kotlinlang.org/docs/all-open-plugin.html
-  id("org.jetbrains.kotlin.plugin.spring") version "1.9.22"
-  id("org.springframework.boot") version "3.2.2" // can't use variable here :(
-  id("io.spring.dependency-management") version "1.1.4"
-  id("com.github.node-gradle.node") version "3.4.0"
+  id("org.jetbrains.kotlin.plugin.spring") version "2.0.0"
+  id("org.springframework.boot") version "3.2.9" // can't use variable here :(
+  id("io.spring.dependency-management") version "1.1.7"
+  id("com.github.node-gradle.node") version "7.1.0"
   id("org.jooq.jooq-codegen-gradle") version "3.19.16"
   id("org.flywaydb.flyway") version "9.16.0"
-  id("com.netflix.dgs.codegen") version "6.1.4"
+  id("com.netflix.dgs.codegen") version "8.1.1"
   id("java")
 }
 
