@@ -1,12 +1,15 @@
 package com.caseymcguiredotcom.graphql.models
 
+import com.fasterxml.jackson.annotation.JsonProperty
+
 
 data class MovieList(
-  val dates: Dates,
   val page: Int,
   val results: List<Movie>,
-  val totalPages: Int,
-  val totalResults: Int
-  )
 
-data class Dates(val maximum: String?, val minimum: String?)
+  @JsonProperty("total_pages")
+  val totalPages: Int,
+
+  @JsonProperty("total_results")
+  val totalResults: Int
+)

@@ -77,6 +77,10 @@ val herokuEnvironmentMap = mapOf(
   "JDBC_DATABASE_URL" to "DB_URL"
 )
 
+springBoot {
+  mainClass.set("com.caseymcguiredotcom.ApplicationKt")
+}
+
 
 val envVariables: Map<String, String> = {
   val getEnvironmentVariables = fun(): Map<String, String> {
