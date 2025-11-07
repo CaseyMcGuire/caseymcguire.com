@@ -139,7 +139,8 @@ tasks.register<NpmTask>("buildRelay") {
 tasks.processResources {
   val taskNames = gradle.startParameter.taskNames
   // only run frontend tasks when we're doing a full build
-  if (taskNames.any { it.contains("bootRun", ignoreCase = true) }) {
+  // we run 'bootRun' locally and 'herokuBuild' on Heroku
+  if (taskNames.any { it.contains("bootRun", ignoreCase = true) || it.contains("herokuBuild", ignoreCase = true) }) {
     dependsOn("npm_install", "webpack")
   }
 }
