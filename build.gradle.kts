@@ -1,34 +1,36 @@
 import com.github.gradle.node.npm.task.NpmTask
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.springframework.boot.gradle.tasks.run.BootRun
 
-val springVersion = "3.2.9"
-val jooqVersion = "3.19.16"
-val postgresVersion = "42.7.2"
-val exposedVersion = "1.0.0-beta-2"
+val springVersion = "3.5.5"
+val kotlinVersion = "2.2.21"
+val jooqVersion = "3.20.8"
+val postgresVersion = "42.7.8"
+val exposedVersion = "1.0.0-rc-3"
 val migrationScriptPath = "com.caseymcguiredotcom.scripts.GenerateMigrationScriptKt"
 
 plugins {
-  id("org.jetbrains.kotlin.jvm") version "2.0.0"
+  id("org.jetbrains.kotlin.jvm") version "2.2.21"
   // Kotlin makes all classes final by default but Spring relies
   // upon classes being extendable to implement certain functionality.
   // In my case, Spring Security's `@PreAuthorize` annotation wasn't working
   // but when I marked the class as `open`, dependency injection wouldn't work.
   // However, this plugin seems to fix both issues.
   // Read here for more info: https://kotlinlang.org/docs/all-open-plugin.html
-  id("org.jetbrains.kotlin.plugin.spring") version "2.0.0"
-  id("org.springframework.boot") version "3.2.9" // can't use variable here :(
+  id("org.jetbrains.kotlin.plugin.spring") version "2.2.21"
+  id("org.springframework.boot") version "3.5.5" // can't use variable here :(
   id("io.spring.dependency-management") version "1.1.7"
   id("com.github.node-gradle.node") version "7.1.0"
-  id("org.jooq.jooq-codegen-gradle") version "3.19.16"
-  id("org.flywaydb.flyway") version "9.16.0"
+  id("org.jooq.jooq-codegen-gradle") version "3.20.8"
+  id("org.flywaydb.flyway") version "11.16.0"
   id("com.netflix.dgs.codegen") version "8.1.1"
   id("java")
 }
 
 dependencyManagement {
   imports {
-    mavenBom("com.netflix.graphql.dgs:graphql-dgs-platform-dependencies:9.2.2")
+    mavenBom("com.netflix.graphql.dgs:graphql-dgs-platform-dependencies:10.4.0")
     mavenBom("org.springframework.boot:spring-boot-dependencies:${springVersion}")
   }
 }
@@ -44,7 +46,7 @@ dependencies {
   implementation("org.springframework.boot:spring-boot-starter-web")
   implementation("org.springframework.boot:spring-boot-starter-security")
   implementation("org.springframework.boot:spring-boot-starter-data-jpa")
-  implementation("com.netflix.graphql.dgs:graphql-dgs-spring-boot-starter")
+  implementation("com.netflix.graphql.dgs:dgs-starter")
   implementation("org.springframework.boot:spring-boot-starter-webflux")
 
   // for application runtime
@@ -61,14 +63,15 @@ dependencies {
   implementation("org.jetbrains.exposed:exposed-core:$exposedVersion")
   implementation("org.jetbrains.exposed:exposed-jdbc:$exposedVersion")
   implementation("org.jetbrains.exposed:spring-transaction:$exposedVersion")
-  implementation("org.jetbrains.exposed:exposed-migration:$exposedVersion")
+  implementation("org.jetbrains.exposed:exposed-migration-core:$exposedVersion")
+  implementation("org.jetbrains.exposed:exposed-migration-jdbc:$exposedVersion")
   implementation("org.jetbrains.exposed:exposed-java-time:$exposedVersion")
   implementation("org.postgresql:postgresql:$postgresVersion")
   implementation("org.flywaydb:flyway-core:9.16.0")
-  implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.17.1")
-  implementation("org.jetbrains.kotlinx:kotlinx-html-jvm:0.8.0")
+  implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
+  implementation("org.jetbrains.kotlinx:kotlinx-html-jvm:0.12.0")
 
-  implementation("io.github.classgraph:classgraph:4.8.179")
+  implementation("io.github.classgraph:classgraph:4.8.184")
 }
 
 val herokuEnvironmentMap = mapOf(
@@ -109,17 +112,24 @@ val envVariables: Map<String, String> = {
 }()
 
 // if you change this, you must update the `java.runtime.version` param in the 'system.properties' file to the same value
-val javaVersion = "17"
+val targetJava = 21
 
-tasks.withType<KotlinCompile> {
-  kotlinOptions {
-    jvmTarget = javaVersion
+java {
+  toolchain {
+    languageVersion.set(JavaLanguageVersion.of(targetJava))
   }
 }
 
-tasks.withType<JavaCompile> {
-  sourceCompatibility = javaVersion
-  targetCompatibility = javaVersion
+kotlin {
+  jvmToolchain(targetJava)
+  compilerOptions {
+    jvmTarget.set(JvmTarget.JVM_21)
+  }
+}
+
+// For Java sources, prefer 'release' over source/target pairs
+tasks.withType<JavaCompile>().configureEach {
+  options.release.set(targetJava)
 }
 
 tasks.register("webpack", NpmTask::class) {
