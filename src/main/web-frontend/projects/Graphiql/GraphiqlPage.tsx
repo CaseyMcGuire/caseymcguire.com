@@ -4,6 +4,7 @@ import * as ReactDOM from "react-dom";
 import {GraphiQL} from "graphiql";
 import 'graphiql/graphiql.css';
 import CsrfUtils from "../../components/csrf/CsrfUtils";
+import {renderComponent} from "utils/ReactPageUtils";
 
 function GraphiQLPage() {
   const fetcher = createGraphiQLFetcher({
@@ -25,9 +26,6 @@ function getHeaders(): string {
   )
 }
 
-
-
-ReactDOM.render(
-  <GraphiQLPage />,
-  document.getElementById("root")
+renderComponent(
+  <GraphiQLPage />
 );

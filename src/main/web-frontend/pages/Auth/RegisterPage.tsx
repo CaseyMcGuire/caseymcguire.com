@@ -12,7 +12,7 @@ const styles = stylex.create({
     backgroundColor: 'rgb(37, 99, 235)',
     padding: '8px 16px',
     borderRadius: '4px',
-    border: 'none',
+    borderStyle: 'none',
     color: 'white',
     cursor: 'pointer',
     fontSize: '16px',

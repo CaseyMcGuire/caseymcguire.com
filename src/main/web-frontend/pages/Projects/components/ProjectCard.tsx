@@ -6,7 +6,9 @@ const styles = stylex.create({
   card: {
     display: 'flex',
     flexDirection: 'column',
-    border: '1px #CCCCCC solid',
+    borderWidth: '1px',
+    borderColor: '#CCCCCC',
+    borderStyle: 'solid',
     width: '100%',
     padding: '12px',
     borderRadius: '16px',

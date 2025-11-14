@@ -43,10 +43,6 @@ class ReactPage(
           name = "viewport"
           content = "initial-scale=1.0, maximum-scale=1.0, width=device-width"
         }
-        link {
-          rel = "stylesheet"
-          href = "/bundles/styles.css"
-        }
         script(type = "importmap") {
           unsafe {
             raw(
@@ -69,16 +65,19 @@ class ReactPage(
         style {
           unsafe {
             +"""
+              @layer reset {
+                  * {
+                      margin: 0;
+                      padding: 0;
+                      box-sizing: border-box;
+                  }
 
-                    * {
-                        margin: 0;
-                        padding: 0;
-                        box-sizing: border-box;
-                    }
-
-                    html, body, #root {
-                        height: 100%;
-                    }
+                  html,
+                  body,
+                  #root {
+                      height: 100%;
+                  }
+              }
             """.trimIndent()
           }
         }

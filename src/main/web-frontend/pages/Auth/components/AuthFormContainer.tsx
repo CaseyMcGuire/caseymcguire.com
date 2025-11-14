@@ -16,7 +16,9 @@ const styles = stylex.create({
     padding: '48px',
     flexDirection: 'column',
     boxShadow: 'rgba(0, 0, 0, 0) 0px 0px 0px 0px',
-    border: '1px solid rgb(229, 231, 235)',
+    borderStyle: 'solid',
+    borderWidth: '1px',
+    borderColor: 'rgb(229, 231, 235)',
     height: '320px',
     width: '448px'
   }

@@ -7,6 +7,7 @@ import WorkoutTrackerExerciseIndexPage from "./pages/WorkoutTrackerExercisesInde
 import WorkoutTrackerCreateExercisePage from "./pages/WorkoutTrackerCreateExercisePage";
 import RelayRoot from "components/relay/RelayRoot";
 import {renderComponent} from "utils/ReactPageUtils";
+import PageWrapper from "components/PageWrapper/PageWrapper";
 
 const router = createBrowserRouter([
   {
@@ -40,7 +41,7 @@ const router = createBrowserRouter([
 ]);
 
 renderComponent(
-  <RelayRoot fallbackComponent={<div>Loading</div>}>
+  <PageWrapper fallbackComponent={<div>Loading</div>}>
     <RouterProvider router={router} />
-  </RelayRoot>
+  </PageWrapper>
 );

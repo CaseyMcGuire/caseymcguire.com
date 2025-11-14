@@ -1,7 +1,6 @@
 import path from "path";
 
 //@ts-ignore
-import StylexPlugin from "@stylexjs/webpack-plugin";
 import { Configuration } from "webpack";
 
 const config : Configuration = {
@@ -47,15 +46,11 @@ const config : Configuration = {
       },
       {
         test: /\.css$/i,
-        use: ['style-loader', 'css-loader'],
+        use: ['style-loader', 'css-loader', 'postcss-loader']
       },
     ]
   },
-  plugins: [
-    new StylexPlugin({
-      filename: 'styles.css',
-    }),
-  ],
+  plugins: [],
   externalsType: "module",
   externals: [
     'sanitize-html',
