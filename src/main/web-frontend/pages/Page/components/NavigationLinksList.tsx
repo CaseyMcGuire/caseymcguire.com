@@ -1,10 +1,11 @@
 import * as React from "react";
 import {createUseStyles} from "react-jss";
 import {Link} from "react-router";
-import CsrfToken from "../../../components/csrf/CsrfToken";
-import LoggedInComponentGating from "../../../components/gating/LoggedInComponentGating";
+import CsrfToken from "components/csrf/CsrfToken";
+import LoggedInComponentGating from "components/gating/LoggedInComponentGating";
+import * as stylex from "@stylexjs/stylex";
 
-const getStyles = createUseStyles({
+const styles = stylex.create({
   navigationBarContainer: {
     display: 'flex',
     flexDirection: 'column',
@@ -28,21 +29,22 @@ const getStyles = createUseStyles({
     margin: '5px 15px'
   },
   navBarLinkMobile: {
-    textDecoration: 'none',
+    textDecorationLine: 'none',
     display: 'flex'
   },
   navBarLink: {
     color: 'inherit',
-    textDecoration: 'underline'
+    textDecorationLine: 'underline'
   },
   logoutButton: {
     backgroundColor: 'white',
-    border: 'none',
+    borderWidth: 0,
+    borderStyle: 'none',
     font: 'inherit',
     cursor: 'pointer'
   },
   logoutButtonUnderline: {
-    textDecoration: 'underline'
+    textDecorationLine: 'underline'
   },
   menuButtonContainer: {
     display: 'none'
@@ -50,53 +52,80 @@ const getStyles = createUseStyles({
 });
 
 export default function NavigationLinksList(props: { isMobile: boolean }) {
-  const styles = getStyles();
   return (
-    <ul className={props.isMobile ? styles.navigationListMobile : styles.navigationList}>
-      <NavigationLink name={"Home"} link={"/"} isMobile={props.isMobile}/>
-      <NavigationLink name={"Resume"} link={"/resume"} isMobile={props.isMobile}/>
-      <NavigationLink name={"Blog"} link={"/posts"} isMobile={props.isMobile}/>
-      <NavigationLink name={"Projects"} link={"/projects"} isMobile={props.isMobile}/>
-      <NavigationLink name={"Contact"} link={"mailto:caseyjaymcguire@gmail.com"} isMobile={props.isMobile} useHardLink={true}/>
+    <ul
+      {...stylex.props(
+        props.isMobile ? styles.navigationListMobile : styles.navigationList,
+      )}
+    >
+      <NavigationLink name="Home" link="/" isMobile={props.isMobile} />
+      <NavigationLink name="Resume" link="/resume" isMobile={props.isMobile} />
+      <NavigationLink name="Blog" link="/posts" isMobile={props.isMobile} />
+      <NavigationLink
+        name="Projects"
+        link="/projects"
+        isMobile={props.isMobile}
+      />
+      <NavigationLink
+        name="Contact"
+        link="mailto:caseyjaymcguire@gmail.com"
+        isMobile={props.isMobile}
+        useHardLink={true}
+      />
       <LoggedInComponentGating>
-          <NavigationLogoutLink isMobile={props.isMobile}/>
+        <NavigationLogoutLink isMobile={props.isMobile} />
       </LoggedInComponentGating>
     </ul>
   );
 }
 
-function NavigationLogoutLink(props: {isMobile: boolean}) {
-  const styles = getStyles();
-  const classes = [styles.logoutButton];
-  if (!props.isMobile) {
-    classes.push(styles.logoutButtonUnderline)
-  }
-
+function NavigationLogoutLink(props: { isMobile: boolean }) {
   return (
-    <li className={props.isMobile ? styles.navBarItemMobile : styles.navBarItem}>
+    <li
+      {...stylex.props(
+        props.isMobile ? styles.navBarItemMobile : styles.navBarItem,
+      )}
+    >
       <form method="POST" action="/logout">
         <CsrfToken />
-        <input className={classes.join(' ')} type="submit" value="Logout" />
+        <input
+          {...stylex.props(
+            styles.logoutButton,
+            !props.isMobile && styles.logoutButtonUnderline,
+          )}
+          type="submit"
+          value="Logout"
+        />
       </form>
     </li>
   );
 }
 
-function NavigationLink(props: { name: string, link: string, isMobile: boolean, useHardLink?: boolean }) {
-  const styles = getStyles();
+function NavigationLink(props: {
+  name: string;
+  link: string;
+  isMobile: boolean;
+  useHardLink?: boolean;
+}) {
+  const linkStyles = props.isMobile
+    ? styles.navBarLinkMobile
+    : styles.navBarLink;
+
+  const itemStyles = props.isMobile
+    ? styles.navBarItemMobile
+    : styles.navBarItem;
+
   return (
-    <li className={props.isMobile ? styles.navBarItemMobile : styles.navBarItem}>
-      {
-        props.useHardLink ?
-          <a className={props.isMobile ? styles.navBarLinkMobile : styles.navBarLink}
-             href={props.link}>
-            {props.name}
-          </a> :
-          <Link className={props.isMobile ? styles.navBarLinkMobile : styles.navBarLink}
-                to={props.link}>
-            {props.name}
-          </Link>
-      }
+    <li {...stylex.props(itemStyles)}>
+      {props.useHardLink ? (
+        <a {...stylex.props(linkStyles)} href={props.link}>
+          {props.name}
+        </a>
+      ) : (
+        <Link {...stylex.props(linkStyles)} to={props.link}>
+          {props.name}
+        </Link>
+      )}
     </li>
   );
 }

@@ -1,9 +1,9 @@
 import * as React from "react";
 import NavigationLinksList from "./NavigationLinksList";
 import MenuButton from "./MenuButton";
-import {createUseStyles} from "react-jss";
+import * as stylex from "@stylexjs/stylex";
 
-const getStyles = createUseStyles({
+const styles = stylex.create({
   navigationBarContainer: {
     display: 'flex',
     flexDirection: 'column',
@@ -15,41 +15,40 @@ const getStyles = createUseStyles({
     flexDirection: 'row'
   },
   navBarItem: {
-    marginRight: '7px'
+    marginRight: 7
   },
   navBarLink: {
     color: 'inherit',
-    textDecoration: 'underline'
-  },
-  menuButtonContainer: {
-    display: 'none'
+    textDecorationLine: 'underline'
   },
   navigationBarLinksContainer: {
-    display: 'block'
-  },
-  '@media only screen and (max-width: 600px)': {
-    navigationBarLinksContainer: {
+    display: 'block',
+    '@media (max-width: 600px)': {
       display: 'none'
     },
-    menuButtonContainer: {
-      display: 'block'
-    }
-  }
+  },
+  menuButtonContainer: {
+    display: 'none',
+
+    '@media (max-width: 600px)': {
+      display: 'block',
+    },
+  },
 });
 
 interface Props {
   onMenuButtonClick: () => void
 }
 
+
 export default function NavigationBar(props: Props) {
-  const style = getStyles();
   return (
-    <div className={style.navigationBarContainer}>
-      <div className={style.navigationBarLinksContainer}>
-        <NavigationLinksList isMobile={false}/>
+    <div {...stylex.props(styles.navigationBarContainer)}>
+      <div {...stylex.props(styles.navigationBarLinksContainer)}>
+        <NavigationLinksList isMobile={false} />
       </div>
-      <div className={style.menuButtonContainer}>
-        <MenuButton onClick={props.onMenuButtonClick}/>
+      <div {...stylex.props(styles.menuButtonContainer)}>
+        <MenuButton onClick={props.onMenuButtonClick} />
       </div>
     </div>
   );

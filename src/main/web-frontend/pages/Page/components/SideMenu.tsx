@@ -1,14 +1,13 @@
 import * as React from "react";
 import NavigationLinksList from "./NavigationLinksList";
-import {createUseStyles} from "react-jss";
-import Common from "../Common";
+import * as stylex from "@stylexjs/stylex";
 
 interface Props {
   display: boolean,
   onCloseClick: () => void
 }
 
-const getStyles = createUseStyles({
+const styles = stylex.create({
   sideMenuGlass: {
     position: 'fixed',
     top: 0,
@@ -17,18 +16,17 @@ const getStyles = createUseStyles({
     height: '100%',
     backgroundColor: 'white',
     zIndex: 1,
-    webkitTransition: 'opacity 0.3s',
-    transition: 'opacity 0.3s',
-
+    transitionProperty: 'opacity',
+    transitionDuration: '0.3s',
     // in order to get the transition to work, we just make this an invisible div over the top
     // of the viewport that click events pass through.
-    opacity: 0.0,
+    opacity: 0,
     pointerEvents: 'none',
-    webkitTapHighlightColor: 'transparent'
+    WebkitTapHighlightColor: 'transparent',
   },
   sideMenuGlassVisible: {
     opacity: 0.8,
-    pointerEvents: 'all'
+    pointerEvents: 'all',
   },
   sideMenu: {
     position: 'fixed',
@@ -38,25 +36,37 @@ const getStyles = createUseStyles({
     width: 0,
     zIndex: 2,
     backgroundColor: 'white',
-    transition: 'width .5s',
-    paddingTop: '25px',
+    transitionProperty: 'width',
+    transitionDuration: '0.5s',
+    paddingTop: 25,
   },
   sideMenuVisible: {
     width: '65%',
-    borderLeft: '1px #EEEEEE solid'
+    borderLeftWidth: 1,
+    borderLeftStyle: 'solid',
+    borderLeftColor: '#EEEEEE',
   },
 });
 
+
 export default function SideMenu(props: Props) {
-  const styles = getStyles();
-  const sideMenuClass = styles.sideMenu + (props.display ? " " + styles.sideMenuVisible : "");
-  const sideMenuGlassClass = styles.sideMenuGlass + (props.display ? " " + styles.sideMenuGlassVisible : "");
   return (
     <div>
-      <div onClick={props.onCloseClick} className={sideMenuGlassClass}/>
-      <div className={sideMenuClass}>
-        <NavigationLinksList isMobile={true}/>
+      <div
+        onClick={props.onCloseClick}
+        {...stylex.props(
+          styles.sideMenuGlass,
+          props.display && styles.sideMenuGlassVisible,
+        )}
+      />
+      <div
+        {...stylex.props(
+          styles.sideMenu,
+          props.display && styles.sideMenuVisible,
+        )}
+      >
+        <NavigationLinksList isMobile />
       </div>
     </div>
-  )
+  );
 }

@@ -1,31 +1,29 @@
 import * as React from "react";
-import {useContext, useEffect, useState} from "react";
-import {createUseStyles} from "react-jss";
-import Common from './Common';
-import PageHeader from "./components/PageHeader";
-import SideMenu from "./components/SideMenu";
+import {useEffect, useState} from "react";
+import PageHeader from "pages/Page/components/PageHeader";
+import SideMenu from "pages/Page/components/SideMenu";
 import {useLocation} from 'react-router';
+import * as stylex from "@stylexjs/stylex";
 
 
-const useStyles = createUseStyles({
+const styles = stylex.create({
   pageContainer: {
-    flexDirection: 'column',
     display: 'flex',
+    flexDirection: 'column',
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
   },
   pageContent: {
-    padding: '8px',
+    padding: 8,
     width: '100%',
-    maxWidth: Common.contentWidth
-  }
+    maxWidth: 900,
+  },
 });
 
 export default function Page(props: {
   title?: string,
   children: React.ReactNode
 }) {
-  const styles = useStyles();
   const location = useLocation();
   const [displaySideMenu, setDisplaySideMenu] = useState(false);
   const title = props.title;
@@ -43,12 +41,17 @@ export default function Page(props: {
     setDisplaySideMenu(false)
   }, [location.pathname])
   return (
-    <div className={styles.pageContainer}>
-      <div className={styles.pageContent}>
-        <PageHeader onMenuButtonClick={() => setDisplaySideMenu(!displaySideMenu)}/>
+    <div {...stylex.props(styles.pageContainer)}>
+      <div {...stylex.props(styles.pageContent)}>
+        <PageHeader
+          onMenuButtonClick={() => setDisplaySideMenu(!displaySideMenu)}
+        />
         {props.children}
       </div>
-      <SideMenu onCloseClick={() => setDisplaySideMenu(!displaySideMenu)} display={displaySideMenu}/>
+      <SideMenu
+        onCloseClick={() => setDisplaySideMenu(!displaySideMenu)}
+        display={displaySideMenu}
+      />
     </div>
-  )
+  );
 }

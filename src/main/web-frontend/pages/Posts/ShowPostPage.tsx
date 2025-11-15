@@ -1,13 +1,13 @@
 import * as React from "react";
 import {FetchPolicy, graphql} from "react-relay";
-import {ShowPostPageQuery} from "../../__generated__/ShowPostPageQuery.graphql";
+import {ShowPostPageQuery} from "__generated__/ShowPostPageQuery.graphql";
 import {redirect, useNavigate, useParams} from "react-router";
 import Post from "./components/Post";
 import LoadingPost from "./components/LoadingPost";
-import Page from "../Page/Page";
+import Page from "pages/Page/Page";
 import {useLazyLoadQuery} from "react-relay/hooks";
 import {useContext} from "react";
-import AppContext from "../../components/context/AppContext";
+import AppContext from "components/context/AppContext";
 
 
 export default function SinglePostPage() {

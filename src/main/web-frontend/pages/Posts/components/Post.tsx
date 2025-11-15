@@ -3,8 +3,9 @@ import sanitizeHtml from "sanitize-html";
 import hljs from 'highlight.js';
 import AdminComponentGating from "../../../components/gating/AdminComponentGating";
 import {Link} from "react-router";
-import {usePostStyles} from "./PostHooks";
+import {postStyles} from "./PostStyles";
 import {marked} from "marked";
+import * as stylex from '@stylexjs/stylex';
 
 type Props = Readonly<{
   id?: number,
@@ -21,7 +22,6 @@ export default function Post(props: Props) {
     contents,
     showEditButton
   } = props;
-  const styles = usePostStyles();
 
   const unsanitized_html_DO_NOT_USE = marked(contents, {
     highlight: (code, lang) => {
@@ -37,29 +37,25 @@ export default function Post(props: Props) {
     })
   });
 
-  const blogTitleElement = id ? <Link to={"/posts/" + id}>{title}</Link> : title;
+  const blogTitleElement = id ? <Link {...stylex.props(postStyles.postTitleLink)} to={"/posts/" + id}>{title}</Link> : title;
   const editButton = id ? <Link to={"/posts/" + id + "/edit"}>Edit</Link> : null;
   return (
-    <div className={styles.postContainer}>
-      <div className={styles.postTitleContainer}>
-        <h2 className={styles.postTitle}>{blogTitleElement}</h2>
-        <div className={styles.postSubtitle}>
-          {
-            props.publishedDate != null ? (
-              <span className={styles.date}>{props.publishedDate}</span>
-            ) : null
-          }
-          {
-            showEditButton == true ? (
-              <AdminComponentGating>
-                {editButton}
-              </AdminComponentGating>
-            ) : null
-          }
+    <div {...stylex.props(postStyles.postContainer)}>
+      <div {...stylex.props(postStyles.postTitleContainer)}>
+        <h2>{blogTitleElement}</h2>
+        <div {...stylex.props(postStyles.postSubtitle)}>
+          {props.publishedDate != null ? (
+            <span {...stylex.props(postStyles.date)}>{props.publishedDate}</span>
+          ) : null}
+          {showEditButton === true ? (
+            <AdminComponentGating>{editButton}</AdminComponentGating>
+          ) : null}
         </div>
       </div>
-      <div className={styles.postContentsContainer}
-           dangerouslySetInnerHTML={{__html: sanitizedHtml}}/>
+      <div
+        {...stylex.props(postStyles.postContentsContainer)}
+        dangerouslySetInnerHTML={{ __html: sanitizedHtml }}
+      />
     </div>
   );
 }

@@ -1,6 +1,5 @@
 import * as stylex from "@stylexjs/stylex";
 import * as React from "react";
-import {createUseStyles} from "react-jss";
 
 type Props = {
   labelText?: string

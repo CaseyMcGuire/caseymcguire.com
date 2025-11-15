@@ -1,26 +1,27 @@
-import {usePostStyles} from "./PostHooks";
+import {postStyles} from "./PostStyles";
 import * as React from "react";
-import LoadingShimmer from "../../../components/LoadingShimmer/LoadingShimmer";
-import {useDelay} from "../../../utils/useDelay";
+import LoadingShimmer from "components/LoadingShimmer/LoadingShimmer";
+import {useDelay} from "utils/useDelay";
+import * as stylex from "@stylexjs/stylex";
 
 export default function LoadingPost() {
-  const styles = usePostStyles();
   const isVisible = useDelay(500);
   if (!isVisible) {
     return <div />;
   }
+
   return (
-    <div className={styles.postContainer}>
-      <div className={styles.postTitleContainer}>
+    <div {...stylex.props(postStyles.postContainer)}>
+      <div {...stylex.props(postStyles.postTitleContainer)}>
         <LoadingShimmer marginBottom={4} height={16} width={150} />
         <LoadingShimmer marginBottom={4} height={16} width={50} />
       </div>
-      <div className={styles.postContentsContainer}>
-        <LoadingShimmer marginBottom={4} height={16} width={'100%'} />
-        <LoadingShimmer marginBottom={4} height={16} width={'100%'} />
-        <LoadingShimmer marginBottom={4} height={16} width={'100%'} />
-        <LoadingShimmer marginBottom={4} height={16} width={'100%'} />
+      <div {...stylex.props(postStyles.postContentsContainer)}>
+        <LoadingShimmer marginBottom={4} height={16} width="100%" />
+        <LoadingShimmer marginBottom={4} height={16} width="100%" />
+        <LoadingShimmer marginBottom={4} height={16} width="100%" />
+        <LoadingShimmer marginBottom={4} height={16} width="100%" />
       </div>
     </div>
-  )
+  );
 }

@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Link } from "react-router";
-import {createUseStyles} from "react-jss";
-import {usePostStyles} from "./PostHooks";
+import {postStyles} from "./PostStyles";
+import * as stylex from '@stylexjs/stylex';
 
 type Props = {
   postId: number,
@@ -9,7 +9,7 @@ type Props = {
   date: string
 }
 
-const useStyles = createUseStyles({
+const styles = stylex.create({
   postLink: {
     textDecoration: 'none'
   },
@@ -19,18 +19,18 @@ const useStyles = createUseStyles({
 })
 
 export default function PostLink(props: Props) {
-  const styles = useStyles()
-  const postStyles = usePostStyles();
 
   return (
-    <div className={styles.container}>
+    <div {...stylex.props(styles.container)}>
       <h2>
-        <Link className={styles.postLink} to={"/posts/" + props.postId}>
+        <Link
+          {...stylex.props(styles.postLink)}
+          to={`/posts/${props.postId}`}
+        >
           {props.title}
         </Link>
       </h2>
-      <span className={postStyles.date}>{props.date}</span>
-
+      <span {...stylex.props(postStyles.date)}>{props.date}</span>
     </div>
-  )
+  );
 }
