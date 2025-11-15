@@ -1,44 +1,48 @@
-import {createUseStyles} from "react-jss";
 import * as React from "react";
+import * as stylex from "@stylexjs/stylex";
 import WorkoutTrackerInputLabel from "./WorkoutTrackerInputLabel";
 
-const useStyles = createUseStyles({
+const styles = stylex.create({
   formElementContainer: {
-    display: 'flex',
-    flexDirection: 'column'
+    display: "flex",
+    flexDirection: "column",
   },
   textInput: {
-    padding: '12px 8px',
-    borderRadius: '6px',
-    fontSize: '16px',
-    border: '1px solid rgb(209, 213, 219)'
-  }
-})
+    paddingTop: 12,
+    paddingBottom: 12,
+    paddingLeft: 8,
+    paddingRight: 8,
+    borderRadius: 6,
+    fontSize: 16,
+    borderWidth: 1,
+    borderStyle: "solid",
+    borderColor: "rgb(209, 213, 219)",
+  },
+});
 
 type Props = {
-  label?: string,
-  name: string,
-  handleTextChange: (elem: string) => void
-}
+  label?: string;
+  name: string;
+  handleTextChange: (elem: string) => void;
+};
 
 export default function WorkoutTrackerInputField(props: Props) {
-  const styles = useStyles();
   return (
     <div>
-      <div className={styles.formElementContainer}>
-        {
-          props.label && <WorkoutTrackerInputLabel labelText={props.label} name={props.name} />
-        }
-        <input className={styles.textInput}
-               name={props.name}
-               type="text"
-               onChange={event =>
-                 props.handleTextChange(
-                   event.target.value
-                 )
-               }
+      <div {...stylex.props(styles.formElementContainer)}>
+        {props.label && (
+          <WorkoutTrackerInputLabel
+            labelText={props.label}
+            name={props.name}
+          />
+        )}
+        <input
+          {...stylex.props(styles.textInput)}
+          name={props.name}
+          type="text"
+          onChange={event => props.handleTextChange(event.target.value)}
         />
       </div>
     </div>
-  )
+  );
 }

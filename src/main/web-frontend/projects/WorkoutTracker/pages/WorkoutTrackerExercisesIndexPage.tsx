@@ -1,19 +1,17 @@
 import WorkoutPage from "../components/WorkoutPage";
-import {WorkoutSidebarMenuId} from "../components/WorkoutSidebar";
+import { WorkoutSidebarMenuId } from "../components/WorkoutSidebar";
 import React from "react";
-import {graphql} from "react-relay";
-import {useLazyLoadQuery} from "react-relay/hooks";
-import {
-  WorkoutTrackerExercisesIndexPageQuery
-} from "__generated__/WorkoutTrackerExercisesIndexPageQuery.graphql";
-import WorkoutTrackerContainer from "../components/WorkoutTrackerContainer";
-import {createUseStyles} from "react-jss";
+import { graphql } from "react-relay";
+import { useLazyLoadQuery } from "react-relay/hooks";
+import { WorkoutTrackerExercisesIndexPageQuery } from "__generated__/WorkoutTrackerExercisesIndexPageQuery.graphql";
+import WorkoutTrackerContainer from "projects/WorkoutTracker/components/WorkoutTrackerContainer";
+import * as stylex from "@stylexjs/stylex";
 
-const useStyles = createUseStyles({
+const styles = stylex.create({
   exerciseContainer: {
-    marginBottom: '12px'
-  }
-})
+    marginBottom: 12,
+  },
+});
 
 export default function WorkoutTrackerExercisesIndexPage() {
   const query = graphql`
@@ -25,24 +23,30 @@ export default function WorkoutTrackerExercisesIndexPage() {
         }
       }
     }
-  `
-  const styles = useStyles();
-  const result = useLazyLoadQuery<WorkoutTrackerExercisesIndexPageQuery>(query, {});
+  `;
+
+  const result = useLazyLoadQuery<WorkoutTrackerExercisesIndexPageQuery>(
+    query,
+    {},
+  );
+
   return (
-    <WorkoutPage title="Exercises"
-                 titleLink={"/workout_tracker/exercise/create"}
-                 selectedMenuItemId={WorkoutSidebarMenuId.EXERCISES}>
-      {
-        result.workoutTracker?.exercises?.map(elem => {
-          return (
-            <div className={styles.exerciseContainer}>
-              <WorkoutTrackerContainer>
-                {elem?.name}
-              </WorkoutTrackerContainer>
-            </div>
-          )
-        })
-      }
+    <WorkoutPage
+      title="Exercises"
+      titleLink={"/workout_tracker/exercise/create"}
+      selectedMenuItemId={WorkoutSidebarMenuId.EXERCISES}
+    >
+      {result.workoutTracker?.exercises?.map(elem => {
+        if (!elem) return null;
+        return (
+          <div
+            key={elem.id}
+            {...stylex.props(styles.exerciseContainer)}
+          >
+            <WorkoutTrackerContainer>{elem.name}</WorkoutTrackerContainer>
+          </div>
+        );
+      })}
     </WorkoutPage>
-  )
+  );
 }

@@ -1,43 +1,39 @@
-import {createUseStyles} from "react-jss";
 import * as React from "react";
+import * as stylex from "@stylexjs/stylex";
 import MovieSidebar from "./MovieSidebar";
+import {ReactNode} from "react";
 
-const useStyles = createUseStyles({
+const styles = stylex.create({
   root: {
-    height: '100%',
+    height: "100%",
     backgroundColor: "#141414",
-    display: 'flex',
-    flexDirection: 'row'
+    display: "flex",
+    flexDirection: "row",
   },
   sidebar: {
-    width: '10%',
-    height: '100%'
+    width: "10%",
+    height: "100%",
   },
   sidebarContainer: {
-    position: 'fixed'
+    position: "fixed",
   },
   content: {
-    width: '90%',
-    margin: '12px'
-  }
+    width: "90%",
+    margin: 12,
+  },
 });
 
 type Props = {
-  children: JSX.Element | null
-}
+  children: ReactNode | null;
+};
 
 export default function MovieRoot(props: Props) {
-  const styles = useStyles();
-
   return (
-    <div className={styles.root}>
-      <div className={styles.sidebar}>
+    <div {...stylex.props(styles.root)}>
+      <div {...stylex.props(styles.sidebar)}>
         <MovieSidebar />
       </div>
-      <div className={styles.content}>
-        {props.children}
-      </div>
+      <div {...stylex.props(styles.content)}>{props.children}</div>
     </div>
-  )
-
+  );
 }

@@ -1,67 +1,70 @@
 import TetrisBoard from "../TetrisBoard/TetrisBoard";
 import * as React from "react";
-import {useEffect, useReducer, useState} from "react";
-import {initialState, reducer} from "../../reducers/TetrisReducer";
-import {createUseStyles} from "react-jss";
+import { useEffect, useReducer } from "react";
+import { initialState, reducer } from "../../reducers/TetrisReducer";
 import TetrisSidePanel from "../TetrisSidePanel/TetrisSidePanel";
+import * as stylex from "@stylexjs/stylex";
 
-const useStyles = createUseStyles({
+const styles = stylex.create({
   tetrisContainer: {
-    justifyContent: 'center',
-    display: 'flex',
-    flexDirection: 'row',
-    fontFamily: 'monospace'
-  }
+    justifyContent: "center",
+    display: "flex",
+    flexDirection: "row",
+    fontFamily: "monospace",
+  },
 });
 
 export default function Tetris() {
-  const styles = useStyles();
   const [state, dispatch] = useReducer(reducer, initialState);
+
   useEffect(() => {
-    window.setInterval(() => {
-      dispatch({type: "TICK"});
+    const id = window.setInterval(() => {
+      dispatch({ type: "TICK" });
     }, 400);
 
     window.onkeydown = (event: KeyboardEvent) => {
       switch (event.key) {
         case Move.Spin:
-          dispatch({type: "ROTATE_PIECE"});
+          dispatch({ type: "ROTATE_PIECE" });
           break;
         case Move.Left:
-          dispatch({type: "MOVE_PIECE_LEFT"});
+          dispatch({ type: "MOVE_PIECE_LEFT" });
           break;
         case Move.Right:
-          dispatch({type: "MOVE_PIECE_RIGHT"});
+          dispatch({ type: "MOVE_PIECE_RIGHT" });
           break;
         case Move.Drop:
-          dispatch({type: "DROP_PIECE"});
+          dispatch({ type: "DROP_PIECE" });
           break;
         case Move.Pause:
-          dispatch({type: "PAUSE"})
+          dispatch({ type: "PAUSE" });
           break;
       }
-    }
-  },[dispatch]);
+    };
 
+    return () => {
+      window.clearInterval(id);
+      window.onkeydown = null;
+    };
+  }, [dispatch]);
 
   return (
-    <div className={styles.tetrisContainer}>
+    <div {...stylex.props(styles.tetrisContainer)}>
       <TetrisBoard
         board={state.board}
         isPaused={state.isPaused}
         isGameOver={state.isGameOver}
         handleUnpauseButtonPress={() => {
           if (state.isPaused) {
-            dispatch({type: "PAUSE"})
+            dispatch({ type: "PAUSE" });
           }
-        }
-        }
+        }}
         handleRestartButtonPress={() => {
           if (state.isGameOver) {
-            dispatch({type: 'RESTART'})
+            dispatch({ type: "RESTART" });
           }
-        }
-      }/>
+        }}
+      />
       <TetrisSidePanel state={state} />
     </div>
   );

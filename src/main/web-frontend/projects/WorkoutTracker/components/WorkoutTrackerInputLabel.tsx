@@ -1,24 +1,24 @@
-import {createUseStyles} from "react-jss";
 import * as React from "react";
-
+import * as stylex from "@stylexjs/stylex";
 
 type Props = {
-  name: string,
-  labelText: string
-}
+  name: string;
+  labelText: string;
+};
 
-const useStyles = createUseStyles({
+const styles = stylex.create({
   label: {
-    color: 'rgb(55, 65, 81)',
-    fontSize: '14px',
-    fontWeight: '500',
-    marginBottom: '4px'
-  }
-})
+    color: "rgb(55, 65, 81)",
+    fontSize: 14,
+    fontWeight: 500,
+    marginBottom: 4,
+  },
+});
 
 export default function WorkoutTrackerInputLabel(props: Props) {
-  const styles = useStyles();
   return (
-    <label className={styles.label} htmlFor={props.name}>{props.labelText}</label>
-  )
+    <label {...stylex.props(styles.label)} htmlFor={props.name}>
+      {props.labelText}
+    </label>
+  );
 }

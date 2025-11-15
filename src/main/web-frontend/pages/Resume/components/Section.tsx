@@ -1,36 +1,37 @@
 import * as React from "react";
-import {createUseStyles} from "react-jss";
+import * as stylex from "@stylexjs/stylex";
 
-const getStyles = createUseStyles({
+const styles = stylex.create({
   sectionContainer: {
-    marginBottom: '10px'
+    marginBottom: 10,
   },
   sectionContentContainer: {
-    padding: '0px 20px'
+    padding: "0px 20px",
   },
   sectionTitleContainer: {
-    borderBottom: '1px solid black'
+    borderBottomWidth: 1,
+    borderBottomStyle: "solid",
+    borderBottomColor: "black",
   },
   sectionTitle: {
-    fontWeight: 'bold'
-  }
+    fontWeight: "bold",
+  },
 });
 
 interface Props {
-  title: string,
-  children: React.ReactNode
+  title: string;
+  children: React.ReactNode;
 }
 
 export default function Section(props: Props) {
-  const styles = getStyles();
-    return (
-      <div className={styles.sectionContainer}>
-        <div className={styles.sectionTitleContainer}>
-          <span className={styles.sectionTitle}>{props.title}</span>
-        </div>
-        <div className={styles.sectionContentContainer}>
-          {props.children}
-        </div>
+  return (
+    <div {...stylex.props(styles.sectionContainer)}>
+      <div {...stylex.props(styles.sectionTitleContainer)}>
+        <span {...stylex.props(styles.sectionTitle)}>{props.title}</span>
       </div>
-    )
-  }
+      <div {...stylex.props(styles.sectionContentContainer)}>
+        {props.children}
+      </div>
+    </div>
+  );
+}

@@ -1,23 +1,20 @@
-import React, {ReactNode} from "react";
-import {createUseStyles} from "react-jss";
+import React, { ReactNode } from "react";
+import * as stylex from "@stylexjs/stylex";
 
 type Props = {
-  children?: ReactNode
-}
+  children?: ReactNode;
+};
 
-const useStyles = createUseStyles({
+const styles = stylex.create({
   workoutTrackerBox: {
-    border: '1px solid rgb(229, 231, 235)',
-    borderRadius: '12px',
-    padding: '16px'
-  }
-})
+    borderWidth: 1,
+    borderStyle: "solid",
+    borderColor: "rgb(229, 231, 235)",
+    borderRadius: 12,
+    padding: 16,
+  },
+});
 
 export default function WorkoutTrackerBox(props: Props) {
-  const styles = useStyles();
-  return (
-    <div className={styles.workoutTrackerBox}>
-      {props.children}
-    </div>
-  )
+  return <div {...stylex.props(styles.workoutTrackerBox)}>{props.children}</div>;
 }

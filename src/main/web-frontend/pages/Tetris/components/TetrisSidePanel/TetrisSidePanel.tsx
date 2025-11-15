@@ -1,29 +1,28 @@
-import {NextTetrominoView} from "../NextTetrominoView/NextTetrominoView";
-import {TetrisState} from "../../reducers/TetrisReducer";
+import { NextTetrominoView } from "pages/Tetris/components/NextTetrominoView/NextTetrominoView";
+import { TetrisState } from "pages/Tetris/reducers/TetrisReducer";
 import * as React from "react";
-import {createUseStyles} from "react-jss";
-import TetrisScore from "../TetrisScore";
+import * as stylex from "@stylexjs/stylex";
+import TetrisScore from "pages/Tetris/components/TetrisScore";
 
 type Props = {
-  state: TetrisState
-}
+  state: TetrisState;
+};
 
-const useStyles = createUseStyles({
+const styles = stylex.create({
   sidePanel: {
-    width: '200px',
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'space-evenly',
-    alignItems: 'center'
-  }
-})
+    width: 200,
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "space-evenly",
+    alignItems: "center",
+  },
+});
 
 export default function TetrisSidePanel(props: Props) {
-  const styles = useStyles()
   return (
-    <div className={styles.sidePanel}>
+    <div {...stylex.props(styles.sidePanel)}>
       <NextTetrominoView nextTetromino={props.state.nextTetromino} />
       <TetrisScore score={props.state.score} />
     </div>
-  )
+  );
 }

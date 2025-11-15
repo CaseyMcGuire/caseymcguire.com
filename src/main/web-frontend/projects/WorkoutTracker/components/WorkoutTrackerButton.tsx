@@ -1,33 +1,36 @@
-import {createUseStyles} from "react-jss";
 import * as React from "react";
+import * as stylex from "@stylexjs/stylex";
 
-
-const useStyles = createUseStyles({
+const styles = stylex.create({
   button: {
-    padding: '8px 16px',
-    backgroundColor: 'rgb(37, 99, 235)',
-    borderRadius: '6px',
-    color: 'rgb(255, 255, 255)',
+    paddingTop: 8,
+    paddingBottom: 8,
+    paddingLeft: 16,
+    paddingRight: 16,
+    backgroundColor: "rgb(37, 99, 235)",
+    borderRadius: 6,
+    color: "rgb(255, 255, 255)",
     fontWeight: 400,
-    fontSize: '16px',
-    border: '0px solid rgb(229, 231, 235)',
-    cursor: 'pointer',
-    '&:hover': {
-      backgroundColor: 'rgb(37, 99, 235, 0.9)'
-    }
-  }
-})
+    fontSize: 16,
+    borderWidth: 0,
+    borderStyle: "solid",
+    borderColor: "rgb(229, 231, 235)",
+    cursor: "pointer",
+    ":hover": {
+      backgroundColor: "rgba(37, 99, 235, 0.9)",
+    },
+  },
+});
 
 type Props = {
-  text: string,
-  onClick: () => void
-}
+  text: string;
+  onClick: () => void;
+};
 
 export default function WorkoutTrackerButton(props: Props) {
-  const styles = useStyles();
   return (
-    <button className={styles.button} onClick={props.onClick}>
+    <button {...stylex.props(styles.button)} onClick={props.onClick}>
       {props.text}
     </button>
-  )
+  );
 }

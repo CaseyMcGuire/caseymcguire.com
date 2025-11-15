@@ -1,35 +1,43 @@
 import * as React from "react";
-import {createUseStyles} from "react-jss";
-import {useDelay} from "../../utils/useDelay";
+import * as stylex from "@stylexjs/stylex";
 
-const useStyles = createUseStyles({
-  '@keyframes shimmer': {
-    from: {
-      opacity: 1
-    },
-    to: {
-      opacity: 0.25
-    }
+const shimmer = stylex.keyframes({
+  from: {
+    opacity: 1,
   },
-  shimmerContainer: {
-    backgroundColor: '#e3e3e3',
-    animationName: '$shimmer',
-    animationDuration: '1s',
-    animationDirection: 'alternate',
-    animationIterationCount: 'infinite',
-    borderRadius: '12px'
-  }
+  to: {
+    opacity: 0.25,
+  },
 });
 
-export default function LoadingShimmer(props: {
-  height: number,
-  width: number | string,
-  marginBottom?: number
-}) {
-  const styles = useStyles();
+const styles = stylex.create({
+  shimmerContainer: {
+    backgroundColor: "#e3e3e3",
+    animationName: shimmer,
+    animationDuration: "1s",
+    animationDirection: "alternate",
+    animationIterationCount: "infinite",
+    borderRadius: 12,
+  },
+});
+
+type LoadingShimmerProps = {
+  height: number;
+  width: number | string;
+  marginBottom?: number;
+};
+
+export default function LoadingShimmer(props: LoadingShimmerProps) {
+  const { height, width, marginBottom } = props;
+
   return (
-    <div style={{...props}} className={styles.shimmerContainer}/>
+    <div
+      {...stylex.props(styles.shimmerContainer)}
+      style={{
+        height,
+        width,
+        ...(marginBottom != null ? { marginBottom } : {}),
+      }}
+    />
   );
 }
-
-

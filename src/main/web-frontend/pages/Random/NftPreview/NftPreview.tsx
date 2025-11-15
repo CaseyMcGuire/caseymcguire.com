@@ -1,23 +1,22 @@
-import {createUseStyles} from "react-jss";
-import PreviewCard from "./PreviewCard";
 import * as React from "react";
+import * as stylex from "@stylexjs/stylex";
+import PreviewCard from "./PreviewCard";
 
-const useStyles = createUseStyles({
+const styles = stylex.create({
   app: {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#0D192C',
-    width: '100%',
-    height: '100%'
-  }
-})
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#0D192C",
+    width: "100%",
+    height: "100%"
+  },
+});
 
 // see https://www.frontendmentor.io/challenges/nft-preview-card-component-SbdUL_w0U
 function NftPreview() {
-  const styles = useStyles()
   return (
-    <div className={styles.app}>
+    <div {...stylex.props(styles.app)}>
       <PreviewCard
         title={"Equilibrium #3429"}
         description={"Our Equilibrium collection promotes balance and calm."}

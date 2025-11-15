@@ -1,6 +1,5 @@
 import * as React from "react";
-import {createUseStyles} from "react-jss";
-import {Link} from "react-router";
+import { Link } from "react-router";
 import CsrfToken from "components/csrf/CsrfToken";
 import LoggedInComponentGating from "components/gating/LoggedInComponentGating";
 import * as stylex from "@stylexjs/stylex";

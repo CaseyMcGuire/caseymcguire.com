@@ -1,51 +1,45 @@
 import * as React from "react";
-import {createUseStyles} from "react-jss";
+import * as stylex from "@stylexjs/stylex";
 
-
-const getStyles = createUseStyles({
+const styles = stylex.create({
   educationCardContainer: {
-    marginTop: '5px',
-    display: 'flex',
-    justifyContent: 'space-between'
+    marginTop: 5,
+    display: "flex",
+    justifyContent: "space-between",
+
+    "@media (max-width: 600px)": {
+      flexDirection: "column",
+    },
   },
   schoolInfoContainer: {
-    display: 'flex',
-    flexDirection: 'column'
+    display: "flex",
+    flexDirection: "column",
   },
   universityName: {
-    fontWeight: 'bold'
+    fontWeight: "bold",
   },
   graduationDate: {
-    fontStyle: 'italic'
+    fontStyle: "italic",
   },
-  '@media only screen and (max-width: 600px)': {
-    educationCardContainer: {
-      flexDirection: 'column'
-    }
-  }
 });
 
-
 interface Props {
-  universityName: string,
-  major: string,
-  minor?: string,
-  graduationDate: string
+  universityName: string;
+  major: string;
+  minor?: string;
+  graduationDate: string;
 }
 
 export default function EducationCard(props: Props) {
-  const {
-    universityName,
-    major,
-    minor,
-    graduationDate
-  } = props;
-  const styles = getStyles();
+  const { universityName, major, minor, graduationDate } = props;
+
   return (
-    <div className={styles.educationCardContainer}>
-      <div className={styles.schoolInfoContainer}>
+    <div {...stylex.props(styles.educationCardContainer)}>
+      <div {...stylex.props(styles.schoolInfoContainer)}>
         <div>
-          <span className={styles.universityName}>{universityName}</span>
+          <span {...stylex.props(styles.universityName)}>
+            {universityName}
+          </span>
         </div>
         <div>
           <span>{major}</span>
@@ -55,8 +49,10 @@ export default function EducationCard(props: Props) {
         </div>
       </div>
       <div>
-        <span className={styles.graduationDate}>Graduated {graduationDate}</span>
+        <span {...stylex.props(styles.graduationDate)}>
+          Graduated {graduationDate}
+        </span>
       </div>
     </div>
-  )
+  );
 }

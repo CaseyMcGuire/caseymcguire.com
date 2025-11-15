@@ -21,7 +21,8 @@ class MainController {
       "/login",
       "/register",
       "/tetris",
-      "/projects"
+      "/projects",
+    "/nft-preview"
     ]
   )
   @ResponseBody
