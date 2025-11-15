@@ -17,34 +17,6 @@ class BlogPage : RenderablePage {
         )
         link {
           rel = "preload"
-          href = "/assets/fonts/Computer_Modern/Serif/cmunrm.woff"
-          attributes["as"] = "font"
-          type = "font/woff"
-          attributes["crossorigin"] = "anonymous"
-        }
-        link {
-          rel = "preload"
-          href = "/assets/fonts/Computer_Modern/Serif/cmunbx.woff"
-          attributes["as"] = "font"
-          type = "font/woff"
-          attributes["crossorigin"] = "anonymous"
-        }
-        link {
-          rel = "preload"
-          href = "/assets/fonts/Computer_Modern/Serif/cmunti.woff"
-          attributes["as"] = "font"
-          type = "font/woff"
-          attributes["crossorigin"] = "anonymous"
-        }
-        link {
-          rel = "preload"
-          href = "/assets/fonts/Computer_Modern/Serif/cmunbi.woff"
-          attributes["as"] = "font"
-          type = "font/woff"
-          attributes["crossorigin"] = "anonymous"
-        }
-        link {
-          rel = "preload"
           attributes["as"] = "image"
           href = "/assets/images/home_picture.jpeg"
         }
@@ -62,10 +34,6 @@ class BlogPage : RenderablePage {
           rel = "preload"
           attributes["as"] = "image"
           href = "/assets/images/linkedin_picture.png"
-        }
-        link {
-          rel = "stylesheet"
-          href = "/assets/fonts/Computer_Modern/Serif/cmun-serif.css"
         }
         link {
           rel = "stylesheet"
