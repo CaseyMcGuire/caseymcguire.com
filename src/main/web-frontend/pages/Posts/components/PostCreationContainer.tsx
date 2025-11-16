@@ -21,8 +21,8 @@ const styles = stylex.create({
     textAlign: 'center',
     backgroundColor: '#337ab7',
     color: '#f1f1f1',
-    paddingTop: 5,
-    paddingBottom: 5,
+    paddingTop: 8,
+    paddingBottom: 8,
     borderRadius: 3,
     cursor: 'pointer',
     ':hover': {
@@ -30,8 +30,8 @@ const styles = stylex.create({
     }
   },
   submitButtonContainer: {
-    marginTop: 5,
-    marginBottom: 5
+    marginTop: 8,
+    marginBottom: 8
   },
   titleInput: {
     width: CONTENT_WIDTH,

@@ -16,6 +16,7 @@ class MainController {
       "/resume",
       "/posts",
       "/posts/{id}",
+      "/posts/{id}/edit",
       "/posts/page/{id}",
       "/posts/new",
       "/login",

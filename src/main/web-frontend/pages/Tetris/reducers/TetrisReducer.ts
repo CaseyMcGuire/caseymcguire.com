@@ -1,7 +1,7 @@
-import Point from "../models/Point";
-import Tetromino from "../models/Tetromino";
-import ImmutableBoard from "../models/ImmutableBoard";
-import {Actions} from "./TetrisActions";
+import Point from "pages/Tetris/models/Point";
+import Tetromino from "pages/Tetris/models/Tetromino";
+import ImmutableBoard from "pages/Tetris/models/ImmutableBoard";
+import {Actions} from "pages/Tetris/reducers/TetrisActions";
 
 export type TetrisState = {
   currentPoint: Point,

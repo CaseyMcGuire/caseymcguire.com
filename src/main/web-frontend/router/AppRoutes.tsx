@@ -1,16 +1,16 @@
-import HomePage from "../pages/Home/HomePage";
+import HomePage from "pages/Home/HomePage";
 import * as React from "react";
-import ResumePage from "../pages/Resume/Resume";
-import IndexPostPage from "../pages/Posts/IndexPostPage";
-import CreatePostPage from "../pages/Posts/CreatePostPage";
-import SinglePostPage from "../pages/Posts/ShowPostPage";
-import LoginPage from "../pages/Auth/LoginPage";
-import RegisterPage from "../pages/Auth/RegisterPage";
-import EditPostPage from "../pages/Posts/EditPostPage";
-import Page from "../pages/Page/Page";
-import TetrisPage from "../pages/Tetris/TetrisPage";
-import ProjectsPage from "../pages/Projects/ProjectsPage";
-import NftPreview from "../pages/Random/NftPreview/NftPreview";
+import ResumePage from "pages/Resume/Resume";
+import IndexPostPage from "pages/Posts/IndexPostPage";
+import CreatePostPage from "pages/Posts/CreatePostPage";
+import SinglePostPage from "pages/Posts/ShowPostPage";
+import LoginPage from "pages/Auth/LoginPage";
+import RegisterPage from "pages/Auth/RegisterPage";
+import EditPostPage from "pages/Posts/EditPostPage";
+import Page from "pages/Page/Page";
+import TetrisPage from "pages/Tetris/TetrisPage";
+import ProjectsPage from "pages/Projects/ProjectsPage";
+import NftPreview from "pages/Random/NftPreview/NftPreview";
 
 type AppRoute = {
   path: string,

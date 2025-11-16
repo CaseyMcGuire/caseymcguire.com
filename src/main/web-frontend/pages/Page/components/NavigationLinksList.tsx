@@ -22,7 +22,7 @@ const styles = stylex.create({
     fontSize: '25px'
   },
   navBarItem: {
-    marginRight: '7px'
+    marginRight: '8px'
   },
   navBarItemMobile: {
     margin: '5px 15px'

@@ -1,6 +1,6 @@
 import * as React from "react";
 import {useContext} from "react";
-import AppContext from "../context/AppContext";
+import AppContext from "components/context/AppContext";
 
 export default function AdminComponentGating(props: {
   children: React.JSX.Element | null
