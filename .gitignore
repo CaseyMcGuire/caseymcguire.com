@@ -14,3 +14,5 @@ src/main/resources/static/bundles
 
 # generated for webpack bundle analyzer
 stats.json
+
+.kotlin
