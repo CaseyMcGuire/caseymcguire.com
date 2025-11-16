@@ -1,11 +1,10 @@
 import * as React from "react";
 import sanitizeHtml from "sanitize-html";
 import hljs from 'highlight.js';
-import AdminComponentGating from "../../../components/gating/AdminComponentGating";
-import {Link} from "react-router";
 import {postStyles} from "./PostStyles";
 import {marked} from "marked";
 import * as stylex from '@stylexjs/stylex';
+import PostHeader from "pages/Posts/components/PostHeader";
 
 type Props = Readonly<{
   id?: number,
@@ -20,6 +19,7 @@ export default function Post(props: Props) {
     id,
     title,
     contents,
+    publishedDate,
     showEditButton
   } = props;
 
@@ -37,20 +37,15 @@ export default function Post(props: Props) {
     })
   });
 
-  const blogTitleElement = id ? <Link {...stylex.props(postStyles.postTitleLink)} to={"/posts/" + id}>{title}</Link> : title;
-  const editButton = id ? <Link to={"/posts/" + id + "/edit"}>Edit</Link> : null;
   return (
     <div {...stylex.props(postStyles.postContainer)}>
       <div {...stylex.props(postStyles.postTitleContainer)}>
-        <h2>{blogTitleElement}</h2>
-        <div {...stylex.props(postStyles.postSubtitle)}>
-          {props.publishedDate != null ? (
-            <span {...stylex.props(postStyles.date)}>{props.publishedDate}</span>
-          ) : null}
-          {showEditButton === true ? (
-            <AdminComponentGating>{editButton}</AdminComponentGating>
-          ) : null}
-        </div>
+        <PostHeader
+          id={id}
+          title={title}
+          publishedDate={publishedDate}
+          showEditButton={showEditButton}
+        />
       </div>
       <div
         {...stylex.props(postStyles.postContentsContainer)}
