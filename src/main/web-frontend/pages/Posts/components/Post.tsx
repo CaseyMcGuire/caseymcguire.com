@@ -5,6 +5,7 @@ import {postStyles} from "./PostStyles";
 import {marked} from "marked";
 import * as stylex from '@stylexjs/stylex';
 import PostHeader from "pages/Posts/components/PostHeader";
+import './post.css'
 
 type Props = Readonly<{
   id?: number,
@@ -49,6 +50,7 @@ export default function Post(props: Props) {
       </div>
       <div
         {...stylex.props(postStyles.postContentsContainer)}
+        data-post-contents
         dangerouslySetInnerHTML={{ __html: sanitizedHtml }}
       />
     </div>
