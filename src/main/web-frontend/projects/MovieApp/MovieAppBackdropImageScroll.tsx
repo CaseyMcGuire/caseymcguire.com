@@ -3,7 +3,7 @@ import {graphql} from "react-relay";
 import {
   MovieAppBackdropImageScroll_movie$data,
   MovieAppBackdropImageScroll_movie$key
-} from "../../__generated__/MovieAppBackdropImageScroll_movie.graphql";
+} from "__generated__/relay/MovieAppBackdropImageScroll_movie.graphql";
 import * as React from "react";
 
 type Props = {

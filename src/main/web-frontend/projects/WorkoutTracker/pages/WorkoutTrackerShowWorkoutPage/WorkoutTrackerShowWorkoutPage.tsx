@@ -3,7 +3,7 @@ import {useNavigate, useParams} from "react-router";
 import {useLazyLoadQuery} from "react-relay/hooks";
 import * as React from "react";
 import {useEffect} from "react";
-import {WorkoutTrackerShowWorkoutPageQuery} from "__generated__/WorkoutTrackerShowWorkoutPageQuery.graphql";
+import {WorkoutTrackerShowWorkoutPageQuery} from "__generated__/relay/WorkoutTrackerShowWorkoutPageQuery.graphql";
 import WorkoutPage from "projects/WorkoutTracker/components/WorkoutPage";
 import WorkoutTrackerContainer from "../../components/WorkoutTrackerContainer";
 import {WorkoutSidebarMenuId} from "../../components/WorkoutSidebar";

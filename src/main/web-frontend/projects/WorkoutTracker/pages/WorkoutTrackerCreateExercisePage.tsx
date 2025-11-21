@@ -8,7 +8,7 @@ import WorkoutTrackerContainer from "projects/WorkoutTracker/components/WorkoutT
 import WorkoutTrackerButton from "projects/WorkoutTracker/components/WorkoutTrackerButton";
 import {
   WorkoutTrackerCreateExercisePageMutation,
-} from "__generated__/WorkoutTrackerCreateExercisePageMutation.graphql";
+} from "__generated__/relay/WorkoutTrackerCreateExercisePageMutation.graphql";
 import * as stylex from "@stylexjs/stylex";
 
 type WorkoutTrackerCreateExercisePageState = {

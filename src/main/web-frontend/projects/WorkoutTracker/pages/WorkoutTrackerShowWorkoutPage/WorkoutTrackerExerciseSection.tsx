@@ -5,7 +5,7 @@ import WorkoutTrackerDropdown, {
 import * as React from "react";
 import { useFragment } from "react-relay/hooks";
 import { graphql } from "react-relay";
-import { WorkoutTrackerExerciseSection_workoutTracker$key } from "__generated__/WorkoutTrackerExerciseSection_workoutTracker.graphql";
+import { WorkoutTrackerExerciseSection_workoutTracker$key } from "__generated__/relay/WorkoutTrackerExerciseSection_workoutTracker.graphql";
 import WorkoutTrackerSetCreationTable, {
   WorkoutTrackerSetCreationTableItem,
 } from "projects/WorkoutTracker/pages/WorkoutTrackerShowWorkoutPage/WorkoutTrackerSetCreationTable";

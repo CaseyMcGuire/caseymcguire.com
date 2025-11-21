@@ -2,7 +2,7 @@ import * as React from "react";
 import WorkoutPage from "../components/WorkoutPage";
 import {graphql} from "react-relay";
 import {useLazyLoadQuery} from "react-relay/hooks";
-import {WorkoutTrackerHomePageQuery} from "__generated__/WorkoutTrackerHomePageQuery.graphql";
+import {WorkoutTrackerHomePageQuery} from "__generated__/relay/WorkoutTrackerHomePageQuery.graphql";
 import WorkoutTrackerContainer from "../components/WorkoutTrackerContainer";
 import {Link} from "react-router";
 import {WorkoutSidebarMenuId} from "../components/WorkoutSidebar";

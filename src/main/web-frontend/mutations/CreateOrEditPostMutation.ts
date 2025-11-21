@@ -1,7 +1,7 @@
 import {graphql} from "react-relay";
 import {commitMutation} from "relay-runtime";
 import {RelayConfig} from "relay/RelayConfig";
-import {CreateOrEditPostMutation} from "__generated__/CreateOrEditPostMutation.graphql";
+import {CreateOrEditPostMutation} from "__generated__/relay/CreateOrEditPostMutation.graphql";
 
 export function commit(
   id: number | null,

@@ -3,7 +3,7 @@ import { WorkoutSidebarMenuId } from "../components/WorkoutSidebar";
 import React from "react";
 import { graphql } from "react-relay";
 import { useLazyLoadQuery } from "react-relay/hooks";
-import { WorkoutTrackerExercisesIndexPageQuery } from "__generated__/WorkoutTrackerExercisesIndexPageQuery.graphql";
+import { WorkoutTrackerExercisesIndexPageQuery } from "__generated__/relay/WorkoutTrackerExercisesIndexPageQuery.graphql";
 import WorkoutTrackerContainer from "projects/WorkoutTracker/components/WorkoutTrackerContainer";
 import * as stylex from "@stylexjs/stylex";
 

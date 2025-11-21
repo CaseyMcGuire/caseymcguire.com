@@ -1,7 +1,7 @@
 import * as React from "react";
 import {graphql} from "react-relay";
 import {useLazyLoadQuery} from "react-relay/hooks";
-import {MovieAppRouterQuery} from "../../__generated__/MovieAppRouterQuery.graphql";
+import {MovieAppRouterQuery} from "__generated__/relay/MovieAppRouterQuery.graphql";
 import {BrowserRouter, Route, Routes} from "react-router";
 import getMovieAppRoutes from "./MovieAppRoutes";
 

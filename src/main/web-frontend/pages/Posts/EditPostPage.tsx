@@ -3,7 +3,7 @@ import * as React from "react";
 import * as CreateOrEditPostMutation from "../../mutations/CreateOrEditPostMutation";
 import { useNavigate} from "react-router";
 import {graphql, QueryRenderer} from "react-relay";
-import {EditPostPageQuery} from "../../__generated__/EditPostPageQuery.graphql";
+import {EditPostPageQuery} from "__generated__/relay/EditPostPageQuery.graphql";
 import Page from "../Page/Page";
 import {useParams} from "react-router";
 import {redirect} from "react-router";

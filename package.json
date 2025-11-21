@@ -13,7 +13,7 @@
     "src": "src/main/web-frontend",
     "language": "typescript",
     "schema": "src/main/resources/relay/schema.graphql",
-    "artifactDirectory": "./src/main/web-frontend/__generated__"
+    "artifactDirectory": "./src/main/web-frontend/__generated__/relay"
   },
   "repository": {
     "type": "git",

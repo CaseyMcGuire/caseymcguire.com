@@ -2,7 +2,7 @@ import * as React from "react";
 import {graphql} from "react-relay";
 import MovieRoot from "./MovieRoot";
 import {useLazyLoadQuery} from "react-relay/hooks";
-import {MovieHomePageQuery} from "../../__generated__/MovieHomePageQuery.graphql";
+import {MovieHomePageQuery} from "__generated__/relay/MovieHomePageQuery.graphql";
 import MovieAppBackdropImageScroll from "./MovieAppBackdropImageScroll";
 
 export default function MovieHomePage() {

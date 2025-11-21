@@ -1,6 +1,6 @@
 import * as React from "react";
 import {FetchPolicy, graphql} from "react-relay";
-import {ShowPostPageQuery} from "__generated__/ShowPostPageQuery.graphql";
+import {ShowPostPageQuery} from "__generated__/relay/ShowPostPageQuery.graphql";
 import {redirect, useNavigate, useParams} from "react-router";
 import Post from "./components/Post";
 import LoadingPost from "./components/LoadingPost";
