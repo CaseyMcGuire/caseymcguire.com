@@ -52,7 +52,7 @@ open class SecurityConfiguration(private val userDetailsService: UserDetailsServ
         authorize("/posts/new", hasRole("ADMIN"))
         authorize("/posts/*/edit", hasRole("ADMIN"))
         authorize("/graphiql/**", hasRole("ADMIN"))
-        //authorize("/workout_tracker/**", hasRole("ADMIN"))
+        authorize("/workout_tracker/**", hasRole("ADMIN"))
         authorize("/**", permitAll)
       }
       formLogin {

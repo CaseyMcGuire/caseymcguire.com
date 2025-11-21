@@ -1,5 +1,6 @@
 package com.caseymcguiredotcom.handlers
 
+import com.caseymcguiredotcom.routes.RequestHandler
 import com.caseymcguiredotcom.views.ReactPage
 import kotlinx.html.style
 import kotlinx.html.unsafe
@@ -12,9 +13,8 @@ import org.springframework.web.servlet.function.ServerResponse.ok
 
 
 @Component
-@PreAuthorize("hasRole('ADMIN')")
-class WorkoutTrackerRouteHandler {
-  fun handleWorkoutPage(request: ServerRequest): ServerResponse =
+class WorkoutTrackerRequestHandler : RequestHandler {
+  override fun handle(request: ServerRequest): ServerResponse =
     ok().contentType(MediaType.TEXT_HTML)
       .body(
         ReactPage("workout", "Workout Tracker")

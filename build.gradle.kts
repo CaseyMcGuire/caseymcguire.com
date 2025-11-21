@@ -9,6 +9,7 @@ val jooqVersion = "3.20.8"
 val postgresVersion = "42.7.8"
 val exposedVersion = "1.0.0-rc-3"
 val migrationScriptPath = "com.caseymcguiredotcom.scripts.GenerateMigrationScriptKt"
+val clientRoutePath = "com.caseymcguiredotcom.scripts.GenerateClientRoutesKt"
 
 plugins {
   id("org.jetbrains.kotlin.jvm") version "2.2.21"
@@ -166,6 +167,14 @@ tasks.register<JavaExec>("generateMigrationScript") {
   classpath = sourceSets.main.get().runtimeClasspath
   environment = envVariables
   mainClass.set(migrationScriptPath)
+}
+
+tasks.register<JavaExec>("generateClientRoutes") {
+  description = "Generates React Routes for the client."
+  classpath = sourceSets.main.get().runtimeClasspath
+  environment = envVariables
+  mainClass.set(clientRoutePath)
+  systemProperty("server.port", "0")
 }
 
 // For reasons I don't understand, adding this task causes Gradle to bug-out

@@ -5,37 +5,37 @@ import WorkoutTrackerCreateWorkoutPage from "./pages/WorkoutTrackerCreateWorkout
 import WorkoutTrackerShowWorkoutPage from "./pages/WorkoutTrackerShowWorkoutPage/WorkoutTrackerShowWorkoutPage";
 import WorkoutTrackerExerciseIndexPage from "./pages/WorkoutTrackerExercisesIndexPage";
 import WorkoutTrackerCreateExercisePage from "./pages/WorkoutTrackerCreateExercisePage";
-import RelayRoot from "components/relay/RelayRoot";
 import {renderComponent} from "utils/ReactPageUtils";
 import PageWrapper from "components/PageWrapper/PageWrapper";
+import {WorkoutTrackerRoutes} from "__generated__/routes/WorkoutTrackerRoutes";
 
 const router = createBrowserRouter([
   {
-    path: "/workout_tracker",
+    path: WorkoutTrackerRoutes.WORKOUT_INDEX,
     element: <WorkoutTrackerHomePage text={"Home"}/>,
   },
   {
-    path: "/workout_tracker/workout",
+    path: WorkoutTrackerRoutes.VIEW_WORKOUTS,
     element: <WorkoutTrackerHomePage text={"Workouts"} />
   },
   {
-    path: "/workout_tracker/workout/create",
+    path: WorkoutTrackerRoutes.CREATE_WORKOUT,
     element: <WorkoutTrackerCreateWorkoutPage />
   },
   {
-    path: "/workout_tracker/exercise",
+    path: WorkoutTrackerRoutes.EXERCISE_INDEX,
     element: <WorkoutTrackerExerciseIndexPage />
   },
   {
-    path: "/workout_tracker/exercise/create",
+    path: WorkoutTrackerRoutes.CREATE_EXERCISE,
     element: <WorkoutTrackerCreateExercisePage />
   },
   {
-    path: "/workout_tracker/workout/:id",
+    path: WorkoutTrackerRoutes.VIEW_WORKOUT,
     element: <WorkoutTrackerShowWorkoutPage />
   },
   {
-    path: "/workout_tracker/workout/:id/update",
+    path: WorkoutTrackerRoutes.UPDATE_WORKOUT,
     element: <WorkoutTrackerHomePage text={"Workout History"}/>,
   }
 ]);
