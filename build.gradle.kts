@@ -174,7 +174,10 @@ tasks.register<JavaExec>("generateClientRoutes") {
   classpath = sourceSets.main.get().runtimeClasspath
   environment = envVariables
   mainClass.set(clientRoutePath)
+  // Use a different port so it doesn't conflict with running instance using the
+  // port from the .env file
   systemProperty("server.port", "0")
+  systemProperty("route.output.dir", "src/main/web-frontend/__generated__/routes")
 }
 
 // For reasons I don't understand, adding this task causes Gradle to bug-out
