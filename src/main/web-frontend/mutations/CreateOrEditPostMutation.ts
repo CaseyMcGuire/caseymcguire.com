@@ -7,7 +7,7 @@ export function commit(
   id: number | null,
   title: string,
   content: string,
-  onCompleted: (id : number | null) => void
+  onCompleted: (id : number | null | undefined) => void
 ) {
     const mutation = graphql`
       mutation CreateOrEditPostMutation(

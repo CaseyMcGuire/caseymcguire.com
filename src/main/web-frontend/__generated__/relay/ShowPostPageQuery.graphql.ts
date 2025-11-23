@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<ba45139b265c786e81a95bf20b9cc8dc>>
+ * @generated SignedSource<<355781d23d56c0902eb4223ea0062eaf>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -8,7 +8,7 @@
 /* eslint-disable */
 // @ts-nocheck
 
-import { ConcreteRequest, Query } from 'relay-runtime';
+import { ConcreteRequest } from 'relay-runtime';
 export type ShowPostPageQuery$variables = {
   id: number;
 };
@@ -17,7 +17,7 @@ export type ShowPostPageQuery$data = {
     readonly contents: string;
     readonly published_date: string;
     readonly title: string;
-  } | null;
+  } | null | undefined;
 };
 export type ShowPostPageQuery = {
   response: ShowPostPageQuery$data;

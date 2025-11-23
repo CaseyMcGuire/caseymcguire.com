@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<b237ce728972f4cab8c803fb22418445>>
+ * @generated SignedSource<<b3e65faa25d52403154389251cbcc31c>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -8,13 +8,13 @@
 /* eslint-disable */
 // @ts-nocheck
 
-import { Fragment, ReaderFragment } from 'relay-runtime';
+import { ReaderFragment } from 'relay-runtime';
 import { FragmentRefs } from "relay-runtime";
 export type WorkoutTrackerExerciseSection_workoutTracker$data = {
   readonly exercises: ReadonlyArray<{
     readonly id: string;
     readonly name: string;
-  } | null> | null;
+  } | null | undefined> | null | undefined;
   readonly " $fragmentType": "WorkoutTrackerExerciseSection_workoutTracker";
 };
 export type WorkoutTrackerExerciseSection_workoutTracker$key = {

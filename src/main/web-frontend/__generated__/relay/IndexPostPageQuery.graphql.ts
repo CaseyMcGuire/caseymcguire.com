@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<d87d603f041ea398fb024c8720251680>>
+ * @generated SignedSource<<185dd3be755ac0c1a027da32679259fd>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -8,7 +8,7 @@
 /* eslint-disable */
 // @ts-nocheck
 
-import { ConcreteRequest, Query } from 'relay-runtime';
+import { ConcreteRequest } from 'relay-runtime';
 export type IndexPostPageQuery$variables = {
   count: number;
   offset: number;

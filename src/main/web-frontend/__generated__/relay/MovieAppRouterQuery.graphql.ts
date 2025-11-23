@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<53b7b893d6615a872df57dac6ac8bd64>>
+ * @generated SignedSource<<3396353816e46f9959e206901f9936e8>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -8,14 +8,14 @@
 /* eslint-disable */
 // @ts-nocheck
 
-import { ConcreteRequest, Query } from 'relay-runtime';
-export type MovieAppRouterQuery$variables = {};
+import { ConcreteRequest } from 'relay-runtime';
+export type MovieAppRouterQuery$variables = Record<PropertyKey, never>;
 export type MovieAppRouterQuery$data = {
   readonly movieApi: {
     readonly movie: {
-      readonly title: string | null;
-    } | null;
-  } | null;
+      readonly title: string | null | undefined;
+    } | null | undefined;
+  } | null | undefined;
 };
 export type MovieAppRouterQuery = {
   response: MovieAppRouterQuery$data;

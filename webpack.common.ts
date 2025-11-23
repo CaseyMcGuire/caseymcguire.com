@@ -1,6 +1,5 @@
 import path from "path";
 
-//@ts-ignore
 import { Configuration } from "webpack";
 
 const config : Configuration = {
@@ -24,6 +23,7 @@ const config : Configuration = {
   output: {
     filename: '[name].bundle.js',
     path: path.resolve(__dirname, 'src/main/resources/static/bundles'),
+    publicPath: '/bundles/',
     module: true, // Output your bundle as an actual ES module
   },
   module: {
@@ -42,11 +42,18 @@ const config : Configuration = {
       {
         enforce: "pre",
         test: /\.js$/,
-        loader: "source-map-loader"
+        loader: "source-map-loader",
+        // these don't exist and are printing warning messages during a build
+        exclude: [
+          /node_modules\/monaco-editor/,
+          /node_modules\/monaco-graphql/,
+        ],
       },
       {
         test: /\.css$/i,
-        use: ['style-loader', 'css-loader', 'postcss-loader']
+        use: ['style-loader', 'css-loader', 'postcss-loader'],
+        // Graphiql doesn't work without this
+        sideEffects: true,
       },
     ]
   },

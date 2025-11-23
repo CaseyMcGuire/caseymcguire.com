@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<f1d28c87c3abc6fe843b71e13c4ead31>>
+ * @generated SignedSource<<b76a79804da9e48698c4cd2884ce54d1>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -8,9 +8,9 @@
 /* eslint-disable */
 // @ts-nocheck
 
-import { ConcreteRequest, Mutation } from 'relay-runtime';
+import { ConcreteRequest } from 'relay-runtime';
 export type WorkoutTrackerCreateExercisePageMutation$variables = {
-  name?: string | null;
+  name?: string | null | undefined;
 };
 export type WorkoutTrackerCreateExercisePageMutation$data = {
   readonly createExercise: {
@@ -18,8 +18,8 @@ export type WorkoutTrackerCreateExercisePageMutation$data = {
       readonly id: string;
     };
     readonly success: boolean;
-    readonly userFacingErrorMessage?: string | null;
-  } | null;
+    readonly userFacingErrorMessage?: string | null | undefined;
+  } | null | undefined;
 };
 export type WorkoutTrackerCreateExercisePageMutation = {
   response: WorkoutTrackerCreateExercisePageMutation$data;

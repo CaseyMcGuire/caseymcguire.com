@@ -12,7 +12,7 @@ import WorkoutTrackerSetCreationTable, {
 import * as stylex from "@stylexjs/stylex";
 
 type WorkoutTrackerExerciseSectionProps = {
-  workoutTracker: WorkoutTrackerExerciseSection_workoutTracker$key | null;
+  workoutTracker: WorkoutTrackerExerciseSection_workoutTracker$key | null | undefined;
   selectedExerciseId: string;
   items: WorkoutTrackerSetCreationTableItem[];
   enableAddingSets: boolean;

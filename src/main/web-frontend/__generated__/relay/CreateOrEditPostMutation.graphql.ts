@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<9398b1bf9d9c76cadf2e79e18d586896>>
+ * @generated SignedSource<<80888e8bfde4043cf54984431411af18>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -8,14 +8,14 @@
 /* eslint-disable */
 // @ts-nocheck
 
-import { ConcreteRequest, Mutation } from 'relay-runtime';
+import { ConcreteRequest } from 'relay-runtime';
 export type CreateOrEditPostMutation$variables = {
   content: string;
-  id?: number | null;
+  id?: number | null | undefined;
   title: string;
 };
 export type CreateOrEditPostMutation$data = {
-  readonly postId: number | null;
+  readonly postId: number | null | undefined;
 };
 export type CreateOrEditPostMutation = {
   response: CreateOrEditPostMutation$data;

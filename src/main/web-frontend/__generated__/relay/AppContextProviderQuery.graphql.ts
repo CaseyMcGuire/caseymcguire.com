@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<b112af2abc9cd0cafc0777a5f7914418>>
+ * @generated SignedSource<<5a218b60a5a30e89da18b002364a5534>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -8,12 +8,12 @@
 /* eslint-disable */
 // @ts-nocheck
 
-import { ConcreteRequest, Query } from 'relay-runtime';
-export type AppContextProviderQuery$variables = {};
+import { ConcreteRequest } from 'relay-runtime';
+export type AppContextProviderQuery$variables = Record<PropertyKey, never>;
 export type AppContextProviderQuery$data = {
   readonly currentUser: {
     readonly isAdmin: boolean;
-  } | null;
+  } | null | undefined;
 };
 export type AppContextProviderQuery = {
   response: AppContextProviderQuery$data;

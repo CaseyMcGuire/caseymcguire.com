@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<e69d04e84d8f516e11f058007b635717>>
+ * @generated SignedSource<<3aa5310109fb0a4772cdfa8d11d163e6>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -8,15 +8,15 @@
 /* eslint-disable */
 // @ts-nocheck
 
-import { ConcreteRequest, Query } from 'relay-runtime';
-export type WorkoutTrackerHomePageQuery$variables = {};
+import { ConcreteRequest } from 'relay-runtime';
+export type WorkoutTrackerHomePageQuery$variables = Record<PropertyKey, never>;
 export type WorkoutTrackerHomePageQuery$data = {
   readonly workoutTracker: {
     readonly workouts: ReadonlyArray<{
-      readonly description: string | null;
+      readonly description: string | null | undefined;
       readonly id: string;
-    } | null> | null;
-  } | null;
+    } | null | undefined> | null | undefined;
+  } | null | undefined;
 };
 export type WorkoutTrackerHomePageQuery = {
   response: WorkoutTrackerHomePageQuery$data;

@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<260d6b83715f1f9bfa808b7284ddc8ac>>
+ * @generated SignedSource<<6b465cc8e1422a33e921619be9d6d4d5>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -8,7 +8,7 @@
 /* eslint-disable */
 // @ts-nocheck
 
-import { ConcreteRequest, Query } from 'relay-runtime';
+import { ConcreteRequest } from 'relay-runtime';
 import { FragmentRefs } from "relay-runtime";
 export type WorkoutTrackerShowWorkoutPageQuery$variables = {
   id: string;
@@ -16,7 +16,7 @@ export type WorkoutTrackerShowWorkoutPageQuery$variables = {
 export type WorkoutTrackerShowWorkoutPageQuery$data = {
   readonly workoutTracker: {
     readonly workoutById: {
-      readonly description: string | null;
+      readonly description: string | null | undefined;
       readonly id: string;
       readonly sets: ReadonlyArray<{
         readonly exercise: {
@@ -25,10 +25,10 @@ export type WorkoutTrackerShowWorkoutPageQuery$data = {
         };
         readonly numReps: number;
         readonly weight: number;
-      } | null>;
-    } | null;
+      } | null | undefined>;
+    } | null | undefined;
     readonly " $fragmentSpreads": FragmentRefs<"WorkoutTrackerExerciseSection_workoutTracker">;
-  } | null;
+  } | null | undefined;
 };
 export type WorkoutTrackerShowWorkoutPageQuery = {
   response: WorkoutTrackerShowWorkoutPageQuery$data;

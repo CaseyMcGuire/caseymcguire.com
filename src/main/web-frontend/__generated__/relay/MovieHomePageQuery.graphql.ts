@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<b22ca3c404b237315871d5ef32895c07>>
+ * @generated SignedSource<<2ab4d71c16d99e0c4f27bbd255ec03d2>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -8,17 +8,17 @@
 /* eslint-disable */
 // @ts-nocheck
 
-import { ConcreteRequest, Query } from 'relay-runtime';
+import { ConcreteRequest } from 'relay-runtime';
 import { FragmentRefs } from "relay-runtime";
-export type MovieHomePageQuery$variables = {};
+export type MovieHomePageQuery$variables = Record<PropertyKey, never>;
 export type MovieHomePageQuery$data = {
   readonly movieApi: {
     readonly movieList: ReadonlyArray<{
-      readonly backdropPath: string | null;
-      readonly title: string | null;
+      readonly backdropPath: string | null | undefined;
+      readonly title: string | null | undefined;
       readonly " $fragmentSpreads": FragmentRefs<"MovieAppBackdropImageScroll_movie">;
-    } | null> | null;
-  } | null;
+    } | null | undefined> | null | undefined;
+  } | null | undefined;
 };
 export type MovieHomePageQuery = {
   response: MovieHomePageQuery$data;

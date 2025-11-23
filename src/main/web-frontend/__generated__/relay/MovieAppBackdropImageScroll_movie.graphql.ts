@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<5cc85d3d461219bd84b2d7a8f8254357>>
+ * @generated SignedSource<<b3dff74c81816a902d33e4a01d5e9148>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -8,11 +8,11 @@
 /* eslint-disable */
 // @ts-nocheck
 
-import { Fragment, ReaderFragment } from 'relay-runtime';
+import { ReaderFragment } from 'relay-runtime';
 import { FragmentRefs } from "relay-runtime";
 export type MovieAppBackdropImageScroll_movie$data = {
-  readonly backdropPath: string | null;
-  readonly title: string | null;
+  readonly backdropPath: string | null | undefined;
+  readonly title: string | null | undefined;
   readonly " $fragmentType": "MovieAppBackdropImageScroll_movie";
 };
 export type MovieAppBackdropImageScroll_movie$key = {

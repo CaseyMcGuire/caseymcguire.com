@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<bea4bce50a0a138a4194c54a894f95ff>>
+ * @generated SignedSource<<7a6061bfcd49ca43766a1a524ffc71aa>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -8,7 +8,7 @@
 /* eslint-disable */
 // @ts-nocheck
 
-import { ConcreteRequest, Mutation } from 'relay-runtime';
+import { ConcreteRequest } from 'relay-runtime';
 export type RegisterMutation$variables = {
   email: string;
   password: string;

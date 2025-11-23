@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<bf55d40ea463bb949a698a44c38e3ec6>>
+ * @generated SignedSource<<3dd28a40e0b548d466056629a663cb7c>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -8,7 +8,7 @@
 /* eslint-disable */
 // @ts-nocheck
 
-import { ConcreteRequest, Query } from 'relay-runtime';
+import { ConcreteRequest } from 'relay-runtime';
 export type EditPostPageQuery$variables = {
   postId: number;
 };
@@ -16,7 +16,7 @@ export type EditPostPageQuery$data = {
   readonly post: {
     readonly contents: string;
     readonly title: string;
-  } | null;
+  } | null | undefined;
 };
 export type EditPostPageQuery = {
   response: EditPostPageQuery$data;
