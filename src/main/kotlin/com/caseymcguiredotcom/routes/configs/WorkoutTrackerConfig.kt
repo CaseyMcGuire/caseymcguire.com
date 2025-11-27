@@ -1,6 +1,8 @@
-package com.caseymcguiredotcom.routes
+package com.caseymcguiredotcom.routes.configs
 
 import com.caseymcguiredotcom.handlers.WorkoutTrackerRequestHandler
+import com.caseymcguiredotcom.routes.SinglePageApplicationConfig
+import com.caseymcguiredotcom.routes.SinglePageApplicationRoute
 import org.springframework.stereotype.Component
 
 @Component

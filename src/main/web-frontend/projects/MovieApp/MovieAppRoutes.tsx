@@ -1,6 +1,7 @@
 import * as React from "react";
 import MovieHomePage from "./MovieHomePage";
 import MovieAppTvPage from "./MovieAppTvPage";
+import {MoviesRoutes} from "__generated__/routes/MoviesRoutes";
 
 type MovieRoute = {
   path: string,
@@ -10,11 +11,11 @@ type MovieRoute = {
 export default function getMovieAppRoutes(): Array<MovieRoute> {
   return [
     {
-      path: '/movies',
+      path: MoviesRoutes.MOVIES_INDEX,
       element: <MovieHomePage />
     },
     {
-      path: '/tv',
+      path: MoviesRoutes.TELEVISION_INDEX,
       element: <MovieAppTvPage />
     }
   ];

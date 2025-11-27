@@ -10,38 +10,6 @@ import org.springframework.web.bind.annotation.ResponseBody
 @Controller
 class MainController {
 
-  @GetMapping(
-    value = [
-      "/",
-      "/resume",
-      "/posts",
-      "/posts/{id}",
-      "/posts/{id}/edit",
-      "/posts/page/{id}",
-      "/posts/new",
-      "/login",
-      "/register",
-      "/tetris",
-      "/projects",
-    "/nft-preview"
-    ]
-  )
-  @ResponseBody
-  fun home(): String {
-    return BlogPage().render()
-  }
-
-  @GetMapping(
-    value = [
-      "/movies",
-      "/tv"
-    ]
-  )
-  @ResponseBody
-  fun movies(): String {
-    return ReactPage("movies", "Movies").render()
-  }
-
   @GetMapping("/graphiql")
   @ResponseBody
   fun graphiql(): String {

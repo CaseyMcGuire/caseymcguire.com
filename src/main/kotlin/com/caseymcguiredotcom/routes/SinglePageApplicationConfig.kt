@@ -11,9 +11,10 @@ interface SinglePageApplicationConfig {
   }
 
   fun getFullUrl(path: String): String {
-    if (path.isEmpty()) {
-      return "/${urlPrefix}"
+    return when {
+      path.isEmpty() -> "/${urlPrefix}"
+      urlPrefix.isEmpty() -> "/$path"
+      else -> "/${urlPrefix}/$path"
     }
-    return "/${urlPrefix}/${path}"
   }
 }
