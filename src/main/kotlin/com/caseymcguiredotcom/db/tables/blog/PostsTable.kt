@@ -1,5 +1,6 @@
-package com.caseymcguiredotcom.db.tables
+package com.caseymcguiredotcom.db.tables.blog
 
+import com.caseymcguiredotcom.db.tables.UsersTable
 import org.jetbrains.exposed.v1.core.ReferenceOption
 import org.jetbrains.exposed.v1.core.Table
 import org.jetbrains.exposed.v1.javatime.CurrentDate

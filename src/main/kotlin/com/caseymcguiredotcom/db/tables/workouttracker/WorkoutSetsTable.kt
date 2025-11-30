@@ -1,4 +1,4 @@
-package com.caseymcguiredotcom.db.tables
+package com.caseymcguiredotcom.db.tables.workouttracker
 
 import org.jetbrains.exposed.v1.core.ReferenceOption
 import org.jetbrains.exposed.v1.core.Table

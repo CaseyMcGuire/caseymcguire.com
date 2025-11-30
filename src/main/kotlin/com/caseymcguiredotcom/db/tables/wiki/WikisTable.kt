@@ -1,10 +1,10 @@
-package com.caseymcguiredotcom.db.tables
+package com.caseymcguiredotcom.db.tables.wiki
 
 import org.jetbrains.exposed.v1.core.Table
 
-object ExercisesTable : Table("exercise") {
+object WikisTable : Table("wikis") {
   val id = integer("id").autoIncrement()
-  val name = text("name")
+  val name = text("name").uniqueIndex()
 
   override val primaryKey = PrimaryKey(id)
 }

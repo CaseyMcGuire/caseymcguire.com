@@ -1,10 +1,5 @@
 package com.caseymcguiredotcom.scripts
 
-import com.caseymcguiredotcom.db.tables.ExercisesTable
-import com.caseymcguiredotcom.db.tables.PostsTable
-import com.caseymcguiredotcom.db.tables.UsersTable
-import com.caseymcguiredotcom.db.tables.WorkoutSetsTable
-import com.caseymcguiredotcom.db.tables.WorkoutsTable
 import io.github.classgraph.ClassGraph
 import org.jetbrains.exposed.v1.core.ExperimentalDatabaseMigrationApi
 import org.jetbrains.exposed.v1.core.Table
