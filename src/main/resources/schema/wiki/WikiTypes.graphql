@@ -1,0 +1,11 @@
+type FailedWikiResponse {
+  errorCode: WikiErrorCode!
+  userFacingErrorMessage: String!
+}
+
+enum WikiErrorCode {
+  NOT_AUTHENTICATED
+  PERMISSION_DENIED
+  VALIDATION_ERROR
+  UNKNOWN
+}

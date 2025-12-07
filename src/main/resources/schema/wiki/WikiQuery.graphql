@@ -1,0 +1,26 @@
+
+extend type Query {
+  wikiByName(name: String!): Wiki
+}
+
+type Wiki {
+  id: ID!
+  name: String!,
+  sidebar: [WikiSidebarMenuItem!]!
+}
+
+union WikiSidebarMenuItem = WikiFolder | WikiPage
+
+type WikiFolder {
+  id: ID!
+  name: String!
+  children: [WikiSidebarMenuItem!]!
+}
+
+type WikiPage {
+  id: ID!
+  name: String!
+  content: String!
+}
+
+

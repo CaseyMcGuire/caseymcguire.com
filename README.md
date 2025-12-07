@@ -19,8 +19,14 @@ In order to rebuild relay:
 
 In order to rebuild database models:
 ```
-./gradlew generateJooq
+./gradlew jooqCodegen
 ```
+
+In order to regenerate DGS codegen:
+```
+./gradlew generateJava
+```
+
 
 ## Installation
 1) Set your environment variables by creating a `.env` file based on `.env.example`. 

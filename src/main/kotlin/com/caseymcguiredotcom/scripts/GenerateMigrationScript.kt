@@ -1,5 +1,8 @@
 package com.caseymcguiredotcom.scripts
 
+import com.github.vertical_blank.sqlformatter.SqlFormatter
+import com.github.vertical_blank.sqlformatter.core.FormatConfig
+import com.github.vertical_blank.sqlformatter.languages.Dialect
 import io.github.classgraph.ClassGraph
 import org.jetbrains.exposed.v1.core.ExperimentalDatabaseMigrationApi
 import org.jetbrains.exposed.v1.core.Table
@@ -9,38 +12,54 @@ import org.jetbrains.exposed.v1.migration.jdbc.MigrationUtils
 
 @OptIn(ExperimentalDatabaseMigrationApi::class)
 fun generateSingleScript() {
-  val databaseUrl= System.getenv("DB_URL") ?:
-    throw Exception("DB_URL is not set")
-  val databaseUser = System.getenv("DB_USER") ?:
-    throw Exception("DB_USER is not set")
-  val databasePassword = System.getenv("DB_PASSWORD") ?:
-    throw Exception("DB_PASSWORD is not set")
-
   Database.connect(
-    url = databaseUrl,
+    url = env("DB_URL"),
     driver = "org.postgresql.Driver",
-    user = databaseUser,
-    password = databasePassword
+    user = env("DB_USER"),
+    password = env("DB_PASSWORD")
   )
 
-  val tableObjects = ClassGraph()
+  val tableObjects: Array<Table> = ClassGraph()
     .enableAllInfo()
     .acceptPackages("com.caseymcguiredotcom.db.tables")
-    .scan()
-    .getSubclasses(Table::class.java.name)
-    .loadClasses(Table::class.java)
-    .mapNotNull { it.kotlin.objectInstance }
-    .toTypedArray()
+    .scan().use { scanResult ->
+      scanResult
+        .getSubclasses(Table::class.java.name)
+        .loadClasses(Table::class.java)
+        .mapNotNull { it.kotlin.objectInstance }
+        .sortedBy { it.tableName }
+        .toTypedArray()
+    }
 
   val statements = transaction {
     MigrationUtils.statementsRequiredForDatabaseMigration(*tableObjects)
   }
 
-  println("Database migration statements: ")
-  statements.forEach {
-    println(it)
+  if (statements.isEmpty()) {
+    println("No migration statements found")
+    return
   }
+
+  val formatConfig = FormatConfig.builder()
+    .maxColumnLength(25)
+    .linesBetweenQueries(2)
+    .build()
+
+  println("Database migration statements: ")
+  println()
+  statements.map {
+    SqlFormatter
+      .of(Dialect.PostgreSql)
+      .format(it, formatConfig)
+  }
+    .forEach {
+      println(it)
+      println()
+    }
 }
+
+private fun env(name: String): String =
+  System.getenv(name) ?: error("$name is not set")
 
 fun main(args: Array<String>) {
   generateSingleScript()

@@ -1,7 +1,8 @@
 package com.caseymcguiredotcom.db.tables.wiki
 
-import org.jetbrains.exposed.v1.core.ReferenceOption
 import org.jetbrains.exposed.v1.core.Table
+import org.jetbrains.exposed.v1.core.isNotNull
+import org.jetbrains.exposed.v1.core.isNull
 import org.jetbrains.exposed.v1.javatime.datetime
 
 object WikiPagesTable : Table("wiki_pages") {
@@ -13,7 +14,7 @@ object WikiPagesTable : Table("wiki_pages") {
   val parentFolderId = reference(
     "parent_folder_fk_id",
     WikiFoldersTable.id,
-  ).nullable()
+  )
 
   val name = text("name")
   val content = text("content")

@@ -1,0 +1,13 @@
+extend type Mutation {
+  createWikiPage(
+    pageName: String!
+    wikiId: ID!
+    folderId: ID
+  ): CreateWikiPageResponse!
+}
+
+union CreateWikiPageResponse = SuccessfulCreateWikiPageResponse | FailedWikiResponse
+
+type SuccessfulCreateWikiPageResponse {
+  wikiPage: WikiPage!
+}

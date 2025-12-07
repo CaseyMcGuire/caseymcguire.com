@@ -1,0 +1,13 @@
+extend type Mutation {
+  createWiki(
+    name: String!
+  ): CreateWikiResponse!
+}
+
+union CreateWikiResponse = SuccessfulCreateWikiResponse | FailedWikiResponse
+
+type SuccessfulCreateWikiResponse {
+  wiki: Wiki!
+}
+
+

@@ -1,3 +1,5 @@
 package com.caseymcguiredotcom.lib.exceptions
 
-class PermissionDeniedException : Exception()
+class PermissionDeniedException(
+  message: String = ""
+) : Exception(message)

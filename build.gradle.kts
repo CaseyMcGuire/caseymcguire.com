@@ -72,7 +72,9 @@ dependencies {
   implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
   implementation("org.jetbrains.kotlinx:kotlinx-html-jvm:0.12.0")
 
+
   implementation("io.github.classgraph:classgraph:4.8.184")
+  implementation("com.github.vertical-blank:sql-formatter:2.0.5")
 }
 
 val herokuEnvironmentMap = mapOf(
@@ -240,6 +242,8 @@ jooq {
           }
           generate {
             isImmutablePojos = true
+            isKotlinNotNullPojoAttributes = true
+            isKotlinDefaultedNullablePojoAttributes = true
           }
          strategy {
            // Note: In order for this to work, this class must be in a different gradle project and the gradle project
@@ -256,6 +260,7 @@ tasks.withType<com.netflix.graphql.dgs.codegen.gradle.GenerateJavaTask> {
   schemaPaths = mutableListOf("${projectDir}/src/main/resources/schema")
   generateClient = true
   packageName = "com.caseymcguiredotcom.codegen.graphql"
+  language = "kotlin"
 }
 
 // Prevent the -plain jar from being created because it doesn't contain a manifest file
