@@ -1,6 +1,7 @@
 package com.caseymcguiredotcom.repositories
 
 import com.caseymcguiredotcom.db.models.wiki.Wiki
+import com.caseymcguiredotcom.db.models.wiki.WikiFolder
 import com.caseymcguiredotcom.db.models.wiki.WikiPage
 import com.caseymcguiredotcom.lib.LexoRank
 import com.caseymcguiredotcom.lib.Time
@@ -50,28 +51,38 @@ class WikiRepository(
         WIKI_FOLDERS.IS_ROOT.eq(true)
       )
       .fetchOneInto(Int::class.java)
-
   }
 
   @Transactional(propagation = Propagation.MANDATORY)
-  fun createWikiPage(wikiId: Int, pageName: String, folderId: Int): WikiPage {
+  fun createWikiFolder(wikiId: Int, folderName: String, parentFolderId: Int): WikiFolder {
+    lockFolder(wikiId, parentFolderId)
 
-    // acquire lock on parent folder
-    context
-      .selectFrom(WIKI_FOLDERS)
-      .where(
-        WIKI_FOLDERS.WIKI_ID.eq(wikiId),
-        WIKI_FOLDERS.ID.eq(folderId)
-      )
-      .forUpdate()
-      .fetchOne()
-      ?: error("Parent folder not found")
+    val nextOrder = getNextDisplayOrderForFolder(wikiId, parentFolderId)
+    val folder = context
+      .insertInto(WIKI_FOLDERS)
+      .set(WIKI_FOLDERS.WIKI_ID, wikiId)
+      .set(WIKI_FOLDERS.NAME, folderName)
+      .set(WIKI_FOLDERS.PARENT_FOLDER_ID, parentFolderId)
+      .set(WIKI_FOLDERS.DISPLAY_ORDER, nextOrder)
+      .returning()
+      .fetchOneInto(WikiFoldersTableRow::class.java)
+      ?: error("Wiki folder not found")
 
+    return WikiFolder(
+      folder.id!!,
+      folder.name,
+      folder.displayOrder,
+      emptyList(),
+      emptyList()
+    )
+  }
+
+  fun getNextDisplayOrderForFolder(wikiId: Int, parentFolderId: Int): String {
     val maxPageOrder = context.select(DSL.max(WIKI_PAGES.DISPLAY_ORDER))
       .from(WIKI_PAGES)
       .where(
         WIKI_PAGES.WIKI_ID.eq(wikiId),
-        WIKI_PAGES.PARENT_FOLDER_FK_ID.eq(folderId)
+        WIKI_PAGES.PARENT_FOLDER_FK_ID.eq(parentFolderId)
       )
       .fetchOneInto(String::class.java)
 
@@ -79,18 +90,26 @@ class WikiRepository(
       .from(WIKI_FOLDERS)
       .where(
         WIKI_FOLDERS.WIKI_ID.eq(wikiId),
-        WIKI_FOLDERS.PARENT_FOLDER_ID.eq(folderId),
-        )
+        WIKI_FOLDERS.PARENT_FOLDER_ID.eq(parentFolderId),
+      )
       .fetchOneInto(String::class.java)
 
     val maxOrder = listOfNotNull(maxPageOrder, maxFolderOrder).maxOrNull()
-    val nextOrder = LexoRank.calculateNext(maxOrder)
+    return LexoRank.calculateNext(maxOrder)
+  }
+
+  @Transactional(propagation = Propagation.MANDATORY)
+  fun createWikiPage(wikiId: Int, pageName: String, parentFolderId: Int): WikiPage {
+
+    lockFolder(wikiId, parentFolderId)
+
+    val nextOrder = getNextDisplayOrderForFolder(wikiId, parentFolderId)
     val now = time.now()
     val page = context
       .insertInto(WIKI_PAGES)
       .set(WIKI_PAGES.WIKI_ID, wikiId)
       .set(WIKI_PAGES.NAME, pageName)
-      .set(WIKI_PAGES.PARENT_FOLDER_FK_ID, folderId)
+      .set(WIKI_PAGES.PARENT_FOLDER_FK_ID, parentFolderId)
       .set(WIKI_PAGES.CONTENT, "")
       .set(WIKI_PAGES.DISPLAY_ORDER, nextOrder)
       .set(WIKI_PAGES.CREATED_AT, now)
@@ -119,5 +138,16 @@ class WikiRepository(
       .fetchInto(WikiFoldersTableRow::class.java)
 
     return Wiki.fromRows(wiki, pages, folders)
+  }
+
+  private fun lockFolder(wikiId: Int, folderId: Int) {
+    context
+      .selectFrom(WIKI_FOLDERS)
+      .where(
+        WIKI_FOLDERS.WIKI_ID.eq(wikiId),
+        WIKI_FOLDERS.ID.eq(folderId)
+      )
+      .forUpdate()
+      .fetchOne() ?: error("Parent folder not found")
   }
 }

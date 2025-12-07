@@ -1,8 +1,10 @@
 package com.caseymcguiredotcom.graphql.query
 
+import com.caseymcguiredotcom.codegen.graphql.types.CreateWikiFolderResponse
 import com.caseymcguiredotcom.codegen.graphql.types.CreateWikiPageResponse
 import com.caseymcguiredotcom.codegen.graphql.types.CreateWikiResponse
 import com.caseymcguiredotcom.codegen.graphql.types.FailedWikiResponse
+import com.caseymcguiredotcom.codegen.graphql.types.SuccessfulCreateWikiFolderResponse
 import com.caseymcguiredotcom.codegen.graphql.types.SuccessfulCreateWikiPageResponse
 import com.caseymcguiredotcom.codegen.graphql.types.SuccessfulCreateWikiResponse
 import com.caseymcguiredotcom.codegen.graphql.types.Wiki
@@ -52,13 +54,35 @@ class WikiFetcher(
       SuccessfulCreateWikiPageResponse(
         wikiService.createWikiPage(
           wikiId.toIntOrNull() ?:
-            throw InvalidInputException("wikiId is not a valid ID"),
+            throw InvalidInputException("wikiId $wikiId is not a valid ID"),
           pageName,
-          if (folderId == null) {
-            null
-          } else {
-            folderId.toIntOrNull()
-              ?: throw InvalidInputException("folderId is not a valid ID")
+          folderId?.let {
+            it.toIntOrNull() ?:
+            throw InvalidInputException("folderId $it is not a valid ID")
+          }
+        ).toGraphqlType()
+      )
+    }
+    catch (e: Exception) {
+      e.toWikiResponse()
+    }
+  }
+
+  @DgsMutation
+  fun createWikiFolder(
+    @InputArgument folderName: String,
+    @InputArgument wikiId: String,
+    @InputArgument folderId: String?
+  ): CreateWikiFolderResponse {
+    return try {
+      SuccessfulCreateWikiFolderResponse(
+        wikiService.createWikiFolder(
+          wikiId.toIntOrNull() ?:
+            throw InvalidInputException("wikiId $wikiId is not a valid ID"),
+          folderName,
+          folderId?.let {
+            it.toIntOrNull() ?:
+              throw InvalidInputException("folderId $it is not a valid ID")
           }
         ).toGraphqlType()
       )

@@ -1,0 +1,13 @@
+extend type Mutation {
+  createWikiFolder(
+    folderName: String!
+    wikiId: ID!
+    folderId: ID
+  ): CreateWikiFolderResponse!
+}
+
+union CreateWikiFolderResponse = SuccessfulCreateWikiFolderResponse | FailedWikiResponse
+
+type SuccessfulCreateWikiFolderResponse {
+  wikiFolder: WikiFolder
+}
