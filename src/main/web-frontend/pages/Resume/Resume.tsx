@@ -12,12 +12,20 @@ export default function ResumePage() {
         <div>
           <Section title={"EMPLOYMENT"}>
             <EmploymentCard
-              title={"Software Engineer"}
+              title={"Senior Software Engineer"}
+              companyName={"Netflix"}
+              location={"Seattle, WA"}
+              employmentDate={"December 2025 - Present"}
+              description={[
+                "Currently work on the Content Security team."
+              ]}/>
+            <EmploymentCard
+              title={"Senior Software Engineer"}
               companyName={"Airbnb"}
               location={"Seattle, WA"}
-              employmentDate={"July 2022 - Present"}
+              employmentDate={"July 2022 - November 2025"}
               description={[
-                "Currently work on the Payments Platform team where I develop and maintain the services that power all financial transactions and billing at Airbnb.",
+                "Worked on the Payments Platform team where I developed and maintained the services that power all financial transactions and billing at Airbnb.",
                 "Previously worked on the Listing Backend team where I ensured the reliability and scalability of the company's core listing services and data models. Additionally, I was responsible for designing changes to our architecture and APIs to accommodate new product features."
               ]}/>
             <EmploymentCard
