@@ -97,6 +97,21 @@ class WikiRepository(
     )
   }
 
+  fun updateWikiPageContent(
+    pageId: Int,
+    content: String
+  ): WikiPage {
+    return context.update(WIKI_PAGES)
+      .set(WIKI_PAGES.CONTENT, content)
+      .where(WIKI_PAGES.ID.eq(pageId))
+      .returning()
+      .fetchOneInto(WikiPagesTableRow::class.java)
+      ?.let {
+        WikiPage.fromTableRow(it)
+      }
+        ?: error("Unable to update content for page: $pageId")
+  }
+
   fun getNextDisplayOrderForFolder(wikiId: Int, parentFolderId: Int): String {
     val maxPageOrder = context.select(DSL.max(WIKI_PAGES.DISPLAY_ORDER))
       .from(WIKI_PAGES)

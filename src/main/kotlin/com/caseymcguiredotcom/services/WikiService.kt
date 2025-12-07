@@ -24,6 +24,14 @@ class WikiService(
     return wikiRepository.getWikiById(id)
   }
 
+  fun updateWikiPage(
+    pageId: Int,
+    content: String
+  ): WikiPage {
+    checkUserHasPermission()
+    return wikiRepository.updateWikiPageContent(pageId, content)
+  }
+
   @Transactional
   fun createWiki(name: String): Wiki {
     checkUserHasPermission()

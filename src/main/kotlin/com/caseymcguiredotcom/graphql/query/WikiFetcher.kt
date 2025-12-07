@@ -9,6 +9,10 @@ import com.caseymcguiredotcom.codegen.graphql.types.SuccessfulCreateWikiFolderRe
 import com.caseymcguiredotcom.codegen.graphql.types.SuccessfulCreateWikiPageResponse
 import com.caseymcguiredotcom.codegen.graphql.types.SuccessfulCreateWikiResponse
 import com.caseymcguiredotcom.codegen.graphql.types.SuccessfulMoveWikiItemResponse
+import com.caseymcguiredotcom.codegen.graphql.types.SuccessfulUpdateWikiPageContentResponse
+import com.caseymcguiredotcom.codegen.graphql.types.SuccessfulUpdateWikiPageResponse
+import com.caseymcguiredotcom.codegen.graphql.types.UpdateWikiPageInput
+import com.caseymcguiredotcom.codegen.graphql.types.UpdateWikiPageResponse
 import com.caseymcguiredotcom.codegen.graphql.types.Wiki
 import com.caseymcguiredotcom.codegen.graphql.types.WikiErrorCode
 import com.caseymcguiredotcom.codegen.graphql.types.WikiItemType
@@ -44,6 +48,23 @@ class WikiFetcher(
       )
     } catch(e: Exception) {
       return e.toWikiResponse()
+    }
+  }
+
+  @DgsMutation
+  fun updateWikiPageContent(
+    @InputArgument pageId: String,
+    @InputArgument content: String
+  ): UpdateWikiPageResponse {
+    return try {
+      return SuccessfulUpdateWikiPageContentResponse(
+        wikiService.updateWikiPage(
+          pageId.toIntOrThrow("pageId $pageId is not a valid ID"),
+          content
+        ).toGraphqlType()
+      )
+    } catch (e: Exception) {
+      e.toWikiResponse()
     }
   }
 
