@@ -1,6 +1,6 @@
 package models
 
-import com.caseymcguiredotcom.dao.ExerciseType
+import com.caseymcguiredotcom.repositories.ExerciseType
 import generated.jooq.tables.pojos.ExerciseTableRow
 import generated.jooq.tables.pojos.WorkoutTableRow
 import generated.jooq.tables.pojos.WorkoutSetTableRow

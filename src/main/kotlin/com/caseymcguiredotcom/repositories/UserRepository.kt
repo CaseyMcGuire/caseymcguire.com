@@ -1,4 +1,4 @@
-package com.caseymcguiredotcom.dao;
+package com.caseymcguiredotcom.repositories
 
 import models.User
 import generated.jooq.tables.Users.Companion.USERS
@@ -7,7 +7,7 @@ import org.jooq.DSLContext
 import org.springframework.stereotype.Component
 
 @Component
-class UserDao(val context: DSLContext) {
+class UserRepository(val context: DSLContext) {
 
   fun findByUsername(email: String): User? {
     val users = context

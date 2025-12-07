@@ -1,6 +1,6 @@
 package com.caseymcguiredotcom.services
 
-import com.caseymcguiredotcom.dao.PostDao
+import com.caseymcguiredotcom.repositories.PostRepository
 import models.Post
 
 import org.springframework.stereotype.Service
@@ -8,18 +8,18 @@ import org.springframework.stereotype.Service
 @Service
 class PostService(
   private val userService: UserService,
-  private val postDao: PostDao
+  private val postRepository: PostRepository
 ) {
 
   fun getPosts(): List<Post> {
-    return postDao.getAll()
+    return postRepository.getAll()
   }
 
   fun getPostsAfter(count: Int, offset: Int): List<Post> {
-    return postDao.getAfter(count, offset)
+    return postRepository.getAfter(count, offset)
   }
 
-  fun getPostsById(id: Int): Post? = postDao.get(id)
+  fun getPostsById(id: Int): Post? = postRepository.get(id)
 
 
   fun savePost(id: Int?, title: String, content: String): Post? {
@@ -28,12 +28,12 @@ class PostService(
       return null
     }
     return if (id != null) {
-      if (postDao.get(id) == null) {
+      if (postRepository.get(id) == null) {
         return null
       }
-      postDao.update(id, title, content)
+      postRepository.update(id, title, content)
     } else {
-      postDao.save(user.getId(), title, content)
+      postRepository.save(user.getId(), title, content)
     }
   }
 

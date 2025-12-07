@@ -1,6 +1,6 @@
 package com.caseymcguiredotcom.services
 
-import com.caseymcguiredotcom.dao.UserDao
+import com.caseymcguiredotcom.repositories.UserRepository
 import models.User
 import models.UserDetailsImpl
 import org.springframework.security.authentication.AnonymousAuthenticationToken
@@ -10,17 +10,17 @@ import org.springframework.stereotype.Service
 
 @Service
 class UserService(
-  val userDao: UserDao,
+  val userRepository: UserRepository,
   val passwordEncoder: PasswordEncoder
 ) {
 
   fun getUserByUsername(email: String): User? {
-    return userDao.findByUsername(email)
+    return userRepository.findByUsername(email)
   }
 
   fun registerUser(email: String, password: String) {
     val hashedPassword = passwordEncoder.encode(password)
-    userDao.save(email, hashedPassword)
+    userRepository.save(email, hashedPassword)
   }
 
   fun getLoggedInUser(): User? {

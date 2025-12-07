@@ -1,7 +1,6 @@
 package com.caseymcguiredotcom.services
 
-import com.caseymcguiredotcom.dao.ExerciseType
-import com.caseymcguiredotcom.dao.WorkoutDao
+import com.caseymcguiredotcom.repositories.WorkoutDao
 import com.caseymcguiredotcom.lib.UserProvider
 import com.caseymcguiredotcom.lib.exceptions.DuplicateEntityException
 import com.caseymcguiredotcom.lib.exceptions.EntityNotFoundException

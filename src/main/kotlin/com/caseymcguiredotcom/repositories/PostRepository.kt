@@ -1,4 +1,4 @@
-package com.caseymcguiredotcom.dao
+package com.caseymcguiredotcom.repositories
 
 import models.Post
 import generated.jooq.tables.Posts.Companion.POSTS
@@ -7,7 +7,7 @@ import org.jooq.DSLContext
 import org.springframework.stereotype.Component
 
 @Component
-class PostDao(val context: DSLContext) {
+class PostRepository(val context: DSLContext) {
 
   fun getAfter(count: Int, id: Int): List<Post> {
     return context

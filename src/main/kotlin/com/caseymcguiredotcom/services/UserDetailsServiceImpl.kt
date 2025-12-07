@@ -1,6 +1,6 @@
 package com.caseymcguiredotcom.services
 
-import com.caseymcguiredotcom.dao.UserDao
+import com.caseymcguiredotcom.repositories.UserRepository
 import models.UserDetailsImpl
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.core.userdetails.UserDetailsService
@@ -8,7 +8,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException
 import org.springframework.stereotype.Service
 
 @Service
-class UserDetailsServiceImpl(val userDao: UserDao): UserDetailsService {
+class UserDetailsServiceImpl(val userRepository: UserRepository): UserDetailsService {
 
   @Throws(UsernameNotFoundException::class)
   override fun loadUserByUsername(email: String?): UserDetails {
@@ -16,7 +16,7 @@ class UserDetailsServiceImpl(val userDao: UserDao): UserDetailsService {
     if (email == null) {
       throw exception
     }
-    val user = userDao.findByUsername(email)
+    val user = userRepository.findByUsername(email)
     if (user != null) {
       return UserDetailsImpl(user)
     }

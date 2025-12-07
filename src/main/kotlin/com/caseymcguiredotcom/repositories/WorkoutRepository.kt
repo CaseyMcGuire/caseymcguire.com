@@ -1,4 +1,4 @@
-package com.caseymcguiredotcom.dao
+package com.caseymcguiredotcom.repositories
 
 import com.caseymcguiredotcom.lib.Time
 import com.caseymcguiredotcom.lib.exceptions.EntityNotFoundException
