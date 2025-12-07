@@ -5,7 +5,7 @@ import com.caseymcguiredotcom.db.models.wiki.WikiFolder
 import com.caseymcguiredotcom.db.models.wiki.WikiPage
 import com.caseymcguiredotcom.lib.exceptions.PermissionDeniedException
 import com.caseymcguiredotcom.lib.exceptions.UserNotLoggedInException
-import com.caseymcguiredotcom.repositories.WikiRepository
+import com.caseymcguiredotcom.repositories.wiki.WikiRepository
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -17,6 +17,11 @@ class WikiService(
   @Transactional(readOnly = true)
   fun getWikiByName(name: String): Wiki? {
     return wikiRepository.getWikiByName(name)
+  }
+
+  @Transactional(readOnly = true)
+  fun getWikiById(id: Int): Wiki? {
+    return wikiRepository.getWikiById(id)
   }
 
   @Transactional
@@ -35,6 +40,40 @@ class WikiService(
   fun createWikiPage(wikiId: Int, pageName: String, parentFolderId: Int?): WikiPage {
     checkUserHasPermission()
     return wikiRepository.createWikiPage(wikiId, pageName, resolveFolderId(wikiId, parentFolderId))
+  }
+
+  @Transactional
+  fun moveFolder(
+    wikiId: Int,
+    folderId: Int,
+    destinationFolderId: Int,
+    beforeSiblingId: Int?,
+    afterSiblingId: Int?): WikiFolder {
+    checkUserHasPermission()
+    return wikiRepository.moveWikiFolder(
+      wikiId,
+      folderId,
+      destinationFolderId,
+      beforeSiblingId,
+      afterSiblingId
+    )
+  }
+
+  @Transactional
+  fun movePage(
+    wikiId: Int,
+    pageId: Int,
+    destinationFolderId: Int,
+    beforeSiblingId: Int?,
+    afterSiblingId: Int?): WikiPage {
+    checkUserHasPermission()
+    return wikiRepository.moveWikiPage(
+      wikiId,
+      pageId,
+      destinationFolderId,
+      beforeSiblingId,
+      afterSiblingId
+    )
   }
 
   private fun resolveFolderId(wikiId: Int, providedFolderId: Int?): Int {

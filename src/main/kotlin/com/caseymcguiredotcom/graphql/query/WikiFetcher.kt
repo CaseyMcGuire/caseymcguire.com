@@ -4,11 +4,14 @@ import com.caseymcguiredotcom.codegen.graphql.types.CreateWikiFolderResponse
 import com.caseymcguiredotcom.codegen.graphql.types.CreateWikiPageResponse
 import com.caseymcguiredotcom.codegen.graphql.types.CreateWikiResponse
 import com.caseymcguiredotcom.codegen.graphql.types.FailedWikiResponse
+import com.caseymcguiredotcom.codegen.graphql.types.MoveWikiItemResponse
 import com.caseymcguiredotcom.codegen.graphql.types.SuccessfulCreateWikiFolderResponse
 import com.caseymcguiredotcom.codegen.graphql.types.SuccessfulCreateWikiPageResponse
 import com.caseymcguiredotcom.codegen.graphql.types.SuccessfulCreateWikiResponse
+import com.caseymcguiredotcom.codegen.graphql.types.SuccessfulMoveWikiItemResponse
 import com.caseymcguiredotcom.codegen.graphql.types.Wiki
 import com.caseymcguiredotcom.codegen.graphql.types.WikiErrorCode
+import com.caseymcguiredotcom.codegen.graphql.types.WikiItemType
 import com.caseymcguiredotcom.db.models.wiki.toGraphqlType
 import com.caseymcguiredotcom.lib.exceptions.InvalidInputException
 import com.caseymcguiredotcom.lib.exceptions.PermissionDeniedException
@@ -90,6 +93,50 @@ class WikiFetcher(
     catch (e: Exception) {
       e.toWikiResponse()
     }
+  }
+
+  @DgsMutation
+  fun moveWikiItem(
+    @InputArgument wikiId: String,
+    @InputArgument itemId: String,
+    @InputArgument itemType: WikiItemType,
+    @InputArgument destinationParentFolderId: String,
+    @InputArgument beforeSiblingId: String?,
+    @InputArgument afterSiblingId: String?
+  ): MoveWikiItemResponse {
+    return try {
+      when (itemType) {
+        WikiItemType.PAGE -> {
+          wikiService.movePage(
+            wikiId.toIntOrThrow("wikiId $wikiId is not a valid ID"),
+            itemId.toIntOrThrow("pageId $itemId is not a valid ID"),
+            destinationParentFolderId.toIntOrThrow("folderId $destinationParentFolderId is not a valid ID"),
+            beforeSiblingId?.toIntOrThrow("beforeSiblingId $beforeSiblingId is not a valid ID"),
+            afterSiblingId?.toIntOrThrow("afterSiblingId $afterSiblingId is not a valid ID"),
+            )
+        }
+        WikiItemType.FOLDER -> {
+          wikiService.moveFolder(
+            wikiId.toIntOrThrow("wikiId $wikiId is not a valid ID"),
+            itemId.toIntOrThrow("pageId $itemId is not a valid ID"),
+            destinationParentFolderId.toIntOrThrow("folderId $destinationParentFolderId is not a valid ID"),
+            beforeSiblingId?.toIntOrThrow("beforeSiblingId $beforeSiblingId is not a valid ID"),
+            afterSiblingId?.toIntOrThrow("afterSiblingId $afterSiblingId is not a valid ID"),
+          )
+        }
+      }
+
+      SuccessfulMoveWikiItemResponse(
+        wikiService.getWikiById(wikiId.toInt())?.toGraphqlType(),
+      )
+    }
+    catch (e: Exception) {
+      e.toWikiResponse()
+    }
+  }
+
+  fun String.toIntOrThrow(msg: String): Int {
+    return this.toIntOrNull() ?: throw InvalidInputException(msg)
   }
 
   private fun Exception.toWikiResponse(): FailedWikiResponse {

@@ -1,0 +1,341 @@
+package com.caseymcguiredotcom.repositories.wiki
+
+import com.caseymcguiredotcom.db.models.wiki.Wiki
+import com.caseymcguiredotcom.db.models.wiki.WikiFolder
+import com.caseymcguiredotcom.db.models.wiki.WikiPage
+import com.caseymcguiredotcom.lib.LexoRank
+import com.caseymcguiredotcom.lib.Time
+import generated.jooq.tables.pojos.WikiFoldersTableRow
+import generated.jooq.tables.pojos.WikiPagesTableRow
+import generated.jooq.tables.pojos.WikisTableRow
+import generated.jooq.tables.references.WIKIS
+import generated.jooq.tables.references.WIKI_FOLDERS
+import generated.jooq.tables.references.WIKI_PAGES
+import org.jooq.DSLContext
+import org.jooq.impl.DSL
+import org.springframework.stereotype.Repository
+import org.springframework.transaction.annotation.Propagation
+import org.springframework.transaction.annotation.Transactional
+
+@Repository
+class WikiRepository(
+  private val context: DSLContext,
+  private val time: Time
+) {
+  fun createWiki(name: String): Wiki {
+    val wiki = context
+      .insertInto(WIKIS)
+      .set(WIKIS.NAME, name)
+      .returning()
+      .fetchOneInto(WikisTableRow::class.java)
+      ?: error("Unable to create wiki")
+
+    val rootFolder = context
+      .insertInto(WIKI_FOLDERS)
+      .set(WIKI_FOLDERS.NAME, "${name}_wiki_root_folder")
+      .set(WIKI_FOLDERS.DISPLAY_ORDER, "a")
+      .set(WIKI_FOLDERS.WIKI_ID, wiki.id)
+      .set(WIKI_FOLDERS.IS_ROOT, true)
+      .returning()
+      .fetchOneInto(WikiFoldersTableRow::class.java)
+      ?: error("Unable to create root folder")
+
+    return Wiki.fromRows(wiki, emptyList(), listOf(rootFolder))
+  }
+
+  fun getWikiById(wikiId: Int): Wiki? {
+    val wiki = context
+      .selectFrom(WIKIS)
+      .where(WIKIS.ID.eq(wikiId))
+      .fetchOneInto(WikisTableRow::class.java)
+      ?: return null
+
+    val pages = context.select()
+      .from(WIKI_PAGES)
+      .where(WIKI_PAGES.WIKI_ID.eq(wiki.id))
+      .fetchInto(WikiPagesTableRow::class.java)
+
+    val folders = context.select()
+      .from(WIKI_FOLDERS)
+      .where(WIKI_FOLDERS.WIKI_ID.eq(wiki.id))
+      .fetchInto(WikiFoldersTableRow::class.java)
+
+    return Wiki.fromRows(wiki, pages, folders)
+  }
+
+  fun getRootFolderIdByWikiId(wikiId: Int): Int? {
+    return context.select(WIKI_FOLDERS.ID)
+      .from(WIKI_FOLDERS)
+      .where(
+        WIKI_FOLDERS.WIKI_ID.eq(wikiId),
+        WIKI_FOLDERS.IS_ROOT.eq(true)
+      )
+      .fetchOneInto(Int::class.java)
+  }
+
+  @Transactional(propagation = Propagation.MANDATORY)
+  fun createWikiFolder(wikiId: Int, folderName: String, parentFolderId: Int): WikiFolder {
+    lockFolder(wikiId, parentFolderId)
+
+    val nextOrder = getNextDisplayOrderForFolder(wikiId, parentFolderId)
+    val folder = context
+      .insertInto(WIKI_FOLDERS)
+      .set(WIKI_FOLDERS.WIKI_ID, wikiId)
+      .set(WIKI_FOLDERS.NAME, folderName)
+      .set(WIKI_FOLDERS.PARENT_FOLDER_ID, parentFolderId)
+      .set(WIKI_FOLDERS.DISPLAY_ORDER, nextOrder)
+      .returning()
+      .fetchOneInto(WikiFoldersTableRow::class.java)
+      ?: error("Wiki folder not found")
+
+    return WikiFolder(
+      folder.id!!,
+      folder.name,
+      folder.displayOrder,
+      emptyList(),
+      emptyList()
+    )
+  }
+
+  fun getNextDisplayOrderForFolder(wikiId: Int, parentFolderId: Int): String {
+    val maxPageOrder = context.select(DSL.max(WIKI_PAGES.DISPLAY_ORDER))
+      .from(WIKI_PAGES)
+      .where(
+        WIKI_PAGES.WIKI_ID.eq(wikiId),
+        WIKI_PAGES.PARENT_FOLDER_FK_ID.eq(parentFolderId)
+      )
+      .fetchOneInto(String::class.java)
+
+    val maxFolderOrder = context.select(DSL.max(WIKI_FOLDERS.DISPLAY_ORDER))
+      .from(WIKI_FOLDERS)
+      .where(
+        WIKI_FOLDERS.WIKI_ID.eq(wikiId),
+        WIKI_FOLDERS.PARENT_FOLDER_ID.eq(parentFolderId),
+      )
+      .fetchOneInto(String::class.java)
+
+    val maxOrder = listOfNotNull(maxPageOrder, maxFolderOrder).maxOrNull()
+    return LexoRank.calculateNext(maxOrder)
+  }
+
+  @Transactional(propagation = Propagation.MANDATORY)
+  fun createWikiPage(wikiId: Int, pageName: String, parentFolderId: Int): WikiPage {
+
+    lockFolder(wikiId, parentFolderId)
+
+    val nextOrder = getNextDisplayOrderForFolder(wikiId, parentFolderId)
+    val now = time.now()
+    val page = context
+      .insertInto(WIKI_PAGES)
+      .set(WIKI_PAGES.WIKI_ID, wikiId)
+      .set(WIKI_PAGES.NAME, pageName)
+      .set(WIKI_PAGES.PARENT_FOLDER_FK_ID, parentFolderId)
+      .set(WIKI_PAGES.CONTENT, "")
+      .set(WIKI_PAGES.DISPLAY_ORDER, nextOrder)
+      .set(WIKI_PAGES.CREATED_AT, now)
+      .set(WIKI_PAGES.UPDATED_AT, now)
+      .returning()
+      .fetchOneInto(WikiPagesTableRow::class.java)
+    ?: error("Wiki page not found")
+    return WikiPage.fromTableRow(page)
+  }
+
+  fun getWikiByName(name: String): Wiki? {
+    val wiki = context
+      .selectFrom(WIKIS)
+      .where(WIKIS.NAME.eq(name))
+      .fetchOneInto(WikisTableRow::class.java)
+      ?: return null
+
+    val pages = context.select()
+      .from(WIKI_PAGES)
+      .where(WIKI_PAGES.WIKI_ID.eq(wiki.id))
+      .fetchInto(WikiPagesTableRow::class.java)
+
+    val folders = context.select()
+      .from(WIKI_FOLDERS)
+      .where(WIKI_FOLDERS.WIKI_ID.eq(wiki.id))
+      .fetchInto(WikiFoldersTableRow::class.java)
+
+    return Wiki.fromRows(wiki, pages, folders)
+  }
+
+  @Transactional(propagation = Propagation.MANDATORY)
+  fun moveWikiFolder(
+    wikiId: Int,
+    folderId: Int,
+    destinationFolderId: Int,
+    beforeSiblingId: Int?,
+    afterSiblingId: Int?
+  ): WikiFolder {
+    listOf(destinationFolderId, folderId).sorted().forEach {
+      lockFolder(wikiId, it)
+    }
+
+    // don't allow cycles
+    if (
+      isAncestor(
+        wikiId = wikiId,
+        startFolderId = destinationFolderId,
+        possibleAncestorFolderId = folderId
+      )
+    ) {
+      error("[WikiRepository][moveWikiFolder] Destination folder $destinationFolderId is in the subtree of folder $folderId")
+    }
+
+    val displayOrder = getMiddleDisplayOrder(
+      wikiId,
+      destinationFolderId,
+      beforeSiblingId,
+      afterSiblingId
+    )
+
+    val folder = context.update(WIKI_FOLDERS)
+      .set(WIKI_FOLDERS.PARENT_FOLDER_ID, destinationFolderId)
+      .set(WIKI_FOLDERS.DISPLAY_ORDER, displayOrder)
+      .where(
+        WIKI_FOLDERS.WIKI_ID.eq(wikiId),
+        WIKI_FOLDERS.ID.eq(folderId),
+      )
+      .returning()
+      .fetchOneInto(WikiFoldersTableRow::class.java)
+      ?: error("Unable to update folder: $folderId")
+
+    return WikiFolder(
+      folder.id!!,
+      folder.name,
+      folder.displayOrder,
+      emptyList(),
+      emptyList()
+    )
+  }
+
+  @Transactional(propagation = Propagation.MANDATORY)
+  fun moveWikiPage(
+    wikiId: Int,
+    pageId: Int,
+    destinationFolderId: Int,
+    beforeSiblingId: Int?,
+    afterSiblingId: Int?
+  ): WikiPage {
+    val pageRow = context.selectFrom(WIKI_PAGES)
+      .where(
+        WIKI_PAGES.WIKI_ID.eq(wikiId),
+        WIKI_PAGES.ID.eq(pageId)
+        )
+      .fetchOneInto(WikiPagesTableRow::class.java)
+      ?: error("No page with ID: $pageId")
+
+    listOf(destinationFolderId, pageRow.parentFolderFkId).sorted().forEach {
+      lockFolder(wikiId, it)
+    }
+
+    val nextDisplayOrder = getMiddleDisplayOrder(wikiId, destinationFolderId, beforeSiblingId, afterSiblingId)
+    val page = context.update(WIKI_PAGES)
+      .set(WIKI_PAGES.PARENT_FOLDER_FK_ID, destinationFolderId)
+      .set(WIKI_PAGES.DISPLAY_ORDER, nextDisplayOrder)
+      .where(
+        WIKI_PAGES.WIKI_ID.eq(wikiId),
+        WIKI_PAGES.ID.eq(pageId),
+      )
+      .returning()
+      .fetchOneInto(WikiPagesTableRow::class.java)
+      ?: error("Unable to move page: $pageId")
+
+    return WikiPage.fromTableRow(page)
+  }
+
+  private fun getMiddleDisplayOrder(
+    wikiId: Int,
+    destinationFolderId: Int,
+    beforeSiblingId: Int?,
+    afterSiblingId: Int?
+  ): String {
+    val nodes = getNodesForParentFolder(wikiId, destinationFolderId)
+    val beforeResult =
+      beforeSiblingId?.let { siblingId ->
+        nodes.withIndex().find { it.value.id == siblingId }
+          ?: error("No node found for before sibling: $siblingId")
+      }
+
+    val afterResult =
+      afterSiblingId?.let { siblingId ->
+        nodes.withIndex().find { it.value.id == siblingId }
+          ?: error("No node found for after sibling: $siblingId")
+      }
+
+    if (beforeResult != null &&
+      afterResult != null &&
+      beforeResult.index != afterResult.index + 1) {
+      error("Nodes aren't siblings. beforeResult: $beforeResult afterResult: $afterResult")
+    }
+
+    return LexoRank.calculateMiddle(
+      beforeResult?.value?.displayOrder,
+      afterResult?.value?.displayOrder
+    )
+  }
+
+  fun isAncestor(
+    wikiId: Int,
+    startFolderId: Int,
+    possibleAncestorFolderId: Int
+  ): Boolean {
+
+    var curId: Int? = startFolderId
+    // assume no more than 100 levels for now
+    for (i in 0 until 100) {
+      if (curId == null) {
+        return false
+      }
+      if (curId == possibleAncestorFolderId) {
+        return true
+      }
+      curId = context.select(WIKI_FOLDERS.PARENT_FOLDER_ID)
+        .from(WIKI_FOLDERS)
+        .where(
+          WIKI_FOLDERS.WIKI_ID.eq(wikiId),
+          WIKI_FOLDERS.ID.eq(curId)
+        ).fetchOneInto(Int::class.java)
+    }
+
+    error("[isAncestor] More than 100 levels of recursion")
+  }
+
+
+  private fun getNodesForParentFolder(
+    wikiId: Int,
+    folderId: Int
+  ): List<WikiTableRowNode> {
+    val pages = context.select()
+      .from(WIKI_PAGES)
+      .where(
+        WIKI_PAGES.WIKI_ID.eq(wikiId),
+        WIKI_PAGES.PARENT_FOLDER_FK_ID.eq(folderId)
+      )
+      .orderBy(WIKI_PAGES.DISPLAY_ORDER)
+      .fetchInto(WikiPagesTableRow::class.java)
+
+    val folders = context.select()
+      .from(WIKI_FOLDERS)
+      .where(
+        WIKI_FOLDERS.WIKI_ID.eq(wikiId),
+        WIKI_FOLDERS.PARENT_FOLDER_ID.eq(folderId)
+      )
+      .orderBy(WIKI_FOLDERS.DISPLAY_ORDER)
+      .fetchInto(WikiFoldersTableRow::class.java)
+
+    return (pages.map { it.toWikiNode() } + folders.map { it.toWikiNode() }).sortedBy { it.displayOrder }
+  }
+
+  private fun lockFolder(wikiId: Int, folderId: Int) {
+    context
+      .selectFrom(WIKI_FOLDERS)
+      .where(
+        WIKI_FOLDERS.WIKI_ID.eq(wikiId),
+        WIKI_FOLDERS.ID.eq(folderId)
+      )
+      .forUpdate()
+      .fetchOne() ?: error("Folder not found")
+  }
+}

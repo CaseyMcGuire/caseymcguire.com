@@ -1,0 +1,22 @@
+
+enum WikiItemType {
+  PAGE
+  FOLDER
+}
+
+extend type Mutation {
+  moveWikiItem(
+    wikiId: ID!
+    itemId: ID!
+    itemType: WikiItemType!
+    destinationParentFolderId: ID!
+    beforeSiblingId: ID
+    afterSiblingId: ID
+  ): MoveWikiItemResponse
+}
+
+union MoveWikiItemResponse = SuccessfulMoveWikiItemResponse | FailedWikiResponse
+
+type SuccessfulMoveWikiItemResponse {
+  wiki: Wiki
+}
