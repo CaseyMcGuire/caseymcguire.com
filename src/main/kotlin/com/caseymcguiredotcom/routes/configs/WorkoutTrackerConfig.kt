@@ -22,5 +22,6 @@ class WorkoutTrackerConfig(
 
   override val name = "Workout Tracker"
   override val urlPrefix = "workout_tracker"
+  override val appRootPath = "./src/main/web-frontend/projects/WorkoutTracker/WorkoutTrackerRoot"
   override val requestHandler = workoutTrackerRouteHandler
 }

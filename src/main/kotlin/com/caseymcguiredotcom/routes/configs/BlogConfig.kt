@@ -28,9 +28,10 @@ class BlogConfig() : SinglePageApplicationConfig {
 
   override val name = "Casey McGuire"
   override val urlPrefix = ""
+  override val appRootPath: String = "./src/main/web-frontend/AppRoot"
 
   override val requestHandler = object: RequestHandler {
-    override fun handle(request: ServerRequest): ServerResponse {
+    override fun handle(request: ServerRequest, config: SinglePageApplicationConfig): ServerResponse {
       return ServerResponse.ok()
         .contentType(MediaType.TEXT_HTML)
         .body(BlogPage().render())

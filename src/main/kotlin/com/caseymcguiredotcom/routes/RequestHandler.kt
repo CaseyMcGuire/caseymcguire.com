@@ -4,5 +4,5 @@ import org.springframework.web.servlet.function.ServerRequest
 import org.springframework.web.servlet.function.ServerResponse
 
 interface RequestHandler {
-  fun handle(request: ServerRequest): ServerResponse
+  fun handle(request: ServerRequest, config: SinglePageApplicationConfig): ServerResponse
 }

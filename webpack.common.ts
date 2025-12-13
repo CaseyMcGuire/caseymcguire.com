@@ -1,14 +1,15 @@
 import path from "path";
 
 import { Configuration } from "webpack";
+import entries from "./SinglePageApplicationBundles";
 
 const config : Configuration = {
-  entry: {
-    index: './src/main/web-frontend/AppRoot',
-    movies: './src/main/web-frontend/projects/MovieApp/MovieAppRoot',
-    graphiql: './src/main/web-frontend/projects/Graphiql/GraphiqlPage',
-    workout: './src/main/web-frontend/projects/WorkoutTracker/WorkoutTrackerRoot'
-  },
+  entry: mergeUnique(
+    {
+      graphiql: './src/main/web-frontend/projects/Graphiql/GraphiqlPage',
+    },
+   entries
+  ),
   resolve: {
     // Add '.ts' and '.tsx' as resolvable extensions.
     extensions: [".ts", ".tsx", ".js", ".json"],
@@ -69,5 +70,17 @@ const config : Configuration = {
     outputModule: true, // Tells webpack it can output ES modules
   },
 };
+
+function mergeUnique<T extends object, U extends object>(obj1: T, obj2: U): T & U {
+  const keys2 = Object.keys(obj2);
+
+  for (const key of keys2) {
+    if (key in obj1) {
+      throw new Error(`Duplicate key detected: "${key}" cannot be merged.`);
+    }
+  }
+
+  return { ...obj1, ...obj2 } as T & U;
+}
 
 export default config;

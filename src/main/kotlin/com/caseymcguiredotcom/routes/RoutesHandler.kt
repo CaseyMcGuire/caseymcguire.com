@@ -14,7 +14,9 @@ class RoutesHandler {
     return router {
       routeConfigs.forEach { config ->
         config.getFullUrls().forEach {
-          GET(it, config.requestHandler::handle)
+          GET(it) { request ->
+            config.requestHandler.handle(request, config)
+          }
         }
       }
     }

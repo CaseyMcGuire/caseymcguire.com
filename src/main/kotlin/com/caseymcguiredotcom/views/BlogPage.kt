@@ -5,7 +5,7 @@ import kotlinx.html.*
 class BlogPage : RenderablePage {
 
   override fun render(): String {
-    return ReactPage("index", "Casey McGuire")
+    return ReactPage("casey_mcguire", "Casey McGuire")
       .importMapInputs(
         ImportMapInput("highlight.js", "https://esm.sh/highlight.js@11.11.1"),
         ImportMapInput("sanitize-html", "https://esm.sh/sanitize-html@2.13.0")

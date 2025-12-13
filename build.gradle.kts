@@ -10,6 +10,7 @@ val postgresVersion = "42.7.8"
 val exposedVersion = "1.0.0-rc-3"
 val migrationScriptPath = "com.caseymcguiredotcom.scripts.GenerateMigrationScriptKt"
 val clientRoutePath = "com.caseymcguiredotcom.scripts.GenerateClientRoutesKt"
+val webpackEntryPath = "com.caseymcguiredotcom.scripts.GenerateWebpackBundleEntriesKt"
 
 plugins {
   id("org.jetbrains.kotlin.jvm") version "2.2.21"
@@ -180,6 +181,17 @@ tasks.register<JavaExec>("generateClientRoutes") {
   // port from the .env file
   systemProperty("server.port", "0")
   systemProperty("route.output.dir", "src/main/web-frontend/__generated__/routes")
+}
+
+tasks.register<JavaExec>("generateWebpackBundleEntries") {
+  description = "Generates a file containing the path to each React app's entry point."
+  classpath = sourceSets.main.get().runtimeClasspath
+  environment = envVariables
+  mainClass.set(webpackEntryPath)
+  // Use a different port so it doesn't conflict with running instance using the
+  // port from the .env file
+  systemProperty("server.port", "0")
+  systemProperty("route.output.dir", "SinglePageApplicationBundles.ts")
 }
 
 // For reasons I don't understand, adding this task causes Gradle to bug-out
