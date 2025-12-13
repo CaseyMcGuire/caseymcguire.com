@@ -229,8 +229,8 @@ flyway {
 
 
 node {
-  version.set("20.11.0")
-  npmVersion.set("10.4.0")
+  version.set("24.12.0")
+  npmVersion.set("11.7.0")
   download.set(true)
 }
 
