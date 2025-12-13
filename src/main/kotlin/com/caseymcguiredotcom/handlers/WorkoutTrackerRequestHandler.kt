@@ -6,7 +6,6 @@ import com.caseymcguiredotcom.views.ReactPage
 import kotlinx.html.style
 import kotlinx.html.unsafe
 import org.springframework.http.MediaType
-import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.stereotype.Component
 import org.springframework.web.servlet.function.ServerRequest
 import org.springframework.web.servlet.function.ServerResponse

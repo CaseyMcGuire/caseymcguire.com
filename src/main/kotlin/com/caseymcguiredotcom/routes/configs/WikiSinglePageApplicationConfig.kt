@@ -8,7 +8,9 @@ import org.springframework.stereotype.Component
 
 @Component
 class WikiSinglePageApplicationConfig : SinglePageApplicationConfig  {
-  override val routes: List<SinglePageApplicationRoute> = listOf()
+  override val routes: List<SinglePageApplicationRoute> = listOf(
+    SinglePageApplicationRoute("", "WIKI_INDEX")
+  )
   override val name: String = "Wiki"
   override val urlPrefix: String = "wiki"
   override val appRootPath = "./src/main/web-frontend/projects/Wiki/WikiRoot.tsx"
