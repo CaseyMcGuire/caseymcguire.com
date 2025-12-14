@@ -17,6 +17,7 @@ import com.caseymcguiredotcom.codegen.graphql.types.Wiki
 import com.caseymcguiredotcom.codegen.graphql.types.WikiErrorCode
 import com.caseymcguiredotcom.codegen.graphql.types.WikiItemType
 import com.caseymcguiredotcom.db.models.wiki.toGraphqlType
+import com.caseymcguiredotcom.graphql.fromGlobalIdOrNull
 import com.caseymcguiredotcom.lib.exceptions.InvalidInputException
 import com.caseymcguiredotcom.lib.exceptions.PermissionDeniedException
 import com.caseymcguiredotcom.lib.exceptions.UserNotLoggedInException
@@ -157,7 +158,7 @@ class WikiFetcher(
   }
 
   fun String.toIntOrThrow(msg: String): Int {
-    return this.toIntOrNull() ?: throw InvalidInputException(msg)
+    return fromGlobalIdOrNull(this).toIntOrNull() ?: throw InvalidInputException(msg)
   }
 
   private fun Exception.toWikiResponse(): FailedWikiResponse {

@@ -31,6 +31,7 @@
     "ace-builds": "^1.43.4",
     "graphiql": "^5.2.1",
     "graphql-tools": "^9.0.24",
+    "graphql-ws": "^6.0.6",
     "images": "^3.2.4",
     "lucide-react": "^0.554.0",
     "marked": "^15.0.0",
