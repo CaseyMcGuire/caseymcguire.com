@@ -11,8 +11,8 @@ fun toGlobalId(type: String, id: String): String {
   return Base64.getEncoder().encodeToString(input.toByteArray())
 }
 
-fun fromGlobalIdOrNull(globalId: String): String {
+fun fromGlobalIdOrNull(globalId: String): String? {
   val decoded = String(Base64.getDecoder().decode(globalId))
   // Split "WikiPage:2" and take the second part
-  return decoded.split(":")[1]
+  return decoded.split(":").getOrNull(1)
 }

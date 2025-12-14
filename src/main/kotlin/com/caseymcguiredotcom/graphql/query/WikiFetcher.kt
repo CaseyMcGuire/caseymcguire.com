@@ -158,7 +158,7 @@ class WikiFetcher(
   }
 
   fun String.toIntOrThrow(msg: String): Int {
-    return fromGlobalIdOrNull(this).toIntOrNull() ?: throw InvalidInputException(msg)
+    return fromGlobalIdOrNull(this)?.toIntOrNull() ?: throw InvalidInputException(msg)
   }
 
   private fun Exception.toWikiResponse(): FailedWikiResponse {
