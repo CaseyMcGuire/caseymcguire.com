@@ -106,14 +106,26 @@ val envVariables: Map<String, String> = {
     if (!envFile.exists()) {
       return map
     }
-    envFile.readLines().forEach {
+
+    envFile.readLines()
+      .filter { it.isNotBlank() && !it.trim().startsWith("#") }
+      .forEach {
       val (key, value) = it.split("=")
       map[key] = value
     }
+
+    val dbHost = map.getValue("DB_HOST")
+    val dbPort = map.getValue("DB_PORT")
+    val dbName = map.getValue("DB_NAME")
+    map["DB_URL"] = "jdbc:postgresql://$dbHost:$dbPort/$dbName"
     return map
   }
   getEnvironmentVariables()
 }()
+
+val dbUser = envVariables.getValue("DB_USER")
+val dbPassword = envVariables.getValue("DB_PASSWORD")
+val dbUrl = envVariables.getValue("DB_URL")
 
 // if you change this, you must update the `java.runtime.version` param in the 'system.properties' file to the same value
 val targetJava = 21
@@ -164,12 +176,35 @@ tasks.getByName<BootRun>("bootRun") {
   dependsOn("herokuBuild")
 }
 
-tasks.register<JavaExec>("generateMigrationScript") {
-  description = "Generates a SQL migration script which can be used by Flyway."
-  // This tells Gradle to use the project's compiled classes and all its dependencies
-  classpath = sourceSets.main.get().runtimeClasspath
-  environment = envVariables
-  mainClass.set(migrationScriptPath)
+tasks.register<Exec>("generateDbMigration") {
+  group = "database"
+  description = "Generate a migration based on current state of the schema"
+  environment(envVariables)
+  val migrationNameProvider = providers.gradleProperty("migrationName")
+
+  doFirst {
+    val migrationName = migrationNameProvider.orNull?.trim()
+      ?.takeIf { it.isNotEmpty() }
+      ?: throw GradleException(
+        "Missing required property 'migrationName'. Run: `./gradlew generateDbMigration -PmigrationName={name}` " +
+            "and replace {name} with the name of your migration"
+      )
+    val dbHost = envVariables.getValue("DB_HOST")
+    val dbPort = envVariables.getValue("DB_PORT")
+    val atlasDevDbName = envVariables.getValue("ATLAS_DEV_DB_NAME")
+
+    val atlasDevUrl =
+      "postgres://$dbUser:$dbPassword@$dbHost:$dbPort/$atlasDevDbName?search_path=public&sslmode=disable"
+
+    workingDir = rootProject.projectDir
+
+    environment("MIGRATION_NAME", migrationName)
+    environment("MIGRATIONS_DIR", "src/main/resources/db/migration")
+    environment("TABLES_DIR", "src/main/resources/db/tables")
+    environment("ATLAS_DEV_URL", atlasDevUrl)
+  }
+
+  commandLine("bash", "-lc", "./bin/generate_db_migration.sh")
 }
 
 tasks.register<JavaExec>("generateClientRoutes") {
@@ -210,10 +245,6 @@ tasks.register("herokuBuild") {
   }
   dependsOn(taskList)
 }
-
-val dbUser = envVariables.getValue("DB_USER")
-val dbPassword = envVariables.getValue("DB_PASSWORD")
-val dbUrl = envVariables.getValue("DB_URL")
 
 // How to run flyway commands in command line
 // In order to clean database: ./gradlew flywayClean

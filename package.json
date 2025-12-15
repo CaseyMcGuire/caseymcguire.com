@@ -45,6 +45,7 @@
     "webfontloader": "^1.6.28"
   },
   "devDependencies": {
+    "@ariga/atlas": "^0.38.0",
     "@babel/core": "^7.28.5",
     "@babel/node": "^7.28.0",
     "@babel/preset-env": "^7.28.0",
