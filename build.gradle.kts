@@ -7,7 +7,6 @@ val springVersion = "3.5.5"
 val kotlinVersion = "2.2.21"
 val jooqVersion = "3.20.8"
 val postgresVersion = "42.7.8"
-val exposedVersion = "1.0.0-rc-3"
 val migrationScriptPath = "com.caseymcguiredotcom.scripts.GenerateMigrationScriptKt"
 val clientRoutePath = "com.caseymcguiredotcom.scripts.GenerateClientRoutesKt"
 val webpackEntryPath = "com.caseymcguiredotcom.scripts.GenerateWebpackBundleEntriesKt"
@@ -62,17 +61,10 @@ dependencies {
   jooqCodegen("org.postgresql:postgresql:$postgresVersion")
   jooqCodegen(project(":customgenerator"))
 
-  implementation("org.jetbrains.exposed:exposed-core:$exposedVersion")
-  implementation("org.jetbrains.exposed:exposed-jdbc:$exposedVersion")
-  implementation("org.jetbrains.exposed:spring-transaction:$exposedVersion")
-  implementation("org.jetbrains.exposed:exposed-migration-core:$exposedVersion")
-  implementation("org.jetbrains.exposed:exposed-migration-jdbc:$exposedVersion")
-  implementation("org.jetbrains.exposed:exposed-java-time:$exposedVersion")
   implementation("org.postgresql:postgresql:$postgresVersion")
   implementation("org.flywaydb:flyway-core:9.16.0")
   implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
   implementation("org.jetbrains.kotlinx:kotlinx-html-jvm:0.12.0")
-
 
   implementation("io.github.classgraph:classgraph:4.8.184")
   implementation("com.github.vertical-blank:sql-formatter:2.0.5")
