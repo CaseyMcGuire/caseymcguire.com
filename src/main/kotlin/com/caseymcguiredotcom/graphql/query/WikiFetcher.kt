@@ -10,8 +10,6 @@ import com.caseymcguiredotcom.codegen.graphql.types.SuccessfulCreateWikiPageResp
 import com.caseymcguiredotcom.codegen.graphql.types.SuccessfulCreateWikiResponse
 import com.caseymcguiredotcom.codegen.graphql.types.SuccessfulMoveWikiItemResponse
 import com.caseymcguiredotcom.codegen.graphql.types.SuccessfulUpdateWikiPageContentResponse
-import com.caseymcguiredotcom.codegen.graphql.types.SuccessfulUpdateWikiPageResponse
-import com.caseymcguiredotcom.codegen.graphql.types.UpdateWikiPageInput
 import com.caseymcguiredotcom.codegen.graphql.types.UpdateWikiPageResponse
 import com.caseymcguiredotcom.codegen.graphql.types.Wiki
 import com.caseymcguiredotcom.codegen.graphql.types.WikiErrorCode

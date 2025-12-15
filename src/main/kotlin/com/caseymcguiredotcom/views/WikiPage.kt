@@ -1,7 +1,6 @@
 package com.caseymcguiredotcom.views
 
 import com.caseymcguiredotcom.routes.SinglePageApplicationConfig
-import com.caseymcguiredotcom.routes.configs.WikiSinglePageApplicationConfig
 import kotlinx.html.link
 import kotlinx.html.style
 import kotlinx.html.unsafe
