@@ -4,14 +4,18 @@ import {WikiSidebarFolder_wikiFolder$key} from "__generated__/relay/WikiSidebarF
 import WikiSidebarPage from "projects/Wiki/components/WikiSidebarPage";
 import NestedWikiSidebarFolder from "projects/Wiki/components/NestedWikiSidebarFolder";
 import * as stylex from "@stylexjs/stylex";
+import {WikiStyles} from "./WikiStyles.stylex";
 
 type Props = {
   wikiFolder: WikiSidebarFolder_wikiFolder$key | null | undefined;
 }
 
 const styles = stylex.create({
+  container: {
+    paddingInline: WikiStyles.sidebarMenuPaddingInline
+  },
   item: {
-    paddingLeft: 12,
+    paddingBlock: WikiStyles.sidebarMenuPaddingBlock,
   }
 })
 
@@ -35,22 +39,20 @@ export default function WikiSidebarFolder(props: Props) {
   }
 
   return (
-    <div {...stylex.props(styles.item)}>
-      <div>
-        {data.name}
+      <div{...stylex.props(styles.container)}>
+        <div {...stylex.props(styles.item)}>{data.name}</div>
+        {
+          data?.children.map(item => {
+            switch (item.__typename) {
+              case "WikiPage":
+                return <WikiSidebarPage wikiPage={item} />
+              case "WikiFolder":
+                return <NestedWikiSidebarFolder wikiFolder={item} />
+              default:
+                return null;
+            }
+          })
+        }
       </div>
-      {
-        data?.children.map(item => {
-          switch (item.__typename) {
-            case "WikiPage":
-              return <WikiSidebarPage wikiPage={item} />
-            case "WikiFolder":
-              return <NestedWikiSidebarFolder wikiFolder={item} />
-            default:
-              return null;
-          }
-        })
-      }
-    </div>
   )
 }

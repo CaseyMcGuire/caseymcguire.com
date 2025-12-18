@@ -10,7 +10,8 @@ type Props = {
 
 const styles = stylex.create({
   item: {
-    paddingLeft: 12,
+    paddingBlock: 6,
+    paddingInline: 12
   }
 })
 
