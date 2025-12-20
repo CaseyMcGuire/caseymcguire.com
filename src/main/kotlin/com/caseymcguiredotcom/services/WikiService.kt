@@ -87,13 +87,11 @@ class WikiService(
 
   @Transactional(readOnly = true)
   fun getChildrenOfParentFolders(folderIds: Set<Int>): Map<Int, List<WikiNode>>  {
-    checkUserHasPermission()
     return wikiRepository.getChildrenOfParentFolders(folderIds)
   }
 
   @Transactional(readOnly = true)
   fun getChildrenOfRootFolder(wikiId: Int): List<WikiNode> {
-    checkUserHasPermission()
     val rootFolder = wikiRepository.getRootFolderIdByWikiId(wikiId) ?:
       error("No root folder found for wiki $wikiId")
     return wikiRepository.getChildrenOfParentFolder(rootFolder)

@@ -25,7 +25,7 @@ class UserService(
 
   fun getLoggedInUser(): User? {
     val authentication = SecurityContextHolder.getContext().authentication
-    if (authentication is AnonymousAuthenticationToken) {
+    if (authentication == null || authentication is AnonymousAuthenticationToken) {
       return null
     }
     return when (val principal = authentication.principal) {
