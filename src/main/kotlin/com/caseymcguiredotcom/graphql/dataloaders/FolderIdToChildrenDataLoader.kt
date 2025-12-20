@@ -1,9 +1,9 @@
 package com.caseymcguiredotcom.graphql.dataloaders
 
+import com.caseymcguiredotcom.codegen.graphql.types.GqlWikiNode
 import com.caseymcguiredotcom.codegen.graphql.types.WikiFolder
-import com.caseymcguiredotcom.codegen.graphql.types.WikiSidebarMenuItem
 import com.caseymcguiredotcom.config.DataLoaderConfig.Companion.DATA_LOADER_EXECUTOR
-import com.caseymcguiredotcom.db.models.wiki.toWikiSidebarMenuItem
+import com.caseymcguiredotcom.db.models.wiki.toGqlWikiNode
 import com.caseymcguiredotcom.graphql.fromGlobalIdOrThrow
 import com.caseymcguiredotcom.graphql.toGlobalId
 import com.caseymcguiredotcom.services.WikiService
@@ -18,13 +18,13 @@ import java.util.concurrent.Executor
 class FolderIdToChildrenDataLoader(
   private val wikiService: WikiService,
   @param:Qualifier(DATA_LOADER_EXECUTOR) private val executor: Executor
-) : MappedBatchLoader<String, List<WikiSidebarMenuItem>> {
-  override fun load(parentFolderIds: Set<String>): CompletionStage<Map<String, List<WikiSidebarMenuItem>>> {
+) : MappedBatchLoader<String, List<GqlWikiNode>> {
+  override fun load(parentFolderIds: Set<String>): CompletionStage<Map<String, List<GqlWikiNode>>> {
     val parentFolderIdsAsInts = parentFolderIds.map { fromGlobalIdOrThrow(it) }.toSet()
     return CompletableFuture.supplyAsync({
       wikiService.getChildrenOfParentFolders(parentFolderIdsAsInts)
         .entries.associate { entry ->
-          toGlobalId(WikiFolder::class, entry.key) to entry.value.map { it.toWikiSidebarMenuItem() }
+          toGlobalId(WikiFolder::class, entry.key) to entry.value.map { it.toGqlWikiNode() }
         }
     }, executor)
   }

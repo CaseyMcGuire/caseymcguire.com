@@ -6,15 +6,15 @@ extend type Query {
 type Wiki {
   id: ID!
   name: String!,
-  sidebar: [WikiSidebarMenuItem!]! @skipcodegen
+  sidebar: [GqlWikiNode!]! @skipcodegen
 }
 
-union WikiSidebarMenuItem = WikiFolder | WikiPage
+union GqlWikiNode = WikiFolder | WikiPage
 
 type WikiFolder {
   id: ID!
   name: String!
-  children: [WikiSidebarMenuItem!]! @skipcodegen
+  children: [GqlWikiNode!]! @skipcodegen
 }
 
 type WikiPage {

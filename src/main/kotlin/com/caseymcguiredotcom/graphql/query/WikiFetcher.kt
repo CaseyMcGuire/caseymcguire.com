@@ -5,6 +5,7 @@ import com.caseymcguiredotcom.codegen.graphql.types.CreateWikiFolderResponse
 import com.caseymcguiredotcom.codegen.graphql.types.CreateWikiPageResponse
 import com.caseymcguiredotcom.codegen.graphql.types.CreateWikiResponse
 import com.caseymcguiredotcom.codegen.graphql.types.FailedWikiResponse
+import com.caseymcguiredotcom.codegen.graphql.types.GqlWikiNode
 import com.caseymcguiredotcom.codegen.graphql.types.MoveWikiItemResponse
 import com.caseymcguiredotcom.codegen.graphql.types.SuccessfulCreateWikiFolderResponse
 import com.caseymcguiredotcom.codegen.graphql.types.SuccessfulCreateWikiPageResponse
@@ -16,9 +17,8 @@ import com.caseymcguiredotcom.codegen.graphql.types.Wiki
 import com.caseymcguiredotcom.codegen.graphql.types.WikiErrorCode
 import com.caseymcguiredotcom.codegen.graphql.types.WikiFolder
 import com.caseymcguiredotcom.codegen.graphql.types.WikiItemType
-import com.caseymcguiredotcom.codegen.graphql.types.WikiSidebarMenuItem
+import com.caseymcguiredotcom.db.models.wiki.toGqlWikiNode
 import com.caseymcguiredotcom.db.models.wiki.toGraphqlType
-import com.caseymcguiredotcom.db.models.wiki.toWikiSidebarMenuItem
 import com.caseymcguiredotcom.graphql.dataloaders.FolderIdToChildrenDataLoader
 import com.caseymcguiredotcom.graphql.fromGlobalIdOrNull
 import com.caseymcguiredotcom.graphql.fromGlobalIdOrThrow
@@ -77,17 +77,17 @@ class WikiFetcher(
   }
 
   @DgsData(parentType = DgsConstants.WIKIFOLDER.TYPE_NAME, field = DgsConstants.WIKIFOLDER.Children)
-  fun getWikiFolderChildren(dfe: DgsDataFetchingEnvironment): CompletableFuture<List<WikiSidebarMenuItem>> {
+  fun getWikiFolderChildren(dfe: DgsDataFetchingEnvironment): CompletableFuture<List<GqlWikiNode>> {
     val folder = dfe.getSource<WikiFolder>()
-    val dataLoader = dfe.getDataLoader<String, List<WikiSidebarMenuItem>>(FolderIdToChildrenDataLoader::class.java)
+    val dataLoader = dfe.getDataLoader<String, List<GqlWikiNode>>(FolderIdToChildrenDataLoader::class.java)
     return dataLoader.load(folder.id)
   }
 
   @DgsData(parentType = DgsConstants.WIKI.TYPE_NAME, field = DgsConstants.WIKI.Sidebar)
-  fun getRootFolderChildren(dfe: DgsDataFetchingEnvironment): List<WikiSidebarMenuItem> {
+  fun getRootFolderChildren(dfe: DgsDataFetchingEnvironment): List<GqlWikiNode> {
     val wiki = dfe.getSource<Wiki>()
     return wikiService.getChildrenOfRootFolder(fromGlobalIdOrThrow(wiki.id))
-      .map { it.toWikiSidebarMenuItem() }
+      .map { it.toGqlWikiNode() }
   }
 
   @DgsMutation

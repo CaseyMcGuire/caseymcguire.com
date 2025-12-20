@@ -61,10 +61,3 @@ export default function WikiSidebar(
   );
 }
 
-function WikiPageSidebarItem(props: {name: string}) {
-  return (
-    <div>
-      {props.name}
-    </div>
-  )
-}

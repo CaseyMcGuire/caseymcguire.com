@@ -1,5 +1,6 @@
 package com.caseymcguiredotcom.db.models.wiki
 
+import com.caseymcguiredotcom.codegen.graphql.types.GqlWikiNode
 import com.caseymcguiredotcom.codegen.graphql.types.Wiki
 import com.caseymcguiredotcom.codegen.graphql.types.WikiFolder
 import com.caseymcguiredotcom.codegen.graphql.types.WikiPage
@@ -21,7 +22,7 @@ fun com.caseymcguiredotcom.db.models.wiki.WikiPage.toGraphqlType(): WikiPage {
   )
 }
 
-fun WikiNode.toWikiSidebarMenuItem(): WikiSidebarMenuItem {
+fun WikiNode.toGqlWikiNode(): GqlWikiNode {
   return when (this) {
     is WikiNodePage -> {
       WikiPage(
