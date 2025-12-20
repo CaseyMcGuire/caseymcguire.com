@@ -48,7 +48,7 @@ open class SecurityConfiguration(private val userDetailsService: UserDetailsServ
     val requestHandler = CsrfTokenRequestAttributeHandler()
     requestHandler.setCsrfRequestAttributeName(null)
     http {
-      authorizeRequests {
+      authorizeHttpRequests {
         authorize("/posts/new", hasRole("ADMIN"))
         authorize("/posts/*/edit", hasRole("ADMIN"))
         authorize("/graphiql/**", hasRole("ADMIN"))
