@@ -2,6 +2,7 @@ package com.caseymcguiredotcom.services
 
 import com.caseymcguiredotcom.db.models.wiki.Wiki
 import com.caseymcguiredotcom.db.models.wiki.WikiFolder
+import com.caseymcguiredotcom.db.models.wiki.WikiNode
 import com.caseymcguiredotcom.db.models.wiki.WikiPage
 import com.caseymcguiredotcom.lib.exceptions.PermissionDeniedException
 import com.caseymcguiredotcom.lib.exceptions.UserNotLoggedInException
@@ -82,6 +83,20 @@ class WikiService(
       beforeSiblingId,
       afterSiblingId
     )
+  }
+
+  @Transactional(readOnly = true)
+  fun getChildrenOfParentFolders(folderIds: Set<Int>): Map<Int, List<WikiNode>>  {
+    checkUserHasPermission()
+    return wikiRepository.getChildrenOfParentFolders(folderIds)
+  }
+
+  @Transactional(readOnly = true)
+  fun getChildrenOfRootFolder(wikiId: Int): List<WikiNode> {
+    checkUserHasPermission()
+    val rootFolder = wikiRepository.getRootFolderIdByWikiId(wikiId) ?:
+      error("No root folder found for wiki $wikiId")
+    return wikiRepository.getChildrenOfParentFolder(rootFolder)
   }
 
   private fun resolveFolderId(wikiId: Int, providedFolderId: Int?): Int {

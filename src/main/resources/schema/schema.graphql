@@ -1,3 +1,5 @@
+directive @skipcodegen on FIELD_DEFINITION | OBJECT | INTERFACE
+
 type Mutation {
   createOrEditPost(content: String!, id: Int, title: String!): Int
   register(email: String!, password: String!): Boolean!

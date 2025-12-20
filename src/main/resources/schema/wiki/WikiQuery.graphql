@@ -6,7 +6,7 @@ extend type Query {
 type Wiki {
   id: ID!
   name: String!,
-  sidebar: [WikiSidebarMenuItem!]!
+  sidebar: [WikiSidebarMenuItem!]! @skipcodegen
 }
 
 union WikiSidebarMenuItem = WikiFolder | WikiPage
@@ -14,7 +14,7 @@ union WikiSidebarMenuItem = WikiFolder | WikiPage
 type WikiFolder {
   id: ID!
   name: String!
-  children: [WikiSidebarMenuItem!]!
+  children: [WikiSidebarMenuItem!]! @skipcodegen
 }
 
 type WikiPage {
