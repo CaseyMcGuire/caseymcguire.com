@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<f5d5712c9aa5788d7eda2d2dc37abcf5>>
+ * @generated SignedSource<<69c684951d99023bae4a98cc955b243d>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -15,6 +15,8 @@ export type WikiPageQuery$variables = {
 };
 export type WikiPageQuery$data = {
   readonly wiki: {
+    readonly id: string;
+    readonly name: string;
     readonly " $fragmentSpreads": FragmentRefs<"WikiSidebar_wiki">;
   } | null | undefined;
 };
@@ -42,7 +44,7 @@ v2 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
-  "name": "__typename",
+  "name": "id",
   "storageKey": null
 },
 v3 = {
@@ -56,14 +58,14 @@ v4 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
-  "name": "id",
+  "name": "__typename",
   "storageKey": null
 },
 v5 = {
   "kind": "InlineFragment",
   "selections": [
-    (v3/*: any*/),
-    (v4/*: any*/)
+    (v2/*: any*/),
+    (v3/*: any*/)
   ],
   "type": "WikiPage",
   "abstractKey": null
@@ -83,6 +85,8 @@ return {
         "name": "wikiByName",
         "plural": false,
         "selections": [
+          (v2/*: any*/),
+          (v3/*: any*/),
           {
             "args": null,
             "kind": "FragmentSpread",
@@ -109,88 +113,102 @@ return {
         "name": "wikiByName",
         "plural": false,
         "selections": [
+          (v2/*: any*/),
+          (v3/*: any*/),
           {
             "alias": null,
             "args": null,
-            "concreteType": null,
+            "concreteType": "WikiFolder",
             "kind": "LinkedField",
-            "name": "sidebar",
-            "plural": true,
+            "name": "rootFolder",
+            "plural": false,
             "selections": [
               (v2/*: any*/),
-              (v5/*: any*/),
+              (v3/*: any*/),
               {
-                "kind": "InlineFragment",
+                "alias": null,
+                "args": null,
+                "concreteType": null,
+                "kind": "LinkedField",
+                "name": "children",
+                "plural": true,
                 "selections": [
-                  (v3/*: any*/),
+                  (v4/*: any*/),
                   {
-                    "alias": null,
-                    "args": null,
-                    "concreteType": null,
-                    "kind": "LinkedField",
-                    "name": "children",
-                    "plural": true,
+                    "kind": "InlineFragment",
                     "selections": [
                       (v2/*: any*/),
-                      (v5/*: any*/),
+                      (v3/*: any*/),
                       {
-                        "kind": "InlineFragment",
+                        "alias": null,
+                        "args": null,
+                        "concreteType": null,
+                        "kind": "LinkedField",
+                        "name": "children",
+                        "plural": true,
                         "selections": [
-                          (v3/*: any*/),
+                          (v4/*: any*/),
                           {
-                            "alias": null,
-                            "args": null,
-                            "concreteType": null,
-                            "kind": "LinkedField",
-                            "name": "children",
-                            "plural": true,
+                            "kind": "InlineFragment",
                             "selections": [
                               (v2/*: any*/),
-                              (v5/*: any*/),
+                              (v3/*: any*/),
                               {
-                                "kind": "InlineFragment",
+                                "alias": null,
+                                "args": null,
+                                "concreteType": null,
+                                "kind": "LinkedField",
+                                "name": "children",
+                                "plural": true,
                                 "selections": [
-                                  (v4/*: any*/)
+                                  (v4/*: any*/),
+                                  (v5/*: any*/),
+                                  {
+                                    "kind": "InlineFragment",
+                                    "selections": [
+                                      (v2/*: any*/)
+                                    ],
+                                    "type": "WikiFolder",
+                                    "abstractKey": null
+                                  }
                                 ],
-                                "type": "WikiFolder",
-                                "abstractKey": null
+                                "storageKey": null
                               }
                             ],
-                            "storageKey": null
+                            "type": "WikiFolder",
+                            "abstractKey": null
                           },
-                          (v4/*: any*/)
+                          (v5/*: any*/)
                         ],
-                        "type": "WikiFolder",
-                        "abstractKey": null
+                        "storageKey": null
                       }
                     ],
-                    "storageKey": null
+                    "type": "WikiFolder",
+                    "abstractKey": null
                   },
-                  (v4/*: any*/)
+                  (v5/*: any*/)
                 ],
-                "type": "WikiFolder",
-                "abstractKey": null
+                "storageKey": null
               }
             ],
             "storageKey": null
-          },
-          (v4/*: any*/)
+          }
         ],
         "storageKey": null
       }
     ]
   },
   "params": {
-    "cacheID": "b504a631ce422f12700c01dbc8029637",
+    "cacheID": "e69c146cd6ca672cb75c3b832d7040ad",
     "id": null,
     "metadata": {},
     "name": "WikiPageQuery",
     "operationKind": "query",
-    "text": "query WikiPageQuery(\n  $wikiName: String!\n) {\n  wiki: wikiByName(name: $wikiName) {\n    ...WikiSidebar_wiki\n    id\n  }\n}\n\nfragment NestedWikiSidebarFolder_wikiFolder on WikiFolder {\n  name\n  children {\n    __typename\n    ...WikiSidebarPage_wikiPage\n    ... on WikiFolder {\n      id\n    }\n    ... on WikiPage {\n      id\n    }\n  }\n}\n\nfragment WikiSidebarFolder_wikiFolder on WikiFolder {\n  name\n  children {\n    __typename\n    ...WikiSidebarPage_wikiPage\n    ...NestedWikiSidebarFolder_wikiFolder\n    ... on WikiFolder {\n      id\n    }\n    ... on WikiPage {\n      id\n    }\n  }\n}\n\nfragment WikiSidebarPage_wikiPage on WikiPage {\n  name\n}\n\nfragment WikiSidebar_wiki on Wiki {\n  sidebar {\n    __typename\n    ...WikiSidebarPage_wikiPage\n    ...WikiSidebarFolder_wikiFolder\n    ... on WikiFolder {\n      id\n    }\n    ... on WikiPage {\n      id\n    }\n  }\n}\n"
+    "text": "query WikiPageQuery(\n  $wikiName: String!\n) {\n  wiki: wikiByName(name: $wikiName) {\n    id\n    name\n    ...WikiSidebar_wiki\n  }\n}\n\nfragment WikiSidebar_wiki on Wiki {\n  rootFolder {\n    id\n    name\n    children {\n      __typename\n      ... on WikiFolder {\n        id\n        name\n        children {\n          __typename\n          ... on WikiFolder {\n            id\n            name\n            children {\n              __typename\n              ... on WikiPage {\n                id\n                name\n              }\n              ... on WikiFolder {\n                id\n              }\n            }\n          }\n          ... on WikiPage {\n            id\n            name\n          }\n        }\n      }\n      ... on WikiPage {\n        id\n        name\n      }\n    }\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "45cf63dbac4f70d1321afd2ca1636ff2";
+(node as any).hash = "28da520b49dd49db5da33f45d895fe8d";
 
 export default node;

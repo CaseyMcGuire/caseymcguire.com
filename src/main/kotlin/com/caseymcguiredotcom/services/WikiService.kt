@@ -92,16 +92,21 @@ class WikiService(
 
   @Transactional(readOnly = true)
   fun getChildrenOfRootFolder(wikiId: Int): List<WikiNode> {
-    val rootFolder = wikiRepository.getRootFolderIdByWikiId(wikiId) ?:
+    val rootFolder = wikiRepository.getRootFolderByWikiId(wikiId) ?:
       error("No root folder found for wiki $wikiId")
-    return wikiRepository.getChildrenOfParentFolder(rootFolder)
+    return wikiRepository.getChildrenOfParentFolder(rootFolder.id)
+  }
+
+  @Transactional(readOnly = true)
+  fun getRootFolderByWikiId(wikiId: Int): WikiFolder? {
+    return wikiRepository.getRootFolderByWikiId(wikiId)
   }
 
   private fun resolveFolderId(wikiId: Int, providedFolderId: Int?): Int {
     return if (providedFolderId != null) {
       providedFolderId
     } else {
-      wikiRepository.getRootFolderIdByWikiId(wikiId)
+      wikiRepository.getRootFolderByWikiId(wikiId)?.id
         ?: error("Integrity Error: Wiki $wikiId has no root folder")
     }
   }

@@ -83,11 +83,10 @@ class WikiFetcher(
     return dataLoader.load(folder.id)
   }
 
-  @DgsData(parentType = DgsConstants.WIKI.TYPE_NAME, field = DgsConstants.WIKI.Sidebar)
-  fun getRootFolderChildren(dfe: DgsDataFetchingEnvironment): List<GqlWikiNode> {
+  @DgsData(parentType = DgsConstants.WIKI.TYPE_NAME, field = DgsConstants.WIKI.RootFolder)
+  fun getRootFolderChildren(dfe: DgsDataFetchingEnvironment): WikiFolder? {
     val wiki = dfe.getSource<Wiki>()
-    return wikiService.getChildrenOfRootFolder(fromGlobalIdOrThrow(wiki.id))
-      .map { it.toGqlWikiNode() }
+    return wikiService.getRootFolderByWikiId(fromGlobalIdOrThrow(wiki.id))?.toGraphqlType()
   }
 
   @DgsMutation

@@ -2,11 +2,6 @@ import {graphql} from "react-relay";
 import WikiSidebar from "projects/Wiki/components/WikiSidebar";
 import {useLazyLoadQuery} from "react-relay/hooks";
 import {WikiPageQuery} from "__generated__/relay/WikiPageQuery.graphql";
-import * as stylex from "@stylexjs/stylex";
-
-const styles = stylex.create({
-
-})
 
 export default function WikiPage() {
   const query = graphql`
@@ -14,6 +9,8 @@ export default function WikiPage() {
       $wikiName: String!
     ) {
       wiki: wikiByName(name: $wikiName) {
+        id
+        name
         ...WikiSidebar_wiki
       }
     }
@@ -27,9 +24,5 @@ export default function WikiPage() {
     }
   )
 
-  return (
-    <div>
-      <WikiSidebar wiki={data.wiki} />
-    </div>
-  )
+  return <WikiSidebar wiki={data.wiki} />;
 }

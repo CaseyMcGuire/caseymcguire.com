@@ -6,7 +6,7 @@ extend type Query {
 type Wiki {
   id: ID!
   name: String!,
-  sidebar: [GqlWikiNode!]! @skipcodegen
+  rootFolder: WikiFolder @skipcodegen
 }
 
 union GqlWikiNode = WikiFolder | WikiPage

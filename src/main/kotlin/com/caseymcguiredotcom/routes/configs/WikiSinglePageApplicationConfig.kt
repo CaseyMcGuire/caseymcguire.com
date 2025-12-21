@@ -13,7 +13,7 @@ import org.springframework.web.servlet.function.ServerResponse
 class WikiSinglePageApplicationConfig : SinglePageApplicationConfig  {
   override val routes: List<SinglePageApplicationRoute> = listOf(
     SinglePageApplicationRoute("", "WIKI_INDEX"),
-    SinglePageApplicationRoute("{wikiSlug}/{pageSlug}", "WIKI_PAGE")
+    SinglePageApplicationRoute("{wikiName}/{pageId}", "WIKI_PAGE")
   )
   override val name: String = "Wiki"
   override val urlPrefix: String = "wiki"

@@ -3,7 +3,7 @@
 
 export const WikiRoutes = {
   WIKI_INDEX: "/wiki",
-  WIKI_PAGE: "/wiki/:wikiSlug/:pageSlug",
+  WIKI_PAGE: "/wiki/:wikiName/:pageId",
 } as const;
 
 export type WikiRoute = keyof typeof WikiRoutes;

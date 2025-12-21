@@ -33,16 +33,6 @@ class WikiRepository(
       .fetchOneInto(WikisTableRow::class.java)
       ?: error("Unable to create wiki")
 
-    val rootFolder = context
-      .insertInto(WIKI_FOLDERS)
-      .set(WIKI_FOLDERS.NAME, "${name}_wiki_root_folder")
-      .set(WIKI_FOLDERS.DISPLAY_ORDER, "a")
-      .set(WIKI_FOLDERS.WIKI_ID, wiki.id)
-      .set(WIKI_FOLDERS.IS_ROOT, true)
-      .returning()
-      .fetchOneInto(WikiFoldersTableRow::class.java)
-      ?: error("Unable to create root folder")
-
     return Wiki.fromRows(wiki)
   }
 
@@ -56,14 +46,16 @@ class WikiRepository(
     return Wiki.fromRows(wiki)
   }
 
-  fun getRootFolderIdByWikiId(wikiId: Int): Int? {
-    return context.select(WIKI_FOLDERS.ID)
-      .from(WIKI_FOLDERS)
+  fun getRootFolderByWikiId(wikiId: Int): WikiFolder? {
+    val row = context.selectFrom(WIKI_FOLDERS)
       .where(
         WIKI_FOLDERS.WIKI_ID.eq(wikiId),
         WIKI_FOLDERS.IS_ROOT.eq(true)
       )
-      .fetchOneInto(Int::class.java)
+      .fetchOneInto(WikiFoldersTableRow::class.java)
+      ?: return null
+
+    return WikiFolder.fromTableRow(row)
   }
 
   @Transactional(propagation = Propagation.MANDATORY)
