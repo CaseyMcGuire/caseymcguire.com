@@ -18,5 +18,5 @@ extend type Mutation {
 union MoveWikiItemResponse = SuccessfulMoveWikiItemResponse | FailedWikiResponse
 
 type SuccessfulMoveWikiItemResponse {
-  wiki: Wiki
+  wiki: GqlWiki
 }

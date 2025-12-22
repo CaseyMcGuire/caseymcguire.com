@@ -5,7 +5,10 @@ import com.caseymcguiredotcom.codegen.graphql.types.CreateWikiFolderResponse
 import com.caseymcguiredotcom.codegen.graphql.types.CreateWikiPageResponse
 import com.caseymcguiredotcom.codegen.graphql.types.CreateWikiResponse
 import com.caseymcguiredotcom.codegen.graphql.types.FailedWikiResponse
+import com.caseymcguiredotcom.codegen.graphql.types.GqlWiki
+import com.caseymcguiredotcom.codegen.graphql.types.GqlWikiFolder
 import com.caseymcguiredotcom.codegen.graphql.types.GqlWikiNode
+import com.caseymcguiredotcom.codegen.graphql.types.GqlWikiPage
 import com.caseymcguiredotcom.codegen.graphql.types.MoveWikiItemResponse
 import com.caseymcguiredotcom.codegen.graphql.types.SuccessfulCreateWikiFolderResponse
 import com.caseymcguiredotcom.codegen.graphql.types.SuccessfulCreateWikiPageResponse
@@ -13,9 +16,7 @@ import com.caseymcguiredotcom.codegen.graphql.types.SuccessfulCreateWikiResponse
 import com.caseymcguiredotcom.codegen.graphql.types.SuccessfulMoveWikiItemResponse
 import com.caseymcguiredotcom.codegen.graphql.types.SuccessfulUpdateWikiPageContentResponse
 import com.caseymcguiredotcom.codegen.graphql.types.UpdateWikiPageResponse
-import com.caseymcguiredotcom.codegen.graphql.types.Wiki
 import com.caseymcguiredotcom.codegen.graphql.types.WikiErrorCode
-import com.caseymcguiredotcom.codegen.graphql.types.WikiFolder
 import com.caseymcguiredotcom.codegen.graphql.types.WikiItemType
 import com.caseymcguiredotcom.db.models.wiki.toGqlWikiNode
 import com.caseymcguiredotcom.db.models.wiki.toGraphqlType
@@ -42,8 +43,21 @@ class WikiFetcher(
   @DgsQuery
   fun wikiByName(
     @InputArgument name: String
-  ): Wiki? {
+  ): GqlWiki? {
     return wikiService.getWikiByName(name)?.toGraphqlType()
+  }
+
+  @DgsQuery
+  fun wikiPageById(
+    @InputArgument id: String?
+  ): GqlWikiPage? {
+    if (id == null) {
+      return null
+    }
+    return wikiService.getWikiPageById(
+      id.idToIntOrThrow("[wikiPageById] Invalid ID: $id")
+    )?.toGraphqlType()
+
   }
 
   @DgsMutation
@@ -76,16 +90,16 @@ class WikiFetcher(
     }
   }
 
-  @DgsData(parentType = DgsConstants.WIKIFOLDER.TYPE_NAME, field = DgsConstants.WIKIFOLDER.Children)
+  @DgsData(parentType = DgsConstants.GQLWIKIFOLDER.TYPE_NAME, field = DgsConstants.GQLWIKIFOLDER.Children)
   fun getWikiFolderChildren(dfe: DgsDataFetchingEnvironment): CompletableFuture<List<GqlWikiNode>> {
-    val folder = dfe.getSource<WikiFolder>()
+    val folder = dfe.getSource<GqlWikiFolder>()
     val dataLoader = dfe.getDataLoader<String, List<GqlWikiNode>>(FolderIdToChildrenDataLoader::class.java)
     return dataLoader.load(folder.id)
   }
 
-  @DgsData(parentType = DgsConstants.WIKI.TYPE_NAME, field = DgsConstants.WIKI.RootFolder)
-  fun getRootFolderChildren(dfe: DgsDataFetchingEnvironment): WikiFolder? {
-    val wiki = dfe.getSource<Wiki>()
+  @DgsData(parentType = DgsConstants.GQLWIKI.TYPE_NAME, field = DgsConstants.GQLWIKI.RootFolder)
+  fun getRootFolderChildren(dfe: DgsDataFetchingEnvironment): GqlWikiFolder? {
+    val wiki = dfe.getSource<GqlWiki>()
     return wikiService.getRootFolderByWikiId(fromGlobalIdOrThrow(wiki.id))?.toGraphqlType()
   }
 

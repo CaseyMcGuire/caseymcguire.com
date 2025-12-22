@@ -1,11 +1,9 @@
 package com.caseymcguiredotcom.graphql.dataloaders
 
 import com.caseymcguiredotcom.codegen.graphql.types.GqlWikiNode
-import com.caseymcguiredotcom.codegen.graphql.types.WikiFolder
 import com.caseymcguiredotcom.config.DataLoaderConfig.Companion.DATA_LOADER_EXECUTOR
 import com.caseymcguiredotcom.db.models.wiki.toGqlWikiNode
 import com.caseymcguiredotcom.graphql.fromGlobalIdOrThrow
-import com.caseymcguiredotcom.graphql.toGlobalId
 import com.caseymcguiredotcom.services.WikiService
 import com.netflix.graphql.dgs.DgsDataLoader
 import org.dataloader.MappedBatchLoader
@@ -20,12 +18,18 @@ class FolderIdToChildrenDataLoader(
   @param:Qualifier(DATA_LOADER_EXECUTOR) private val executor: Executor
 ) : MappedBatchLoader<String, List<GqlWikiNode>> {
   override fun load(parentFolderIds: Set<String>): CompletionStage<Map<String, List<GqlWikiNode>>> {
-    val parentFolderIdsAsInts = parentFolderIds.map { fromGlobalIdOrThrow(it) }.toSet()
+    val encodedIdToIntId = parentFolderIds.associateWith { fromGlobalIdOrThrow(it) }
     return CompletableFuture.supplyAsync({
-      wikiService.getChildrenOfParentFolders(parentFolderIdsAsInts)
-        .entries.associate { entry ->
-          toGlobalId(WikiFolder::class, entry.key) to entry.value.map { it.toGqlWikiNode() }
-        }
+      val children = wikiService
+        .getChildrenOfParentFolders(encodedIdToIntId.values.toSet())
+
+      val encodedIdToNodes = mutableMapOf<String, List<GqlWikiNode>>()
+
+      for (entry in encodedIdToIntId) {
+        encodedIdToNodes[entry.key] = (children[entry.value] ?: emptyList()).map { it.toGqlWikiNode() }
+      }
+
+      encodedIdToNodes
     }, executor)
   }
 }

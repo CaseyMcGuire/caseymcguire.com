@@ -1,23 +1,24 @@
 
 extend type Query {
-  wikiByName(name: String!): Wiki
+  wikiByName(name: String!): GqlWiki
+  wikiPageById(id: ID): GqlWikiPage
 }
 
-type Wiki {
+type GqlWiki {
   id: ID!
   name: String!,
-  rootFolder: WikiFolder @skipcodegen
+  rootFolder: GqlWikiFolder @skipcodegen
 }
 
-union GqlWikiNode = WikiFolder | WikiPage
+union GqlWikiNode = GqlWikiFolder | GqlWikiPage
 
-type WikiFolder {
+type GqlWikiFolder {
   id: ID!
   name: String!
   children: [GqlWikiNode!]! @skipcodegen
 }
 
-type WikiPage {
+type GqlWikiPage {
   id: ID!
   name: String!
   content: String!

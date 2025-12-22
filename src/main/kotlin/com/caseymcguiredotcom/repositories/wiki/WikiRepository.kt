@@ -46,6 +46,14 @@ class WikiRepository(
     return Wiki.fromRows(wiki)
   }
 
+  fun getWikiPageById(id: Int): WikiPage? {
+    val page = context.selectFrom(WIKI_PAGES)
+      .where(WIKI_PAGES.ID.eq(id))
+      .fetchOneInto(WikiPagesTableRow::class.java)
+        ?: return null
+    return WikiPage.fromTableRow(page)
+  }
+
   fun getRootFolderByWikiId(wikiId: Int): WikiFolder? {
     val row = context.selectFrom(WIKI_FOLDERS)
       .where(

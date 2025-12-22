@@ -28,35 +28,36 @@ export default function WikiSidebar(
 
   const data = useFragment(
     graphql`
-      fragment WikiSidebar_wiki on Wiki {
+      fragment WikiSidebar_wiki on GqlWiki {
+        name
         rootFolder {
           id
           name
           children {
             __typename
-            ... on WikiFolder {
+            ... on GqlWikiFolder {
               id
               name
               children {
                 __typename
-                ... on WikiFolder {
+                ... on GqlWikiFolder {
                   id
                   name
                   # We only allow two levels of nesting 
                   children {
-                    ... on WikiPage {
+                    ... on GqlWikiPage {
                       id
                       name
                     }
                   }
                 }
-                ... on WikiPage {
+                ... on GqlWikiPage {
                   id
                   name
                 }
               }
             }
-            ... on WikiPage {
+            ... on GqlWikiPage {
               id
               name
             }
@@ -90,10 +91,11 @@ export default function WikiSidebar(
 }
 
 function createWikiSidebar(data: WikiSidebar_wiki$data): WikiSidebarFolder | null {
+  const wikiName = data.name;
   const rootFolder = data.rootFolder;
   const rootChildren: Array<WikiSidebarItem> = [];
   rootFolder?.children?.forEach(child => {
-    if (child.__typename === "WikiPage") {
+    if (child.__typename === "GqlWikiPage") {
       const rootId = child.id;
       const rootName = child.name;
 
@@ -104,10 +106,11 @@ function createWikiSidebar(data: WikiSidebar_wiki$data): WikiSidebarFolder | nul
       rootChildren.push({
         type: "WikiSidebarPage",
         id: rootId,
-        name: rootName
+        name: rootName,
+        wikiName
       })
     }
-    else if (child.__typename === "WikiFolder") {
+    else if (child.__typename === "GqlWikiFolder") {
       const rootId = child.id;
       const rootName = child.name;
 
@@ -117,7 +120,7 @@ function createWikiSidebar(data: WikiSidebar_wiki$data): WikiSidebarFolder | nul
 
       const folderChildren: Array<WikiSidebarItem> = []
       child.children?.forEach(nestedChild => {
-        if (nestedChild.__typename === "WikiPage") {
+        if (nestedChild.__typename === "GqlWikiPage") {
           const nestedChildId = nestedChild.id;
           const nestedChildName = nestedChild.name;
 
@@ -128,11 +131,12 @@ function createWikiSidebar(data: WikiSidebar_wiki$data): WikiSidebarFolder | nul
           folderChildren.push({
             type: "WikiSidebarPage",
             id: nestedChildId,
-            name: nestedChildName
+            name: nestedChildName,
+            wikiName
           })
 
         }
-        else if (nestedChild.__typename === "WikiFolder") {
+        else if (nestedChild.__typename === "GqlWikiFolder") {
           const nestedChildId = nestedChild.id;
           const nestedChildName = nestedChild.name;
           if (nestedChildId == null || nestedChildName == null) {
@@ -150,7 +154,8 @@ function createWikiSidebar(data: WikiSidebar_wiki$data): WikiSidebarFolder | nul
             grandChildPages.push({
               id: grandChildId,
               name: grandChildName,
-              type: "WikiSidebarPage"
+              type: "WikiSidebarPage",
+              wikiName
             })
           });
 
@@ -159,7 +164,8 @@ function createWikiSidebar(data: WikiSidebar_wiki$data): WikiSidebarFolder | nul
               type: "WikiSidebarFolder",
               id: nestedChildId,
               name: nestedChildName,
-              children: grandChildPages
+              children: grandChildPages,
+              wikiName
             }
           )
         }
@@ -169,7 +175,8 @@ function createWikiSidebar(data: WikiSidebar_wiki$data): WikiSidebarFolder | nul
         type: "WikiSidebarFolder",
         id: rootId,
         name: rootName,
-        children: folderChildren
+        children: folderChildren,
+        wikiName
       })
     }
 
@@ -186,7 +193,8 @@ function createWikiSidebar(data: WikiSidebar_wiki$data): WikiSidebarFolder | nul
     type: "WikiSidebarFolder",
     id,
     name,
-    children: rootChildren
+    children: rootChildren,
+    wikiName
   }
 }
 

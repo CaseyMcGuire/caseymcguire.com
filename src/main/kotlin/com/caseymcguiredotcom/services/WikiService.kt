@@ -102,6 +102,11 @@ class WikiService(
     return wikiRepository.getRootFolderByWikiId(wikiId)
   }
 
+  @Transactional(readOnly = true)
+  fun getWikiPageById(pageId: Int): WikiPage? {
+    return wikiRepository.getWikiPageById(pageId)
+  }
+
   private fun resolveFolderId(wikiId: Int, providedFolderId: Int?): Int {
     return if (providedFolderId != null) {
       providedFolderId

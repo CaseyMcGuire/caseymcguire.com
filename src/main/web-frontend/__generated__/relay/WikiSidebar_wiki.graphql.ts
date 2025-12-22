@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<4a386e4fab7319fde069f45d0e587651>>
+ * @generated SignedSource<<97b3740cfde903e3cd94e574770f0a5b>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -11,11 +11,12 @@
 import { ReaderFragment } from 'relay-runtime';
 import { FragmentRefs } from "relay-runtime";
 export type WikiSidebar_wiki$data = {
+  readonly name: string;
   readonly rootFolder: {
     readonly children: ReadonlyArray<{
-      readonly __typename: "WikiFolder";
+      readonly __typename: "GqlWikiFolder";
       readonly children: ReadonlyArray<{
-        readonly __typename: "WikiFolder";
+        readonly __typename: "GqlWikiFolder";
         readonly children: ReadonlyArray<{
           readonly id?: string;
           readonly name?: string;
@@ -23,7 +24,7 @@ export type WikiSidebar_wiki$data = {
         readonly id: string;
         readonly name: string;
       } | {
-        readonly __typename: "WikiPage";
+        readonly __typename: "GqlWikiPage";
         readonly id: string;
         readonly name: string;
       } | {
@@ -34,7 +35,7 @@ export type WikiSidebar_wiki$data = {
       readonly id: string;
       readonly name: string;
     } | {
-      readonly __typename: "WikiPage";
+      readonly __typename: "GqlWikiPage";
       readonly id: string;
       readonly name: string;
     } | {
@@ -57,14 +58,14 @@ var v0 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
-  "name": "id",
+  "name": "name",
   "storageKey": null
 },
 v1 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
-  "name": "name",
+  "name": "id",
   "storageKey": null
 },
 v2 = {
@@ -77,10 +78,10 @@ v2 = {
 v3 = {
   "kind": "InlineFragment",
   "selections": [
-    (v0/*: any*/),
-    (v1/*: any*/)
+    (v1/*: any*/),
+    (v0/*: any*/)
   ],
-  "type": "WikiPage",
+  "type": "GqlWikiPage",
   "abstractKey": null
 };
 return {
@@ -89,16 +90,17 @@ return {
   "metadata": null,
   "name": "WikiSidebar_wiki",
   "selections": [
+    (v0/*: any*/),
     {
       "alias": null,
       "args": null,
-      "concreteType": "WikiFolder",
+      "concreteType": "GqlWikiFolder",
       "kind": "LinkedField",
       "name": "rootFolder",
       "plural": false,
       "selections": [
-        (v0/*: any*/),
         (v1/*: any*/),
+        (v0/*: any*/),
         {
           "alias": null,
           "args": null,
@@ -111,8 +113,8 @@ return {
             {
               "kind": "InlineFragment",
               "selections": [
-                (v0/*: any*/),
                 (v1/*: any*/),
+                (v0/*: any*/),
                 {
                   "alias": null,
                   "args": null,
@@ -125,8 +127,8 @@ return {
                     {
                       "kind": "InlineFragment",
                       "selections": [
-                        (v0/*: any*/),
                         (v1/*: any*/),
+                        (v0/*: any*/),
                         {
                           "alias": null,
                           "args": null,
@@ -140,7 +142,7 @@ return {
                           "storageKey": null
                         }
                       ],
-                      "type": "WikiFolder",
+                      "type": "GqlWikiFolder",
                       "abstractKey": null
                     },
                     (v3/*: any*/)
@@ -148,7 +150,7 @@ return {
                   "storageKey": null
                 }
               ],
-              "type": "WikiFolder",
+              "type": "GqlWikiFolder",
               "abstractKey": null
             },
             (v3/*: any*/)
@@ -159,11 +161,11 @@ return {
       "storageKey": null
     }
   ],
-  "type": "Wiki",
+  "type": "GqlWiki",
   "abstractKey": null
 };
 })();
 
-(node as any).hash = "e992984a17ffda85a88d1e9ea377829e";
+(node as any).hash = "6a54b4adf471ea9dfd51310c07c692d6";
 
 export default node;

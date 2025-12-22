@@ -9,5 +9,5 @@ extend type Mutation {
 union CreateWikiFolderResponse = SuccessfulCreateWikiFolderResponse | FailedWikiResponse
 
 type SuccessfulCreateWikiFolderResponse {
-  wikiFolder: WikiFolder
+  wikiFolder: GqlWikiFolder
 }

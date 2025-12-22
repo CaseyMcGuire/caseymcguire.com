@@ -18,6 +18,12 @@ fun toGlobalId(type: KClass<*>, id: Int): String {
   return toGlobalId(typeName, id.toString())
 }
 
+fun toGlobalId(type: KClass<*>, id: String): String {
+  val typeName = type.simpleName ?:
+    error("Cannot create Global ID for anonymous class")
+  return toGlobalId(typeName, id)
+}
+
 fun fromGlobalIdOrNull(globalId: String): String? {
   val decoded = String(Base64.getDecoder().decode(globalId))
   // Split "WikiPage:2" and take the second part

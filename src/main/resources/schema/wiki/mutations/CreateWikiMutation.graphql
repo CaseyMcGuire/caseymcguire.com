@@ -7,7 +7,7 @@ extend type Mutation {
 union CreateWikiResponse = SuccessfulCreateWikiResponse | FailedWikiResponse
 
 type SuccessfulCreateWikiResponse {
-  wiki: Wiki!
+  wiki: GqlWiki!
 }
 
 

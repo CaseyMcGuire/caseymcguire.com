@@ -9,5 +9,5 @@ extend type Mutation {
 union UpdateWikiPageResponse = SuccessfulUpdateWikiPageContentResponse | FailedWikiResponse
 
 type SuccessfulUpdateWikiPageContentResponse {
-  wikiPage: WikiPage!
+  wikiPage: GqlWikiPage!
 }

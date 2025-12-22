@@ -2,6 +2,7 @@ import {WikiSidebarFolder, WikiSidebarItem, WikiSidebarPage} from "projects/Wiki
 import {useState} from "react";
 import * as stylex from "@stylexjs/stylex";
 import WikiChevronIcon from "projects/Wiki/components/WikiChevronIcon";
+import {useNavigate} from "react-router";
 
 type Props = {
   item: WikiSidebarItem
@@ -42,8 +43,11 @@ export default function WikiSidebarItemComponent(props: Props) {
 
 function WikiSidebarPageComponent(props: { page: WikiSidebarPage }) {
   const page = props.page;
+  const wikiName = props.page.wikiName;
+  const navigate = useNavigate();
+  const onClick = () => navigate(`/wiki/${wikiName}/${page.id}`);
   return (
-    <div {...stylex.props(styles.item)}>
+    <div onClick={onClick} {...stylex.props(styles.item)}>
       {page.name}
     </div>
   )
