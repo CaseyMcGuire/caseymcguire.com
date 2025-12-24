@@ -24,7 +24,7 @@
 [data-post-contents] ol {
     padding-inline-start: 24px;
     margin-inline-start: 0;
-    list-style-position: inside;
+    list-style-position: outside;
 }
 
 [data-post-contents] ul > li,
