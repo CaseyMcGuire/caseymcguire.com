@@ -1,13 +1,10 @@
 import * as React from "react";
-import sanitizeHtml from "sanitize-html";
-import hljs from 'highlight.js';
 import {postStyles} from "./PostStyles";
-import {marked} from "marked";
 import * as stylex from '@stylexjs/stylex';
 import PostHeader from "pages/Posts/components/PostHeader";
-import { markedHighlight } from 'marked-highlight';
-import './post.css'
+import 'assets/stylesheets/markdown.css'
 import {useMemo} from "react";
+import {convertMarkdownToHtml} from "utils/MarkdownUtils";
 
 type Props = Readonly<{
   id?: number,
@@ -17,13 +14,6 @@ type Props = Readonly<{
   showEditButton?: boolean
 }>
 
-marked.use(markedHighlight({
-  langPrefix: 'hljs language-',
-  highlight(code, lang) {
-    const language = hljs.getLanguage(lang) ? lang : 'plaintext';
-    return hljs.highlight(code, { language }).value;
-  }
-}));
 
 export default function Post(props: Props) {
   const {
@@ -36,17 +26,7 @@ export default function Post(props: Props) {
 
 
   const sanitizedHtml = useMemo(() => {
-    const rawHtml = marked.parse(contents) as string;
-
-    return sanitizeHtml(rawHtml, {
-      // Ensure you keep 'pre' and 'code' allowed so highlighting works
-      allowedTags: sanitizeHtml.defaults.allowedTags.concat(['span', 'h1', 'h2', 'img']),
-      allowedAttributes: Object.assign({}, sanitizeHtml.defaults.allowedAttributes, {
-        'span': ['class'],
-        'code': ['class'],
-        'img': ['src', 'alt', 'title']
-      })
-    });
+    return convertMarkdownToHtml(contents);
   }, [contents]);
 
   return (

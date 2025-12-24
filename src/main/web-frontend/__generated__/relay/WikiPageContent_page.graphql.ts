@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<16b2c4030f0c952d02e1e463ad549d7b>>
+ * @generated SignedSource<<abcdc8f7037f992a0eb694e99ad3f1cb>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -12,6 +12,7 @@ import { ReaderFragment } from 'relay-runtime';
 import { FragmentRefs } from "relay-runtime";
 export type WikiPageContent_page$data = {
   readonly content: string;
+  readonly name: string;
   readonly " $fragmentType": "WikiPageContent_page";
 };
 export type WikiPageContent_page$key = {
@@ -29,6 +30,13 @@ const node: ReaderFragment = {
       "alias": null,
       "args": null,
       "kind": "ScalarField",
+      "name": "name",
+      "storageKey": null
+    },
+    {
+      "alias": null,
+      "args": null,
+      "kind": "ScalarField",
       "name": "content",
       "storageKey": null
     }
@@ -37,6 +45,6 @@ const node: ReaderFragment = {
   "abstractKey": null
 };
 
-(node as any).hash = "470b4123fb31f72bc4552bd45a60898f";
+(node as any).hash = "4d52b81fe6436ded2da5ca3c11118852";
 
 export default node;

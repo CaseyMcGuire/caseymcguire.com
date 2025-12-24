@@ -4,6 +4,7 @@ import {WikiSidebar_wiki$data, WikiSidebar_wiki$key} from "__generated__/relay/W
 import * as stylex from "@stylexjs/stylex";
 import {WikiSidebarFolder, WikiSidebarItem} from "projects/Wiki/models/WikiModels";
 import WikiSidebarItemComponent from "projects/Wiki/components/WikiSidebarItemComponent";
+import {WikiStyles} from "./WikiStyles.stylex";
 
 
 type Props = {
@@ -12,7 +13,7 @@ type Props = {
 
 const styles = stylex.create({
   body: {
-    width: '256px',
+    width: WikiStyles.sidebarWidth,
     height: '100%',
     borderRightWidth: 1,
     borderRightStyle: "solid",

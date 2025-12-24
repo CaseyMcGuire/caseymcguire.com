@@ -3,7 +3,16 @@ import WikiSidebar from "projects/Wiki/components/WikiSidebar";
 import {useLazyLoadQuery} from "react-relay/hooks";
 import {WikiPageQuery} from "__generated__/relay/WikiPageQuery.graphql";
 import WikiPageContent from "projects/Wiki/components/WikiPageContent";
-import {useLocation} from "react-router";
+import {useLocation, useParams} from "react-router";
+import * as stylex from "@stylexjs/stylex";
+
+const styles = stylex.create({
+  body: {
+    display: 'flex',
+    flexDirection: 'row',
+    height: '100%',
+  }
+})
 
 export default function WikiPage() {
   const query = graphql`
@@ -23,31 +32,23 @@ export default function WikiPage() {
     }
   `
 
-  const getWikiPageId = (): string | null | undefined => {
-    const { pathname } = useLocation();
-    const pathComponents = pathname.split("/");
-    return pathComponents.at(-1)
-  }
-
-  const wikiPageId = getWikiPageId();
+  // this is brittle. Figure out a typesafe way to keep defined route and params in sync.
+  const { pageId } = useParams<{ pageId: string }>();
 
 
   const data = useLazyLoadQuery<WikiPageQuery>(
     query,
     {
       wikiName: "Wiki",
-      wikiPageId,
-      includeWikiPage: wikiPageId != null
+      wikiPageId: pageId,
+      includeWikiPage: pageId != null
     }
   )
 
   return (
-    <div>
+    <div {...stylex.props(styles.body)}>
       <WikiSidebar wiki={data.wiki} />
-      {
-         <WikiPageContent wikiPage={data.wikiPageById} />
-      }
-
+      <WikiPageContent wikiPage={data.wikiPageById} />
     </div>
   );
 }

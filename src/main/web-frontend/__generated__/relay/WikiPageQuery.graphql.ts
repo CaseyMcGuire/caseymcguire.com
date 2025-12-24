@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<1511b9f089b7c4f52be1476dbb6f419e>>
+ * @generated SignedSource<<823c23b80d80b99771e592487d27989d>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -260,6 +260,7 @@ return {
             "name": "wikiPageById",
             "plural": false,
             "selections": [
+              (v5/*: any*/),
               {
                 "alias": null,
                 "args": null,
@@ -276,12 +277,12 @@ return {
     ]
   },
   "params": {
-    "cacheID": "ed282e84b4a4a4ed949b06cfff1c76af",
+    "cacheID": "7681d2a05a39b4e74f218be17d1708c8",
     "id": null,
     "metadata": {},
     "name": "WikiPageQuery",
     "operationKind": "query",
-    "text": "query WikiPageQuery(\n  $wikiName: String!\n  $wikiPageId: ID\n  $includeWikiPage: Boolean!\n) {\n  wiki: wikiByName(name: $wikiName) {\n    id\n    name\n    ...WikiSidebar_wiki\n  }\n  wikiPageById(id: $wikiPageId) @include(if: $includeWikiPage) {\n    ...WikiPageContent_page\n    id\n  }\n}\n\nfragment WikiPageContent_page on GqlWikiPage {\n  content\n}\n\nfragment WikiSidebar_wiki on GqlWiki {\n  name\n  rootFolder {\n    id\n    name\n    children {\n      __typename\n      ... on GqlWikiFolder {\n        id\n        name\n        children {\n          __typename\n          ... on GqlWikiFolder {\n            id\n            name\n            children {\n              __typename\n              ... on GqlWikiPage {\n                id\n                name\n              }\n              ... on GqlWikiFolder {\n                id\n              }\n            }\n          }\n          ... on GqlWikiPage {\n            id\n            name\n          }\n        }\n      }\n      ... on GqlWikiPage {\n        id\n        name\n      }\n    }\n  }\n}\n"
+    "text": "query WikiPageQuery(\n  $wikiName: String!\n  $wikiPageId: ID\n  $includeWikiPage: Boolean!\n) {\n  wiki: wikiByName(name: $wikiName) {\n    id\n    name\n    ...WikiSidebar_wiki\n  }\n  wikiPageById(id: $wikiPageId) @include(if: $includeWikiPage) {\n    ...WikiPageContent_page\n    id\n  }\n}\n\nfragment WikiPageContent_page on GqlWikiPage {\n  name\n  content\n}\n\nfragment WikiSidebar_wiki on GqlWiki {\n  name\n  rootFolder {\n    id\n    name\n    children {\n      __typename\n      ... on GqlWikiFolder {\n        id\n        name\n        children {\n          __typename\n          ... on GqlWikiFolder {\n            id\n            name\n            children {\n              __typename\n              ... on GqlWikiPage {\n                id\n                name\n              }\n              ... on GqlWikiFolder {\n                id\n              }\n            }\n          }\n          ... on GqlWikiPage {\n            id\n            name\n          }\n        }\n      }\n      ... on GqlWikiPage {\n        id\n        name\n      }\n    }\n  }\n}\n"
   }
 };
 })();

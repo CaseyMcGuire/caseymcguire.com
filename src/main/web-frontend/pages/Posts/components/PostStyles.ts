@@ -35,10 +35,7 @@ export const postStyles = stylex.create({
     color: 'grey',
   },
   postContentsContainer: {
-    fontSize: 17,
-    lineHeight: '135%',
     padding: '0px 5px',
-    listStylePosition: 'inside',
   },
   blockText: {
     marginTop: 20,

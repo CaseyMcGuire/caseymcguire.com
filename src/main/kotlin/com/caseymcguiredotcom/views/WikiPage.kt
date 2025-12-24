@@ -17,6 +17,10 @@ class WikiPage(private val config: SinglePageApplicationConfig) : RenderablePage
           rel = "stylesheet",
           href = "https://cdn.jsdelivr.net/npm/charter-webfont@4.1.0/charter.css"
         )
+        link {
+          rel = "stylesheet"
+          href = "/assets/stylesheets/github.min.css"
+        }
         style {
           unsafe {
             raw(
