@@ -22,7 +22,7 @@
 
 [data-post-contents] ul,
 [data-post-contents] ol {
-    padding-inline-start: 24px;
+    padding-inline-start: 28px;
     margin-inline-start: 0;
     list-style-position: outside;
 }
