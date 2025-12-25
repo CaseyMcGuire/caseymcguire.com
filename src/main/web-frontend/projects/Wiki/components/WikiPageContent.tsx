@@ -6,6 +6,7 @@ import {WikiStyles} from "./WikiStyles.stylex";
 import {useMemo} from "react";
 import {convertMarkdownToHtml} from "utils/MarkdownUtils";
 import 'assets/stylesheets/markdown.css'
+import WikiTableOfContents from "projects/Wiki/components/WikiTableOfContents";
 
 type Props = {
   wikiPage?: WikiPageContent_page$key | null
@@ -18,6 +19,7 @@ const styles = stylex.create({
     marginLeft: WikiStyles.sidebarWidth,
     display: 'flex',
     justifyContent: 'center',
+    padding: 16
   },
   contentContainer: {
     display: 'flex',
@@ -25,7 +27,7 @@ const styles = stylex.create({
     alignItems: 'center',
   },
   content: {
-    maxWidth: '800px',
+    maxWidth: '900px',
   }
 })
 
@@ -42,7 +44,7 @@ export default function WikiPageContent(props: Props) {
 
   const contents = data?.content ?? '';
 
-  const sanitizedHtml = useMemo(() => {
+  const result = useMemo(() => {
     return convertMarkdownToHtml(contents);
   }, [contents]);
 
@@ -53,8 +55,9 @@ export default function WikiPageContent(props: Props) {
         <div
           {...stylex.props(styles.content)}
           data-post-contents
-          dangerouslySetInnerHTML={{ __html: sanitizedHtml }} />
+          dangerouslySetInnerHTML={{ __html: result.html }} />
       </div>
+      <WikiTableOfContents headings={result.tableOfContents} />
     </div>
   );
 }

@@ -26,7 +26,7 @@ export default function Post(props: Props) {
 
 
   const sanitizedHtml = useMemo(() => {
-    return convertMarkdownToHtml(contents);
+    return convertMarkdownToHtml(contents).html;
   }, [contents]);
 
   return (
