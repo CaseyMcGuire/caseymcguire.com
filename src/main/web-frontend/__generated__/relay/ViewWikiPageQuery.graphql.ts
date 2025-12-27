@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<823c23b80d80b99771e592487d27989d>>
+ * @generated SignedSource<<94d061baf1a8fb559daabbbaa576991a>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -10,12 +10,12 @@
 
 import { ConcreteRequest } from 'relay-runtime';
 import { FragmentRefs } from "relay-runtime";
-export type WikiPageQuery$variables = {
+export type ViewWikiPageQuery$variables = {
   includeWikiPage: boolean;
   wikiName: string;
   wikiPageId?: string | null | undefined;
 };
-export type WikiPageQuery$data = {
+export type ViewWikiPageQuery$data = {
   readonly wiki: {
     readonly id: string;
     readonly name: string;
@@ -25,9 +25,9 @@ export type WikiPageQuery$data = {
     readonly " $fragmentSpreads": FragmentRefs<"WikiPageContent_page">;
   } | null | undefined;
 };
-export type WikiPageQuery = {
-  response: WikiPageQuery$data;
-  variables: WikiPageQuery$variables;
+export type ViewWikiPageQuery = {
+  response: ViewWikiPageQuery$data;
+  variables: ViewWikiPageQuery$variables;
 };
 
 const node: ConcreteRequest = (function(){
@@ -99,7 +99,7 @@ return {
     ],
     "kind": "Fragment",
     "metadata": null,
-    "name": "WikiPageQuery",
+    "name": "ViewWikiPageQuery",
     "selections": [
       {
         "alias": "wiki",
@@ -154,7 +154,7 @@ return {
       (v0/*: any*/)
     ],
     "kind": "Operation",
-    "name": "WikiPageQuery",
+    "name": "ViewWikiPageQuery",
     "selections": [
       {
         "alias": "wiki",
@@ -277,16 +277,16 @@ return {
     ]
   },
   "params": {
-    "cacheID": "7681d2a05a39b4e74f218be17d1708c8",
+    "cacheID": "b4d075be2d2529b6a16d75aa75f5c324",
     "id": null,
     "metadata": {},
-    "name": "WikiPageQuery",
+    "name": "ViewWikiPageQuery",
     "operationKind": "query",
-    "text": "query WikiPageQuery(\n  $wikiName: String!\n  $wikiPageId: ID\n  $includeWikiPage: Boolean!\n) {\n  wiki: wikiByName(name: $wikiName) {\n    id\n    name\n    ...WikiSidebar_wiki\n  }\n  wikiPageById(id: $wikiPageId) @include(if: $includeWikiPage) {\n    ...WikiPageContent_page\n    id\n  }\n}\n\nfragment WikiPageContent_page on GqlWikiPage {\n  name\n  content\n}\n\nfragment WikiSidebar_wiki on GqlWiki {\n  name\n  rootFolder {\n    id\n    name\n    children {\n      __typename\n      ... on GqlWikiFolder {\n        id\n        name\n        children {\n          __typename\n          ... on GqlWikiFolder {\n            id\n            name\n            children {\n              __typename\n              ... on GqlWikiPage {\n                id\n                name\n              }\n              ... on GqlWikiFolder {\n                id\n              }\n            }\n          }\n          ... on GqlWikiPage {\n            id\n            name\n          }\n        }\n      }\n      ... on GqlWikiPage {\n        id\n        name\n      }\n    }\n  }\n}\n"
+    "text": "query ViewWikiPageQuery(\n  $wikiName: String!\n  $wikiPageId: ID\n  $includeWikiPage: Boolean!\n) {\n  wiki: wikiByName(name: $wikiName) {\n    id\n    name\n    ...WikiSidebar_wiki\n  }\n  wikiPageById(id: $wikiPageId) @include(if: $includeWikiPage) {\n    ...WikiPageContent_page\n    id\n  }\n}\n\nfragment WikiPageContent_page on GqlWikiPage {\n  name\n  content\n}\n\nfragment WikiSidebar_wiki on GqlWiki {\n  name\n  rootFolder {\n    id\n    name\n    children {\n      __typename\n      ... on GqlWikiFolder {\n        id\n        name\n        children {\n          __typename\n          ... on GqlWikiFolder {\n            id\n            name\n            children {\n              __typename\n              ... on GqlWikiPage {\n                id\n                name\n              }\n              ... on GqlWikiFolder {\n                id\n              }\n            }\n          }\n          ... on GqlWikiPage {\n            id\n            name\n          }\n        }\n      }\n      ... on GqlWikiPage {\n        id\n        name\n      }\n    }\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "7ddbffadbc3491ac1af2aa8713456121";
+(node as any).hash = "a5291011e89693e87ecf5ca92f9b16cf";
 
 export default node;

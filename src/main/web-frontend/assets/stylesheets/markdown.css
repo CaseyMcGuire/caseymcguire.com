@@ -9,6 +9,23 @@
     line-height: inherit;
 }
 
+[data-post-contents] h1 {
+    font-size: 32px;
+}
+
+[data-post-contents] h2 {
+    font-size: 24px;
+}
+
+[data-post-contents] h3 {
+    font-size: 20px;
+}
+
+[data-post-contents] h4 {
+    font-size: 18px;
+}
+
+
 [data-post-contents] p,
 [data-post-contents] h1,
 [data-post-contents] h2,

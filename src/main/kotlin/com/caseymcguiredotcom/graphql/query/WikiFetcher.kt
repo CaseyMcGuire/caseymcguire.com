@@ -33,12 +33,15 @@ import com.netflix.graphql.dgs.DgsDataFetchingEnvironment
 import com.netflix.graphql.dgs.DgsMutation
 import com.netflix.graphql.dgs.DgsQuery
 import com.netflix.graphql.dgs.InputArgument
+import org.slf4j.LoggerFactory
 import java.util.concurrent.CompletableFuture
 
 @DgsComponent
 class WikiFetcher(
   private val wikiService: WikiService
 ) {
+
+  private val log = LoggerFactory.getLogger(WikiFetcher::class.java)
 
   @DgsQuery
   fun wikiByName(
@@ -86,6 +89,7 @@ class WikiFetcher(
         ).toGraphqlType()
       )
     } catch (e: Exception) {
+      log.error("Failed to update wiki page content", e)
       e.toWikiResponse()
     }
   }

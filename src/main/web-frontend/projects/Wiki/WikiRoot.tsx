@@ -3,7 +3,8 @@ import PageWrapper from "components/PageWrapper/PageWrapper";
 import * as React from "react";
 import {createBrowserRouter, RouterProvider} from "react-router";
 import {WikiRoutes} from "__generated__/routes/WikiRoutes";
-import WikiPage from "projects/Wiki/pages/WikiPage";
+import ViewWikiPage from "projects/Wiki/pages/ViewWikiPage";
+import EditWikiPage from "projects/Wiki/pages/EditWikiPage";
 
 const router = createBrowserRouter([
   {
@@ -12,7 +13,11 @@ const router = createBrowserRouter([
   },
   {
     path: WikiRoutes.WIKI_PAGE,
-    element: <WikiPage />
+    element: <ViewWikiPage />
+  },
+  {
+    path: WikiRoutes.EDIT_WIKI_PAGE,
+    element: <EditWikiPage />
   }
 ]);
 

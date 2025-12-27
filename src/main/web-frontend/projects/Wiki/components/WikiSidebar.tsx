@@ -81,7 +81,6 @@ export default function WikiSidebar(
 
   return (
     <div {...stylex.props(styles.body)}>
-      <div>Wiki Sidebar</div>
       {
         rootFolder.children.map(child => {
           return <WikiSidebarItemComponent key={child.id} item={child} />

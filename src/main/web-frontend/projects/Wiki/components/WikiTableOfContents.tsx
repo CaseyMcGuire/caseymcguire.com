@@ -7,10 +7,18 @@ type Props = {
 
 const styles = stylex.create({
   container: {
+    marginLeft: 24,
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+  },
+  body: {
     marginTop: 8,
     borderLeftWidth: '1px',
     borderLeftStyle: 'solid',
     borderLeftColor: "rgb(229, 231, 235)",
+    minHeight: 64,
+    width: 256
   },
   level: {
     paddingLeft: 8,
@@ -27,14 +35,18 @@ const styles = stylex.create({
     ':hover': {
       color: 'rgb(53, 120, 229)',
     }
+  },
+  header: {
+    marginLeft: 12
   }
 })
 
 export default function WikiTableOfContents(props: Props) {
 
   return (
-    <div>
-      <div {...stylex.props(styles.container)}>
+    <div {...stylex.props(styles.container)}>
+      <div {...stylex.props(styles.body)}>
+        <h4 {...stylex.props(styles.header)} >Table of Contents</h4>
         <WikiTableOfContentsItem nodes={props.headings}/>
       </div>
     </div>

@@ -1,3 +1,3 @@
 package com.caseymcguiredotcom.lib.exceptions
 
-class UserNotLoggedInException : Exception() 
+class UserNotLoggedInException(msg: String = "User not logged in") : Exception(msg)
