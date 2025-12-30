@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<9d734663b80cbc9f8a00750cdd6557b0>>
+ * @generated SignedSource<<f8d42a073ca9af97c7052ba0aba911d4>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -9,11 +9,11 @@
 // @ts-nocheck
 
 import { ConcreteRequest } from 'relay-runtime';
-export type UpdateWikiPageMutation$variables = {
+export type EditWikiPageMutation$variables = {
   contents: string;
   id: string;
 };
-export type UpdateWikiPageMutation$data = {
+export type EditWikiPageMutation$data = {
   readonly updateWikiPageContent: {
     readonly __typename: "FailedWikiResponse";
     readonly userFacingErrorMessage: string;
@@ -30,9 +30,9 @@ export type UpdateWikiPageMutation$data = {
     readonly __typename: "%other";
   };
 };
-export type UpdateWikiPageMutation = {
-  response: UpdateWikiPageMutation$data;
-  variables: UpdateWikiPageMutation$variables;
+export type EditWikiPageMutation = {
+  response: EditWikiPageMutation$data;
+  variables: EditWikiPageMutation$variables;
 };
 
 const node: ConcreteRequest = (function(){
@@ -138,7 +138,7 @@ return {
     ],
     "kind": "Fragment",
     "metadata": null,
-    "name": "UpdateWikiPageMutation",
+    "name": "EditWikiPageMutation",
     "selections": (v2/*: any*/),
     "type": "Mutation",
     "abstractKey": null
@@ -150,20 +150,20 @@ return {
       (v0/*: any*/)
     ],
     "kind": "Operation",
-    "name": "UpdateWikiPageMutation",
+    "name": "EditWikiPageMutation",
     "selections": (v2/*: any*/)
   },
   "params": {
-    "cacheID": "cf84d2d3bcb725f86e9e3e5e4abaedca",
+    "cacheID": "612423c23fa7398ab8d65eeb6338d7a9",
     "id": null,
     "metadata": {},
-    "name": "UpdateWikiPageMutation",
+    "name": "EditWikiPageMutation",
     "operationKind": "mutation",
-    "text": "mutation UpdateWikiPageMutation(\n  $id: ID!\n  $contents: String!\n) {\n  updateWikiPageContent(pageId: $id, content: $contents) {\n    __typename\n    ... on SuccessfulUpdateWikiPageContentResponse {\n      wikiPage {\n        id\n        name\n        content\n      }\n    }\n    ... on FailedWikiResponse {\n      userFacingErrorMessage\n    }\n  }\n}\n"
+    "text": "mutation EditWikiPageMutation(\n  $id: ID!\n  $contents: String!\n) {\n  updateWikiPageContent(pageId: $id, content: $contents) {\n    __typename\n    ... on SuccessfulUpdateWikiPageContentResponse {\n      wikiPage {\n        id\n        name\n        content\n      }\n    }\n    ... on FailedWikiResponse {\n      userFacingErrorMessage\n    }\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "3fd006b51c237966b11082282b81be37";
+(node as any).hash = "51251badf42b289b0405410624606055";
 
 export default node;

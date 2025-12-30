@@ -1,4 +1,4 @@
-import {graphql} from "react-relay";
+import {graphql, useMutation} from "react-relay";
 import {useLazyLoadQuery} from "react-relay/hooks";
 import {useParams} from "react-router";
 import WikiPageBody from "projects/Wiki/components/WikiPageBody";
@@ -6,8 +6,8 @@ import {useMemo, useState} from "react";
 import {convertMarkdownToHtml} from "utils/MarkdownUtils";
 import {EditWikiPageQuery} from "__generated__/relay/EditWikiPageQuery.graphql";
 import * as stylex from "@stylexjs/stylex";
-import WikiButton from "projects/Wiki/components/WikiButton";
-import {commit} from "projects/Wiki/mutations/UpdateWikiPageMutation";
+import Button from "components/buttons/Button";
+import {EditWikiPageMutation} from "__generated__/relay/EditWikiPageMutation.graphql";
 
 const styles = stylex.create({
   container: {
@@ -54,11 +54,36 @@ export default function EditWikiPage() {
        }
      }
   `;
+
+  const mutation = graphql`
+    mutation EditWikiPageMutation(
+      $id: ID!, 
+      $contents: String!) {
+      updateWikiPageContent(
+        pageId: $id,
+        content: $contents
+      ) {
+        __typename
+        ... on SuccessfulUpdateWikiPageContentResponse {
+          wikiPage {
+            id
+            name
+            content
+          }
+        }
+        ... on FailedWikiResponse {
+          userFacingErrorMessage
+        }
+      }
+    }
+  `;
+
   const { pageId } = useParams<{pageId: string}>();
 
   const data = useLazyLoadQuery<EditWikiPageQuery>(query, {
     pageId: pageId!
   });
+  const [commit, isInFlight] = useMutation<EditWikiPageMutation>(mutation);
 
   const [contents, setContents] = useState(data?.page?.content ?? '');
   const title = data?.page?.name ?? '';
@@ -68,8 +93,24 @@ export default function EditWikiPage() {
   }, [contents]);
 
   const handleSaveClick = () => {
-    commit(pageId!, "", contents, (success) => {
-      console.log(success);
+    if (isInFlight) {
+      return;
+    }
+
+    commit({
+      variables: {
+        id: pageId!,
+        contents: contents
+      },
+      onCompleted: data => {
+        switch(data.updateWikiPageContent.__typename) {
+          case 'SuccessfulUpdateWikiPageContentResponse':
+            setContents(data.updateWikiPageContent.wikiPage.content);
+            break;
+          case 'FailedWikiResponse':
+            console.log(data.updateWikiPageContent.userFacingErrorMessage);
+        }
+      }
     })
   }
 
@@ -79,13 +120,14 @@ export default function EditWikiPage() {
       <div {...stylex.props(styles.textAreaContainer)}>
         <textarea
           {...stylex.props(styles.textArea)}
-          defaultValue={contents}
+          value={contents}
           onChange={event => setContents(event.target.value)}
         />
         <div {...stylex.props(styles.buttonContainer)}>
-          <WikiButton
+          <Button
             text="Save"
             onClick={handleSaveClick}
+            state={isInFlight ? 'loading' : 'active'}
           />
         </div>
       </div>
