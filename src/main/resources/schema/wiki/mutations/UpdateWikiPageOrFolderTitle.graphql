@@ -1,0 +1,12 @@
+extend type Mutation {
+  updateWikiPageOrFolderName(
+    id: ID!
+    name: String!
+  ): UpdateWikiPageOrFolderNameResponse!
+}
+
+union UpdateWikiPageOrFolderNameResponse = SuccessfulUpdateWikiPageNameResponse | FailedWikiResponse
+
+type SuccessfulUpdateWikiPageNameResponse {
+  wikiNode: GqlWikiNode!
+}

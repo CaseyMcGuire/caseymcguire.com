@@ -8,14 +8,14 @@ import com.caseymcguiredotcom.graphql.toGlobalId
 
 fun Wiki.toGraphqlType(): GqlWiki {
   return GqlWiki(
-    id = toGlobalId("Wiki", this.id),
+    id = toGlobalId(GqlWiki::class.simpleName!!, this.id),
     name = this.name
   )
 }
 
 fun WikiPage.toGraphqlType(): GqlWikiPage {
   return GqlWikiPage(
-    id = toGlobalId("WikiPage", this.id),
+    id = toGlobalId(GqlWikiPage::class.simpleName!!, this.id),
     name = this.name,
     content = this.content
   )
@@ -25,14 +25,14 @@ fun WikiNode.toGqlWikiNode(): GqlWikiNode {
   return when (this) {
     is WikiNodePage -> {
       GqlWikiPage(
-        id = toGlobalId("WikiPage", this.page.id),
+        id = toGlobalId(GqlWikiPage::class.simpleName!!, this.page.id),
         name = this.page.name,
         content = this.page.content
       )
     }
     is WikiNodeFolder -> {
       GqlWikiFolder(
-        id = toGlobalId("WikiFolder", this.folder.id),
+        id = toGlobalId(GqlWikiFolder::class.simpleName!!, this.folder.id),
         name = this.folder.name,
       )
     }
@@ -41,7 +41,7 @@ fun WikiNode.toGqlWikiNode(): GqlWikiNode {
 
 fun WikiFolder.toGraphqlType(): GqlWikiFolder {
   return GqlWikiFolder(
-    id = toGlobalId("WikiFolder", this.id),
+    id = toGlobalId(GqlWikiFolder::class.simpleName!!, this.id),
     name = this.name,
   )
 }

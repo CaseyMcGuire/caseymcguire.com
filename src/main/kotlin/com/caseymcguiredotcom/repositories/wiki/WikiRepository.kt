@@ -99,6 +99,34 @@ class WikiRepository(
         ?: error("Unable to update content for page: $pageId")
   }
 
+  fun updateWikiPageName(
+    pageId: Int,
+    title: String
+  ): WikiPage {
+    return context.update(WIKI_PAGES)
+      .set(WIKI_PAGES.NAME, title)
+      .where(WIKI_PAGES.ID.eq(pageId))
+      .returning()
+      .fetchOneInto(WikiPagesTableRow::class.java)
+      ?.let {
+        WikiPage.fromTableRow(it)
+      } ?: error("Unable to update content for page: $pageId")
+  }
+
+  fun updateWikiFolderName(
+    folderId: Int,
+    title: String
+  ): WikiFolder {
+    return context.update(WIKI_FOLDERS)
+      .set(WIKI_FOLDERS.NAME, title)
+      .where(WIKI_FOLDERS.ID.eq(folderId))
+      .returning()
+      .fetchOneInto(WikiFoldersTableRow::class.java)
+      ?.let {
+        WikiFolder.fromTableRow(it)
+      } ?: error("Unable to update content for page: $folderId")
+  }
+
   fun getNextDisplayOrderForFolder(wikiId: Int, parentFolderId: Int): String {
     val maxPageOrder = context.select(DSL.max(WIKI_PAGES.DISPLAY_ORDER))
       .from(WIKI_PAGES)

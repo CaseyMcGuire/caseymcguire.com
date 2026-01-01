@@ -15,11 +15,14 @@ import com.caseymcguiredotcom.codegen.graphql.types.SuccessfulCreateWikiPageResp
 import com.caseymcguiredotcom.codegen.graphql.types.SuccessfulCreateWikiResponse
 import com.caseymcguiredotcom.codegen.graphql.types.SuccessfulMoveWikiItemResponse
 import com.caseymcguiredotcom.codegen.graphql.types.SuccessfulUpdateWikiPageContentResponse
+import com.caseymcguiredotcom.codegen.graphql.types.SuccessfulUpdateWikiPageNameResponse
+import com.caseymcguiredotcom.codegen.graphql.types.UpdateWikiPageOrFolderNameResponse
 import com.caseymcguiredotcom.codegen.graphql.types.UpdateWikiPageResponse
 import com.caseymcguiredotcom.codegen.graphql.types.WikiErrorCode
 import com.caseymcguiredotcom.codegen.graphql.types.WikiItemType
 import com.caseymcguiredotcom.db.models.wiki.toGqlWikiNode
 import com.caseymcguiredotcom.db.models.wiki.toGraphqlType
+import com.caseymcguiredotcom.graphql.GlobalId
 import com.caseymcguiredotcom.graphql.dataloaders.FolderIdToChildrenDataLoader
 import com.caseymcguiredotcom.graphql.fromGlobalIdOrNull
 import com.caseymcguiredotcom.graphql.fromGlobalIdOrThrow
@@ -71,7 +74,7 @@ class WikiFetcher(
       SuccessfulCreateWikiResponse(
         wikiService.createWiki(name).toGraphqlType()
       )
-    } catch(e: Exception) {
+    } catch (e: Exception) {
       return e.toWikiResponse()
     }
   }
@@ -87,6 +90,35 @@ class WikiFetcher(
           pageId.idToIntOrThrow("pageId $pageId is not a valid ID"),
           content
         ).toGraphqlType()
+      )
+    } catch (e: Exception) {
+      log.error("Failed to update wiki page content", e)
+      e.toWikiResponse()
+    }
+  }
+
+  @DgsMutation
+  fun updateWikiPageOrFolderName(
+    @InputArgument id: String,
+    @InputArgument name: String
+  ): UpdateWikiPageOrFolderNameResponse {
+    return try {
+      val globalId = GlobalId.fromString(id)
+      val node = when (globalId.type) {
+        GqlWikiFolder::class.simpleName -> wikiService.updateWikiFolderName(
+          globalId.id.toInt(),
+          name
+        ).toWikiNode()
+
+        GqlWikiPage::class.simpleName -> wikiService.updateWikiPageName(
+          globalId.id.toInt(),
+          name
+        ).toWikiNode()
+
+        else -> throw IllegalArgumentException("Invalid ID: ${globalId}")
+      }.toGqlWikiNode()
+      return SuccessfulUpdateWikiPageNameResponse(
+        node
       )
     } catch (e: Exception) {
       log.error("Failed to update wiki page content", e)
@@ -116,17 +148,14 @@ class WikiFetcher(
     return try {
       SuccessfulCreateWikiPageResponse(
         wikiService.createWikiPage(
-          wikiId.toIntOrNull() ?:
-            throw InvalidInputException("wikiId $wikiId is not a valid ID"),
+          wikiId.toIntOrNull() ?: throw InvalidInputException("wikiId $wikiId is not a valid ID"),
           pageName,
           folderId?.let {
-            it.toIntOrNull() ?:
-            throw InvalidInputException("folderId $it is not a valid ID")
+            it.toIntOrNull() ?: throw InvalidInputException("folderId $it is not a valid ID")
           }
         ).toGraphqlType()
       )
-    }
-    catch (e: Exception) {
+    } catch (e: Exception) {
       e.toWikiResponse()
     }
   }
@@ -140,17 +169,14 @@ class WikiFetcher(
     return try {
       SuccessfulCreateWikiFolderResponse(
         wikiService.createWikiFolder(
-          wikiId.toIntOrNull() ?:
-            throw InvalidInputException("wikiId $wikiId is not a valid ID"),
+          wikiId.toIntOrNull() ?: throw InvalidInputException("wikiId $wikiId is not a valid ID"),
           folderName,
           folderId?.let {
-            it.toIntOrNull() ?:
-              throw InvalidInputException("folderId $it is not a valid ID")
+            it.toIntOrNull() ?: throw InvalidInputException("folderId $it is not a valid ID")
           }
         ).toGraphqlType()
       )
-    }
-    catch (e: Exception) {
+    } catch (e: Exception) {
       e.toWikiResponse()
     }
   }
@@ -173,8 +199,9 @@ class WikiFetcher(
             destinationParentFolderId.idToIntOrThrow("folderId $destinationParentFolderId is not a valid ID"),
             beforeSiblingId?.idToIntOrThrow("beforeSiblingId $beforeSiblingId is not a valid ID"),
             afterSiblingId?.idToIntOrThrow("afterSiblingId $afterSiblingId is not a valid ID"),
-            )
+          )
         }
+
         WikiItemType.FOLDER -> {
           wikiService.moveFolder(
             wikiId.idToIntOrThrow("wikiId $wikiId is not a valid ID"),
@@ -189,8 +216,7 @@ class WikiFetcher(
       SuccessfulMoveWikiItemResponse(
         wikiService.getWikiById(wikiId.toInt())?.toGraphqlType(),
       )
-    }
-    catch (e: Exception) {
+    } catch (e: Exception) {
       e.toWikiResponse()
     }
   }
@@ -206,16 +232,19 @@ class WikiFetcher(
           WikiErrorCode.PERMISSION_DENIED,
           this.message ?: "Unknown error"
         )
+
       is UserNotLoggedInException ->
         FailedWikiResponse(
           WikiErrorCode.NOT_AUTHENTICATED,
           this.message ?: "Unknown error"
         )
+
       is InvalidInputException ->
         FailedWikiResponse(
           WikiErrorCode.VALIDATION_ERROR,
           this.message ?: "Unknown error"
         )
+
       else -> throw this
     }
   }

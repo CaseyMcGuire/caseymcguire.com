@@ -30,7 +30,21 @@ fun fromGlobalIdOrNull(globalId: String): String? {
   return decoded.split(":").getOrNull(1)
 }
 
+
 fun fromGlobalIdOrThrow(globalId: String): Int {
   return fromGlobalIdOrNull(globalId)?.toIntOrNull()
     ?: error("Attempting to convert invalid global ID: $globalId")
 }
+
+data class GlobalId(val type: String, val id: String) {
+  companion object {
+    fun fromString(str: String): GlobalId {
+      val parts = String(Base64.getDecoder().decode(str)).split(":")
+      if (parts.size != 2) {
+        throw IllegalArgumentException("Invalid Global ID: $str")
+      }
+      return GlobalId(parts[0], parts[1])
+    }
+  }
+}
+
