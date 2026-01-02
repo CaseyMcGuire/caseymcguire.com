@@ -26,6 +26,8 @@
   },
   "homepage": "https://github.com/CaseyMcGuire/puzzlr-kotlin#readme",
   "dependencies": {
+    "@dnd-kit/core": "^6.3.1",
+    "@dnd-kit/utilities": "^3.2.2",
     "@graphiql/toolkit": "^0.11.3",
     "@stylexjs/stylex": "^0.17.0",
     "ace-builds": "^1.43.4",

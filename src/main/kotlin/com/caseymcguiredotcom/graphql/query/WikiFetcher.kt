@@ -148,11 +148,9 @@ class WikiFetcher(
     return try {
       SuccessfulCreateWikiPageResponse(
         wikiService.createWikiPage(
-          wikiId.toIntOrNull() ?: throw InvalidInputException("wikiId $wikiId is not a valid ID"),
+          wikiId.idToIntOrThrow("wikiId $wikiId is not a valid ID"),
           pageName,
-          folderId?.let {
-            it.toIntOrNull() ?: throw InvalidInputException("folderId $it is not a valid ID")
-          }
+          folderId?.idToIntOrThrow("folderId $folderId is not a valid ID")
         ).toGraphqlType()
       )
     } catch (e: Exception) {

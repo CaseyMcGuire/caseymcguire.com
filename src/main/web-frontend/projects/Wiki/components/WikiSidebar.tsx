@@ -1,15 +1,18 @@
 import {useFragment} from "react-relay/hooks";
-import {graphql} from "react-relay";
+import {graphql, useMutation} from "react-relay";
 import {WikiSidebar_wiki$data, WikiSidebar_wiki$key} from "__generated__/relay/WikiSidebar_wiki.graphql";
 import * as stylex from "@stylexjs/stylex";
 import {WikiSidebarFolder, WikiSidebarItem} from "projects/Wiki/models/WikiModels";
 import WikiSidebarItemComponent from "projects/Wiki/components/WikiSidebarItemComponent";
 import {WikiStyles} from "./WikiStyles.stylex";
-
+import {closestCenter, DndContext, DragOverEvent, PointerSensor, useSensor, useSensors} from "@dnd-kit/core";
+import type {DragEndEvent} from "@dnd-kit/core/dist/types";
+import {useState} from "react";
 
 type Props = {
   wiki: WikiSidebar_wiki$key | null | undefined;
 }
+
 
 const styles = stylex.create({
   body: {
@@ -20,7 +23,8 @@ const styles = stylex.create({
     borderRightColor: "rgb(229, 231, 235)",
     position: "fixed",
     overflowY: "scroll",
-  }
+    overflowX: "hidden",
+  },
 })
 
 export default function WikiSidebar(
@@ -74,18 +78,54 @@ export default function WikiSidebar(
   }
 
   const rootFolder = createWikiSidebar(data);
+  const sensors = useSensors(
+    useSensor(
+      PointerSensor,
+      {
+        activationConstraint: {
+          distance: 5,
+        },
+      })
+  );
 
   if (rootFolder == null) {
     return null;
   }
 
+  const [hoverId, setHoverId] = useState<string | null>(null);
+
+  const onDragEnd = (event: DragEndEvent) => {
+    const {over} = event;
+    setHoverId(null);
+
+    if (over == null) {
+      return
+    }
+  }
+
+  const onDragOver = (event: DragOverEvent) => {
+    const {over} = event;
+
+    if (over == null) {
+      return;
+    }
+    setHoverId(over.id.toString())
+  }
+
   return (
     <div {...stylex.props(styles.body)}>
-      {
-        rootFolder.children.map(child => {
-          return <WikiSidebarItemComponent key={child.id} item={child} />
-        })
-      }
+      <DndContext
+        sensors={sensors}
+        collisionDetection={closestCenter}
+        onDragEnd={onDragEnd}
+        onDragOver={onDragOver}
+      >
+        {
+          rootFolder.children.map(child =>
+            <WikiSidebarItemComponent key={child.id} item={child} selectedId={hoverId}/>
+          )
+        }
+      </DndContext>
     </div>
   );
 }
@@ -109,8 +149,7 @@ function createWikiSidebar(data: WikiSidebar_wiki$data): WikiSidebarFolder | nul
         name: rootName,
         wikiName
       })
-    }
-    else if (child.__typename === "GqlWikiFolder") {
+    } else if (child.__typename === "GqlWikiFolder") {
       const rootId = child.id;
       const rootName = child.name;
 
@@ -135,8 +174,7 @@ function createWikiSidebar(data: WikiSidebar_wiki$data): WikiSidebarFolder | nul
             wikiName
           })
 
-        }
-        else if (nestedChild.__typename === "GqlWikiFolder") {
+        } else if (nestedChild.__typename === "GqlWikiFolder") {
           const nestedChildId = nestedChild.id;
           const nestedChildName = nestedChild.name;
           if (nestedChildId == null || nestedChildName == null) {
