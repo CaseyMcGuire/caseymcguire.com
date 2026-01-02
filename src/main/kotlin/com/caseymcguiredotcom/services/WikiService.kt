@@ -4,6 +4,7 @@ import com.caseymcguiredotcom.db.models.wiki.Wiki
 import com.caseymcguiredotcom.db.models.wiki.WikiFolder
 import com.caseymcguiredotcom.db.models.wiki.WikiNode
 import com.caseymcguiredotcom.db.models.wiki.WikiPage
+import com.caseymcguiredotcom.graphql.query.WikiGlobalId
 import com.caseymcguiredotcom.lib.exceptions.PermissionDeniedException
 import com.caseymcguiredotcom.lib.exceptions.UserNotLoggedInException
 import com.caseymcguiredotcom.repositories.wiki.WikiRepository
@@ -74,8 +75,9 @@ class WikiService(
     wikiId: Int,
     folderId: Int,
     destinationFolderId: Int,
-    beforeSiblingId: Int?,
-    afterSiblingId: Int?): WikiFolder {
+    beforeSiblingId: WikiGlobalId?,
+    afterSiblingId: WikiGlobalId?
+  ): WikiFolder {
     checkUserHasPermission()
     return wikiRepository.moveWikiFolder(
       wikiId,
@@ -91,8 +93,9 @@ class WikiService(
     wikiId: Int,
     pageId: Int,
     destinationFolderId: Int,
-    beforeSiblingId: Int?,
-    afterSiblingId: Int?): WikiPage {
+    beforeSiblingId: WikiGlobalId?,
+    afterSiblingId: WikiGlobalId?
+  ): WikiPage {
     checkUserHasPermission()
     return wikiRepository.moveWikiPage(
       wikiId,

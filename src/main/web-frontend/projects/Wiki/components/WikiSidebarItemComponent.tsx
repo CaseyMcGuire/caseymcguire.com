@@ -6,9 +6,32 @@ import {useNavigate} from "react-router";
 import {CSS} from '@dnd-kit/utilities';
 import {useDraggable, useDroppable} from "@dnd-kit/core";
 
-type Props = {
+type CommonProps = {
+  selectedId: string | null,
+  parentFolderId: string,
+  beforeId: string | null | undefined,
+  afterId: string | null | undefined
+}
+
+type WikiSidebarFolderProps = {
+  folder: WikiSidebarFolder,
+} & CommonProps
+
+type WikiSidebarPageProps = {
+  page: WikiSidebarPage,
+} & CommonProps
+
+type WikiSidebarItemProps = {
   item: WikiSidebarItem,
-  selectedId: string | null
+} & CommonProps
+
+export type HoverData = {
+  type: 'page' | 'folder',
+  name: string,
+  id: string,
+  parentFolderId: string,
+  afterId: string | null | undefined,
+  beforeId: string | null | undefined
 }
 
 const styles = stylex.create({
@@ -37,30 +60,50 @@ const styles = stylex.create({
   }
 })
 
-export default function WikiSidebarItemComponent(props: Props) {
+export default function WikiSidebarItemComponent(props: WikiSidebarItemProps) {
   switch (props.item.type) {
     case "WikiSidebarPage":
       return <WikiSidebarPageComponent
         page={props.item}
+        parentFolderId={props.parentFolderId}
         selectedId={props.selectedId}
+        beforeId={props.beforeId}
+        afterId={props.afterId}
       />;
     case "WikiSidebarFolder":
-      return <WikiSidebarFolderComponent folder={props.item} selectedId={props.selectedId}/>;
+      return <WikiSidebarFolderComponent
+        folder={props.item}
+        parentFolderId={props.parentFolderId}
+        selectedId={props.selectedId}
+        beforeId={props.beforeId}
+        afterId={props.afterId}
+      />;
     default:
       return null;
   }
 }
 
 
-function WikiSidebarPageComponent(props: { page: WikiSidebarPage, selectedId: string | null }) {
+function WikiSidebarPageComponent(props: WikiSidebarPageProps) {
   const page = props.page;
   const wikiName = props.page.wikiName;
   const navigate = useNavigate();
   const onClick = () => navigate(`/wiki/${wikiName}/${page.id}`);
+
+  const data: HoverData = {
+    type: 'page',
+    id: page.id,
+    name: page.name,
+    parentFolderId: props.parentFolderId,
+    afterId: props.afterId,
+    beforeId: props.beforeId,
+  };
+
   const args = {
     id: page.id,
-    data: {type: 'page', name: page.name}
+    data
   };
+
   const droppable = useDroppable(args);
   const draggable = useDraggable(args);
   const {attributes, listeners, transform} = draggable
@@ -88,14 +131,25 @@ function WikiSidebarPageComponent(props: { page: WikiSidebarPage, selectedId: st
   )
 }
 
-function WikiSidebarFolderComponent(props: { folder: WikiSidebarFolder, selectedId: string | null }) {
+function WikiSidebarFolderComponent(props: WikiSidebarFolderProps) {
   const folder = props.folder;
   const [isOpen, setIsOpen] = useState(false);
   const toggleOpen = () => setIsOpen(!isOpen);
+
+  const data: HoverData = {
+    type: 'folder',
+    id: folder.id,
+    name: folder.name,
+    parentFolderId: props.parentFolderId,
+    afterId: props.afterId,
+    beforeId: props.beforeId,
+  };
+
   const args = {
     id: folder.id,
-    data: {type: 'folder', folder}
+    data
   };
+
   const droppable = useDroppable(args);
   const draggable = useDraggable(args);
   const {attributes, listeners, transform} = draggable;
@@ -133,8 +187,15 @@ function WikiSidebarFolderComponent(props: { folder: WikiSidebarFolder, selected
         !isOpen && styles.children
       )}>
         {
-          folder.children.map(item => (
-            <WikiSidebarItemComponent key={item.id} item={item} selectedId={props.selectedId}/>
+          folder.children.map((item, index) => (
+            <WikiSidebarItemComponent
+              key={item.id}
+              item={item}
+              parentFolderId={folder.id}
+              selectedId={props.selectedId}
+              afterId={folder.children.at(index + 1)?.id}
+              beforeId={folder.children.at(index - 1)?.id}
+            />
           ))
         }
       </div>

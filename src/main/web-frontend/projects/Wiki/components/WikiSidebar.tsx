@@ -3,36 +3,20 @@ import {graphql, useMutation} from "react-relay";
 import {WikiSidebar_wiki$data, WikiSidebar_wiki$key} from "__generated__/relay/WikiSidebar_wiki.graphql";
 import * as stylex from "@stylexjs/stylex";
 import {WikiSidebarFolder, WikiSidebarItem} from "projects/Wiki/models/WikiModels";
-import WikiSidebarItemComponent from "projects/Wiki/components/WikiSidebarItemComponent";
+import WikiSidebarItemComponent, {HoverData} from "projects/Wiki/components/WikiSidebarItemComponent";
 import {WikiStyles} from "./WikiStyles.stylex";
 import {closestCenter, DndContext, DragOverEvent, PointerSensor, useSensor, useSensors} from "@dnd-kit/core";
 import type {DragEndEvent} from "@dnd-kit/core/dist/types";
-import {useState} from "react";
+import {useMemo, useState} from "react";
+import {WikiSidebarMutation} from "__generated__/relay/WikiSidebarMutation.graphql";
 
 type Props = {
+  wikiId: string,
   wiki: WikiSidebar_wiki$key | null | undefined;
 }
 
-
-const styles = stylex.create({
-  body: {
-    width: WikiStyles.sidebarWidth,
-    height: '100%',
-    borderRightWidth: 1,
-    borderRightStyle: "solid",
-    borderRightColor: "rgb(229, 231, 235)",
-    position: "fixed",
-    overflowY: "scroll",
-    overflowX: "hidden",
-  },
-})
-
-export default function WikiSidebar(
-  props: Props
-) {
-
-  const data = useFragment(
-    graphql`
+const sidebarFragment =
+  graphql`
       fragment WikiSidebar_wiki on GqlWiki {
         name
         rootFolder {
@@ -69,15 +53,68 @@ export default function WikiSidebar(
           }
         }
       }
-    `,
+    `;
+
+
+const styles = stylex.create({
+  body: {
+    width: WikiStyles.sidebarWidth,
+    height: '100%',
+    borderRightWidth: 1,
+    borderRightStyle: "solid",
+    borderRightColor: "rgb(229, 231, 235)",
+    position: "fixed",
+    overflowY: "scroll",
+    overflowX: "hidden",
+  },
+})
+
+export default function WikiSidebar(
+  props: Props
+) {
+
+  const data = useFragment(
+    sidebarFragment,
     props.wiki
+  );
+
+  const [commit, isInFlight] = useMutation<WikiSidebarMutation>(
+    graphql`
+      mutation WikiSidebarMutation(
+        $wikiId: ID!,
+        $itemId: ID!,
+        $destinationParentFolderId: ID!,
+        $beforeSiblingId: ID,
+        $afterSiblingId: ID) {
+        moveWikiItem(
+          wikiId: $wikiId,
+          itemId: $itemId,
+          destinationParentFolderId: $destinationParentFolderId,
+          beforeSiblingId: $beforeSiblingId,
+          afterSiblingId: $afterSiblingId
+        ) {
+          __typename
+          ... on SuccessfulMoveWikiItemResponse {
+            wiki {
+              ...WikiSidebar_wiki
+            }
+          }
+          ... on FailedWikiResponse {
+            userFacingErrorMessage
+          }
+        }
+      }
+    `
   )
 
   if (data == null) {
     return null;
   }
 
-  const rootFolder = createWikiSidebar(data);
+  const rootFolder = useMemo(
+    () => (data ? createWikiSidebar(data) : null),
+    [data]
+  );
   const sensors = useSensors(
     useSensor(
       PointerSensor,
@@ -95,12 +132,42 @@ export default function WikiSidebar(
   const [hoverId, setHoverId] = useState<string | null>(null);
 
   const onDragEnd = (event: DragEndEvent) => {
-    const {over} = event;
+    const { over, active } = event;
     setHoverId(null);
-
+    console.log("Drag end:", event)
+    const id = active.id.toString();
     if (over == null) {
       return
     }
+
+    const { data } = over;
+    const hoverData = data.current as HoverData;
+    commit(
+      {
+        variables: {
+          wikiId: props.wikiId,
+          itemId: id,
+          destinationParentFolderId: hoverData.parentFolderId,
+          beforeSiblingId: hoverData.id,
+          afterSiblingId: hoverData.afterId,
+        },
+        onCompleted: (data) => {
+          const moveWikiItem = data.moveWikiItem;
+          console.log(moveWikiItem);
+          switch(moveWikiItem?.__typename) {
+            case "SuccessfulMoveWikiItemResponse":
+              console.log("success")
+              break;
+            case "FailedWikiResponse":
+              console.error("failure")
+              break;
+          }
+        },
+        onError: (error) => {
+          console.error(error)
+        }
+      }
+    )
   }
 
   const onDragOver = (event: DragOverEvent) => {
@@ -110,6 +177,7 @@ export default function WikiSidebar(
       return;
     }
     setHoverId(over.id.toString())
+    console.log(event)
   }
 
   return (
@@ -121,8 +189,15 @@ export default function WikiSidebar(
         onDragOver={onDragOver}
       >
         {
-          rootFolder.children.map(child =>
-            <WikiSidebarItemComponent key={child.id} item={child} selectedId={hoverId}/>
+          rootFolder.children.map((child, index) =>
+            <WikiSidebarItemComponent
+              key={child.id}
+              item={child}
+              parentFolderId={rootFolder.id}
+              selectedId={hoverId}
+              afterId={rootFolder.children.at(index + 1)?.id}
+              beforeId={rootFolder.children.at(index - 1)?.id}
+            />
           )
         }
       </DndContext>

@@ -20,6 +20,7 @@ import com.caseymcguiredotcom.codegen.graphql.types.UpdateWikiPageOrFolderNameRe
 import com.caseymcguiredotcom.codegen.graphql.types.UpdateWikiPageResponse
 import com.caseymcguiredotcom.codegen.graphql.types.WikiErrorCode
 import com.caseymcguiredotcom.codegen.graphql.types.WikiItemType
+import com.caseymcguiredotcom.db.models.wiki.WikiNodeType
 import com.caseymcguiredotcom.db.models.wiki.toGqlWikiNode
 import com.caseymcguiredotcom.db.models.wiki.toGraphqlType
 import com.caseymcguiredotcom.graphql.GlobalId
@@ -37,6 +38,7 @@ import com.netflix.graphql.dgs.DgsMutation
 import com.netflix.graphql.dgs.DgsQuery
 import com.netflix.graphql.dgs.InputArgument
 import org.slf4j.LoggerFactory
+import java.util.Base64.getDecoder
 import java.util.concurrent.CompletableFuture
 
 @DgsComponent
@@ -183,36 +185,40 @@ class WikiFetcher(
   fun moveWikiItem(
     @InputArgument wikiId: String,
     @InputArgument itemId: String,
-    @InputArgument itemType: WikiItemType,
     @InputArgument destinationParentFolderId: String,
     @InputArgument beforeSiblingId: String?,
     @InputArgument afterSiblingId: String?
   ): MoveWikiItemResponse {
     return try {
-      when (itemType) {
-        WikiItemType.PAGE -> {
+      val globalId = WikiGlobalId.fromString(itemId)
+      val wikiIntId = wikiId.idToIntOrThrow("wikiId $wikiId is not a valid ID")
+      val itemIntId = itemId.idToIntOrThrow("pageId $itemId is not a valid ID")
+      val destinationIntParentFolderId = destinationParentFolderId.idToIntOrThrow("folderId $destinationParentFolderId is not a valid ID")
+      val globalBeforeSiblingId = beforeSiblingId?.let { WikiGlobalId.fromString(it) }
+      val globalAfterSiblingId = afterSiblingId?.let { WikiGlobalId.fromString(it) }
+      when (globalId.type) {
+        WikiNodeType.PAGE -> {
           wikiService.movePage(
-            wikiId.idToIntOrThrow("wikiId $wikiId is not a valid ID"),
-            itemId.idToIntOrThrow("pageId $itemId is not a valid ID"),
-            destinationParentFolderId.idToIntOrThrow("folderId $destinationParentFolderId is not a valid ID"),
-            beforeSiblingId?.idToIntOrThrow("beforeSiblingId $beforeSiblingId is not a valid ID"),
-            afterSiblingId?.idToIntOrThrow("afterSiblingId $afterSiblingId is not a valid ID"),
+            wikiIntId,
+            itemIntId,
+            destinationIntParentFolderId,
+            globalBeforeSiblingId,
+            globalAfterSiblingId
           )
         }
-
-        WikiItemType.FOLDER -> {
+        WikiNodeType.FOLDER -> {
           wikiService.moveFolder(
-            wikiId.idToIntOrThrow("wikiId $wikiId is not a valid ID"),
-            itemId.idToIntOrThrow("pageId $itemId is not a valid ID"),
-            destinationParentFolderId.idToIntOrThrow("folderId $destinationParentFolderId is not a valid ID"),
-            beforeSiblingId?.idToIntOrThrow("beforeSiblingId $beforeSiblingId is not a valid ID"),
-            afterSiblingId?.idToIntOrThrow("afterSiblingId $afterSiblingId is not a valid ID"),
+            wikiIntId,
+            itemIntId,
+            destinationIntParentFolderId,
+            globalBeforeSiblingId,
+            globalAfterSiblingId
           )
         }
       }
 
       SuccessfulMoveWikiItemResponse(
-        wikiService.getWikiById(wikiId.toInt())?.toGraphqlType(),
+        wikiService.getWikiById(wikiIntId)?.toGraphqlType(),
       )
     } catch (e: Exception) {
       e.toWikiResponse()
@@ -244,6 +250,19 @@ class WikiFetcher(
         )
 
       else -> throw this
+    }
+  }
+}
+
+data class WikiGlobalId(val type: WikiNodeType, val id: Int) {
+  companion object {
+    fun fromString(str: String): WikiGlobalId {
+      val globalId = GlobalId.fromString(str)
+      return when (globalId.type) {
+        GqlWikiFolder::class.simpleName -> WikiGlobalId(WikiNodeType.FOLDER, globalId.id.toInt())
+        GqlWikiPage::class.simpleName -> WikiGlobalId(WikiNodeType.PAGE, globalId.id.toInt())
+        else -> throw IllegalArgumentException("Invalid Global ID: $str")
+      }
     }
   }
 }

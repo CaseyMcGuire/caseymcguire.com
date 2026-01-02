@@ -47,7 +47,7 @@ export default function ViewWikiPage() {
 
   return (
     <div {...stylex.props(styles.body)}>
-      <WikiSidebar wiki={data.wiki} />
+      <WikiSidebar wikiId={data.wiki!.id} wiki={data.wiki} />
       <WikiPageContent wikiPage={data.wikiPageById} />
     </div>
   );

@@ -4,6 +4,7 @@ import com.caseymcguiredotcom.db.models.wiki.Wiki
 import com.caseymcguiredotcom.db.models.wiki.WikiFolder
 import com.caseymcguiredotcom.db.models.wiki.WikiNode
 import com.caseymcguiredotcom.db.models.wiki.WikiPage
+import com.caseymcguiredotcom.graphql.query.WikiGlobalId
 import com.caseymcguiredotcom.lib.LexoRank
 import com.caseymcguiredotcom.lib.Time
 import generated.jooq.tables.pojos.WikiFoldersTableRow
@@ -185,8 +186,8 @@ class WikiRepository(
     wikiId: Int,
     folderId: Int,
     destinationFolderId: Int,
-    beforeSiblingId: Int?,
-    afterSiblingId: Int?
+    beforeSiblingId: WikiGlobalId?,
+    afterSiblingId: WikiGlobalId?
   ): WikiFolder {
     listOf(destinationFolderId, folderId).sorted().forEach {
       lockFolder(wikiId, it)
@@ -231,8 +232,8 @@ class WikiRepository(
     wikiId: Int,
     pageId: Int,
     destinationFolderId: Int,
-    beforeSiblingId: Int?,
-    afterSiblingId: Int?
+    beforeSiblingId: WikiGlobalId?,
+    afterSiblingId: WikiGlobalId?
   ): WikiPage {
     val pageRow = context.selectFrom(WIKI_PAGES)
       .where(
@@ -264,25 +265,25 @@ class WikiRepository(
   private fun getMiddleDisplayOrder(
     wikiId: Int,
     destinationFolderId: Int,
-    beforeSiblingId: Int?,
-    afterSiblingId: Int?
+    beforeSiblingId: WikiGlobalId?,
+    afterSiblingId: WikiGlobalId?
   ): String {
     val nodes = getChildrenOfParentFolder(destinationFolderId)
     val beforeResult =
       beforeSiblingId?.let { siblingId ->
-        nodes.withIndex().find { it.value.id == siblingId }
+        nodes.withIndex().find { it.value.id == siblingId.id && it.value.type == siblingId.type }
           ?: error("No node found for before sibling: $siblingId")
       }
 
     val afterResult =
       afterSiblingId?.let { siblingId ->
-        nodes.withIndex().find { it.value.id == siblingId }
+        nodes.withIndex().find { it.value.id == siblingId.id && it.value.type == siblingId.type }
           ?: error("No node found for after sibling: $siblingId")
       }
 
     if (beforeResult != null &&
       afterResult != null &&
-      beforeResult.index != afterResult.index + 1) {
+      beforeResult.index + 1 != afterResult.index) {
       error("Nodes aren't siblings. beforeResult: $beforeResult afterResult: $afterResult")
     }
 
