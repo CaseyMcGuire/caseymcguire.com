@@ -10,7 +10,8 @@ type CommonProps = {
   selectedId: string | null,
   parentFolderId: string,
   beforeId: string | null | undefined,
-  afterId: string | null | undefined
+  afterId: string | null | undefined,
+  dragDisabled: boolean
 }
 
 type WikiSidebarFolderProps = {
@@ -31,7 +32,8 @@ export type HoverData = {
   id: string,
   parentFolderId: string,
   afterId: string | null | undefined,
-  beforeId: string | null | undefined
+  beforeId: string | null | undefined,
+  childCount?: number
 }
 
 const styles = stylex.create({
@@ -57,6 +59,9 @@ const styles = stylex.create({
     borderBottomWidth: '2px',
     borderBottomStyle: 'solid',
     borderBottomColor: 'rgb(229, 231, 235)',
+  },
+  hoverEmptyFolder: {
+    backgroundColor: 'rgb(229, 231, 235)'
   }
 })
 
@@ -69,6 +74,7 @@ export default function WikiSidebarItemComponent(props: WikiSidebarItemProps) {
         selectedId={props.selectedId}
         beforeId={props.beforeId}
         afterId={props.afterId}
+        dragDisabled={props.dragDisabled}
       />;
     case "WikiSidebarFolder":
       return <WikiSidebarFolderComponent
@@ -77,6 +83,7 @@ export default function WikiSidebarItemComponent(props: WikiSidebarItemProps) {
         selectedId={props.selectedId}
         beforeId={props.beforeId}
         afterId={props.afterId}
+        dragDisabled={props.dragDisabled}
       />;
     default:
       return null;
@@ -143,6 +150,7 @@ function WikiSidebarFolderComponent(props: WikiSidebarFolderProps) {
     parentFolderId: props.parentFolderId,
     afterId: props.afterId,
     beforeId: props.beforeId,
+    childCount: folder.children.length,
   };
 
   const args = {
@@ -158,6 +166,7 @@ function WikiSidebarFolderComponent(props: WikiSidebarFolderProps) {
   };
 
   const isHovering = !draggable.isDragging && props.selectedId === folder.id;
+  const isEmpty = folder.children.length === 0;
 
   useEffect(() => {
     if (draggable.isDragging && isOpen) {
@@ -169,7 +178,11 @@ function WikiSidebarFolderComponent(props: WikiSidebarFolderProps) {
   return (
     <div>
       <div
-        {...stylex.props(styles.item, isHovering && styles.hoverItem)}
+        {...stylex.props(
+          styles.item,
+          (isHovering && !isEmpty) && styles.hoverItem,
+          (isHovering && isEmpty) && styles.hoverEmptyFolder,
+        )}
         onClick={toggleOpen}
         ref={(node) => {
           draggable.setNodeRef(node);
@@ -195,6 +208,7 @@ function WikiSidebarFolderComponent(props: WikiSidebarFolderProps) {
               selectedId={props.selectedId}
               afterId={folder.children.at(index + 1)?.id}
               beforeId={folder.children.at(index - 1)?.id}
+              dragDisabled={props.dragDisabled}
             />
           ))
         }

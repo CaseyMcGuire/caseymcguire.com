@@ -134,22 +134,22 @@ export default function WikiSidebar(
   const onDragEnd = (event: DragEndEvent) => {
     const { over, active } = event;
     setHoverId(null);
-    console.log("Drag end:", event)
     const id = active.id.toString();
-    if (over == null) {
+    if (over == null || active.id === over.id) {
       return
     }
 
     const { data } = over;
     const hoverData = data.current as HoverData;
+    const isEmptyFolderDrop = hoverData.type === "folder" && hoverData.childCount === 0;
     commit(
       {
         variables: {
           wikiId: props.wikiId,
           itemId: id,
-          destinationParentFolderId: hoverData.parentFolderId,
-          beforeSiblingId: hoverData.id,
-          afterSiblingId: hoverData.afterId,
+          destinationParentFolderId: isEmptyFolderDrop ? hoverData.id : hoverData.parentFolderId,
+          beforeSiblingId: isEmptyFolderDrop ? null : hoverData.id,
+          afterSiblingId: isEmptyFolderDrop ? null : hoverData.afterId,
         },
         onCompleted: (data) => {
           const moveWikiItem = data.moveWikiItem;
@@ -176,8 +176,8 @@ export default function WikiSidebar(
     if (over == null) {
       return;
     }
-    setHoverId(over.id.toString())
-    console.log(event)
+    const hoverData = over.data.current as HoverData;
+    setHoverId(hoverData.id)
   }
 
   return (
@@ -197,6 +197,7 @@ export default function WikiSidebar(
               selectedId={hoverId}
               afterId={rootFolder.children.at(index + 1)?.id}
               beforeId={rootFolder.children.at(index - 1)?.id}
+              dragDisabled={isInFlight}
             />
           )
         }
@@ -310,4 +311,3 @@ function createWikiSidebar(data: WikiSidebar_wiki$data): WikiSidebarFolder | nul
     wikiName
   }
 }
-
