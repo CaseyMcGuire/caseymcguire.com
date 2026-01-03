@@ -11,6 +11,8 @@ const styles = stylex.create({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
+    top: 0,
+    position: 'sticky',
   },
   body: {
     marginTop: 8,

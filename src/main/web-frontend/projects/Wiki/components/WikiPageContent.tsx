@@ -15,18 +15,13 @@ type Props = {
 
 const styles = stylex.create({
   body: {
-    height: '100%',
     width: '100%',
     marginLeft: WikiStyles.sidebarWidth,
     display: 'flex',
     justifyContent: 'center',
-    padding: 16
+    alignItems: 'flex-start',
+    padding: 16,
   },
-  contentContainer: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-  }
 })
 
 export default function WikiPageContent(props: Props) {

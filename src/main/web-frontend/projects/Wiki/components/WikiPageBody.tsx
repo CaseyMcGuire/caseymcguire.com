@@ -13,7 +13,7 @@ const styles = stylex.create({
     alignItems: 'center',
   },
   content: {
-    width: '900px',
+    width: '850px',
   }
 })
 
