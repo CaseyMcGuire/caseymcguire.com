@@ -13,7 +13,6 @@ import generated.jooq.tables.pojos.WikisTableRow
 import generated.jooq.tables.references.WIKIS
 import generated.jooq.tables.references.WIKI_FOLDERS
 import generated.jooq.tables.references.WIKI_PAGES
-import kotlinx.html.emptyMap
 import org.jooq.DSLContext
 import org.jooq.impl.DSL
 import org.springframework.stereotype.Repository
@@ -240,6 +239,7 @@ class WikiRepository(
         WIKI_PAGES.WIKI_ID.eq(wikiId),
         WIKI_PAGES.ID.eq(pageId)
         )
+      .forUpdate()
       .fetchOneInto(WikiPagesTableRow::class.java)
       ?: error("No page with ID: $pageId")
 
