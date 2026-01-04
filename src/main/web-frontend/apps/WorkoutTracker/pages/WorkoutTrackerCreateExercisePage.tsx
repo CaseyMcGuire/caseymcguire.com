@@ -1,11 +1,11 @@
 import WorkoutPage from "../components/WorkoutPage";
-import { WorkoutSidebarMenuId } from "projects/WorkoutTracker/components/WorkoutSidebar";
+import { WorkoutSidebarMenuId } from "apps/WorkoutTracker/components/WorkoutSidebar";
 import React, { useState } from "react";
 import { graphql, useMutation } from "react-relay";
-import WorkoutTrackerInputField from "projects/WorkoutTracker/components/WorkoutTrackerInputField";
+import WorkoutTrackerInputField from "apps/WorkoutTracker/components/WorkoutTrackerInputField";
 import { useNavigate } from "react-router";
-import WorkoutTrackerContainer from "projects/WorkoutTracker/components/WorkoutTrackerContainer";
-import WorkoutTrackerButton from "projects/WorkoutTracker/components/WorkoutTrackerButton";
+import WorkoutTrackerContainer from "apps/WorkoutTracker/components/WorkoutTrackerContainer";
+import WorkoutTrackerButton from "apps/WorkoutTracker/components/WorkoutTrackerButton";
 import {
   WorkoutTrackerCreateExercisePageMutation,
 } from "__generated__/relay/WorkoutTrackerCreateExercisePageMutation.graphql";

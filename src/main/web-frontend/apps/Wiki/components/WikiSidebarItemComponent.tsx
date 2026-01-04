@@ -1,7 +1,7 @@
-import {WikiSidebarFolder, WikiSidebarItem, WikiSidebarPage} from "projects/Wiki/models/WikiModels";
+import {WikiSidebarFolder, WikiSidebarItem, WikiSidebarPage} from "apps/Wiki/models/WikiModels";
 import {useContext, useEffect, useState} from "react";
 import * as stylex from "@stylexjs/stylex";
-import WikiChevronIcon from "projects/Wiki/components/WikiChevronIcon";
+import WikiChevronIcon from "apps/Wiki/components/WikiChevronIcon";
 import {useNavigate} from "react-router";
 import {CSS} from '@dnd-kit/utilities';
 import {useDraggable, useDroppable} from "@dnd-kit/core";

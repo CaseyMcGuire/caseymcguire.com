@@ -1,7 +1,7 @@
 import {graphql, useMutation} from "react-relay";
 import {useLazyLoadQuery} from "react-relay/hooks";
 import {useParams} from "react-router";
-import WikiPageBody from "projects/Wiki/components/WikiPageBody";
+import WikiPageBody from "apps/Wiki/components/WikiPageBody";
 import {useMemo, useState} from "react";
 import {convertMarkdownToHtml} from "utils/MarkdownUtils";
 import {EditWikiPageQuery} from "__generated__/relay/EditWikiPageQuery.graphql";

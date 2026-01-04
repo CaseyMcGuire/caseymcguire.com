@@ -6,8 +6,8 @@ import {WikiStyles} from "./WikiStyles.stylex";
 import {useMemo} from "react";
 import {convertMarkdownToHtml} from "utils/MarkdownUtils";
 import 'assets/stylesheets/markdown.css'
-import WikiTableOfContents from "projects/Wiki/components/WikiTableOfContents";
-import WikiPageBody from "projects/Wiki/components/WikiPageBody";
+import WikiTableOfContents from "apps/Wiki/components/WikiTableOfContents";
+import WikiPageBody from "apps/Wiki/components/WikiPageBody";
 
 type Props = {
   wikiPage?: WikiPageContent_page$key | null,

@@ -1,10 +1,10 @@
 import {createBrowserRouter, RouterProvider} from "react-router";
 import * as React from "react";
-import {WorkoutTrackerHomePage} from "./pages/WorkoutTrackerHomePage";
-import WorkoutTrackerCreateWorkoutPage from "./pages/WorkoutTrackerCreateWorkoutPage";
-import WorkoutTrackerShowWorkoutPage from "./pages/WorkoutTrackerShowWorkoutPage/WorkoutTrackerShowWorkoutPage";
-import WorkoutTrackerExerciseIndexPage from "./pages/WorkoutTrackerExercisesIndexPage";
-import WorkoutTrackerCreateExercisePage from "./pages/WorkoutTrackerCreateExercisePage";
+import {WorkoutTrackerHomePage} from "apps/WorkoutTracker/pages/WorkoutTrackerHomePage";
+import WorkoutTrackerCreateWorkoutPage from "apps/WorkoutTracker/pages/WorkoutTrackerCreateWorkoutPage";
+import WorkoutTrackerShowWorkoutPage from "apps/WorkoutTracker/pages/WorkoutTrackerShowWorkoutPage/WorkoutTrackerShowWorkoutPage";
+import WorkoutTrackerExerciseIndexPage from "apps/WorkoutTracker/pages/WorkoutTrackerExercisesIndexPage";
+import WorkoutTrackerCreateExercisePage from "apps/WorkoutTracker/pages/WorkoutTrackerCreateExercisePage";
 import {renderComponent} from "utils/ReactPageUtils";
 import PageWrapper from "components/PageWrapper/PageWrapper";
 import {WorkoutTrackerRoutes} from "__generated__/routes/WorkoutTrackerRoutes";

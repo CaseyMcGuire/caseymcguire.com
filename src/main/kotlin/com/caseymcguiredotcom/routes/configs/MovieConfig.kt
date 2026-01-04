@@ -14,6 +14,6 @@ class MovieConfig : SinglePageApplicationConfig {
 
   override val name: String = "Movies"
   override val urlPrefix: String = "movie_app"
-  override val appRootPath = "./src/main/web-frontend/projects/MovieApp/MovieAppRoot"
+  override val appRootPath = "./src/main/web-frontend/apps/MovieApp/MovieAppRoot"
   override val requestHandler = DefaultRequestHandler()
 }

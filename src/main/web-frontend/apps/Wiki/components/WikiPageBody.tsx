@@ -1,5 +1,4 @@
 import * as stylex from "@stylexjs/stylex";
-import {WikiStyles} from "projects/Wiki/components/WikiStyles.stylex";
 import AdminComponentGating from "components/gating/AdminComponentGating";
 import Button from "components/buttons/Button";
 import {Link, useNavigate} from "react-router";

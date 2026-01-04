@@ -1,14 +1,14 @@
-import WorkoutTrackerBox from "projects/WorkoutTracker/components/WorkoutTrackerBox";
+import WorkoutTrackerBox from "apps/WorkoutTracker/components/WorkoutTrackerBox";
 import WorkoutTrackerDropdown, {
   WorkoutTrackerDropdownOption,
-} from "projects/WorkoutTracker/components/WorkoutTrackerDropdown";
+} from "apps/WorkoutTracker/components/WorkoutTrackerDropdown";
 import * as React from "react";
 import { useFragment } from "react-relay/hooks";
 import { graphql } from "react-relay";
 import { WorkoutTrackerExerciseSection_workoutTracker$key } from "__generated__/relay/WorkoutTrackerExerciseSection_workoutTracker.graphql";
 import WorkoutTrackerSetCreationTable, {
   WorkoutTrackerSetCreationTableItem,
-} from "projects/WorkoutTracker/pages/WorkoutTrackerShowWorkoutPage/WorkoutTrackerSetCreationTable";
+} from "apps/WorkoutTracker/pages/WorkoutTrackerShowWorkoutPage/WorkoutTrackerSetCreationTable";
 import * as stylex from "@stylexjs/stylex";
 
 type WorkoutTrackerExerciseSectionProps = {

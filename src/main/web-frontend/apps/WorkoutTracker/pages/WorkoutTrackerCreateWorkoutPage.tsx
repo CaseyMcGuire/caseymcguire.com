@@ -1,7 +1,7 @@
 import * as React from "react";
 import { useState } from "react";
 import { graphql, useMutation } from "react-relay";
-import WorkoutPage from "projects/WorkoutTracker/components/WorkoutPage";
+import WorkoutPage from "apps/WorkoutTracker/components/WorkoutPage";
 import { WorkoutTrackerCreateWorkoutPageMutation } from "__generated__/relay/WorkoutTrackerCreateWorkoutPageMutation.graphql";
 import { useNavigate } from "react-router";
 import WorkoutTrackerContainer from "../components/WorkoutTrackerContainer";

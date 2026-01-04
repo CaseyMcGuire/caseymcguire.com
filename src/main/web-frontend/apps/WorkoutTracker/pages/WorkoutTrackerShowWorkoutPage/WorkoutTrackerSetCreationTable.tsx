@@ -1,6 +1,6 @@
 import React from "react";
 import * as stylex from "@stylexjs/stylex";
-import WorkoutTrackerInputField from "projects/WorkoutTracker/components/WorkoutTrackerInputField";
+import WorkoutTrackerInputField from "apps/WorkoutTracker/components/WorkoutTrackerInputField";
 
 type WorkoutTrackerSetCreationTableProps = {
   items: WorkoutTrackerSetCreationTableItem[];

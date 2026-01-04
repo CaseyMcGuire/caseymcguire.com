@@ -4,7 +4,7 @@ import React from "react";
 import { graphql } from "react-relay";
 import { useLazyLoadQuery } from "react-relay/hooks";
 import { WorkoutTrackerExercisesIndexPageQuery } from "__generated__/relay/WorkoutTrackerExercisesIndexPageQuery.graphql";
-import WorkoutTrackerContainer from "projects/WorkoutTracker/components/WorkoutTrackerContainer";
+import WorkoutTrackerContainer from "apps/WorkoutTracker/components/WorkoutTrackerContainer";
 import * as stylex from "@stylexjs/stylex";
 
 const styles = stylex.create({

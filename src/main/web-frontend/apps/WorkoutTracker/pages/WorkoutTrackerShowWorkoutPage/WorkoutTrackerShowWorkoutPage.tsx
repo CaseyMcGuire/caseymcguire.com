@@ -4,7 +4,7 @@ import {useLazyLoadQuery} from "react-relay/hooks";
 import * as React from "react";
 import {useEffect} from "react";
 import {WorkoutTrackerShowWorkoutPageQuery} from "__generated__/relay/WorkoutTrackerShowWorkoutPageQuery.graphql";
-import WorkoutPage from "projects/WorkoutTracker/components/WorkoutPage";
+import WorkoutPage from "apps/WorkoutTracker/components/WorkoutPage";
 import WorkoutTrackerContainer from "../../components/WorkoutTrackerContainer";
 import {WorkoutSidebarMenuId} from "../../components/WorkoutSidebar";
 import WorkoutTrackerDropdown, {WorkoutTrackerDropdownOption} from "../../components/WorkoutTrackerDropdown";

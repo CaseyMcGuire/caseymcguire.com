@@ -1,8 +1,8 @@
 import {graphql} from "react-relay";
-import WikiSidebar from "projects/Wiki/components/WikiSidebar";
+import WikiSidebar from "apps/Wiki/components/WikiSidebar";
 import {useLazyLoadQuery} from "react-relay/hooks";
 import {ViewWikiPageQuery} from "__generated__/relay/ViewWikiPageQuery.graphql";
-import WikiPageContent from "projects/Wiki/components/WikiPageContent";
+import WikiPageContent from "apps/Wiki/components/WikiPageContent";
 import {useParams} from "react-router";
 import * as stylex from "@stylexjs/stylex";
 

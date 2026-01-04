@@ -6,7 +6,7 @@ import entries from "./SinglePageApplicationBundles";
 const config : Configuration = {
   entry: mergeUnique(
     {
-      graphiql: './src/main/web-frontend/projects/Graphiql/GraphiqlPage',
+      graphiql: './src/main/web-frontend/apps/Graphiql/GraphiqlPage',
     },
    entries
   ),

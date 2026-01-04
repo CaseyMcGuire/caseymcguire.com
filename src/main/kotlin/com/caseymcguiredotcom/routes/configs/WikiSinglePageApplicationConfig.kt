@@ -18,7 +18,7 @@ class WikiSinglePageApplicationConfig : SinglePageApplicationConfig  {
   )
   override val name: String = "Wiki"
   override val urlPrefix: String = "wiki"
-  override val appRootPath = "./src/main/web-frontend/projects/Wiki/WikiRoot.tsx"
+  override val appRootPath = "./src/main/web-frontend/apps/Wiki/WikiRoot.tsx"
   override val requestHandler = object : RequestHandler {
     override fun handle(
       request: ServerRequest,
