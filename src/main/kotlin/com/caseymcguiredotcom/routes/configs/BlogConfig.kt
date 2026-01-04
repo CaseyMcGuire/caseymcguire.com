@@ -28,7 +28,7 @@ class BlogConfig() : SinglePageApplicationConfig {
 
   override val name = "Casey McGuire"
   override val urlPrefix = ""
-  override val appRootPath: String = "./src/main/web-frontend/AppRoot"
+  override val appRootPath: String = "./src/main/web-frontend/apps/MainApp/MainAppRoot.tsx"
 
   override val requestHandler = object: RequestHandler {
     override fun handle(request: ServerRequest, config: SinglePageApplicationConfig): ServerResponse {
