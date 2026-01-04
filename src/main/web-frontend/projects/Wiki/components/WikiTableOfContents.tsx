@@ -1,5 +1,7 @@
 import {TableOfContentsNode} from "utils/MarkdownUtils";
 import * as stylex from '@stylexjs/stylex';
+import {useScrollSpy} from "hooks/ScrollSpyHook";
+import {useMemo} from "react";
 
 type Props = {
   headings: TableOfContentsNode[]
@@ -40,23 +42,42 @@ const styles = stylex.create({
   },
   header: {
     marginLeft: 12
+  },
+  activeLinkContents: {
+    color: 'rgb(53, 120, 229)',
   }
 })
 
 export default function WikiTableOfContents(props: Props) {
+  const allIds = useMemo(() => {
+    const ids: string[] = [];
+    const traverse = (nodes: TableOfContentsNode[]) => {
+      nodes.forEach((node) => {
+        ids.push(node.id);
+        if (node.children) {
+          traverse(node.children);
+        }
+      });
+    };
+    traverse(props.headings);
+    return ids;
+  }, [props.headings]);
+
+  const activeId = useScrollSpy(allIds);
 
   return (
     <div {...stylex.props(styles.container)}>
       <div {...stylex.props(styles.body)}>
-        <h4 {...stylex.props(styles.header)} >Table of Contents</h4>
-        <WikiTableOfContentsItem nodes={props.headings}/>
+        <h4 {...stylex.props(styles.header)}>Table of Contents</h4>
+        <WikiTableOfContentsItem activeId={activeId} nodes={props.headings}/>
       </div>
     </div>
   );
 }
 
 function WikiTableOfContentsItem(props: {
-  nodes: TableOfContentsNode[]
+  nodes: TableOfContentsNode[],
+  activeId: string
 }) {
   if (props.nodes.length === 0) {
     return null;
@@ -65,20 +86,25 @@ function WikiTableOfContentsItem(props: {
     <ul {...stylex.props(styles.level)}>
       {
         props.nodes.map(node => {
-          return (
-            <li
-              {...stylex.props(styles.levelBlock)}
-              key={node.id}>
-              <a
-                {...stylex.props(styles.link)}
-                href={`#${node.id}`}>
-                <span {...stylex.props(styles.linkContents)}>
+          const isActive = node.id === props.activeId;
+            return (
+              <li
+                {...stylex.props(styles.levelBlock)}
+                key={node.id}>
+                <a
+                  {...stylex.props(styles.link)}
+                  href={`#${node.id}`}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    document.getElementById(node.id)?.scrollIntoView({ behavior: 'smooth' });
+                  }}>
+                <span {...stylex.props(!isActive && styles.linkContents, isActive && styles.activeLinkContents)}>
                   {node.text}
                 </span>
-              </a>
-              <WikiTableOfContentsItem nodes={node.children}/>
-            </li>
-          )
+                </a>
+                <WikiTableOfContentsItem activeId={props.activeId} nodes={node.children}/>
+              </li>
+            )
           }
         )
       }
