@@ -1,6 +1,6 @@
 import {graphql, useMutation} from "react-relay";
 import {useLazyLoadQuery} from "react-relay/hooks";
-import {useParams} from "react-router";
+import {useNavigate, useParams} from "react-router";
 import WikiPageBody from "apps/Wiki/components/WikiPageBody";
 import {useMemo, useState} from "react";
 import {convertMarkdownToHtml} from "utils/MarkdownUtils";
@@ -78,7 +78,8 @@ export default function EditWikiPage() {
     }
   `;
 
-  const { pageId } = useParams<{pageId: string}>();
+  const { wikiName, pageId } = useParams<{wikiName: string, pageId: string }>();
+  const navigate = useNavigate();
 
   const data = useLazyLoadQuery<EditWikiPageQuery>(query, {
     pageId: pageId!
@@ -106,6 +107,7 @@ export default function EditWikiPage() {
         switch(data.updateWikiPageContent.__typename) {
           case 'SuccessfulUpdateWikiPageContentResponse':
             setContents(data.updateWikiPageContent.wikiPage.content);
+            navigate(`/wiki/${wikiName}/${pageId}`);
             break;
           case 'FailedWikiResponse':
             console.log(data.updateWikiPageContent.userFacingErrorMessage);
