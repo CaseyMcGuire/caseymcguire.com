@@ -1,5 +1,5 @@
 import {WikiSidebarFolder, WikiSidebarItem, WikiSidebarPage} from "projects/Wiki/models/WikiModels";
-import {useEffect, useState} from "react";
+import {useContext, useEffect, useState} from "react";
 import * as stylex from "@stylexjs/stylex";
 import WikiChevronIcon from "projects/Wiki/components/WikiChevronIcon";
 import {useNavigate} from "react-router";
@@ -108,7 +108,8 @@ function WikiSidebarPageComponent(props: WikiSidebarPageProps) {
 
   const args = {
     id: page.id,
-    data
+    data,
+    disabled: props.dragDisabled
   };
 
   const droppable = useDroppable(args);
@@ -155,7 +156,8 @@ function WikiSidebarFolderComponent(props: WikiSidebarFolderProps) {
 
   const args = {
     id: folder.id,
-    data
+    data,
+    disabled: props.dragDisabled
   };
 
   const droppable = useDroppable(args);

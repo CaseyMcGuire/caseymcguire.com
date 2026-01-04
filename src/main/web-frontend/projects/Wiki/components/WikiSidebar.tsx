@@ -7,8 +7,9 @@ import WikiSidebarItemComponent, {HoverData} from "projects/Wiki/components/Wiki
 import {WikiStyles} from "./WikiStyles.stylex";
 import {closestCenter, DndContext, DragOverEvent, PointerSensor, useSensor, useSensors} from "@dnd-kit/core";
 import type {DragEndEvent} from "@dnd-kit/core/dist/types";
-import {useMemo, useState} from "react";
+import {useContext, useMemo, useState} from "react";
 import {WikiSidebarMutation} from "__generated__/relay/WikiSidebarMutation.graphql";
+import UserContext from "components/context/UserContext";
 
 type Props = {
   wikiId: string,
@@ -180,6 +181,8 @@ export default function WikiSidebar(
     setHoverId(hoverData.id)
   }
 
+  const context = useContext(UserContext);
+  const isAdmin = context.user?.isAdmin == true;
   return (
     <div {...stylex.props(styles.body)}>
       <DndContext
@@ -197,7 +200,7 @@ export default function WikiSidebar(
               selectedId={hoverId}
               afterId={rootFolder.children.at(index + 1)?.id}
               beforeId={rootFolder.children.at(index - 1)?.id}
-              dragDisabled={isInFlight}
+              dragDisabled={isInFlight || !isAdmin}
             />
           )
         }
