@@ -7,7 +7,7 @@ import LoadingPost from "./components/LoadingPost";
 import Page from "pages/Page/Page";
 import {useLazyLoadQuery} from "react-relay/hooks";
 import {useContext} from "react";
-import AppContext from "components/context/AppContext";
+import UserContext from "components/context/UserContext";
 
 
 export default function SinglePostPage() {
@@ -47,7 +47,7 @@ function SinglePostPageImpl(props: {
         }
       }
     `;
-    const context = useContext(AppContext);
+    const context = useContext(UserContext);
     const isAdmin = context.user?.isAdmin == true;
 
     // Since an admin might've just updated a post, always do a refetch lest we get stale data

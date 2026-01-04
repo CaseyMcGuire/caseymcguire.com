@@ -1,10 +1,10 @@
 import {graphql} from "react-relay";
 import * as React from "react";
 import {AppContextProviderQuery} from "__generated__/relay/AppContextProviderQuery.graphql";
-import AppContext from "./AppContext";
+import UserContext from "components/context/UserContext";
 import {useLazyLoadQuery} from "react-relay/hooks";
 
-export default function AppContextProvider(props: {
+export default function UserContextProvider(props: {
   children: React.ReactNode
 }) {
     const query = graphql`
@@ -28,8 +28,8 @@ export default function AppContextProvider(props: {
   }
 
   return (
-    <AppContext.Provider value={context}>
+    <UserContext.Provider value={context}>
       {componentProps.children}
-    </AppContext.Provider>
+    </UserContext.Provider>
   );
 }

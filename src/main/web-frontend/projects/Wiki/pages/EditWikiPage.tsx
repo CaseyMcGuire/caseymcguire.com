@@ -132,7 +132,7 @@ export default function EditWikiPage() {
         </div>
       </div>
       <div {...stylex.props(styles.bodyContainer)}>
-        <WikiPageBody title={title} html={result.html} />
+        <WikiPageBody pageId={pageId!} showEditButton={false} wikiName={""} title={title} html={result.html} />
       </div>
     </div>
   )

@@ -1,11 +1,11 @@
 import * as React from "react";
 import {useContext} from "react";
-import AppContext from "components/context/AppContext";
+import UserContext from "components/context/UserContext";
 
 export default function AdminComponentGating(props: {
-  children: React.JSX.Element | null
-}): React.JSX.Element | null {
-  const context = useContext(AppContext);
+  children: React.ReactNode
+}): React.ReactNode {
+  const context = useContext(UserContext);
   if (context?.user?.isAdmin != true || props.children == null) {
     return null;
   }

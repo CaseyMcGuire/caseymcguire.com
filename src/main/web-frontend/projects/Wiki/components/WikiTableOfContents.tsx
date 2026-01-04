@@ -9,6 +9,7 @@ type Props = {
 
 const styles = stylex.create({
   container: {
+    marginTop: 36,
     marginLeft: 24,
     display: 'flex',
     flexDirection: 'column',

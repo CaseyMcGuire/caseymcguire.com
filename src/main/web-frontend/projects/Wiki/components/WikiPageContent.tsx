@@ -10,7 +10,9 @@ import WikiTableOfContents from "projects/Wiki/components/WikiTableOfContents";
 import WikiPageBody from "projects/Wiki/components/WikiPageBody";
 
 type Props = {
-  wikiPage?: WikiPageContent_page$key | null
+  wikiPage?: WikiPageContent_page$key | null,
+  wikiName: string,
+  pageId: string
 }
 
 const styles = stylex.create({
@@ -43,8 +45,8 @@ export default function WikiPageContent(props: Props) {
 
   return (
     <div {...stylex.props(styles.body)}>
-      <WikiPageBody title={data?.name ?? ''} html={result.html} />
-      <WikiTableOfContents headings={result.tableOfContents} />
+      <WikiPageBody pageId={props.pageId} showEditButton={true} wikiName={props.wikiName} title={data?.name ?? ''} html={result.html}/>
+      <WikiTableOfContents headings={result.tableOfContents}/>
     </div>
   );
 }

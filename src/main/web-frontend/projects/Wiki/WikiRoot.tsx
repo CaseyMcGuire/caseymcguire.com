@@ -5,6 +5,7 @@ import {createBrowserRouter, RouterProvider} from "react-router";
 import {WikiRoutes} from "__generated__/routes/WikiRoutes";
 import ViewWikiPage from "projects/Wiki/pages/ViewWikiPage";
 import EditWikiPage from "projects/Wiki/pages/EditWikiPage";
+import UserContextProvider from "components/context/UserContextProvider";
 
 const router = createBrowserRouter([
   {
@@ -23,6 +24,8 @@ const router = createBrowserRouter([
 
 renderComponent(
   <PageWrapper fallbackComponent={<div>Loading</div>}>
-    <RouterProvider router={router} />
+    <UserContextProvider>
+      <RouterProvider router={router} />
+    </UserContextProvider>
   </PageWrapper>
 );

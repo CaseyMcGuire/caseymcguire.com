@@ -1,10 +1,10 @@
 import {useContext} from "react";
-import AppContext from "components/context/AppContext";
+import UserContext from "components/context/UserContext";
 
 export default function LoggedInComponentGating(props: {
   children: JSX.Element
 }): JSX.Element | null {
-  const context = useContext(AppContext);
+  const context = useContext(UserContext);
   if (context?.user == null) {
     return null;
   }
