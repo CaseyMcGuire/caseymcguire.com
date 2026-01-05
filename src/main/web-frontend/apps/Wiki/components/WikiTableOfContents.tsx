@@ -2,6 +2,7 @@ import {TableOfContentsNode} from "utils/MarkdownUtils";
 import * as stylex from '@stylexjs/stylex';
 import {useScrollSpy} from "hooks/ScrollSpyHook";
 import {useMemo} from "react";
+import {WikiStyles} from "./WikiStyles.stylex";
 
 type Props = {
   headings: TableOfContentsNode[]
@@ -9,12 +10,12 @@ type Props = {
 
 const styles = stylex.create({
   container: {
-    marginTop: 36,
+    marginTop: 40,
     marginLeft: 24,
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    top: 0,
+    top: WikiStyles.tableOfContentsTop,
     position: 'sticky',
   },
   body: {

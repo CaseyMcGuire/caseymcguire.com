@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import {TABLE_OF_CONTENTS_TOP} from "apps/Wiki/components/WikiStyles.stylex";
 
 export const useScrollSpy = (ids: string[]) => {
   const [activeId, setActiveId] = useState<string>('');
@@ -13,7 +14,7 @@ export const useScrollSpy = (ids: string[]) => {
         });
       },
       {
-        rootMargin: '-100px 0px -80% 0px',
+        rootMargin: `-${TABLE_OF_CONTENTS_TOP}px 0px -80% 0px`,
         threshold: 0
       }
     );

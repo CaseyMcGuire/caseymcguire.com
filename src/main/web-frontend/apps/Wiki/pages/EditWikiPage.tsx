@@ -8,6 +8,7 @@ import {EditWikiPageQuery} from "__generated__/relay/EditWikiPageQuery.graphql";
 import * as stylex from "@stylexjs/stylex";
 import Button from "components/buttons/Button";
 import {EditWikiPageMutation} from "__generated__/relay/EditWikiPageMutation.graphql";
+import WikiPageWrapper from "apps/Wiki/components/WikiPageWrapper";
 
 const styles = stylex.create({
   container: {
@@ -48,16 +49,16 @@ export default function EditWikiPage() {
   const query = graphql`
     query EditWikiPageQuery($pageId: ID!) {
       page: wikiPageById(id: $pageId) {
-         id
-         name
-         content
-       }
-     }
+        id
+        name
+        content
+      }
+    }
   `;
 
   const mutation = graphql`
     mutation EditWikiPageMutation(
-      $id: ID!, 
+      $id: ID!,
       $contents: String!) {
       updateWikiPageContent(
         pageId: $id,
@@ -78,7 +79,7 @@ export default function EditWikiPage() {
     }
   `;
 
-  const { wikiName, pageId } = useParams<{wikiName: string, pageId: string }>();
+  const {wikiName, pageId} = useParams<{ wikiName: string, pageId: string }>();
   const navigate = useNavigate();
 
   const data = useLazyLoadQuery<EditWikiPageQuery>(query, {
@@ -104,7 +105,7 @@ export default function EditWikiPage() {
         contents: contents
       },
       onCompleted: data => {
-        switch(data.updateWikiPageContent.__typename) {
+        switch (data.updateWikiPageContent.__typename) {
           case 'SuccessfulUpdateWikiPageContentResponse':
             setContents(data.updateWikiPageContent.wikiPage.content);
             navigate(`/wiki/${wikiName}/${pageId}`);
@@ -118,24 +119,26 @@ export default function EditWikiPage() {
 
 
   return (
-    <div {...stylex.props(styles.container)}>
-      <div {...stylex.props(styles.textAreaContainer)}>
+    <WikiPageWrapper>
+      <div {...stylex.props(styles.container)}>
+        <div {...stylex.props(styles.textAreaContainer)}>
         <textarea
           {...stylex.props(styles.textArea)}
           value={contents}
           onChange={event => setContents(event.target.value)}
         />
-        <div {...stylex.props(styles.buttonContainer)}>
-          <Button
-            text="Save"
-            onClick={handleSaveClick}
-            state={isInFlight ? 'loading' : 'active'}
-          />
+          <div {...stylex.props(styles.buttonContainer)}>
+            <Button
+              text="Save"
+              onClick={handleSaveClick}
+              state={isInFlight ? 'loading' : 'active'}
+            />
+          </div>
+        </div>
+        <div {...stylex.props(styles.bodyContainer)}>
+          <WikiPageBody pageId={pageId!} showEditButton={false} wikiName={""} title={title} html={result.html}/>
         </div>
       </div>
-      <div {...stylex.props(styles.bodyContainer)}>
-        <WikiPageBody pageId={pageId!} showEditButton={false} wikiName={""} title={title} html={result.html} />
-      </div>
-    </div>
+    </WikiPageWrapper>
   )
 }
