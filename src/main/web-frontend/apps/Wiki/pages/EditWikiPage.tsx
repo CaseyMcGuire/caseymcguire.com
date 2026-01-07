@@ -33,6 +33,17 @@ const styles = stylex.create({
     borderRadius: 5,
     padding: 4
   },
+  nameInputContainer: {
+    marginBottom: 8
+  },
+  nameInput: {
+    borderColor: 'rgb(192,194,197)',
+    borderWidth: '1px',
+    borderStyle: 'solid',
+    borderRadius: 5,
+    width: '100%',
+    padding: 5
+  },
   bodyContainer: {
     padding: 12
   },
@@ -59,9 +70,11 @@ export default function EditWikiPage() {
   const mutation = graphql`
     mutation EditWikiPageMutation(
       $id: ID!,
+      $name: String!,
       $contents: String!) {
       updateWikiPageContent(
         pageId: $id,
+        name: $name,
         content: $contents
       ) {
         __typename
@@ -88,7 +101,7 @@ export default function EditWikiPage() {
   const [commit, isInFlight] = useMutation<EditWikiPageMutation>(mutation);
 
   const [contents, setContents] = useState(data?.page?.content ?? '');
-  const title = data?.page?.name ?? '';
+  const [name, setName] = useState(data?.page?.name ?? '');
 
   const result = useMemo(() => {
     return convertMarkdownToHtml(contents);
@@ -102,7 +115,8 @@ export default function EditWikiPage() {
     commit({
       variables: {
         id: pageId!,
-        contents: contents
+        contents,
+        name
       },
       onCompleted: data => {
         switch (data.updateWikiPageContent.__typename) {
@@ -122,11 +136,18 @@ export default function EditWikiPage() {
     <WikiPageWrapper>
       <div {...stylex.props(styles.container)}>
         <div {...stylex.props(styles.textAreaContainer)}>
-        <textarea
-          {...stylex.props(styles.textArea)}
-          value={contents}
-          onChange={event => setContents(event.target.value)}
-        />
+          <div {...stylex.props(styles.nameInputContainer)}>
+            <input
+              {...stylex.props(styles.nameInput)}
+              value={name}
+              onChange={event => setName(event.target.value)}
+            />
+          </div>
+          <textarea
+            {...stylex.props(styles.textArea)}
+            value={contents}
+            onChange={event => setContents(event.target.value)}
+          />
           <div {...stylex.props(styles.buttonContainer)}>
             <Button
               text="Save"
@@ -136,7 +157,7 @@ export default function EditWikiPage() {
           </div>
         </div>
         <div {...stylex.props(styles.bodyContainer)}>
-          <WikiPageBody pageId={pageId!} showEditButton={false} wikiName={""} title={title} html={result.html}/>
+          <WikiPageBody pageId={pageId!} showEditButton={false} wikiName={""} title={name} html={result.html}/>
         </div>
       </div>
     </WikiPageWrapper>

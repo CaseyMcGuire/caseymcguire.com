@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<5a218b60a5a30e89da18b002364a5534>>
+ * @generated SignedSource<<0e20b83340b3a3125738377f0fef7ba7>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -9,15 +9,15 @@
 // @ts-nocheck
 
 import { ConcreteRequest } from 'relay-runtime';
-export type AppContextProviderQuery$variables = Record<PropertyKey, never>;
-export type AppContextProviderQuery$data = {
+export type UserContextProviderQuery$variables = Record<PropertyKey, never>;
+export type UserContextProviderQuery$data = {
   readonly currentUser: {
     readonly isAdmin: boolean;
   } | null | undefined;
 };
-export type AppContextProviderQuery = {
-  response: AppContextProviderQuery$data;
-  variables: AppContextProviderQuery$variables;
+export type UserContextProviderQuery = {
+  response: UserContextProviderQuery$data;
+  variables: UserContextProviderQuery$variables;
 };
 
 const node: ConcreteRequest = (function(){
@@ -46,7 +46,7 @@ return {
     "argumentDefinitions": [],
     "kind": "Fragment",
     "metadata": null,
-    "name": "AppContextProviderQuery",
+    "name": "UserContextProviderQuery",
     "selections": (v0/*: any*/),
     "type": "Query",
     "abstractKey": null
@@ -55,20 +55,20 @@ return {
   "operation": {
     "argumentDefinitions": [],
     "kind": "Operation",
-    "name": "AppContextProviderQuery",
+    "name": "UserContextProviderQuery",
     "selections": (v0/*: any*/)
   },
   "params": {
-    "cacheID": "0ff1208d1d442a68fd678cde008e36d2",
+    "cacheID": "5ec357e8927a422ac777219f9eb54e4a",
     "id": null,
     "metadata": {},
-    "name": "AppContextProviderQuery",
+    "name": "UserContextProviderQuery",
     "operationKind": "query",
-    "text": "query AppContextProviderQuery {\n  currentUser {\n    isAdmin\n  }\n}\n"
+    "text": "query UserContextProviderQuery {\n  currentUser {\n    isAdmin\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "ae00ae647bafe236c7c72049e2cea736";
+(node as any).hash = "86d624e0ba8662c51c72f1045c2637eb";
 
 export default node;

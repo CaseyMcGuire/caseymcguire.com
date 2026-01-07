@@ -28,10 +28,11 @@ class WikiService(
 
   fun updateWikiPage(
     pageId: Int,
+    name: String,
     content: String
   ): WikiPage {
     checkUserHasPermission()
-    return wikiRepository.updateWikiPageContent(pageId, content)
+    return wikiRepository.updateWikiPageContent(pageId, name, content)
   }
 
   @Transactional

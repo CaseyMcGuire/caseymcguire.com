@@ -84,12 +84,14 @@ class WikiFetcher(
   @DgsMutation
   fun updateWikiPageContent(
     @InputArgument pageId: String,
+    @InputArgument name: String,
     @InputArgument content: String
   ): UpdateWikiPageResponse {
     return try {
       return SuccessfulUpdateWikiPageContentResponse(
         wikiService.updateWikiPage(
           pageId.idToIntOrThrow("pageId $pageId is not a valid ID"),
+          name,
           content
         ).toGraphqlType()
       )

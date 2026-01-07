@@ -86,10 +86,12 @@ class WikiRepository(
 
   fun updateWikiPageContent(
     pageId: Int,
+    name: String,
     content: String
   ): WikiPage {
     return context.update(WIKI_PAGES)
       .set(WIKI_PAGES.CONTENT, content)
+      .set(WIKI_PAGES.NAME, name)
       .where(WIKI_PAGES.ID.eq(pageId))
       .returning()
       .fetchOneInto(WikiPagesTableRow::class.java)

@@ -1,20 +1,20 @@
 import {graphql} from "react-relay";
 import * as React from "react";
-import {AppContextProviderQuery} from "__generated__/relay/AppContextProviderQuery.graphql";
 import UserContext from "components/context/UserContext";
 import {useLazyLoadQuery} from "react-relay/hooks";
+import {UserContextProviderQuery} from "__generated__/relay/UserContextProviderQuery.graphql";
 
 export default function UserContextProvider(props: {
   children: React.ReactNode
 }) {
     const query = graphql`
-      query AppContextProviderQuery {
+      query UserContextProviderQuery {
         currentUser {
           isAdmin
         }
       }
     `
-  const response = useLazyLoadQuery<AppContextProviderQuery>(query, {});
+  const response = useLazyLoadQuery<UserContextProviderQuery>(query, {});
   const componentProps = props;
 
   const user = response.currentUser == null ? null : {
