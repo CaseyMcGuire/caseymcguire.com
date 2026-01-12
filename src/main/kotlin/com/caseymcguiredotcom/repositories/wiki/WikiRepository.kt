@@ -3,7 +3,9 @@ package com.caseymcguiredotcom.repositories.wiki
 import com.caseymcguiredotcom.db.models.wiki.Wiki
 import com.caseymcguiredotcom.db.models.wiki.WikiFolder
 import com.caseymcguiredotcom.db.models.wiki.WikiNode
+import com.caseymcguiredotcom.db.models.wiki.WikiNodeType
 import com.caseymcguiredotcom.db.models.wiki.WikiPage
+import com.caseymcguiredotcom.graphql.query.WikiFetcher
 import com.caseymcguiredotcom.graphql.query.WikiGlobalId
 import com.caseymcguiredotcom.lib.LexoRank
 import com.caseymcguiredotcom.lib.Time
@@ -15,6 +17,7 @@ import generated.jooq.tables.references.WIKI_FOLDERS
 import generated.jooq.tables.references.WIKI_PAGES
 import org.jooq.DSLContext
 import org.jooq.impl.DSL
+import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Repository
 import org.springframework.transaction.annotation.Propagation
 import org.springframework.transaction.annotation.Transactional
@@ -25,6 +28,14 @@ class WikiRepository(
   private val context: DSLContext,
   private val time: Time
 ) {
+
+  private val log = LoggerFactory.getLogger(WikiFetcher::class.java)
+
+  companion object {
+    const val MAX_DEPTH = 3
+    const val MAX_TRAVERSAL_LIMIT = 100
+  }
+
   fun createWiki(name: String): Wiki {
     val wiki = context
       .insertInto(WIKIS)
@@ -50,7 +61,7 @@ class WikiRepository(
     val page = context.selectFrom(WIKI_PAGES)
       .where(WIKI_PAGES.ID.eq(id))
       .fetchOneInto(WikiPagesTableRow::class.java)
-        ?: return null
+      ?: return null
     return WikiPage.fromTableRow(page)
   }
 
@@ -98,7 +109,7 @@ class WikiRepository(
       ?.let {
         WikiPage.fromTableRow(it)
       }
-        ?: error("Unable to update content for page: $pageId")
+      ?: error("Unable to update content for page: $pageId")
   }
 
   fun updateWikiPageName(
@@ -168,7 +179,7 @@ class WikiRepository(
       .set(WIKI_PAGES.UPDATED_AT, now)
       .returning()
       .fetchOneInto(WikiPagesTableRow::class.java)
-    ?: error("Wiki page not found")
+      ?: error("Wiki page not found")
     return WikiPage.fromTableRow(page)
   }
 
@@ -196,13 +207,21 @@ class WikiRepository(
 
     // don't allow cycles
     if (
-      isAncestor(
-        wikiId = wikiId,
+      hasCycle(
+        wikiId,
         startFolderId = destinationFolderId,
         possibleAncestorFolderId = folderId
       )
     ) {
       error("[WikiRepository][moveWikiFolder] Destination folder $destinationFolderId is in the subtree of folder $folderId")
+    } else if (
+      folderExceedsDepthRestriction(
+        wikiId = wikiId,
+        folderToMoveId = folderId,
+        destinationFolderId = destinationFolderId
+      )
+    ) {
+      error("[WikiRepository][moveWikiFolder] Destination folder $destinationFolderId exceeds max depth $MAX_DEPTH")
     }
 
     val displayOrder = getMiddleDisplayOrder(
@@ -240,7 +259,7 @@ class WikiRepository(
       .where(
         WIKI_PAGES.WIKI_ID.eq(wikiId),
         WIKI_PAGES.ID.eq(pageId)
-        )
+      )
       .forUpdate()
       .fetchOneInto(WikiPagesTableRow::class.java)
       ?: error("No page with ID: $pageId")
@@ -285,7 +304,8 @@ class WikiRepository(
 
     if (beforeResult != null &&
       afterResult != null &&
-      beforeResult.index + 1 != afterResult.index) {
+      beforeResult.index + 1 != afterResult.index
+    ) {
       error("Nodes aren't siblings. beforeResult: $beforeResult afterResult: $afterResult")
     }
 
@@ -295,21 +315,101 @@ class WikiRepository(
     )
   }
 
-  fun isAncestor(
+  fun folderExceedsDepthRestriction(
+    wikiId: Int,
+    folderToMoveId: Int,
+    destinationFolderId: Int
+  ): Boolean {
+
+    val heightOfStarterFolder = getFolderHeight(folderToMoveId)
+    val depthOfDestinationFolder = getFolderDepth(destinationFolderId)
+
+    if (heightOfStarterFolder > MAX_DEPTH) {
+      log.warn("[folderExceedsDepthRestriction] Folder $folderToMoveId has a height greater than max depth $MAX_DEPTH")
+    }
+
+    if (depthOfDestinationFolder > MAX_DEPTH) {
+      log.warn("[folderExceedsDepthRestriction] Destination folder $destinationFolderId exceeds max depth $MAX_DEPTH")
+    }
+
+    if (depthOfDestinationFolder + heightOfStarterFolder > MAX_DEPTH) {
+      return true
+    }
+
+    return false
+  }
+
+  private fun getFolderDepth(
+    folderId: Int
+  ): Int {
+    var curId: Int? = folderId
+    val visited = mutableSetOf<Int>()
+    var depth = 0
+
+    repeat (MAX_TRAVERSAL_LIMIT) {
+      if (curId == null) {
+        return depth
+      }
+
+      depth++
+
+      if (!visited.add(curId)) {
+        error("Cycle detected when searching for height of folder: $folderId")
+      }
+
+      curId = context.select(WIKI_FOLDERS.PARENT_FOLDER_ID)
+        .from(WIKI_FOLDERS)
+        .where(
+          WIKI_FOLDERS.ID.eq(curId)
+        ).fetchOne(WIKI_FOLDERS.PARENT_FOLDER_ID)
+    }
+
+    error("Folder $folderId has a height greater than max traversal limit $MAX_TRAVERSAL_LIMIT")
+  }
+
+  /**
+   * Returns the length of the longest path of folders from the passed folder ID down to its lowest children
+   */
+  private fun getFolderHeight(
+    folderId: Int
+  ): Int {
+    val visited = mutableSetOf<Int>()
+
+    fun recurse(id: Int, depth: Int): Int {
+      if (!visited.add(id)) {
+        error("Cycle detected when searching for depth of folder: $folderId")
+      } else if (depth >= MAX_TRAVERSAL_LIMIT) {
+        error("Folder $folderId has a depth greater than $MAX_TRAVERSAL_LIMIT")
+      }
+
+      return (
+          getChildrenOfParentFolder(id)
+            .filter { it.type == WikiNodeType.FOLDER }
+            .maxOfOrNull { recurse(it.id, depth + 1) } ?: 0
+          ) + 1
+    }
+
+    return recurse(folderId, 0)
+  }
+
+  private fun hasCycle(
     wikiId: Int,
     startFolderId: Int,
     possibleAncestorFolderId: Int
   ): Boolean {
-
     var curId: Int? = startFolderId
-    // assume no more than 100 levels for now
-    for (i in 0 until 100) {
+
+    for (i in 0..MAX_TRAVERSAL_LIMIT) {
+
       if (curId == null) {
         return false
       }
+
+      // found cycle
       if (curId == possibleAncestorFolderId) {
         return true
       }
+
       curId = context.select(WIKI_FOLDERS.PARENT_FOLDER_ID)
         .from(WIKI_FOLDERS)
         .where(
@@ -318,7 +418,7 @@ class WikiRepository(
         ).fetchOneInto(Int::class.java)
     }
 
-    error("[isAncestor] More than 100 levels of recursion")
+    error("Folder $startFolderId has depth greater than max traversal limit: $MAX_TRAVERSAL_LIMIT")
   }
 
   public fun getChildrenOfParentFolder(

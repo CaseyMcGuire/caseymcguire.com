@@ -8,7 +8,7 @@ import {WikiStyles} from "./WikiStyles.stylex";
 import {closestCenter, DndContext, DragOverEvent, PointerSensor, useSensor, useSensors} from "@dnd-kit/core";
 import type {DragEndEvent} from "@dnd-kit/core/dist/types";
 import {useContext, useMemo, useState} from "react";
-import {WikiSidebarMutation} from "__generated__/relay/WikiSidebarMutation.graphql";
+import {WikiSidebarMutation, WikiSidebarMutation$variables} from "__generated__/relay/WikiSidebarMutation.graphql";
 import UserContext from "components/context/UserContext";
 
 type Props = {
@@ -142,16 +142,33 @@ export default function WikiSidebar(
 
     const { data } = over;
     const hoverData = data.current as HoverData;
-    const isEmptyFolderDrop = hoverData.type === "folder" && hoverData.childCount === 0;
-    commit(
-      {
-        variables: {
+
+    const dropInsideFolder = hoverData.type === "folder" && (hoverData.childrenIds?.length === 0 || hoverData.isOpen === true);
+
+    const variables: WikiSidebarMutation$variables = (() => {
+      if (dropInsideFolder) {
+        return {
           wikiId: props.wikiId,
           itemId: id,
-          destinationParentFolderId: isEmptyFolderDrop ? hoverData.id : hoverData.parentFolderId,
-          beforeSiblingId: isEmptyFolderDrop ? null : hoverData.id,
-          afterSiblingId: isEmptyFolderDrop ? null : hoverData.afterId,
-        },
+          destinationParentFolderId: hoverData.id,
+          beforeSiblingId: null,
+          afterSiblingId:  hoverData.childrenIds?.at(0)
+        }
+      }
+      else {
+        return {
+          wikiId: props.wikiId,
+          itemId: id,
+          destinationParentFolderId: hoverData.parentFolderId,
+          beforeSiblingId: hoverData.id,
+          afterSiblingId: hoverData.afterId,
+        }
+      }
+    })();
+
+    commit(
+      {
+        variables,
         onCompleted: (data) => {
           const moveWikiItem = data.moveWikiItem;
           console.log(moveWikiItem);

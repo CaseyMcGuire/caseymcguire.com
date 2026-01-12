@@ -26,6 +26,7 @@ class WikiService(
     return wikiRepository.getWikiById(id)
   }
 
+  @Transactional
   fun updateWikiPage(
     pageId: Int,
     name: String,

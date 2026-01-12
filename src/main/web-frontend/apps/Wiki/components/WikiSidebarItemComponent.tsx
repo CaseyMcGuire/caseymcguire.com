@@ -33,7 +33,8 @@ export type HoverData = {
   parentFolderId: string,
   afterId: string | null | undefined,
   beforeId: string | null | undefined,
-  childCount?: number
+  childrenIds?: string[],
+  isOpen?: boolean
 }
 
 const styles = stylex.create({
@@ -151,7 +152,8 @@ function WikiSidebarFolderComponent(props: WikiSidebarFolderProps) {
     parentFolderId: props.parentFolderId,
     afterId: props.afterId,
     beforeId: props.beforeId,
-    childCount: folder.children.length,
+    childrenIds: folder.children.map(child => child.id),
+    isOpen: isOpen
   };
 
   const args = {
@@ -183,7 +185,7 @@ function WikiSidebarFolderComponent(props: WikiSidebarFolderProps) {
         {...stylex.props(
           styles.item,
           (isHovering && !isEmpty) && styles.hoverItem,
-          (isHovering && isEmpty) && styles.hoverEmptyFolder,
+          (isHovering && (isEmpty || isOpen)) && styles.hoverEmptyFolder,
         )}
         onClick={toggleOpen}
         ref={(node) => {

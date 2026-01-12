@@ -171,7 +171,7 @@ class WikiFetcher(
     return try {
       SuccessfulCreateWikiFolderResponse(
         wikiService.createWikiFolder(
-          wikiId.toIntOrNull() ?: throw InvalidInputException("wikiId $wikiId is not a valid ID"),
+          wikiId.idToIntOrThrow("wikiId $wikiId is not a valid ID"),
           folderName,
           folderId?.let {
             it.toIntOrNull() ?: throw InvalidInputException("folderId $it is not a valid ID")
