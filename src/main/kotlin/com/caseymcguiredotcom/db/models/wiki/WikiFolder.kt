@@ -6,7 +6,8 @@ class WikiFolder(
   val id: Int,
   val name: String,
   val displayOrder: String,
-  val parentFolderId: Int?
+  val parentFolderId: Int?,
+  val wikiId: Int
 ) {
 
   companion object {
@@ -15,7 +16,8 @@ class WikiFolder(
         row.id!!,
         row.name,
         row.displayOrder,
-        row.parentFolderId
+        row.parentFolderId,
+        row.wikiId
       )
     }
   }

@@ -5,6 +5,7 @@ import WikiChevronIcon from "apps/Wiki/components/WikiChevronIcon";
 import {useNavigate} from "react-router";
 import {CSS} from '@dnd-kit/utilities';
 import {useDraggable, useDroppable} from "@dnd-kit/core";
+import WikiSidebarItemName from "apps/Wiki/components/WikiSidebarItemName";
 
 type CommonProps = {
   selectedId: string | null,
@@ -135,7 +136,7 @@ function WikiSidebarPageComponent(props: WikiSidebarPageProps) {
       {...listeners}
       {...attributes}
     >
-      {page.name}
+      <WikiSidebarItemName id={page.id} name={page.name}/>
     </div>
   )
 }
@@ -196,7 +197,7 @@ function WikiSidebarFolderComponent(props: WikiSidebarFolderProps) {
         {...attributes}
         {...listeners}
       >
-        {folder.name}
+        <WikiSidebarItemName id={folder.id} name={folder.name}/>
         <WikiChevronIcon isOpen={isOpen}/>
       </div>
       <div {...stylex.props(

@@ -120,9 +120,13 @@ class WikiFetcher(
         ).toWikiNode()
 
         else -> throw IllegalArgumentException("Invalid ID: ${globalId}")
-      }.toGqlWikiNode()
+      }
       return SuccessfulUpdateWikiPageNameResponse(
-        node
+        wikiNode = node.toGqlWikiNode(),
+        wiki = wikiService.getWikiById(node.wikiId)?.toGraphqlType()
+          ?: error(
+            "Wiki not found for ID: ${globalId.id}"
+          )
       )
     } catch (e: Exception) {
       log.error("Failed to update wiki page content", e)

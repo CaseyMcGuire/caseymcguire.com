@@ -7,7 +7,8 @@ data class WikiPage(
   val name: String,
   val content: String,
   val displayOrder: String,
-  val parentFolderId: Int
+  val parentFolderId: Int,
+  val wikiId: Int
 ) {
   companion object {
     fun fromTableRow(
@@ -18,7 +19,8 @@ data class WikiPage(
         name = row.name,
         content = row.content,
         displayOrder = row.displayOrder,
-        parentFolderId = row.parentFolderFkId
+        parentFolderId = row.parentFolderFkId,
+        wikiId = row.wikiId
       )
     }
 

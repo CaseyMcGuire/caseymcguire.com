@@ -9,4 +9,5 @@ union UpdateWikiPageOrFolderNameResponse = SuccessfulUpdateWikiPageNameResponse 
 
 type SuccessfulUpdateWikiPageNameResponse {
   wikiNode: GqlWikiNode!
+  wiki: GqlWiki!
 }
