@@ -9,7 +9,7 @@ import UserContextProvider from "components/context/UserContextProvider";
 
 const router = createBrowserRouter([
   {
-    path: WikiRoutes.WIKI_INDEX,
+    path: WikiRoutes.WIKI_HOME,
     element: <div>hello world</div>
   },
   {

@@ -48,7 +48,7 @@ fun main(args: Array<String>) {
 
       objectName to buildString {
         appendLine("// THIS FILE IS GENERATED. DO NOT EDIT BY HAND.")
-        appendLine("// Generated from SinglePageApplicationConfig beans.")
+        appendLine("// Run './gradlew generateClientRoutes' to regenerate.")
         appendLine()
         appendLine("export const $objectName = {")
         typescriptObjectEntries.forEach { (key, value) ->

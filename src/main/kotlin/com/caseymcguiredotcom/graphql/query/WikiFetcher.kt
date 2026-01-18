@@ -150,12 +150,15 @@ class WikiFetcher(
     @InputArgument folderId: String?
   ): CreateWikiPageResponse {
     return try {
+      val internalWikiId = wikiId.idToIntOrThrow("wikiId $wikiId is not a valid ID")
       SuccessfulCreateWikiPageResponse(
-        wikiService.createWikiPage(
-          wikiId.idToIntOrThrow("wikiId $wikiId is not a valid ID"),
+        wikiPage = wikiService.createWikiPage(
+          internalWikiId,
           pageName,
           folderId?.idToIntOrThrow("folderId $folderId is not a valid ID")
-        ).toGraphqlType()
+        ).toGraphqlType(),
+        wiki = wikiService.getWikiById(internalWikiId)?.toGraphqlType()
+          ?: error("Wiki not found")
       )
     } catch (e: Exception) {
       e.toWikiResponse()
@@ -169,14 +172,17 @@ class WikiFetcher(
     @InputArgument folderId: String?
   ): CreateWikiFolderResponse {
     return try {
+      val internalWikiId = wikiId.idToIntOrThrow("wikiId $wikiId is not a valid ID")
       SuccessfulCreateWikiFolderResponse(
-        wikiService.createWikiFolder(
-          wikiId.idToIntOrThrow("wikiId $wikiId is not a valid ID"),
+        wikiFolder = wikiService.createWikiFolder(
+          internalWikiId,
           folderName,
           folderId?.let {
             it.toIntOrNull() ?: throw InvalidInputException("folderId $it is not a valid ID")
           }
-        ).toGraphqlType()
+        ).toGraphqlType(),
+        wiki = wikiService.getWikiById(internalWikiId)?.toGraphqlType()
+          ?: error("Wiki not found")
       )
     } catch (e: Exception) {
       e.toWikiResponse()

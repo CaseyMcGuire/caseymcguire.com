@@ -8,5 +8,6 @@ export const TABLE_OF_CONTENTS_TOP = HEADER_HEIGHT + TABLE_OF_CONTENTS_BUFFER;
 export const WikiStyles = stylex.defineVars({
   sidebarWidth: '256px',
   headerHeight: HEADER_HEIGHT,
-  tableOfContentsTop: TABLE_OF_CONTENTS_TOP
+  tableOfContentsTop: TABLE_OF_CONTENTS_TOP,
+  borderColor: 'rgb(229, 231, 235)'
 });

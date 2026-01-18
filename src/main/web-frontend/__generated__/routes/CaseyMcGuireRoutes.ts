@@ -1,5 +1,5 @@
 // THIS FILE IS GENERATED. DO NOT EDIT BY HAND.
-// Generated from SinglePageApplicationConfig beans.
+// Run './gradlew generateClientRoutes' to regenerate.
 
 export const CaseyMcGuireRoutes = {
   BLOG_INDEX: "/",
