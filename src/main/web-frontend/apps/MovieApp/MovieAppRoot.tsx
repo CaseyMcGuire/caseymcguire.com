@@ -1,8 +1,8 @@
 import { RelayEnvironmentProvider } from "react-relay/hooks";
 import * as React from "react";
-import {RelayConfig} from "../../relay/RelayConfig";
+import {RelayConfig} from "relay/RelayConfig";
 import MovieAppRouter from "./MovieAppRouter";
-import * as ReactDOM from "react-dom";
+import {renderComponent} from "utils/ReactPageUtils";
 
 export function MovieAppRoot() {
   return (
@@ -14,7 +14,6 @@ export function MovieAppRoot() {
   )
 }
 
-ReactDOM.render(
-  <MovieAppRoot />,
-  document.getElementById("root")
+renderComponent(
+  <MovieAppRoot />
 );

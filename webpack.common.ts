@@ -65,6 +65,8 @@ const config : Configuration = {
     'sanitize-html',
     'react',
     'react-dom',
+    "react-dom/client",
+    "react/jsx-runtime",
     'highlight.js'
   ],
   experiments: {

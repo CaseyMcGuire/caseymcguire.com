@@ -1,6 +1,6 @@
-import React from "react";
 import * as stylex from "@stylexjs/stylex";
 import {WikiStyles} from "./WikiStyles.stylex";
+import {ReactNode} from "react";
 
 const styles = stylex.create({
   header: {
@@ -27,7 +27,7 @@ const styles = stylex.create({
 
 export default function WikiPageWrapper(
   props: {
-  children: React.ReactNode
+  children: ReactNode
   }) {
     return (
       <div>

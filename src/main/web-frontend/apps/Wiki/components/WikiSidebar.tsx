@@ -7,7 +7,7 @@ import WikiSidebarItemComponent, {HoverData} from "apps/Wiki/components/WikiSide
 import {WikiStyles} from "./WikiStyles.stylex";
 import {closestCenter, DndContext, DragOverEvent, PointerSensor, useSensor, useSensors} from "@dnd-kit/core";
 import type {DragEndEvent} from "@dnd-kit/core/dist/types";
-import {useContext, useMemo, useRef, useState} from "react";
+import React, {useContext, useMemo, useRef, useState} from "react";
 import {WikiSidebarMutation, WikiSidebarMutation$variables} from "__generated__/relay/WikiSidebarMutation.graphql";
 import UserContext from "components/context/UserContext";
 import Button from "components/buttons/Button";
@@ -321,7 +321,7 @@ export default function WikiSidebar(
     setMenuOpen(false);
   }
 
-  const ref = useRef(null);
+  const ref = useRef<HTMLElement>(null) as React.RefObject<HTMLDivElement>;
   useOnClickOutside(ref, handleClickOutside)
   const context = useContext(UserContext);
   const isAdmin = context.user?.isAdmin == true;
