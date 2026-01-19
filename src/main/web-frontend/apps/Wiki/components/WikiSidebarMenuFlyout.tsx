@@ -1,9 +1,11 @@
 import * as stylex from "@stylexjs/stylex";
 import {Folder, LucideIcon, StickyNote} from "lucide-react";
+import {RefObject} from "react";
 
 type Props = {
   visible: boolean,
-  items: WikiSidebarMenuFlyoutItem[]
+  items: WikiSidebarMenuFlyoutItem[],
+  reference?: RefObject<HTMLDivElement>
 }
 
 export type WikiSidebarMenuFlyoutItem = {
@@ -49,7 +51,9 @@ const styles = stylex.create({
 export default function WikiSidebarMenuFlyout(props: Props) {
 
   return (
-    <div {...stylex.props(styles.body, !props.visible && styles.hide)}>
+    <div
+      ref={props.reference}
+      {...stylex.props(styles.body, !props.visible && styles.hide)}>
       <ul {...stylex.props(styles.list)}>
         {
           props.items.map(item => {

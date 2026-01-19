@@ -21,6 +21,7 @@ const config : Configuration = {
       path.resolve('./node_modules')
     ]
   },
+  devtool: 'eval-source-map',
   output: {
     filename: '[name].bundle.js',
     path: path.resolve(__dirname, 'src/main/resources/static/bundles'),

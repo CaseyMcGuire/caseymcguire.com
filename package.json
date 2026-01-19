@@ -45,6 +45,7 @@
     "react-relay": "^20.1.1",
     "react-router": "^7.1.2",
     "relay-runtime": "^20.1.1",
+    "usehooks-ts": "^3.1.1",
     "webfontloader": "^1.6.28"
   },
   "devDependencies": {

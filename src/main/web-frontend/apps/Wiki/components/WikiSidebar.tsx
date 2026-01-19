@@ -7,7 +7,7 @@ import WikiSidebarItemComponent, {HoverData} from "apps/Wiki/components/WikiSide
 import {WikiStyles} from "./WikiStyles.stylex";
 import {closestCenter, DndContext, DragOverEvent, PointerSensor, useSensor, useSensors} from "@dnd-kit/core";
 import type {DragEndEvent} from "@dnd-kit/core/dist/types";
-import {useContext, useMemo, useState} from "react";
+import {useContext, useMemo, useRef, useState} from "react";
 import {WikiSidebarMutation, WikiSidebarMutation$variables} from "__generated__/relay/WikiSidebarMutation.graphql";
 import UserContext from "components/context/UserContext";
 import Button from "components/buttons/Button";
@@ -18,6 +18,7 @@ import {
 } from "__generated__/relay/WikiSidebarCreatePageMutation.graphql";
 import {WikiSidebarCreateFolderMutation} from "__generated__/relay/WikiSidebarCreateFolderMutation.graphql";
 import AdminComponentGating from "components/gating/AdminComponentGating";
+import {useOnClickOutside} from "usehooks-ts";
 
 type Props = {
   wikiId: string,
@@ -316,6 +317,12 @@ export default function WikiSidebar(
     setHoverId(hoverData.id)
   }
 
+  const handleClickOutside = () => {
+    setMenuOpen(false);
+  }
+
+  const ref = useRef(null);
+  useOnClickOutside(ref, handleClickOutside)
   const context = useContext(UserContext);
   const isAdmin = context.user?.isAdmin == true;
   return (
@@ -344,7 +351,7 @@ export default function WikiSidebar(
       </div>
 
       <div {...stylex.props(styles.bottomContainer)}>
-        <WikiSidebarMenuFlyout items={items} visible={menuOpen}/>
+        <WikiSidebarMenuFlyout reference={ref} items={items} visible={menuOpen}/>
         <AdminComponentGating>
           <Button
             state={isRequestInFlight ? 'loading' : 'active'}
