@@ -351,7 +351,7 @@ export default function WikiSidebar(
       </div>
 
       <div {...stylex.props(styles.bottomContainer)}>
-        <WikiSidebarMenuFlyout reference={ref} items={items} visible={menuOpen}/>
+        <WikiSidebarMenuFlyout ref={ref} items={items} visible={menuOpen}/>
         <AdminComponentGating>
           <Button
             state={isRequestInFlight ? 'loading' : 'active'}

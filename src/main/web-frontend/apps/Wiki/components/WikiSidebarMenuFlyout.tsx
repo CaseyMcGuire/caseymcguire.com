@@ -5,7 +5,7 @@ import {RefObject} from "react";
 type Props = {
   visible: boolean,
   items: WikiSidebarMenuFlyoutItem[],
-  reference?: RefObject<HTMLDivElement>
+  ref?: RefObject<HTMLDivElement>
 }
 
 export type WikiSidebarMenuFlyoutItem = {
@@ -52,7 +52,7 @@ export default function WikiSidebarMenuFlyout(props: Props) {
 
   return (
     <div
-      ref={props.reference}
+      ref={props.ref}
       {...stylex.props(styles.body, !props.visible && styles.hide)}>
       <ul {...stylex.props(styles.list)}>
         {
