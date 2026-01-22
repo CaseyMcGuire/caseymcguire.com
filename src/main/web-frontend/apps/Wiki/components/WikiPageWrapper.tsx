@@ -1,42 +1,30 @@
 import * as stylex from "@stylexjs/stylex";
 import {WikiStyles} from "./WikiStyles.stylex";
 import {ReactNode} from "react";
+import WikiPageHeader from "apps/Wiki/components/WikiPageHeader";
 
 const styles = stylex.create({
-  header: {
-    width: '100%',
-    height: WikiStyles.headerHeight,
-    borderBottomStyle: "solid",
-    backgroundColor: "rgb(255, 255, 255)",
-    borderBottomWidth: 1,
-    borderBottomColor: "rgb(229, 231, 235)",
-    position: 'fixed',
-    display: 'flex',
-    alignItems: 'center',
-
-  },
-  headerText: {
-    fontSize: 24,
-    paddingLeft: 12,
-    fontWeight: 'bold'
-  },
   container: {
     paddingTop: WikiStyles.headerHeight
   }
 });
 
+type Props = {
+  children: ReactNode,
+  wikiName: string,
+}
+
 export default function WikiPageWrapper(
-  props: {
-  children: ReactNode
-  }) {
-    return (
-      <div>
-        <div {...stylex.props(styles.header)}>
-          <span {...stylex.props(styles.headerText)}>WikiMate</span>
-        </div>
-        <div {...stylex.props(styles.container)}>
-          {props.children}
-        </div>
+  props: Props
+) {
+  return (
+    <div>
+      <WikiPageHeader links={[
+        {name: 'Index', link: `/wiki/${props.wikiName}`},
+      ]}/>
+      <div {...stylex.props(styles.container)}>
+        {props.children}
       </div>
-    );
+    </div>
+  );
 }

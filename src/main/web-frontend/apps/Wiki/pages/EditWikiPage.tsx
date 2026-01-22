@@ -1,6 +1,6 @@
 import {graphql, useMutation} from "react-relay";
 import {useLazyLoadQuery} from "react-relay/hooks";
-import {useNavigate, useParams} from "react-router";
+import {Navigate, useNavigate, useParams} from "react-router";
 import WikiPageBody from "apps/Wiki/components/WikiPageBody";
 import {useMemo, useState} from "react";
 import {convertMarkdownToHtml} from "utils/MarkdownUtils";
@@ -93,6 +93,9 @@ export default function EditWikiPage() {
   `;
 
   const {wikiName, pageId} = useParams<{ wikiName: string, pageId: string }>();
+  if (!wikiName || !pageId) {
+    return <Navigate to="/wiki/404" replace />;
+  }
   const navigate = useNavigate();
 
   const data = useLazyLoadQuery<EditWikiPageQuery>(query, {
@@ -133,7 +136,7 @@ export default function EditWikiPage() {
 
 
   return (
-    <WikiPageWrapper>
+    <WikiPageWrapper wikiName={wikiName}>
       <div {...stylex.props(styles.container)}>
         <div {...stylex.props(styles.textAreaContainer)}>
           <div {...stylex.props(styles.nameInputContainer)}>

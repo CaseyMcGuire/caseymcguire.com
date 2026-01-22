@@ -3,7 +3,7 @@ import WikiSidebar from "apps/Wiki/components/WikiSidebar";
 import {useLazyLoadQuery} from "react-relay/hooks";
 import {ViewWikiPageQuery} from "__generated__/relay/ViewWikiPageQuery.graphql";
 import WikiPageContent from "apps/Wiki/components/WikiPageContent";
-import {useParams} from "react-router";
+import {Navigate, useParams} from "react-router";
 import * as stylex from "@stylexjs/stylex";
 import WikiPageWrapper from "apps/Wiki/components/WikiPageWrapper";
 
@@ -35,6 +35,11 @@ export default function ViewWikiPage() {
 
   // this is brittle. Figure out a typesafe way to keep defined route and params in sync.
   const {pageId, wikiName} = useParams<{ wikiName: string, pageId: string }>();
+  if (!wikiName) {
+    return (
+      <Navigate to={`/wiki`} replace />
+    )
+  }
 
 
   const data = useLazyLoadQuery<ViewWikiPageQuery>(
@@ -47,7 +52,7 @@ export default function ViewWikiPage() {
   )
 
   return (
-    <WikiPageWrapper>
+    <WikiPageWrapper wikiName={wikiName}>
       <div {...stylex.props(styles.body)}>
         <WikiSidebar wikiId={data.wiki!.id} wiki={data.wiki}/>
         <WikiPageContent pageId={pageId!} wikiName={wikiName!} wikiPage={data.wikiPageById}/>
