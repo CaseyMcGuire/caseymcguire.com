@@ -16,10 +16,6 @@ type Props = {
 }
 
 const styles = stylex.create({
-  container: {
-    width: '100%',
-    marginLeft: WikiStyles.sidebarWidth,
-  },
   body: {
     display: 'flex',
     justifyContent: 'center',
@@ -51,12 +47,17 @@ export default function WikiPageContent(props: Props) {
   // adding padding/margin made the table of contents scroll into the header. Using a div with a fixed height seems to
   // work.
   return (
-    <div {...stylex.props(styles.container)}>
-    <div {...stylex.props(styles.body)}>
-      <WikiPageBody pageId={props.pageId} showEditButton={true} wikiName={props.wikiName} title={data?.name ?? ''} html={result.html}/>
-      <WikiTableOfContents headings={result.tableOfContents}/>
-    </div>
+    <>
+      <div {...stylex.props(styles.body)}>
+        <WikiPageBody pageId={props.pageId}
+                      showEditButton={true}
+                      wikiName={props.wikiName}
+                      title={data?.name ?? ''}
+                      html={result.html}
+        />
+        <WikiTableOfContents headings={result.tableOfContents}/>
+      </div>
       <div {...stylex.props(styles.footer)} />
-    </div>
+    </>
   );
 }

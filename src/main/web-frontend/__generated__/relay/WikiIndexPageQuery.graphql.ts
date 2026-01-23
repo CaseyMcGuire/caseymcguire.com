@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<5907232a0fd447efafc9a8b59faa2f81>>
+ * @generated SignedSource<<b82a4e2f4849c7a58f4b8400206a0e35>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -10,23 +10,19 @@
 
 import { ConcreteRequest } from 'relay-runtime';
 import { FragmentRefs } from "relay-runtime";
-export type ViewWikiPageQuery$variables = {
+export type WikiIndexPageQuery$variables = {
   wikiName: string;
-  wikiPageId: string;
 };
-export type ViewWikiPageQuery$data = {
+export type WikiIndexPageQuery$data = {
   readonly wiki: {
     readonly id: string;
     readonly name: string;
     readonly " $fragmentSpreads": FragmentRefs<"WikiSidebar_wiki">;
   } | null | undefined;
-  readonly wikiPageById: {
-    readonly " $fragmentSpreads": FragmentRefs<"WikiPageContent_page">;
-  } | null | undefined;
 };
-export type ViewWikiPageQuery = {
-  response: ViewWikiPageQuery$data;
-  variables: ViewWikiPageQuery$variables;
+export type WikiIndexPageQuery = {
+  response: WikiIndexPageQuery$data;
+  variables: WikiIndexPageQuery$variables;
 };
 
 const node: ConcreteRequest = (function(){
@@ -35,11 +31,6 @@ var v0 = [
     "defaultValue": null,
     "kind": "LocalArgument",
     "name": "wikiName"
-  },
-  {
-    "defaultValue": null,
-    "kind": "LocalArgument",
-    "name": "wikiPageId"
   }
 ],
 v1 = [
@@ -63,21 +54,14 @@ v3 = {
   "name": "name",
   "storageKey": null
 },
-v4 = [
-  {
-    "kind": "Variable",
-    "name": "id",
-    "variableName": "wikiPageId"
-  }
-],
-v5 = {
+v4 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
   "name": "__typename",
   "storageKey": null
 },
-v6 = {
+v5 = {
   "kind": "InlineFragment",
   "selections": [
     (v2/*: any*/),
@@ -91,7 +75,7 @@ return {
     "argumentDefinitions": (v0/*: any*/),
     "kind": "Fragment",
     "metadata": null,
-    "name": "ViewWikiPageQuery",
+    "name": "WikiIndexPageQuery",
     "selections": [
       {
         "alias": "wiki",
@@ -110,22 +94,6 @@ return {
           }
         ],
         "storageKey": null
-      },
-      {
-        "alias": null,
-        "args": (v4/*: any*/),
-        "concreteType": "GqlWikiPage",
-        "kind": "LinkedField",
-        "name": "wikiPageById",
-        "plural": false,
-        "selections": [
-          {
-            "args": null,
-            "kind": "FragmentSpread",
-            "name": "WikiPageContent_page"
-          }
-        ],
-        "storageKey": null
       }
     ],
     "type": "Query",
@@ -135,7 +103,7 @@ return {
   "operation": {
     "argumentDefinitions": (v0/*: any*/),
     "kind": "Operation",
-    "name": "ViewWikiPageQuery",
+    "name": "WikiIndexPageQuery",
     "selections": [
       {
         "alias": "wiki",
@@ -165,7 +133,7 @@ return {
                 "name": "children",
                 "plural": true,
                 "selections": [
-                  (v5/*: any*/),
+                  (v4/*: any*/),
                   {
                     "kind": "InlineFragment",
                     "selections": [
@@ -179,7 +147,7 @@ return {
                         "name": "children",
                         "plural": true,
                         "selections": [
-                          (v5/*: any*/),
+                          (v4/*: any*/),
                           {
                             "kind": "InlineFragment",
                             "selections": [
@@ -193,8 +161,8 @@ return {
                                 "name": "children",
                                 "plural": true,
                                 "selections": [
+                                  (v4/*: any*/),
                                   (v5/*: any*/),
-                                  (v6/*: any*/),
                                   {
                                     "kind": "InlineFragment",
                                     "selections": [
@@ -210,7 +178,7 @@ return {
                             "type": "GqlWikiFolder",
                             "abstractKey": null
                           },
-                          (v6/*: any*/)
+                          (v5/*: any*/)
                         ],
                         "storageKey": null
                       }
@@ -218,7 +186,7 @@ return {
                     "type": "GqlWikiFolder",
                     "abstractKey": null
                   },
-                  (v6/*: any*/)
+                  (v5/*: any*/)
                 ],
                 "storageKey": null
               }
@@ -227,40 +195,20 @@ return {
           }
         ],
         "storageKey": null
-      },
-      {
-        "alias": null,
-        "args": (v4/*: any*/),
-        "concreteType": "GqlWikiPage",
-        "kind": "LinkedField",
-        "name": "wikiPageById",
-        "plural": false,
-        "selections": [
-          (v3/*: any*/),
-          {
-            "alias": null,
-            "args": null,
-            "kind": "ScalarField",
-            "name": "content",
-            "storageKey": null
-          },
-          (v2/*: any*/)
-        ],
-        "storageKey": null
       }
     ]
   },
   "params": {
-    "cacheID": "6f2dfb95ff7d577603fc0fd14ca5f44e",
+    "cacheID": "7bd899ade580091bb3e8a99328404b4d",
     "id": null,
     "metadata": {},
-    "name": "ViewWikiPageQuery",
+    "name": "WikiIndexPageQuery",
     "operationKind": "query",
-    "text": "query ViewWikiPageQuery(\n  $wikiName: String!\n  $wikiPageId: ID!\n) {\n  wiki: wikiByName(name: $wikiName) {\n    id\n    name\n    ...WikiSidebar_wiki\n  }\n  wikiPageById(id: $wikiPageId) {\n    ...WikiPageContent_page\n    id\n  }\n}\n\nfragment WikiPageContent_page on GqlWikiPage {\n  name\n  content\n}\n\nfragment WikiSidebar_wiki on GqlWiki {\n  name\n  rootFolder {\n    id\n    name\n    children {\n      __typename\n      ... on GqlWikiFolder {\n        id\n        name\n        children {\n          __typename\n          ... on GqlWikiFolder {\n            id\n            name\n            children {\n              __typename\n              ... on GqlWikiPage {\n                id\n                name\n              }\n              ... on GqlWikiFolder {\n                id\n              }\n            }\n          }\n          ... on GqlWikiPage {\n            id\n            name\n          }\n        }\n      }\n      ... on GqlWikiPage {\n        id\n        name\n      }\n    }\n  }\n}\n"
+    "text": "query WikiIndexPageQuery(\n  $wikiName: String!\n) {\n  wiki: wikiByName(name: $wikiName) {\n    id\n    name\n    ...WikiSidebar_wiki\n  }\n}\n\nfragment WikiSidebar_wiki on GqlWiki {\n  name\n  rootFolder {\n    id\n    name\n    children {\n      __typename\n      ... on GqlWikiFolder {\n        id\n        name\n        children {\n          __typename\n          ... on GqlWikiFolder {\n            id\n            name\n            children {\n              __typename\n              ... on GqlWikiPage {\n                id\n                name\n              }\n              ... on GqlWikiFolder {\n                id\n              }\n            }\n          }\n          ... on GqlWikiPage {\n            id\n            name\n          }\n        }\n      }\n      ... on GqlWikiPage {\n        id\n        name\n      }\n    }\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "8671c1c499fcf70a24c67f9354078a86";
+(node as any).hash = "af1f0a60d727cd18c14c7a173ecf9dee";
 
 export default node;

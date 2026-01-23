@@ -6,11 +6,16 @@ import {WikiRoutes} from "__generated__/routes/WikiRoutes";
 import ViewWikiPage from "apps/Wiki/pages/ViewWikiPage";
 import EditWikiPage from "apps/Wiki/pages/EditWikiPage";
 import UserContextProvider from "components/context/UserContextProvider";
+import WikiIndexPage from "apps/Wiki/pages/WikiIndexPage";
 
 const router = createBrowserRouter([
   {
     path: WikiRoutes.WIKI_HOME,
-    element: <div>hello world</div>
+    element: <div>home</div>
+  },
+  {
+    path: WikiRoutes.WIKI_INDEX,
+    element: <WikiIndexPage />
   },
   {
     path: WikiRoutes.WIKI_PAGE,

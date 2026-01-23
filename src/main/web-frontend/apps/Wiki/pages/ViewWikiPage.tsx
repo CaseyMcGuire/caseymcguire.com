@@ -1,63 +1,48 @@
 import {graphql} from "react-relay";
-import WikiSidebar from "apps/Wiki/components/WikiSidebar";
 import {useLazyLoadQuery} from "react-relay/hooks";
 import {ViewWikiPageQuery} from "__generated__/relay/ViewWikiPageQuery.graphql";
 import WikiPageContent from "apps/Wiki/components/WikiPageContent";
 import {Navigate, useParams} from "react-router";
-import * as stylex from "@stylexjs/stylex";
-import WikiPageWrapper from "apps/Wiki/components/WikiPageWrapper";
-
-const styles = stylex.create({
-  body: {
-    display: 'flex',
-    flexDirection: 'row',
-    height: '100%',
-  }
-})
+import WikiPageLayout from "apps/Wiki/components/WikiPageLayout";
 
 export default function ViewWikiPage() {
   const query = graphql`
     query ViewWikiPageQuery(
       $wikiName: String!,
-      $wikiPageId: ID,
-      $includeWikiPage: Boolean!
+      $wikiPageId: ID!
     ) {
       wiki: wikiByName(name: $wikiName) {
         id
         name
         ...WikiSidebar_wiki
       }
-      wikiPageById(id: $wikiPageId) @include(if: $includeWikiPage) {
+      wikiPageById(id: $wikiPageId) {
         ...WikiPageContent_page
       }
     }
   `
 
-  // this is brittle. Figure out a typesafe way to keep defined route and params in sync.
   const {pageId, wikiName} = useParams<{ wikiName: string, pageId: string }>();
+  if (!pageId) {
+    return <Navigate to={`/wiki/${wikiName}`} replace />
+  }
   if (!wikiName) {
     return (
       <Navigate to={`/wiki`} replace />
     )
   }
 
-
   const data = useLazyLoadQuery<ViewWikiPageQuery>(
     query,
     {
-      wikiName: wikiName!,
-      wikiPageId: pageId,
-      includeWikiPage: pageId != null
+      wikiName,
+      wikiPageId: pageId
     }
   )
 
   return (
-    <WikiPageWrapper wikiName={wikiName}>
-      <div {...stylex.props(styles.body)}>
-        <WikiSidebar wikiId={data.wiki!.id} wiki={data.wiki}/>
-        <WikiPageContent pageId={pageId!} wikiName={wikiName!} wikiPage={data.wikiPageById}/>
-      </div>
-    </WikiPageWrapper>
-
+    <WikiPageLayout wikiName={wikiName} wikiId={data.wiki!.id} wiki={data.wiki}>
+      <WikiPageContent pageId={pageId} wikiName={wikiName} wikiPage={data.wikiPageById}/>
+    </WikiPageLayout>
   );
 }
