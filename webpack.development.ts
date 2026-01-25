@@ -3,10 +3,11 @@ import common from "./webpack.common";
 import merge from "webpack-merge";
 
 import path from "path";
+import ForkTsCheckerWebpackPlugin from "fork-ts-checker-webpack-plugin";
 
 export default merge(common, {
   watchOptions: {
-    poll: true
+    poll: 1000
   },
   watch: true,
   mode: 'development',
@@ -21,5 +22,8 @@ export default merge(common, {
   },
   stats: {
     errorDetails: true
-  }
-});
+  },
+  plugins: [
+    new ForkTsCheckerWebpackPlugin(),
+  ],
+}); 

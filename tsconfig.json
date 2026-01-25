@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "skipLibCheck": true,
     "alwaysStrict": true,
     "baseUrl": "src/main/web-frontend",
     "noImplicitReturns": true,
