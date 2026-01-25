@@ -19,7 +19,6 @@ import com.caseymcguiredotcom.codegen.graphql.types.SuccessfulUpdateWikiPageName
 import com.caseymcguiredotcom.codegen.graphql.types.UpdateWikiPageOrFolderNameResponse
 import com.caseymcguiredotcom.codegen.graphql.types.UpdateWikiPageResponse
 import com.caseymcguiredotcom.codegen.graphql.types.WikiErrorCode
-import com.caseymcguiredotcom.codegen.graphql.types.WikiItemType
 import com.caseymcguiredotcom.db.models.wiki.WikiNodeType
 import com.caseymcguiredotcom.db.models.wiki.toGqlWikiNode
 import com.caseymcguiredotcom.db.models.wiki.toGraphqlType
