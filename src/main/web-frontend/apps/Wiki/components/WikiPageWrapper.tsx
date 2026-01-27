@@ -11,7 +11,7 @@ const styles = stylex.create({
 
 type Props = {
   children: ReactNode,
-  wikiName: string,
+  wikiName?: string,
 }
 
 export default function WikiPageWrapper(
@@ -19,9 +19,7 @@ export default function WikiPageWrapper(
 ) {
   return (
     <div>
-      <WikiPageHeader links={[
-        {name: 'Index', link: `/wiki/${props.wikiName}`},
-      ]}/>
+      <WikiPageHeader links={[]}/>
       <div {...stylex.props(styles.container)}>
         {props.children}
       </div>

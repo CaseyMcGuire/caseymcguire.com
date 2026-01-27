@@ -3,6 +3,7 @@
 
 export const WikiRoutes = {
   EDIT_WIKI_PAGE: "/wiki/:wikiName/:pageId/edit",
+  NEW_WIKI_PAGE: "/wiki/new",
   WIKI_HOME: "/wiki",
   WIKI_INDEX: "/wiki/:wikiName",
   WIKI_PAGE: "/wiki/:wikiName/:pageId",

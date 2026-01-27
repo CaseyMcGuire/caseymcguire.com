@@ -36,6 +36,7 @@ class WikiRepository(
     const val MAX_TRAVERSAL_LIMIT = 100
   }
 
+  @Transactional(propagation = Propagation.MANDATORY)
   fun createWiki(name: String): Wiki {
     val wiki = context
       .insertInto(WIKIS)
@@ -45,6 +46,21 @@ class WikiRepository(
       ?: error("Unable to create wiki")
 
     return Wiki.fromRows(wiki)
+  }
+
+  @Transactional(propagation = Propagation.MANDATORY)
+  fun createRootFolder(name: String, wikiId: Int): WikiFolder {
+    val folder = context
+      .insertInto(WIKI_FOLDERS)
+      .set(WIKI_FOLDERS.NAME, name)
+      .set(WIKI_FOLDERS.WIKI_ID, wikiId)
+      .set(WIKI_FOLDERS.DISPLAY_ORDER, "a")
+      .set(WIKI_FOLDERS.IS_ROOT, true)
+      .returning()
+      .fetchOneInto(WikiFoldersTableRow::class.java)
+      ?: error("Unable to create root folder")
+
+    return WikiFolder.fromTableRow(folder)
   }
 
   fun getWikiById(wikiId: Int): Wiki? {

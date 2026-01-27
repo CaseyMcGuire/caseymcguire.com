@@ -24,7 +24,7 @@ In order to rebuild database models:
 
 In order to regenerate DGS codegen:
 ```
-./gradlew generateJava
+./gradlew clean generateJava
 ```
 
 

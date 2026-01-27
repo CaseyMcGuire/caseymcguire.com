@@ -10,6 +10,7 @@ import com.caseymcguiredotcom.lib.exceptions.UserNotLoggedInException
 import com.caseymcguiredotcom.repositories.wiki.WikiRepository
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import java.util.UUID
 
 @Service
 class WikiService(
@@ -57,7 +58,10 @@ class WikiService(
   @Transactional
   fun createWiki(name: String): Wiki {
     checkUserHasPermission()
-    return wikiRepository.createWiki(name)
+    val wiki = wikiRepository.createWiki(name)
+    val uuid = UUID.randomUUID().toString()
+    wikiRepository.createRootFolder(uuid, wiki.id)
+    return wiki
   }
 
   @Transactional

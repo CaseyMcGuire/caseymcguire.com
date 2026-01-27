@@ -15,7 +15,8 @@ class WikiSinglePageApplicationConfig : SinglePageApplicationConfig  {
     SinglePageApplicationRoute("", "WIKI_HOME"),
     SinglePageApplicationRoute("{wikiName}", "WIKI_INDEX"),
     SinglePageApplicationRoute("{wikiName}/{pageId}", "WIKI_PAGE"),
-    SinglePageApplicationRoute("{wikiName}/{pageId}/edit", "EDIT_WIKI_PAGE")
+    SinglePageApplicationRoute("{wikiName}/{pageId}/edit", "EDIT_WIKI_PAGE"),
+    SinglePageApplicationRoute("new", "NEW_WIKI_PAGE")
   )
   override val name: String = "Wiki"
   override val urlPrefix: String = "wiki"
