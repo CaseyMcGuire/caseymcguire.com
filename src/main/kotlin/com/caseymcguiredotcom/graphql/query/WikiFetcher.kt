@@ -26,6 +26,7 @@ import com.caseymcguiredotcom.graphql.GlobalId
 import com.caseymcguiredotcom.graphql.dataloaders.FolderIdToChildrenDataLoader
 import com.caseymcguiredotcom.graphql.fromGlobalIdOrNull
 import com.caseymcguiredotcom.graphql.fromGlobalIdOrThrow
+import com.caseymcguiredotcom.lib.exceptions.DuplicateEntityException
 import com.caseymcguiredotcom.lib.exceptions.InvalidInputException
 import com.caseymcguiredotcom.lib.exceptions.PermissionDeniedException
 import com.caseymcguiredotcom.lib.exceptions.UserNotLoggedInException
@@ -258,6 +259,11 @@ class WikiFetcher(
         FailedWikiResponse(
           WikiErrorCode.VALIDATION_ERROR,
           this.message ?: "Unknown error"
+        )
+      is DuplicateEntityException ->
+        FailedWikiResponse(
+          WikiErrorCode.VALIDATION_ERROR,
+          this.message ?: "Unknown error. Please try again later."
         )
 
       else -> throw this

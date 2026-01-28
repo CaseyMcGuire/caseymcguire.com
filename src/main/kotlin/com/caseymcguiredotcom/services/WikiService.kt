@@ -5,6 +5,7 @@ import com.caseymcguiredotcom.db.models.wiki.WikiFolder
 import com.caseymcguiredotcom.db.models.wiki.WikiNode
 import com.caseymcguiredotcom.db.models.wiki.WikiPage
 import com.caseymcguiredotcom.graphql.query.WikiGlobalId
+import com.caseymcguiredotcom.lib.exceptions.DuplicateEntityException
 import com.caseymcguiredotcom.lib.exceptions.PermissionDeniedException
 import com.caseymcguiredotcom.lib.exceptions.UserNotLoggedInException
 import com.caseymcguiredotcom.repositories.wiki.WikiRepository
@@ -58,6 +59,10 @@ class WikiService(
   @Transactional
   fun createWiki(name: String): Wiki {
     checkUserHasPermission()
+    val existingWiki = wikiRepository.getWikiByName(name)
+    if (existingWiki != null) {
+      throw DuplicateEntityException("Wiki with name \"$name\" already exists")
+    }
     val wiki = wikiRepository.createWiki(name)
     val uuid = UUID.randomUUID().toString()
     wikiRepository.createRootFolder(uuid, wiki.id)
