@@ -6,8 +6,8 @@ import * as stylex from "@stylexjs/stylex";
 import {WikiStyles} from "../components/WikiStyles.stylex";
 import UserContext from "components/context/UserContext";
 import Button from "components/buttons/Button";
-import {WikiHomePageCreateWikiMutation} from "__generated__/relay/WikiHomePageCreateWikiMutation.graphql";
 import WikiPageWrapper from "apps/Wiki/components/WikiPageWrapper";
+import {NewWikiPageMutation} from "__generated__/relay/NewWikiPageMutation.graphql";
 
 const styles = stylex.create({
   page: {
@@ -105,8 +105,8 @@ export default function NewWikiPage() {
   const context = useContext(UserContext);
   const isAdmin = context.user?.isAdmin === true;
 
-  const [commit, isInFlight] = useMutation<WikiHomePageCreateWikiMutation>(graphql`
-    mutation WikiHomePageCreateWikiMutation($name: String!) {
+  const [commit, isInFlight] = useMutation<NewWikiPageMutation>(graphql`
+    mutation NewWikiPageMutation($name: String!) {
       createWiki(name: $name) {
         __typename
         ... on SuccessfulCreateWikiResponse {

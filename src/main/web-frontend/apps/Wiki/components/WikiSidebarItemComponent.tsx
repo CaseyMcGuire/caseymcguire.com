@@ -1,11 +1,15 @@
 import {WikiSidebarFolder, WikiSidebarItem, WikiSidebarPage} from "apps/Wiki/models/WikiModels";
-import {useContext, useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import * as stylex from "@stylexjs/stylex";
 import WikiChevronIcon from "apps/Wiki/components/WikiChevronIcon";
 import {useNavigate} from "react-router";
 import {CSS} from '@dnd-kit/utilities';
 import {useDraggable, useDroppable} from "@dnd-kit/core";
 import WikiSidebarItemName from "apps/Wiki/components/WikiSidebarItemName";
+import AdminComponentGating from "components/gating/AdminComponentGating";
+import {graphql, useMutation} from "react-relay";
+import WikiFolderActionsMenu from "apps/Wiki/components/WikiFolderActionsMenu";
+import {WikiSidebarItemComponentMutation} from "__generated__/relay/WikiSidebarItemComponentMutation.graphql";
 
 type CommonProps = {
   selectedId: string | null,
@@ -64,6 +68,11 @@ const styles = stylex.create({
   },
   hoverEmptyFolder: {
     backgroundColor: 'rgb(229, 231, 235)'
+  },
+  actions: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: 6,
   }
 })
 
@@ -146,6 +155,24 @@ function WikiSidebarFolderComponent(props: WikiSidebarFolderProps) {
   const [isOpen, setIsOpen] = useState(false);
   const toggleOpen = () => setIsOpen(!isOpen);
 
+  const [commitDeleteFolder, isDeleteInFlight] = useMutation<WikiSidebarItemComponentMutation>(
+    graphql`
+      mutation WikiSidebarItemComponentMutation($itemId: ID!) {
+        deleteWikiItem(itemId: $itemId) {
+          __typename
+          ... on SuccessfulDeleteWikiItem {
+            wiki {
+              ...WikiSidebar_wiki
+            }
+          }
+          ... on FailedWikiResponse {
+            userFacingErrorMessage
+          }
+        }
+      }
+    `
+  );
+
   const data: HoverData = {
     type: 'folder',
     id: folder.id,
@@ -172,6 +199,7 @@ function WikiSidebarFolderComponent(props: WikiSidebarFolderProps) {
 
   const isHovering = !draggable.isDragging && props.selectedId === folder.id;
   const isEmpty = folder.children.length === 0;
+  const canDelete = isEmpty && !isDeleteInFlight;
 
   useEffect(() => {
     if (draggable.isDragging && isOpen) {
@@ -198,7 +226,32 @@ function WikiSidebarFolderComponent(props: WikiSidebarFolderProps) {
         {...listeners}
       >
         <WikiSidebarItemName id={folder.id} name={folder.name}/>
-        <WikiChevronIcon isOpen={isOpen}/>
+        <div {...stylex.props(styles.actions)}>
+          <AdminComponentGating>
+            <WikiFolderActionsMenu
+              canDelete={canDelete}
+              onDelete={() => {
+                commitDeleteFolder({
+                  variables: {itemId: folder.id},
+                  onCompleted: (response) => {
+                    switch (response.deleteWikiItem?.__typename) {
+                      case "SuccessfulDeleteWikiItem":
+                        console.log("success");
+                        break;
+                      case "FailedWikiResponse":
+                        console.error(response.deleteWikiItem.userFacingErrorMessage);
+                        break;
+                    }
+                  },
+                  onError: (error) => {
+                    console.error(error);
+                  }
+                });
+              }}
+            />
+          </AdminComponentGating>
+          <WikiChevronIcon isOpen={isOpen}/>
+        </div>
       </div>
       <div {...stylex.props(
         styles.container,

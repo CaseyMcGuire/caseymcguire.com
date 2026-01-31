@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<d6ae7d5f983d0dec1f9d40e1b778ca5f>>
+ * @generated SignedSource<<6df166d9a9d584e3c841de8dcfda1092>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -9,10 +9,10 @@
 // @ts-nocheck
 
 import { ConcreteRequest } from 'relay-runtime';
-export type WikiHomePageCreateWikiMutation$variables = {
+export type NewWikiPageMutation$variables = {
   name: string;
 };
-export type WikiHomePageCreateWikiMutation$data = {
+export type NewWikiPageMutation$data = {
   readonly createWiki: {
     readonly __typename: "FailedWikiResponse";
     readonly userFacingErrorMessage: string;
@@ -28,9 +28,9 @@ export type WikiHomePageCreateWikiMutation$data = {
     readonly __typename: "%other";
   };
 };
-export type WikiHomePageCreateWikiMutation = {
-  response: WikiHomePageCreateWikiMutation$data;
-  variables: WikiHomePageCreateWikiMutation$variables;
+export type NewWikiPageMutation = {
+  response: NewWikiPageMutation$data;
+  variables: NewWikiPageMutation$variables;
 };
 
 const node: ConcreteRequest = (function(){
@@ -118,7 +118,7 @@ return {
     "argumentDefinitions": (v0/*: any*/),
     "kind": "Fragment",
     "metadata": null,
-    "name": "WikiHomePageCreateWikiMutation",
+    "name": "NewWikiPageMutation",
     "selections": (v1/*: any*/),
     "type": "Mutation",
     "abstractKey": null
@@ -127,20 +127,20 @@ return {
   "operation": {
     "argumentDefinitions": (v0/*: any*/),
     "kind": "Operation",
-    "name": "WikiHomePageCreateWikiMutation",
+    "name": "NewWikiPageMutation",
     "selections": (v1/*: any*/)
   },
   "params": {
-    "cacheID": "9f91a0853820d9b12ff7b0350a074f22",
+    "cacheID": "7af81b08a358cf06255f9993d55a7bf1",
     "id": null,
     "metadata": {},
-    "name": "WikiHomePageCreateWikiMutation",
+    "name": "NewWikiPageMutation",
     "operationKind": "mutation",
-    "text": "mutation WikiHomePageCreateWikiMutation(\n  $name: String!\n) {\n  createWiki(name: $name) {\n    __typename\n    ... on SuccessfulCreateWikiResponse {\n      wiki {\n        id\n        name\n      }\n    }\n    ... on FailedWikiResponse {\n      userFacingErrorMessage\n    }\n  }\n}\n"
+    "text": "mutation NewWikiPageMutation(\n  $name: String!\n) {\n  createWiki(name: $name) {\n    __typename\n    ... on SuccessfulCreateWikiResponse {\n      wiki {\n        id\n        name\n      }\n    }\n    ... on FailedWikiResponse {\n      userFacingErrorMessage\n    }\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "56be4a038cfaf238fd9cf593491ef291";
+(node as any).hash = "3104d32bb3be80ae26ede814e91beec0";
 
 export default node;
