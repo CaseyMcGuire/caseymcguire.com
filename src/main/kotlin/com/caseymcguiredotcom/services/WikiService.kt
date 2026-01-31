@@ -82,6 +82,23 @@ class WikiService(
   }
 
   @Transactional
+  fun deleteFolder(folderId: Int) {
+    checkUserHasPermission()
+    val children = wikiRepository.getChildrenOfParentFolder(folderId)
+
+    if (children.isNotEmpty()) {
+      error("Attempting to delete non-empty folder $folderId")
+    }
+    wikiRepository.deleteFolder(folderId)
+  }
+
+  @Transactional
+  fun deletePage(pageId: Int) {
+    checkUserHasPermission()
+    wikiRepository.deletePage(pageId)
+  }
+
+  @Transactional
   fun moveFolder(
     wikiId: Int,
     folderId: Int,
@@ -120,6 +137,11 @@ class WikiService(
   @Transactional(readOnly = true)
   fun getChildrenOfParentFolders(folderIds: Set<Int>): Map<Int, List<WikiNode>>  {
     return wikiRepository.getChildrenOfParentFolders(folderIds)
+  }
+
+  @Transactional(readOnly = true)
+  fun getFolderById(folderId: Int): WikiFolder? {
+    return wikiRepository.getFolderById(folderId)
   }
 
   @Transactional(readOnly = true)

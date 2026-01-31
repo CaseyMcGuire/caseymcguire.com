@@ -1,0 +1,11 @@
+extend type Mutation {
+  deleteWikiItem(
+    itemId: ID!
+  ): DeleteWikiItemResponse
+}
+
+union DeleteWikiItemResponse = SuccessfulDeleteWikiItem | FailedWikiResponse
+
+type SuccessfulDeleteWikiItem {
+  wiki: GqlWiki
+}

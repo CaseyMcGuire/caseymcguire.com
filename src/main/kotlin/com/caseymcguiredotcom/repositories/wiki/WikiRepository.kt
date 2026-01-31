@@ -9,6 +9,7 @@ import com.caseymcguiredotcom.graphql.query.WikiFetcher
 import com.caseymcguiredotcom.graphql.query.WikiGlobalId
 import com.caseymcguiredotcom.lib.LexoRank
 import com.caseymcguiredotcom.lib.Time
+import com.caseymcguiredotcom.lib.exceptions.EntityNotFoundException
 import generated.jooq.tables.pojos.WikiFoldersTableRow
 import generated.jooq.tables.pojos.WikiPagesTableRow
 import generated.jooq.tables.pojos.WikisTableRow
@@ -49,6 +50,26 @@ class WikiRepository(
   }
 
   @Transactional(propagation = Propagation.MANDATORY)
+  fun deleteFolder(folderId: Int) {
+    lockFolder(folderId)
+    val numDeleted = context.deleteFrom(WIKI_FOLDERS)
+      .where(WIKI_FOLDERS.ID.eq(folderId))
+      .execute()
+    if (numDeleted == 0) {
+      error("Unable to delete folder with ID: $folderId")
+    }
+  }
+
+  fun deletePage(pageId: Int) {
+    val numDeleted = context.deleteFrom(WIKI_PAGES)
+      .where(WIKI_PAGES.ID.eq(pageId))
+      .execute()
+    if (numDeleted == 0) {
+      error("No page with id: $pageId")
+    }
+  }
+
+  @Transactional(propagation = Propagation.MANDATORY)
   fun createRootFolder(name: String, wikiId: Int): WikiFolder {
     val folder = context
       .insertInto(WIKI_FOLDERS)
@@ -61,6 +82,16 @@ class WikiRepository(
       ?: error("Unable to create root folder")
 
     return WikiFolder.fromTableRow(folder)
+  }
+
+  fun getFolderById(id: Int): WikiFolder? {
+    val folderRow = context
+      .selectFrom(WIKI_FOLDERS)
+      .where(WIKI_FOLDERS.ID.eq(id))
+      .fetchOneInto(WikiFoldersTableRow::class.java)
+    ?: return null
+
+    return WikiFolder.fromTableRow(folderRow)
   }
 
   fun getWikiById(wikiId: Int): Wiki? {
@@ -437,7 +468,7 @@ class WikiRepository(
     error("Folder $startFolderId has depth greater than max traversal limit: $MAX_TRAVERSAL_LIMIT")
   }
 
-  public fun getChildrenOfParentFolder(
+  fun getChildrenOfParentFolder(
     folderId: Int
   ): List<WikiNode> {
     val folderIdToChildren = getChildrenOfParentFolders(setOf(folderId))
@@ -495,14 +526,24 @@ class WikiRepository(
     }
   }
 
+  private fun lockFolder(folderId: Int) {
+    context
+      .selectFrom(WIKI_FOLDERS)
+      .where(
+        WIKI_FOLDERS.ID.eq(folderId)
+      )
+      .forUpdate()
+      .fetchOne() ?: throw EntityNotFoundException("Folder $folderId not found")
+  }
+
   private fun lockFolder(wikiId: Int, folderId: Int) {
     context
       .selectFrom(WIKI_FOLDERS)
       .where(
-        WIKI_FOLDERS.WIKI_ID.eq(wikiId),
-        WIKI_FOLDERS.ID.eq(folderId)
+        WIKI_FOLDERS.ID.eq(folderId),
+        WIKI_FOLDERS.WIKI_ID.eq(wikiId)
       )
       .forUpdate()
-      .fetchOne() ?: error("Folder not found")
+      .fetchOne() ?: throw EntityNotFoundException("Folder $folderId not found for wiki $wikiId")
   }
 }

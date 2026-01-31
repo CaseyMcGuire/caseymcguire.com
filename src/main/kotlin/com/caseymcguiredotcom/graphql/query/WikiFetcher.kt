@@ -4,6 +4,7 @@ import com.caseymcguiredotcom.codegen.graphql.DgsConstants
 import com.caseymcguiredotcom.codegen.graphql.types.CreateWikiFolderResponse
 import com.caseymcguiredotcom.codegen.graphql.types.CreateWikiPageResponse
 import com.caseymcguiredotcom.codegen.graphql.types.CreateWikiResponse
+import com.caseymcguiredotcom.codegen.graphql.types.DeleteWikiItemResponse
 import com.caseymcguiredotcom.codegen.graphql.types.FailedWikiResponse
 import com.caseymcguiredotcom.codegen.graphql.types.GqlWiki
 import com.caseymcguiredotcom.codegen.graphql.types.GqlWikiFolder
@@ -13,6 +14,7 @@ import com.caseymcguiredotcom.codegen.graphql.types.MoveWikiItemResponse
 import com.caseymcguiredotcom.codegen.graphql.types.SuccessfulCreateWikiFolderResponse
 import com.caseymcguiredotcom.codegen.graphql.types.SuccessfulCreateWikiPageResponse
 import com.caseymcguiredotcom.codegen.graphql.types.SuccessfulCreateWikiResponse
+import com.caseymcguiredotcom.codegen.graphql.types.SuccessfulDeleteWikiItem
 import com.caseymcguiredotcom.codegen.graphql.types.SuccessfulMoveWikiItemResponse
 import com.caseymcguiredotcom.codegen.graphql.types.SuccessfulUpdateWikiPageContentResponse
 import com.caseymcguiredotcom.codegen.graphql.types.SuccessfulUpdateWikiPageNameResponse
@@ -231,6 +233,34 @@ class WikiFetcher(
 
       SuccessfulMoveWikiItemResponse(
         wikiService.getWikiById(wikiIntId)?.toGraphqlType(),
+      )
+    } catch (e: Exception) {
+      e.toWikiResponse()
+    }
+  }
+
+  @DgsMutation
+  fun deleteWikiItem(
+    itemId: String
+  ): DeleteWikiItemResponse {
+    return try {
+      val globalId = WikiGlobalId.fromString(itemId)
+      val wikiId = when (globalId.type) {
+        WikiNodeType.PAGE -> {
+          val page = wikiService.getWikiPageById(globalId.id)
+            ?: error("Page not found for ID: $itemId")
+          wikiService.deletePage(globalId.id)
+          page.wikiId
+        }
+        WikiNodeType.FOLDER -> {
+          val folder = wikiService.getFolderById(globalId.id)
+            ?: error("Folder not found for ID: $itemId")
+          wikiService.deleteFolder(globalId.id)
+          folder.wikiId
+        }
+      }
+      return SuccessfulDeleteWikiItem(
+        wikiService.getWikiById(wikiId)?.toGraphqlType(),
       )
     } catch (e: Exception) {
       e.toWikiResponse()
