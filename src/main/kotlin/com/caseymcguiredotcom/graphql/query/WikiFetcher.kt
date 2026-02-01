@@ -11,6 +11,7 @@ import com.caseymcguiredotcom.codegen.graphql.types.GqlWikiFolder
 import com.caseymcguiredotcom.codegen.graphql.types.GqlWikiNode
 import com.caseymcguiredotcom.codegen.graphql.types.GqlWikiPage
 import com.caseymcguiredotcom.codegen.graphql.types.MoveWikiItemResponse
+import com.caseymcguiredotcom.codegen.graphql.types.PageInfo
 import com.caseymcguiredotcom.codegen.graphql.types.SuccessfulCreateWikiFolderResponse
 import com.caseymcguiredotcom.codegen.graphql.types.SuccessfulCreateWikiPageResponse
 import com.caseymcguiredotcom.codegen.graphql.types.SuccessfulCreateWikiResponse
@@ -20,6 +21,8 @@ import com.caseymcguiredotcom.codegen.graphql.types.SuccessfulUpdateWikiPageCont
 import com.caseymcguiredotcom.codegen.graphql.types.SuccessfulUpdateWikiPageNameResponse
 import com.caseymcguiredotcom.codegen.graphql.types.UpdateWikiPageOrFolderNameResponse
 import com.caseymcguiredotcom.codegen.graphql.types.UpdateWikiPageResponse
+import com.caseymcguiredotcom.codegen.graphql.types.WikiConnection
+import com.caseymcguiredotcom.codegen.graphql.types.WikiEdge
 import com.caseymcguiredotcom.codegen.graphql.types.WikiErrorCode
 import com.caseymcguiredotcom.db.models.wiki.WikiNodeType
 import com.caseymcguiredotcom.db.models.wiki.toGqlWikiNode
@@ -265,6 +268,29 @@ class WikiFetcher(
     } catch (e: Exception) {
       e.toWikiResponse()
     }
+  }
+
+  @DgsQuery
+  fun wikis(
+    query: String?,
+    first: Int?,
+    after: String?,
+    last: Int?,
+    before: String?
+  ): WikiConnection {
+    val wikis = wikiService.getWikis(null, first ?: 10)
+    return WikiConnection(
+      edges = wikis.map {
+        WikiEdge(
+          cursor = "",
+          node = it.toGraphqlType()
+        )
+      },
+      pageInfo = PageInfo(
+        hasNextPage = false,
+        hasPreviousPage = false
+      )
+    )
   }
 
   fun String.idToIntOrThrow(msg: String): Int {

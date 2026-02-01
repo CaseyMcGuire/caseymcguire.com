@@ -161,6 +161,10 @@ class WikiService(
     return wikiRepository.getWikiPageById(pageId)
   }
 
+  fun getWikis(afterId: Int?, num: Int): List<Wiki> {
+    return wikiRepository.getWikis(afterId, num)
+  }
+
   private fun resolveFolderId(wikiId: Int, providedFolderId: Int?): Int {
     return if (providedFolderId != null) {
       providedFolderId

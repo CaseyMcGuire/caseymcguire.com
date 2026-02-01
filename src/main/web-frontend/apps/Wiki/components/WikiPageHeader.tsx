@@ -19,6 +19,10 @@ const styles = stylex.create({
     paddingLeft: 12,
     fontWeight: 'bold'
   },
+  headerLink: {
+    textDecoration: 'none',
+    color: 'inherit',
+  },
   container: {
     paddingTop: WikiStyles.headerHeight
   },
@@ -58,7 +62,9 @@ type Props = {
 export default function WikiPageHeader(props: Props) {
   return (
     <div {...stylex.props(styles.header)}>
-      <span {...stylex.props(styles.headerText)}>WikiMate</span>
+      <Link {...stylex.props(styles.headerLink)} to={"/wiki"}>
+        <span {...stylex.props(styles.headerText)}>WikiMate</span>
+      </Link>
       <div {...stylex.props(styles.linkContainer)}>
         <ul {...stylex.props(styles.links)}>
           {props.links?.map((link, index) => {

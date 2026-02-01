@@ -2,6 +2,13 @@
 extend type Query {
   wikiByName(name: String!): GqlWiki
   wikiPageById(id: ID): GqlWikiPage
+  wikis(
+    query: String
+    first: Int
+    after: String,
+    last: Int,
+    before: String
+  ): WikiConnection!
 }
 
 type GqlWiki {
@@ -22,6 +29,16 @@ type GqlWikiPage {
   id: ID!
   name: String!
   content: String!
+}
+
+type WikiConnection {
+  edges: [WikiEdge!]!
+  pageInfo: PageInfo!
+}
+
+type WikiEdge {
+  cursor: String!
+  node: GqlWiki!
 }
 
 

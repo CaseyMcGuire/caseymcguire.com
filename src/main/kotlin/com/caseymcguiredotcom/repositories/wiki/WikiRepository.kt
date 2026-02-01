@@ -330,6 +330,15 @@ class WikiRepository(
     return WikiPage.fromTableRow(page)
   }
 
+  fun getWikis(afterId: Int?, num: Int): List<Wiki> {
+    return context.selectFrom(WIKIS)
+      .apply { afterId?.let { where(WIKIS.ID.lt(it)) } }
+      .orderBy(WIKIS.ID.desc())
+      .limit(num)
+      .fetchInto(WikisTableRow::class.java)
+      .map { Wiki.fromRows(it) }
+  }
+
   private fun getMiddleDisplayOrder(
     wikiId: Int,
     destinationFolderId: Int,

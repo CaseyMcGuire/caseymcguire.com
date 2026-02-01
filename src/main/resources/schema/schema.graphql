@@ -47,3 +47,10 @@ type Movie {
   title: String
   backdropPath: String
 }
+
+type PageInfo {
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+  startCursor: String
+  endCursor: String
+}
