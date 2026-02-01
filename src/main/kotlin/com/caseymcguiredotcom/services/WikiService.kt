@@ -84,6 +84,12 @@ class WikiService(
   @Transactional
   fun deleteFolder(folderId: Int) {
     checkUserHasPermission()
+    val isRoot = wikiRepository.getFolderById(folderId)?.isRoot
+      ?: return
+    if (isRoot) {
+      error("Attempting to delete root folder $folderId")
+    }
+
     val children = wikiRepository.getChildrenOfParentFolder(folderId)
 
     if (children.isNotEmpty()) {

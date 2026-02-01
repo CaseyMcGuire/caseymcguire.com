@@ -7,17 +7,19 @@ class WikiFolder(
   val name: String,
   val displayOrder: String,
   val parentFolderId: Int?,
-  val wikiId: Int
+  val wikiId: Int,
+  val isRoot: Boolean
 ) {
 
   companion object {
     fun fromTableRow(row: WikiFoldersTableRow): WikiFolder {
       return WikiFolder(
-        row.id!!,
-        row.name,
-        row.displayOrder,
-        row.parentFolderId,
-        row.wikiId
+        id = row.id!!,
+        name = row.name,
+        displayOrder = row.displayOrder,
+        parentFolderId = row.parentFolderId,
+        wikiId = row.wikiId,
+        isRoot = row.isRoot == true
       )
     }
   }
