@@ -12,7 +12,7 @@ import {WikiSidebarMutation, WikiSidebarMutation$variables} from "__generated__/
 import UserContext from "components/context/UserContext";
 import Button from "components/buttons/Button";
 import WikiSidebarMenuFlyout, {WikiSidebarMenuFlyoutItem} from "apps/Wiki/components/WikiSidebarMenuFlyout";
-import {Folder, Plus, StickyNote} from "lucide-react";
+import {Folder, Menu, StickyNote, ToggleLeft, ToggleRight} from "lucide-react";
 import {
   WikiSidebarCreatePageMutation,
 } from "__generated__/relay/WikiSidebarCreatePageMutation.graphql";
@@ -177,6 +177,7 @@ export default function WikiSidebar(
       }
     `
   )
+  const [sidebarEditingEnabled, setSidebarEditingEnabled] = useState<boolean>(false);
 
   const items: WikiSidebarMenuFlyoutItem[] = [
     {
@@ -222,6 +223,13 @@ export default function WikiSidebar(
             }
           }
         })
+      }
+    },
+    {
+      text: sidebarEditingEnabled ? "Disable Sidebar Editing" : "Enable Sidebar Editing",
+      icon: sidebarEditingEnabled ? ToggleRight : ToggleLeft,
+      onClick: () => {
+        setSidebarEditingEnabled(!sidebarEditingEnabled);
       }
     }
   ]
@@ -343,7 +351,7 @@ export default function WikiSidebar(
                 selectedId={hoverId}
                 afterId={rootFolder.children.at(index + 1)?.id}
                 beforeId={rootFolder.children.at(index - 1)?.id}
-                dragDisabled={isRequestInFlight || !isAdmin}
+                editModeEnabled={!isRequestInFlight && isAdmin && sidebarEditingEnabled}
               />
             )
           }
@@ -355,8 +363,8 @@ export default function WikiSidebar(
         <AdminComponentGating>
           <Button
             state={isRequestInFlight ? 'loading' : 'active'}
-            text={"New"}
-            icon={Plus}
+            text={"Menu"}
+            icon={Menu}
             style={'dark'}
             onClick={() => {
               setMenuOpen(!menuOpen)

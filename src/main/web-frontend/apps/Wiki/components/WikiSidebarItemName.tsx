@@ -6,7 +6,8 @@ import UserContext from "components/context/UserContext";
 
 type Props = {
   id: string,
-  name: string
+  name: string,
+  isEditable: boolean
 }
 
 const styles = stylex.create({
@@ -54,7 +55,7 @@ export default function WikiSidebarItemName(props: Props) {
     `
   )
 
-  if (isActive && !isInFlight && isAdmin) {
+  if (isActive && !isInFlight && isAdmin && props.isEditable) {
     return <input type="text"
                   {...stylex.props(styles.input)}
                   value={name}
@@ -86,9 +87,9 @@ export default function WikiSidebarItemName(props: Props) {
                             case 'SuccessfulUpdateWikiPageNameResponse':
                               console.log("success");
                               break;
-                              case 'FailedWikiResponse':
-                                console.error(data.updateWikiPageOrFolderName.userFacingErrorMessage);
-                                break;
+                            case 'FailedWikiResponse':
+                              console.error(data.updateWikiPageOrFolderName.userFacingErrorMessage);
+                              break;
                           }
                         }
                       })
@@ -98,7 +99,7 @@ export default function WikiSidebarItemName(props: Props) {
                     setIsActive(false)
                     setName(props.name)
                   }}
-                  />
+    />
   }
 
   return (
@@ -108,7 +109,7 @@ export default function WikiSidebarItemName(props: Props) {
         if (!isAdmin) {
           return;
         }
-      setIsActive(true)
-    }}>{props.name}</span>
+        setIsActive(true)
+      }}>{props.name}</span>
   )
 }

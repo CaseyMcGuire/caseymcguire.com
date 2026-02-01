@@ -25,7 +25,7 @@ const styles = stylex.create({
     borderWidth: '1px',
     borderColor: '#ccc',
     borderRadius: 4,
-    minWidth: 150,
+    minWidth: 225,
   },
   hide: {
     display: 'none'

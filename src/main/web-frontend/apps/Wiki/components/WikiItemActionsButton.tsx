@@ -1,7 +1,7 @@
 import * as stylex from "@stylexjs/stylex";
-import {MoreHorizontal, Trash2} from "lucide-react";
 import React, {useRef, useState} from "react";
 import {useOnClickOutside} from "usehooks-ts";
+import {MoreHorizontal, Trash2} from "lucide-react";
 
 type Props = {
   canDelete: boolean,
@@ -67,7 +67,7 @@ const styles = stylex.create({
   },
 })
 
-export default function WikiFolderActionsMenu(props: Props) {
+export default function WikiItemActionsButton(props: Props) {
   const [menuOpen, setMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null) as React.RefObject<HTMLDivElement>;
   useOnClickOutside(menuRef, () => setMenuOpen(false));
@@ -76,19 +76,17 @@ export default function WikiFolderActionsMenu(props: Props) {
     <div
       ref={menuRef}
       {...stylex.props(styles.menuContainer)}
-      onClick={(event) => event.stopPropagation()}
     >
       <button
         type="button"
         aria-label="Folder actions"
         {...stylex.props(styles.menuButton)}
-        onPointerDown={(event) => event.stopPropagation()}
         onClick={(event) => {
           event.stopPropagation();
           setMenuOpen(!menuOpen);
         }}
       >
-        <MoreHorizontal size={16} />
+        <MoreHorizontal size={16}/>
       </button>
       <div {...stylex.props(styles.menuFlyout, !menuOpen && styles.menuHidden)}>
         <ul {...stylex.props(styles.menuList)}>
@@ -104,7 +102,7 @@ export default function WikiFolderActionsMenu(props: Props) {
               props.onDelete();
             }}
           >
-            <Trash2 size={14} />
+            <Trash2 size={14}/>
             Delete
           </li>
         </ul>

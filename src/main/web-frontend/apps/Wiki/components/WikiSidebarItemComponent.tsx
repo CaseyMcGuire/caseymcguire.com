@@ -6,17 +6,15 @@ import {useNavigate} from "react-router";
 import {CSS} from '@dnd-kit/utilities';
 import {useDraggable, useDroppable} from "@dnd-kit/core";
 import WikiSidebarItemName from "apps/Wiki/components/WikiSidebarItemName";
-import AdminComponentGating from "components/gating/AdminComponentGating";
-import {graphql, useMutation} from "react-relay";
-import WikiFolderActionsMenu from "apps/Wiki/components/WikiFolderActionsMenu";
-import {WikiSidebarItemComponentMutation} from "__generated__/relay/WikiSidebarItemComponentMutation.graphql";
+import WikiFolderActionsButton from "apps/Wiki/components/WikiFolderActionsButton";
+import WikiPageActionsButton from "apps/Wiki/components/WikiPageActionsButton";
 
 type CommonProps = {
   selectedId: string | null,
   parentFolderId: string,
   beforeId: string | null | undefined,
   afterId: string | null | undefined,
-  dragDisabled: boolean
+  editModeEnabled: boolean
 }
 
 type WikiSidebarFolderProps = {
@@ -57,6 +55,7 @@ const styles = stylex.create({
     display: "flex",
     alignItems: "center",
     justifyContent: "space-between",
+    height: 36
   },
   children: {
     display: 'none'
@@ -85,7 +84,7 @@ export default function WikiSidebarItemComponent(props: WikiSidebarItemProps) {
         selectedId={props.selectedId}
         beforeId={props.beforeId}
         afterId={props.afterId}
-        dragDisabled={props.dragDisabled}
+        editModeEnabled={props.editModeEnabled}
       />;
     case "WikiSidebarFolder":
       return <WikiSidebarFolderComponent
@@ -94,7 +93,7 @@ export default function WikiSidebarItemComponent(props: WikiSidebarItemProps) {
         selectedId={props.selectedId}
         beforeId={props.beforeId}
         afterId={props.afterId}
-        dragDisabled={props.dragDisabled}
+        editModeEnabled={props.editModeEnabled}
       />;
     default:
       return null;
@@ -120,7 +119,7 @@ function WikiSidebarPageComponent(props: WikiSidebarPageProps) {
   const args = {
     id: page.id,
     data,
-    disabled: props.dragDisabled
+    disabled: !props.editModeEnabled
   };
 
   const droppable = useDroppable(args);
@@ -141,11 +140,25 @@ function WikiSidebarPageComponent(props: WikiSidebarPageProps) {
         draggable.setNodeRef(node);
       }}
       style={style}
-      {...stylex.props(styles.item, isHovering && styles.hoverItem)}
+      {...stylex.props(
+        styles.item,
+        isHovering && styles.hoverItem,
+      )}
       {...listeners}
       {...attributes}
     >
-      <WikiSidebarItemName id={page.id} name={page.name}/>
+      <WikiSidebarItemName
+        id={page.id}
+        name={page.name}
+        isEditable={props.editModeEnabled}
+      />
+      {
+        props.editModeEnabled &&
+          <WikiPageActionsButton
+              pageId={page.id}
+              pageName={page.name}
+          />
+      }
     </div>
   )
 }
@@ -155,23 +168,6 @@ function WikiSidebarFolderComponent(props: WikiSidebarFolderProps) {
   const [isOpen, setIsOpen] = useState(false);
   const toggleOpen = () => setIsOpen(!isOpen);
 
-  const [commitDeleteFolder, isDeleteInFlight] = useMutation<WikiSidebarItemComponentMutation>(
-    graphql`
-      mutation WikiSidebarItemComponentMutation($itemId: ID!) {
-        deleteWikiItem(itemId: $itemId) {
-          __typename
-          ... on SuccessfulDeleteWikiItem {
-            wiki {
-              ...WikiSidebar_wiki
-            }
-          }
-          ... on FailedWikiResponse {
-            userFacingErrorMessage
-          }
-        }
-      }
-    `
-  );
 
   const data: HoverData = {
     type: 'folder',
@@ -187,7 +183,7 @@ function WikiSidebarFolderComponent(props: WikiSidebarFolderProps) {
   const args = {
     id: folder.id,
     data,
-    disabled: props.dragDisabled
+    disabled: !props.editModeEnabled
   };
 
   const droppable = useDroppable(args);
@@ -199,7 +195,6 @@ function WikiSidebarFolderComponent(props: WikiSidebarFolderProps) {
 
   const isHovering = !draggable.isDragging && props.selectedId === folder.id;
   const isEmpty = folder.children.length === 0;
-  const canDelete = isEmpty && !isDeleteInFlight;
 
   useEffect(() => {
     if (draggable.isDragging && isOpen) {
@@ -225,31 +220,18 @@ function WikiSidebarFolderComponent(props: WikiSidebarFolderProps) {
         {...attributes}
         {...listeners}
       >
-        <WikiSidebarItemName id={folder.id} name={folder.name}/>
+        <WikiSidebarItemName
+          id={folder.id}
+          name={folder.name}
+          isEditable={props.editModeEnabled}
+        />
         <div {...stylex.props(styles.actions)}>
-          <AdminComponentGating>
-            <WikiFolderActionsMenu
-              canDelete={canDelete}
-              onDelete={() => {
-                commitDeleteFolder({
-                  variables: {itemId: folder.id},
-                  onCompleted: (response) => {
-                    switch (response.deleteWikiItem?.__typename) {
-                      case "SuccessfulDeleteWikiItem":
-                        console.log("success");
-                        break;
-                      case "FailedWikiResponse":
-                        console.error(response.deleteWikiItem.userFacingErrorMessage);
-                        break;
-                    }
-                  },
-                  onError: (error) => {
-                    console.error(error);
-                  }
-                });
-              }}
-            />
-          </AdminComponentGating>
+          {props.editModeEnabled &&
+              <WikiFolderActionsButton
+                  folderId={folder.id}
+                  isFolderEmpty={isEmpty}
+              />
+          }
           <WikiChevronIcon isOpen={isOpen}/>
         </div>
       </div>
@@ -266,7 +248,7 @@ function WikiSidebarFolderComponent(props: WikiSidebarFolderProps) {
               selectedId={props.selectedId}
               afterId={folder.children.at(index + 1)?.id}
               beforeId={folder.children.at(index - 1)?.id}
-              dragDisabled={props.dragDisabled}
+              editModeEnabled={props.editModeEnabled}
             />
           ))
         }

@@ -2,7 +2,7 @@ import * as stylex from "@stylexjs/stylex";
 import {LucideIcon} from "lucide-react";
 
 type ButtonState = 'active' | 'disabled' | 'loading';
-type ButtonStyle = 'primary' | 'dark'
+type ButtonStyle = 'primary' | 'dark' | 'danger' | 'light';
 
 type Props = {
   text: string,
@@ -23,6 +23,20 @@ const styles = stylex.create({
     backgroundColor: "rgb(30, 30, 30)",
     ":hover": {
       backgroundColor: "rgba(30, 30, 30, 0.9)",
+    }
+  },
+  danger: {
+    backgroundColor: "rgb(239, 68, 68)",
+    ":hover": {
+      backgroundColor: "rgba(239, 68, 68, 0.9)",
+    }
+  },
+  light: {
+    backgroundColor: "rgb(235,235,235)",
+    color: "rgb(30, 30, 30)",
+    borderColor: "rgb(214,214,214)",
+    ":hover": {
+      backgroundColor: "rgba(235,235,235, 0.8)",
     }
   },
   button: {
@@ -49,7 +63,11 @@ const styles = stylex.create({
     cursor: 'wait'
   },
   disabled: {
-    cursor: 'not-allowed'
+    cursor: 'not-allowed',
+    opacity: 0.5,
+    ':hover': {
+      opacity: 0.5,
+    }
   },
   iconContainer: {
     marginRight: 8,
@@ -62,14 +80,21 @@ export default function Button(props: Props) {
   const isDisabled = buttonState != 'active';
   return (
     <button
-      {...stylex.props(styles.button, styles[buttonState], styles[buttonStyle])}
+      {
+        ...stylex.props(
+          styles.button,
+          styles[buttonState],
+          styles[buttonStyle],
+          isDisabled && styles.disabled
+        )
+      }
       disabled={isDisabled}
       onClick={buttonState == 'active' ? props.onClick : undefined}
     >
       {
         props.icon && (
           <div {...stylex.props(styles.iconContainer)}>
-              <props.icon color={'white'} size={16} />
+            <props.icon color={'white'} size={16}/>
           </div>
         )
       }
