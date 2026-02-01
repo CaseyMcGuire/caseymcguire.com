@@ -89,13 +89,7 @@ class WikiService(
     if (isRoot) {
       error("Attempting to delete root folder $folderId")
     }
-
-    val children = wikiRepository.getChildrenOfParentFolder(folderId)
-
-    if (children.isNotEmpty()) {
-      error("Attempting to delete non-empty folder $folderId")
-    }
-    wikiRepository.deleteFolder(folderId)
+    wikiRepository.deleteFolderIfEmpty(folderId)
   }
 
   @Transactional

@@ -50,8 +50,12 @@ class WikiRepository(
   }
 
   @Transactional(propagation = Propagation.MANDATORY)
-  fun deleteFolder(folderId: Int) {
+  fun deleteFolderIfEmpty(folderId: Int) {
     lockFolder(folderId)
+    val children = getChildrenOfParentFolder(folderId)
+    if (children.isNotEmpty()) {
+      error("Attempting to delete non-empty folder $folderId")
+    }
     val numDeleted = context.deleteFrom(WIKI_FOLDERS)
       .where(WIKI_FOLDERS.ID.eq(folderId))
       .execute()
