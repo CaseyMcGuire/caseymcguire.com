@@ -28,6 +28,7 @@ type Props = {
 const sidebarFragment =
   graphql`
     fragment WikiSidebar_wiki on GqlWiki {
+      id
       name
       rootFolder {
         id
@@ -378,7 +379,7 @@ export default function WikiSidebar(
 }
 
 function createWikiSidebar(data: WikiSidebar_wiki$data): WikiSidebarFolder | null {
-  const wikiName = data.name;
+  const wikiId = data.id;
   const rootFolder = data.rootFolder;
   const rootChildren: Array<WikiSidebarItem> = [];
   rootFolder?.children?.forEach(child => {
@@ -394,7 +395,7 @@ function createWikiSidebar(data: WikiSidebar_wiki$data): WikiSidebarFolder | nul
         type: "WikiSidebarPage",
         id: rootId,
         name: rootName,
-        wikiName
+        wikiId
       })
     } else if (child.__typename === "GqlWikiFolder") {
       const rootId = child.id;
@@ -418,7 +419,7 @@ function createWikiSidebar(data: WikiSidebar_wiki$data): WikiSidebarFolder | nul
             type: "WikiSidebarPage",
             id: nestedChildId,
             name: nestedChildName,
-            wikiName
+            wikiId
           })
 
         } else if (nestedChild.__typename === "GqlWikiFolder") {
@@ -440,7 +441,7 @@ function createWikiSidebar(data: WikiSidebar_wiki$data): WikiSidebarFolder | nul
               id: grandChildId,
               name: grandChildName,
               type: "WikiSidebarPage",
-              wikiName
+              wikiId
             })
           });
 
@@ -450,7 +451,7 @@ function createWikiSidebar(data: WikiSidebar_wiki$data): WikiSidebarFolder | nul
               id: nestedChildId,
               name: nestedChildName,
               children: grandChildPages,
-              wikiName
+              wikiId
             }
           )
         }
@@ -461,7 +462,7 @@ function createWikiSidebar(data: WikiSidebar_wiki$data): WikiSidebarFolder | nul
         id: rootId,
         name: rootName,
         children: folderChildren,
-        wikiName
+        wikiId
       })
     }
 
@@ -479,6 +480,6 @@ function createWikiSidebar(data: WikiSidebar_wiki$data): WikiSidebarFolder | nul
     id,
     name,
     children: rootChildren,
-    wikiName
+    wikiId
   }
 }

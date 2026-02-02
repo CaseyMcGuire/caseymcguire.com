@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<1203740d9284d06692e945c15282206b>>
+ * @generated SignedSource<<a9052a093c56d546cdf80748f80d6b0b>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -69,6 +69,13 @@ const node: ConcreteRequest = {
                     "alias": null,
                     "args": null,
                     "kind": "ScalarField",
+                    "name": "id",
+                    "storageKey": null
+                  },
+                  {
+                    "alias": null,
+                    "args": null,
+                    "kind": "ScalarField",
                     "name": "name",
                     "storageKey": null
                   },
@@ -77,13 +84,6 @@ const node: ConcreteRequest = {
                     "args": null,
                     "kind": "ScalarField",
                     "name": "createdAt",
-                    "storageKey": null
-                  },
-                  {
-                    "alias": null,
-                    "args": null,
-                    "kind": "ScalarField",
-                    "name": "id",
                     "storageKey": null
                   }
                 ],
@@ -98,12 +98,12 @@ const node: ConcreteRequest = {
     ]
   },
   "params": {
-    "cacheID": "3d1e92dc58b31ace708ef6a3c1769908",
+    "cacheID": "84eb84a6d68177071d9cae5c7ff5ded8",
     "id": null,
     "metadata": {},
     "name": "WikiHomePageQuery",
     "operationKind": "query",
-    "text": "query WikiHomePageQuery {\n  ...WikisTable_wikis\n}\n\nfragment WikisTable_wikis on Query {\n  wikis {\n    edges {\n      node {\n        name\n        createdAt\n        id\n      }\n    }\n  }\n}\n"
+    "text": "query WikiHomePageQuery {\n  ...WikisTable_wikis\n}\n\nfragment WikisTable_wikis on Query {\n  wikis {\n    edges {\n      node {\n        id\n        name\n        createdAt\n      }\n    }\n  }\n}\n"
   }
 };
 

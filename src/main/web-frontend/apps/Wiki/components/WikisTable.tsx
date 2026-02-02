@@ -47,6 +47,7 @@ export default function WikisTable(props: Props) {
         wikis {
           edges {
             node {
+              id
               name
               createdAt
             }
@@ -56,6 +57,7 @@ export default function WikisTable(props: Props) {
     `,
     props.wikis
   )
+
 
   const navigate = useNavigate()
 
@@ -73,7 +75,7 @@ export default function WikisTable(props: Props) {
           data?.wikis?.edges?.map(edge => {
             return (
               <tr {...stylex.props(styles.tableRow)} onClick={() => {
-                navigate(`/wiki/${encodeURIComponent(edge?.node?.name)}`)
+                navigate(`/wiki/${edge?.node?.id}`)
               }}>
                 <td {...stylex.props(styles.cell, styles.nameCell)}>
                   <span {...stylex.props(styles.wikiName)}>{edge?.node?.name}</span>

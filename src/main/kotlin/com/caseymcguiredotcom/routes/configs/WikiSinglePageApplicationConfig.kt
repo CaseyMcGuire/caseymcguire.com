@@ -13,9 +13,9 @@ import org.springframework.web.servlet.function.ServerResponse
 class WikiSinglePageApplicationConfig : SinglePageApplicationConfig  {
   override val routes: List<SinglePageApplicationRoute> = listOf(
     SinglePageApplicationRoute("", "WIKI_HOME"),
-    SinglePageApplicationRoute("{wikiName}", "WIKI_INDEX"),
-    SinglePageApplicationRoute("{wikiName}/{pageId}", "WIKI_PAGE"),
-    SinglePageApplicationRoute("{wikiName}/{pageId}/edit", "EDIT_WIKI_PAGE"),
+    SinglePageApplicationRoute("{wikiId}", "WIKI_INDEX"),
+    SinglePageApplicationRoute("{wikiId}/{pageId}", "WIKI_PAGE"),
+    SinglePageApplicationRoute("{wikiId}/{pageId}/edit", "EDIT_WIKI_PAGE"),
     SinglePageApplicationRoute("new", "NEW_WIKI_PAGE")
   )
   override val name: String = "Wiki"

@@ -8,10 +8,10 @@ import WikiPageLayout from "apps/Wiki/components/WikiPageLayout";
 export default function ViewWikiPage() {
   const query = graphql`
     query ViewWikiPageQuery(
-      $wikiName: String!,
+      $wikiId: ID!,
       $wikiPageId: ID!
     ) {
-      wiki: wikiByName(name: $wikiName) {
+      wiki: wikiById(id: $wikiId) {
         id
         name
         ...WikiSidebar_wiki
@@ -22,11 +22,11 @@ export default function ViewWikiPage() {
     }
   `
 
-  const {pageId, wikiName} = useParams<{ wikiName: string, pageId: string }>();
+  const {pageId, wikiId} = useParams<{ wikiId: string, pageId: string }>();
   if (!pageId) {
-    return <Navigate to={`/wiki/${wikiName}`} replace />
+    return <Navigate to={`/wiki/${wikiId}`} replace />
   }
-  if (!wikiName) {
+  if (!wikiId) {
     return (
       <Navigate to={`/wiki`} replace />
     )
@@ -35,14 +35,21 @@ export default function ViewWikiPage() {
   const data = useLazyLoadQuery<ViewWikiPageQuery>(
     query,
     {
-      wikiName,
+      wikiId,
       wikiPageId: pageId
     }
   )
 
+  const wikiName = data.wiki?.name;
+  if (!wikiName) {
+    return (
+      <Navigate to={`/wiki`} replace />
+    )
+  }
+
   return (
     <WikiPageLayout wikiName={wikiName} wikiId={data.wiki!.id} wiki={data.wiki}>
-      <WikiPageContent pageId={pageId} wikiName={wikiName} wikiPage={data.wikiPageById}/>
+      <WikiPageContent pageId={pageId} wikiId={wikiId} wikiPage={data.wikiPageById}/>
     </WikiPageLayout>
   );
 }

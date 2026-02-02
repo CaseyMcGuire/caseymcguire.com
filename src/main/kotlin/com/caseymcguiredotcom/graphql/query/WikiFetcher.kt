@@ -54,10 +54,11 @@ class WikiFetcher(
   private val log = LoggerFactory.getLogger(WikiFetcher::class.java)
 
   @DgsQuery
-  fun wikiByName(
-    @InputArgument name: String
+  fun wikiById(
+    @InputArgument id: String
   ): GqlWiki? {
-    return wikiService.getWikiByName(name)?.toGraphqlType()
+      val intId = id.idToIntOrThrow("Invalid Wiki ID: $id")
+      return wikiService.getWikiById(intId)?.toGraphqlType()
   }
 
   @DgsQuery

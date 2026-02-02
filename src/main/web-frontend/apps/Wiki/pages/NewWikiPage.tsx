@@ -123,12 +123,6 @@ export default function NewWikiPage() {
   `);
 
   const trimmedName = name.trim();
-  const urlPreview = useMemo(() => {
-    if (!trimmedName) {
-      return "/wiki/<wiki-name>";
-    }
-    return `/wiki/${encodeURIComponent(trimmedName)}`;
-  }, [trimmedName]);
 
   const handleCreate = () => {
     if (isInFlight) {
@@ -147,7 +141,7 @@ export default function NewWikiPage() {
       onCompleted: response => {
         switch (response.createWiki.__typename) {
           case "SuccessfulCreateWikiResponse": {
-            const nextPath = `/wiki/${encodeURIComponent(response.createWiki.wiki.name)}`;
+            const nextPath = `/wiki/${response.createWiki.wiki.id}`;
             navigate(nextPath);
             break;
           }
@@ -196,10 +190,6 @@ export default function NewWikiPage() {
                 }
               }}
             />
-            <div {...stylex.props(styles.helperText)}>
-              This name becomes part of your wiki URL.
-            </div>
-            <div {...stylex.props(styles.urlPreview)}>{urlPreview}</div>
             {error && <div {...stylex.props(styles.errorText)}>{error}</div>}
             <div {...stylex.props(styles.actions)}>
               <Button

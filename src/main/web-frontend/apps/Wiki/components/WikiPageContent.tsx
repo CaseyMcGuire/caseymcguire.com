@@ -11,7 +11,7 @@ import WikiPageBody from "apps/Wiki/components/WikiPageBody";
 
 type Props = {
   wikiPage?: WikiPageContent_page$key | null,
-  wikiName: string,
+  wikiId: string,
   pageId: string
 }
 
@@ -51,7 +51,7 @@ export default function WikiPageContent(props: Props) {
       <div {...stylex.props(styles.body)}>
         <WikiPageBody pageId={props.pageId}
                       showEditButton={true}
-                      wikiName={props.wikiName}
+                      wikiId={props.wikiId}
                       title={data?.name ?? ''}
                       html={result.html}
         />

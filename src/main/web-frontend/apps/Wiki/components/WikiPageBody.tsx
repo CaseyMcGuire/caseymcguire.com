@@ -7,7 +7,7 @@ type Props = {
   title: string,
   html: string,
   pageId: string,
-  wikiName: string,
+  wikiId: string,
   showEditButton: boolean
 }
 
@@ -39,7 +39,7 @@ export default function WikiPageBody(props: Props) {
       <div {...stylex.props(styles.titleContainer)}>
         <h1>{props.title}</h1>
         <AdminComponentGating>
-          {props.showEditButton && <Link to={`/wiki/${props.wikiName}/${props.pageId}/edit`}>Edit</Link>}
+          {props.showEditButton && <Link to={`/wiki/${props.wikiId}/${props.pageId}/edit`}>Edit</Link>}
         </AdminComponentGating>
       </div>
       <div

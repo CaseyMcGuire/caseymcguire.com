@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<668258c0e99baf74a395debfa60063f8>>
+ * @generated SignedSource<<3bddb60a9f56c4f97d5ec96d3b52996b>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -73,21 +73,21 @@ v4 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
-  "name": "name",
+  "name": "id",
   "storageKey": null
 },
 v5 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
-  "name": "id",
+  "name": "name",
   "storageKey": null
 },
 v6 = {
   "kind": "InlineFragment",
   "selections": [
-    (v5/*: any*/),
-    (v4/*: any*/)
+    (v4/*: any*/),
+    (v5/*: any*/)
   ],
   "type": "GqlWikiPage",
   "abstractKey": null
@@ -166,6 +166,7 @@ return {
                 "plural": false,
                 "selections": [
                   (v4/*: any*/),
+                  (v5/*: any*/),
                   {
                     "alias": null,
                     "args": null,
@@ -174,8 +175,8 @@ return {
                     "name": "rootFolder",
                     "plural": false,
                     "selections": [
-                      (v5/*: any*/),
                       (v4/*: any*/),
+                      (v5/*: any*/),
                       {
                         "alias": null,
                         "args": null,
@@ -188,8 +189,8 @@ return {
                           {
                             "kind": "InlineFragment",
                             "selections": [
-                              (v5/*: any*/),
                               (v4/*: any*/),
+                              (v5/*: any*/),
                               {
                                 "alias": null,
                                 "args": null,
@@ -202,8 +203,8 @@ return {
                                   {
                                     "kind": "InlineFragment",
                                     "selections": [
-                                      (v5/*: any*/),
                                       (v4/*: any*/),
+                                      (v5/*: any*/),
                                       {
                                         "alias": null,
                                         "args": null,
@@ -217,7 +218,7 @@ return {
                                           {
                                             "kind": "InlineFragment",
                                             "selections": [
-                                              (v5/*: any*/)
+                                              (v4/*: any*/)
                                             ],
                                             "type": "GqlWikiFolder",
                                             "abstractKey": null
@@ -243,8 +244,7 @@ return {
                       }
                     ],
                     "storageKey": null
-                  },
-                  (v5/*: any*/)
+                  }
                 ],
                 "storageKey": null
               }
@@ -259,12 +259,12 @@ return {
     ]
   },
   "params": {
-    "cacheID": "b04073f111e59f263e26092952867859",
+    "cacheID": "1b2bd72324ea38d51474250da2ab7016",
     "id": null,
     "metadata": {},
     "name": "WikiFolderActionsButtonMutation",
     "operationKind": "mutation",
-    "text": "mutation WikiFolderActionsButtonMutation(\n  $itemId: ID!\n) {\n  deleteWikiItem(itemId: $itemId) {\n    __typename\n    ... on SuccessfulDeleteWikiItem {\n      wiki {\n        ...WikiSidebar_wiki\n        id\n      }\n    }\n    ... on FailedWikiResponse {\n      userFacingErrorMessage\n    }\n  }\n}\n\nfragment WikiSidebar_wiki on GqlWiki {\n  name\n  rootFolder {\n    id\n    name\n    children {\n      __typename\n      ... on GqlWikiFolder {\n        id\n        name\n        children {\n          __typename\n          ... on GqlWikiFolder {\n            id\n            name\n            children {\n              __typename\n              ... on GqlWikiPage {\n                id\n                name\n              }\n              ... on GqlWikiFolder {\n                id\n              }\n            }\n          }\n          ... on GqlWikiPage {\n            id\n            name\n          }\n        }\n      }\n      ... on GqlWikiPage {\n        id\n        name\n      }\n    }\n  }\n}\n"
+    "text": "mutation WikiFolderActionsButtonMutation(\n  $itemId: ID!\n) {\n  deleteWikiItem(itemId: $itemId) {\n    __typename\n    ... on SuccessfulDeleteWikiItem {\n      wiki {\n        ...WikiSidebar_wiki\n        id\n      }\n    }\n    ... on FailedWikiResponse {\n      userFacingErrorMessage\n    }\n  }\n}\n\nfragment WikiSidebar_wiki on GqlWiki {\n  id\n  name\n  rootFolder {\n    id\n    name\n    children {\n      __typename\n      ... on GqlWikiFolder {\n        id\n        name\n        children {\n          __typename\n          ... on GqlWikiFolder {\n            id\n            name\n            children {\n              __typename\n              ... on GqlWikiPage {\n                id\n                name\n              }\n              ... on GqlWikiFolder {\n                id\n              }\n            }\n          }\n          ... on GqlWikiPage {\n            id\n            name\n          }\n        }\n      }\n      ... on GqlWikiPage {\n        id\n        name\n      }\n    }\n  }\n}\n"
   }
 };
 })();

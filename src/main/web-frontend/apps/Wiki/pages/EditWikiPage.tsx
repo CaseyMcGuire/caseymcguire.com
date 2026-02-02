@@ -58,11 +58,17 @@ const styles = stylex.create({
 export default function EditWikiPage() {
 
   const query = graphql`
-    query EditWikiPageQuery($pageId: ID!) {
+    query EditWikiPageQuery(
+      $pageId: ID!
+      $wikiId: ID!
+    ) {
       page: wikiPageById(id: $pageId) {
         id
         name
         content
+      }
+      wiki: wikiById(id: $wikiId) {
+        name
       }
     }
   `;
@@ -92,14 +98,15 @@ export default function EditWikiPage() {
     }
   `;
 
-  const {wikiName, pageId} = useParams<{ wikiName: string, pageId: string }>();
-  if (!wikiName || !pageId) {
+  const {wikiId, pageId} = useParams<{ wikiId: string, pageId: string }>();
+  if (!wikiId || !pageId) {
     return <Navigate to="/wiki/404" replace />;
   }
   const navigate = useNavigate();
 
   const data = useLazyLoadQuery<EditWikiPageQuery>(query, {
-    pageId: pageId!
+    pageId,
+    wikiId
   });
   const [commit, isInFlight] = useMutation<EditWikiPageMutation>(mutation);
 
@@ -125,7 +132,7 @@ export default function EditWikiPage() {
         switch (data.updateWikiPageContent.__typename) {
           case 'SuccessfulUpdateWikiPageContentResponse':
             setContents(data.updateWikiPageContent.wikiPage.content);
-            navigate(`/wiki/${wikiName}/${pageId}`);
+            navigate(`/wiki/${wikiId}/${pageId}`);
             break;
           case 'FailedWikiResponse':
             console.log(data.updateWikiPageContent.userFacingErrorMessage);
@@ -134,6 +141,10 @@ export default function EditWikiPage() {
     })
   }
 
+  const wikiName = data.wiki?.name
+  if (!wikiName) {
+    return <Navigate to="/wiki" replace />;
+  }
 
   return (
     <WikiPageWrapper wikiName={wikiName}>
@@ -160,7 +171,7 @@ export default function EditWikiPage() {
           </div>
         </div>
         <div {...stylex.props(styles.bodyContainer)}>
-          <WikiPageBody pageId={pageId!} showEditButton={false} wikiName={""} title={name} html={result.html}/>
+          <WikiPageBody pageId={pageId!} showEditButton={false} wikiId={wikiId!} title={name} html={result.html}/>
         </div>
       </div>
     </WikiPageWrapper>

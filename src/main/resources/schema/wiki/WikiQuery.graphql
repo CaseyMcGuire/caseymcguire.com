@@ -1,6 +1,6 @@
 
 extend type Query {
-  wikiByName(name: String!): GqlWiki
+  wikiById(id: ID!): GqlWiki
   wikiPageById(id: ID): GqlWikiPage
   wikis(
     query: String

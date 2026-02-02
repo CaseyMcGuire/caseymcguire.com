@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<97b3740cfde903e3cd94e574770f0a5b>>
+ * @generated SignedSource<<f2e63f1b4a9ae16bc4181300407d8fab>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -11,6 +11,7 @@
 import { ReaderFragment } from 'relay-runtime';
 import { FragmentRefs } from "relay-runtime";
 export type WikiSidebar_wiki$data = {
+  readonly id: string;
   readonly name: string;
   readonly rootFolder: {
     readonly children: ReadonlyArray<{
@@ -58,14 +59,14 @@ var v0 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
-  "name": "name",
+  "name": "id",
   "storageKey": null
 },
 v1 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
-  "name": "id",
+  "name": "name",
   "storageKey": null
 },
 v2 = {
@@ -78,8 +79,8 @@ v2 = {
 v3 = {
   "kind": "InlineFragment",
   "selections": [
-    (v1/*: any*/),
-    (v0/*: any*/)
+    (v0/*: any*/),
+    (v1/*: any*/)
   ],
   "type": "GqlWikiPage",
   "abstractKey": null
@@ -91,6 +92,7 @@ return {
   "name": "WikiSidebar_wiki",
   "selections": [
     (v0/*: any*/),
+    (v1/*: any*/),
     {
       "alias": null,
       "args": null,
@@ -99,8 +101,8 @@ return {
       "name": "rootFolder",
       "plural": false,
       "selections": [
-        (v1/*: any*/),
         (v0/*: any*/),
+        (v1/*: any*/),
         {
           "alias": null,
           "args": null,
@@ -113,8 +115,8 @@ return {
             {
               "kind": "InlineFragment",
               "selections": [
-                (v1/*: any*/),
                 (v0/*: any*/),
+                (v1/*: any*/),
                 {
                   "alias": null,
                   "args": null,
@@ -127,8 +129,8 @@ return {
                     {
                       "kind": "InlineFragment",
                       "selections": [
-                        (v1/*: any*/),
                         (v0/*: any*/),
+                        (v1/*: any*/),
                         {
                           "alias": null,
                           "args": null,
@@ -166,6 +168,6 @@ return {
 };
 })();
 
-(node as any).hash = "6a54b4adf471ea9dfd51310c07c692d6";
+(node as any).hash = "b3a12847760413d5be7bcba5ffc9d7f9";
 
 export default node;

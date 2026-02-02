@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<73515ee66185ba16b6ba686e63446977>>
+ * @generated SignedSource<<4e6293251aba0cf8ac272e8d8509a56d>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -15,6 +15,7 @@ export type WikisTable_wikis$data = {
     readonly edges: ReadonlyArray<{
       readonly node: {
         readonly createdAt: string | null | undefined;
+        readonly id: string;
         readonly name: string;
       };
     }>;
@@ -68,6 +69,13 @@ const node: ReaderFragment = {
                   "alias": null,
                   "args": null,
                   "kind": "ScalarField",
+                  "name": "id",
+                  "storageKey": null
+                },
+                {
+                  "alias": null,
+                  "args": null,
+                  "kind": "ScalarField",
                   "name": "name",
                   "storageKey": null
                 },
@@ -92,6 +100,6 @@ const node: ReaderFragment = {
   "abstractKey": null
 };
 
-(node as any).hash = "5bdde961bd8a3c6d0afea7e8463fe79b";
+(node as any).hash = "49e252cf488dc76525e5903654b4e0e0";
 
 export default node;

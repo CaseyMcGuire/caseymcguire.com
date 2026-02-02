@@ -18,26 +18,32 @@ const styles = stylex.create({
 export default function WikiIndexPage() {
   const query = graphql`
     query WikiIndexPageQuery(
-      $wikiName: String!
+      $wikiId: ID!
     ) {
-      wiki: wikiByName(name: $wikiName) {
+      wiki: wikiById(id: $wikiId) {
         id
         name
         ...WikiSidebar_wiki
       }
     }
   `
-  const {wikiName} = useParams<{ wikiName: string}>();
-  if (!wikiName) {
+  const {wikiId} = useParams<{ wikiId: string}>();
+  if (!wikiId) {
     return <Navigate to={`/wiki`} replace />
   }
   const data = useLazyLoadQuery<WikiIndexPageQuery>(
     query,
     {
-      wikiName
+      wikiId
     }
   )
 
+  const wikiName = data.wiki?.name;
+  if (!wikiName) {
+    return (
+      <Navigate to={`/wiki`} replace />
+    )
+  }
 
   return (
     <WikiPageLayout wikiName={wikiName} wikiId={data.wiki!.id} wiki={data.wiki}>

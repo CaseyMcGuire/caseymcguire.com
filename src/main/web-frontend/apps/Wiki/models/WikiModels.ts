@@ -4,7 +4,7 @@ export type WikiSidebarPage = {
   type: "WikiSidebarPage",
   id: string,
   name: string,
-  wikiName: string
+  wikiId: string
 }
 
 export type WikiSidebarFolder = {
@@ -12,7 +12,7 @@ export type WikiSidebarFolder = {
   id: string,
   name: string,
   children: Array<WikiSidebarItem>,
-  wikiName: string
+  wikiId: string
 }
 
 export type WikiSidebarItem = WikiSidebarPage | WikiSidebarFolder

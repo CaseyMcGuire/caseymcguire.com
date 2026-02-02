@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<b82a4e2f4849c7a58f4b8400206a0e35>>
+ * @generated SignedSource<<dc509f6aeb77de35e66781f18f8e556b>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -11,7 +11,7 @@
 import { ConcreteRequest } from 'relay-runtime';
 import { FragmentRefs } from "relay-runtime";
 export type WikiIndexPageQuery$variables = {
-  wikiName: string;
+  wikiId: string;
 };
 export type WikiIndexPageQuery$data = {
   readonly wiki: {
@@ -30,14 +30,14 @@ var v0 = [
   {
     "defaultValue": null,
     "kind": "LocalArgument",
-    "name": "wikiName"
+    "name": "wikiId"
   }
 ],
 v1 = [
   {
     "kind": "Variable",
-    "name": "name",
-    "variableName": "wikiName"
+    "name": "id",
+    "variableName": "wikiId"
   }
 ],
 v2 = {
@@ -82,7 +82,7 @@ return {
         "args": (v1/*: any*/),
         "concreteType": "GqlWiki",
         "kind": "LinkedField",
-        "name": "wikiByName",
+        "name": "wikiById",
         "plural": false,
         "selections": [
           (v2/*: any*/),
@@ -110,7 +110,7 @@ return {
         "args": (v1/*: any*/),
         "concreteType": "GqlWiki",
         "kind": "LinkedField",
-        "name": "wikiByName",
+        "name": "wikiById",
         "plural": false,
         "selections": [
           (v2/*: any*/),
@@ -199,16 +199,16 @@ return {
     ]
   },
   "params": {
-    "cacheID": "7bd899ade580091bb3e8a99328404b4d",
+    "cacheID": "d580dc1d63d188d22eca7c5a356b022f",
     "id": null,
     "metadata": {},
     "name": "WikiIndexPageQuery",
     "operationKind": "query",
-    "text": "query WikiIndexPageQuery(\n  $wikiName: String!\n) {\n  wiki: wikiByName(name: $wikiName) {\n    id\n    name\n    ...WikiSidebar_wiki\n  }\n}\n\nfragment WikiSidebar_wiki on GqlWiki {\n  name\n  rootFolder {\n    id\n    name\n    children {\n      __typename\n      ... on GqlWikiFolder {\n        id\n        name\n        children {\n          __typename\n          ... on GqlWikiFolder {\n            id\n            name\n            children {\n              __typename\n              ... on GqlWikiPage {\n                id\n                name\n              }\n              ... on GqlWikiFolder {\n                id\n              }\n            }\n          }\n          ... on GqlWikiPage {\n            id\n            name\n          }\n        }\n      }\n      ... on GqlWikiPage {\n        id\n        name\n      }\n    }\n  }\n}\n"
+    "text": "query WikiIndexPageQuery(\n  $wikiId: ID!\n) {\n  wiki: wikiById(id: $wikiId) {\n    id\n    name\n    ...WikiSidebar_wiki\n  }\n}\n\nfragment WikiSidebar_wiki on GqlWiki {\n  id\n  name\n  rootFolder {\n    id\n    name\n    children {\n      __typename\n      ... on GqlWikiFolder {\n        id\n        name\n        children {\n          __typename\n          ... on GqlWikiFolder {\n            id\n            name\n            children {\n              __typename\n              ... on GqlWikiPage {\n                id\n                name\n              }\n              ... on GqlWikiFolder {\n                id\n              }\n            }\n          }\n          ... on GqlWikiPage {\n            id\n            name\n          }\n        }\n      }\n      ... on GqlWikiPage {\n        id\n        name\n      }\n    }\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "af1f0a60d727cd18c14c7a173ecf9dee";
+(node as any).hash = "fc8e51d615e216f071a138e88adbd852";
 
 export default node;

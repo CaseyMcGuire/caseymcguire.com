@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<b6bf22152eabef8cc4da0e5d765bf488>>
+ * @generated SignedSource<<a061bd18978e277a113cc6d5cbc4eb94>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -197,6 +197,7 @@ return {
                 "name": "wiki",
                 "plural": false,
                 "selections": [
+                  (v4/*: any*/),
                   (v5/*: any*/),
                   {
                     "alias": null,
@@ -275,8 +276,7 @@ return {
                       }
                     ],
                     "storageKey": null
-                  },
-                  (v4/*: any*/)
+                  }
                 ],
                 "storageKey": null
               }
@@ -291,12 +291,12 @@ return {
     ]
   },
   "params": {
-    "cacheID": "d051bdd0f05a2a0dbe2216d2ac99eaaa",
+    "cacheID": "6ddb6fbc55d9478f4cb4a92d74655138",
     "id": null,
     "metadata": {},
     "name": "WikiSidebarCreatePageMutation",
     "operationKind": "mutation",
-    "text": "mutation WikiSidebarCreatePageMutation(\n  $wikiId: ID!\n  $pageName: String!\n) {\n  createWikiPage(wikiId: $wikiId, pageName: $pageName) {\n    __typename\n    ... on SuccessfulCreateWikiPageResponse {\n      wikiPage {\n        id\n        name\n      }\n      wiki {\n        ...WikiSidebar_wiki\n        id\n      }\n    }\n    ... on FailedWikiResponse {\n      userFacingErrorMessage\n    }\n  }\n}\n\nfragment WikiSidebar_wiki on GqlWiki {\n  name\n  rootFolder {\n    id\n    name\n    children {\n      __typename\n      ... on GqlWikiFolder {\n        id\n        name\n        children {\n          __typename\n          ... on GqlWikiFolder {\n            id\n            name\n            children {\n              __typename\n              ... on GqlWikiPage {\n                id\n                name\n              }\n              ... on GqlWikiFolder {\n                id\n              }\n            }\n          }\n          ... on GqlWikiPage {\n            id\n            name\n          }\n        }\n      }\n      ... on GqlWikiPage {\n        id\n        name\n      }\n    }\n  }\n}\n"
+    "text": "mutation WikiSidebarCreatePageMutation(\n  $wikiId: ID!\n  $pageName: String!\n) {\n  createWikiPage(wikiId: $wikiId, pageName: $pageName) {\n    __typename\n    ... on SuccessfulCreateWikiPageResponse {\n      wikiPage {\n        id\n        name\n      }\n      wiki {\n        ...WikiSidebar_wiki\n        id\n      }\n    }\n    ... on FailedWikiResponse {\n      userFacingErrorMessage\n    }\n  }\n}\n\nfragment WikiSidebar_wiki on GqlWiki {\n  id\n  name\n  rootFolder {\n    id\n    name\n    children {\n      __typename\n      ... on GqlWikiFolder {\n        id\n        name\n        children {\n          __typename\n          ... on GqlWikiFolder {\n            id\n            name\n            children {\n              __typename\n              ... on GqlWikiPage {\n                id\n                name\n              }\n              ... on GqlWikiFolder {\n                id\n              }\n            }\n          }\n          ... on GqlWikiPage {\n            id\n            name\n          }\n        }\n      }\n      ... on GqlWikiPage {\n        id\n        name\n      }\n    }\n  }\n}\n"
   }
 };
 })();

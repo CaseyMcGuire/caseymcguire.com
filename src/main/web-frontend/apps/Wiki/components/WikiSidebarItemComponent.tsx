@@ -103,9 +103,9 @@ export default function WikiSidebarItemComponent(props: WikiSidebarItemProps) {
 
 function WikiSidebarPageComponent(props: WikiSidebarPageProps) {
   const page = props.page;
-  const wikiName = props.page.wikiName;
+  const wikiId = props.page.wikiId;
   const navigate = useNavigate();
-  const onClick = () => navigate(`/wiki/${wikiName}/${page.id}`);
+  const onClick = () => navigate(`/wiki/${wikiId}/${page.id}`);
 
   const data: HoverData = {
     type: 'page',
