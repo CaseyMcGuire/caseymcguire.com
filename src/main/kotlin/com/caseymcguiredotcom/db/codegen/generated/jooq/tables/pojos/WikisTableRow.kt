@@ -5,6 +5,7 @@ package generated.jooq.tables.pojos
 
 
 import java.io.Serializable
+import java.time.LocalDateTime
 
 
 /**
@@ -13,7 +14,8 @@ import java.io.Serializable
 @Suppress("warnings")
 data class WikisTableRow(
     val id: Int? = null,
-    val name: String
+    val name: String,
+    val createdAt: LocalDateTime? = null
 ): Serializable {
 
     override fun equals(other: Any?): Boolean {
@@ -32,6 +34,12 @@ data class WikisTableRow(
             return false
         if (this.name != o.name)
             return false
+        if (this.createdAt == null) {
+            if (o.createdAt != null)
+                return false
+        }
+        else if (this.createdAt != o.createdAt)
+            return false
         return true
     }
 
@@ -40,6 +48,7 @@ data class WikisTableRow(
         var result = 1
         result = prime * result + (if (this.id == null) 0 else this.id.hashCode())
         result = prime * result + this.name.hashCode()
+        result = prime * result + (if (this.createdAt == null) 0 else this.createdAt.hashCode())
         return result
     }
 
@@ -48,6 +57,7 @@ data class WikisTableRow(
 
         sb.append(id)
         sb.append(", ").append(name)
+        sb.append(", ").append(createdAt)
 
         sb.append(")")
         return sb.toString()

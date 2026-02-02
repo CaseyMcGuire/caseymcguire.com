@@ -16,6 +16,8 @@ import generated.jooq.tables.WikiPages.WikiPagesPath
 import generated.jooq.tables.WikiUsers.WikiUsersPath
 import generated.jooq.tables.records.WikisRecord
 
+import java.time.LocalDateTime
+
 import kotlin.collections.Collection
 import kotlin.collections.List
 
@@ -89,6 +91,11 @@ open class Wikis(
      * The column <code>public.wikis.name</code>.
      */
     val NAME: TableField<WikisRecord, String?> = createField(DSL.name("name"), SQLDataType.CLOB.nullable(false), this, "")
+
+    /**
+     * The column <code>public.wikis.created_at</code>.
+     */
+    val CREATED_AT: TableField<WikisRecord, LocalDateTime?> = createField(DSL.name("created_at"), SQLDataType.LOCALDATETIME(6).nullable(false).defaultValue(DSL.field(DSL.raw("CURRENT_TIMESTAMP"), SQLDataType.LOCALDATETIME)), this, "")
 
     private constructor(alias: Name, aliased: Table<WikisRecord>?): this(alias, null, null, null, aliased, null, null)
     private constructor(alias: Name, aliased: Table<WikisRecord>?, parameters: Array<Field<*>?>?): this(alias, null, null, null, aliased, parameters, null)
