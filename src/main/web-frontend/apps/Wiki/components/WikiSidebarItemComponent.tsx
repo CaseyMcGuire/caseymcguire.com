@@ -226,13 +226,13 @@ function WikiSidebarFolderComponent(props: WikiSidebarFolderProps) {
           isEditable={props.editModeEnabled}
         />
         <div {...stylex.props(styles.actions)}>
+          <WikiChevronIcon isOpen={isOpen}/>
           {props.editModeEnabled &&
               <WikiFolderActionsButton
                   folderId={folder.id}
                   isFolderEmpty={isEmpty}
               />
           }
-          <WikiChevronIcon isOpen={isOpen}/>
         </div>
       </div>
       <div {...stylex.props(
