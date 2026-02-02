@@ -62,7 +62,8 @@ dependencies {
   jooqCodegen(project(":customgenerator"))
 
   implementation("org.postgresql:postgresql:$postgresVersion")
-  implementation("org.flywaydb:flyway-core:9.16.0")
+  implementation("org.flywaydb:flyway-core:11.16.0")
+  implementation("org.flywaydb:flyway-database-postgresql:11.16.0")
   implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
   implementation("org.jetbrains.kotlinx:kotlinx-html-jvm:0.12.0")
 

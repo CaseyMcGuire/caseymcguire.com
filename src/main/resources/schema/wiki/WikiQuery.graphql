@@ -15,6 +15,7 @@ type GqlWiki {
   id: ID!
   name: String!,
   rootFolder: GqlWikiFolder @skipcodegen
+  createdAt: String
 }
 
 union GqlWikiNode = GqlWikiFolder | GqlWikiPage

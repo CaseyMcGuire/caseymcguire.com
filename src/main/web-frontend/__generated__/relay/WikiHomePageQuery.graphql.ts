@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<d1ba1380324f8449c2fb6430fe57f73c>>
+ * @generated SignedSource<<1203740d9284d06692e945c15282206b>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -76,6 +76,13 @@ const node: ConcreteRequest = {
                     "alias": null,
                     "args": null,
                     "kind": "ScalarField",
+                    "name": "createdAt",
+                    "storageKey": null
+                  },
+                  {
+                    "alias": null,
+                    "args": null,
+                    "kind": "ScalarField",
                     "name": "id",
                     "storageKey": null
                   }
@@ -91,12 +98,12 @@ const node: ConcreteRequest = {
     ]
   },
   "params": {
-    "cacheID": "f9e11bbe3071e0126d7126e2d9a2a6ff",
+    "cacheID": "3d1e92dc58b31ace708ef6a3c1769908",
     "id": null,
     "metadata": {},
     "name": "WikiHomePageQuery",
     "operationKind": "query",
-    "text": "query WikiHomePageQuery {\n  ...WikisTable_wikis\n}\n\nfragment WikisTable_wikis on Query {\n  wikis {\n    edges {\n      node {\n        name\n        id\n      }\n    }\n  }\n}\n"
+    "text": "query WikiHomePageQuery {\n  ...WikisTable_wikis\n}\n\nfragment WikisTable_wikis on Query {\n  wikis {\n    edges {\n      node {\n        name\n        createdAt\n        id\n      }\n    }\n  }\n}\n"
   }
 };
 

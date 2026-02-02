@@ -5,11 +5,15 @@ import com.caseymcguiredotcom.codegen.graphql.types.GqlWikiFolder
 import com.caseymcguiredotcom.codegen.graphql.types.GqlWikiNode
 import com.caseymcguiredotcom.codegen.graphql.types.GqlWikiPage
 import com.caseymcguiredotcom.graphql.toGlobalId
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+import java.util.Locale
 
 fun Wiki.toGraphqlType(): GqlWiki {
   return GqlWiki(
     id = toGlobalId(GqlWiki::class.simpleName!!, this.id),
-    name = this.name
+    name = this.name,
+    createdAt = formatDate(this.createdAt)
   )
 }
 
@@ -44,4 +48,8 @@ fun WikiFolder.toGraphqlType(): GqlWikiFolder {
     id = toGlobalId(GqlWikiFolder::class.simpleName!!, this.id),
     name = this.name,
   )
+}
+
+private fun formatDate(createdAt: LocalDateTime): String {
+  return createdAt.format(DateTimeFormatter.ofPattern("MMMM d, yyyy", Locale.ENGLISH))
 }
