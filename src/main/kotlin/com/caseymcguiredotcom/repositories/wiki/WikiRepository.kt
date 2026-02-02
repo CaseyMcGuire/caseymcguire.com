@@ -154,6 +154,7 @@ class WikiRepository(
     return context.update(WIKI_PAGES)
       .set(WIKI_PAGES.CONTENT, content)
       .set(WIKI_PAGES.NAME, name)
+      .set(WIKI_PAGES.UPDATED_AT, time.now())
       .where(WIKI_PAGES.ID.eq(pageId))
       .returning()
       .fetchOneInto(WikiPagesTableRow::class.java)
