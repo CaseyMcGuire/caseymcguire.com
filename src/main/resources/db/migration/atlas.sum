@@ -1,7 +1,8 @@
-h1:8zb51xLSt9RADqFs2NaVjWrrfiahIK/ketQvOdoihJo=
+h1:xuLtb1gSc5Lz3Cv/kwdH8BlmogDIxnfHptEV4Nzk24g=
 V1__initial_setup.sql h1:GI/krUEfMUSlkrmo4HDF8wKaMF9ZNFauvp3U6+MX4Qo=
 V2__add_date_to_posts.sql h1:qCWU/fsf1nedCE+umbVcOPujrM2gevfyH4Hi/TMC1tc=
 V3__add_workout_tables.sql h1:WuFV5oTznPpaXirx18RMo2PgyPipgwnBFVi0btZ+YJk=
 V4__add_exercise_table.sql h1:oz1/j7JiROoT8GAnzQnOOmFGd5xvT1UkKzELKrATCNc=
 V5__add_wiki_tables.sql h1:2o9cZ/S2HY2bvwD/VZ8Pt1KKKaroER0QbbzHkLQ0M/0=
 V6__add_root_folder.sql h1:w+8ocW8eyAkSAf+mHKGFde9vTDHwd9vE6j11NKIOhC0=
+V20260202000031__add_created_at_to_wikis.sql h1:Fqm64P4b8mgoW7KBCHmfmZQ9bUXCAHkpcjmnnQ7+QKA=

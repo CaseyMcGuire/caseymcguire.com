@@ -9,6 +9,9 @@ type Props = {
 
 const styles = stylex.create({
   tableRow: {
+    borderStyle: 'solid',
+    borderWidth: 1,
+    borderColor: 'rgb(229, 231, 235)',
   }
 });
 export default function WikisTable(props: Props) {
@@ -40,8 +43,8 @@ export default function WikisTable(props: Props) {
       {
         data?.wikis?.edges?.map(edge => {
           return (
-            <tr>
-              <td {...stylex.props(styles.tableRow)}>
+            <tr {...stylex.props(styles.tableRow)}>
+              <td>
                 <Link to={`/wiki/${encodeURIComponent(edge?.node?.name)}`}>{edge?.node?.name}</Link>
               </td>
             </tr>
