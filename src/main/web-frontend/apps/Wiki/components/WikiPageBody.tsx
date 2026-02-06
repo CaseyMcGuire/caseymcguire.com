@@ -27,9 +27,18 @@ const styles = stylex.create({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
+    maxWidth: '100%',
+    width: {
+      '@media only screen and (max-width: 600px)': '100%'
+    }
   },
   content: {
-    width: '850px',
+    width: {
+      default: '850px',
+      '@media only screen and (max-width: 600px)': '100%'
+    },
+    maxWidth: '100%',
+    overflowX: 'auto',
   }
 })
 

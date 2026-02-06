@@ -12,6 +12,7 @@ const styles = stylex.create({
 type Props = {
   children: ReactNode,
   wikiName?: string,
+  onMenuButtonClick?: () => void
 }
 
 export default function WikiPageWrapper(
@@ -19,7 +20,7 @@ export default function WikiPageWrapper(
 ) {
   return (
     <div>
-      <WikiPageHeader links={[]}/>
+      <WikiPageHeader onMenuButtonClick={props.onMenuButtonClick}/>
       <div {...stylex.props(styles.container)}>
         {props.children}
       </div>

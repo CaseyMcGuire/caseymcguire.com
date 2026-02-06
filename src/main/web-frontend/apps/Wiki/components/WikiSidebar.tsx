@@ -23,6 +23,8 @@ import {useOnClickOutside} from "usehooks-ts";
 type Props = {
   wikiId: string,
   wiki: WikiSidebar_wiki$key | null | undefined;
+  mobileOpen: boolean,
+  onRequestClose: () => void,
 }
 
 const sidebarFragment =
@@ -68,6 +70,27 @@ const sidebarFragment =
 
 
 const styles = stylex.create({
+  mobileOverlay: {
+    display: {
+      default: 'none',
+      '@media only screen and (max-width: 600px)': 'block'
+    },
+    position: 'fixed',
+    top: WikiStyles.headerHeight,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: 'rgba(0, 0, 0, 0.25)',
+    opacity: 0,
+    pointerEvents: 'none',
+    transitionProperty: 'opacity',
+    transitionDuration: '0.3s',
+    zIndex: 1,
+  },
+  mobileOverlayVisible: {
+    opacity: 1,
+    pointerEvents: 'all',
+  },
   body: {
     display: 'flex',
     flexDirection: 'column',
@@ -78,6 +101,30 @@ const styles = stylex.create({
     position: "fixed",
     top: WikiStyles.headerHeight,
     bottom: 0,
+    zIndex: 2,
+    left: 0,
+    transitionProperty: 'transform',
+    transitionDuration: '0.35s',
+    '@media only screen and (max-width: 600px)': {
+      right: 0,
+      left: 'auto',
+      width: '75%',
+      maxWidth: 320,
+      borderLeftWidth: 1,
+      borderLeftStyle: "solid",
+      borderLeftColor: WikiStyles.borderColor,
+      borderRightWidth: 0,
+      transform: 'translateX(100%)',
+      pointerEvents: 'none',
+      boxShadow: '0 8px 24px rgba(0, 0, 0, 0.18)',
+      backgroundColor: 'white',
+    }
+  },
+  bodyMobileOpen: {
+    '@media only screen and (max-width: 600px)': {
+      transform: 'translateX(0)',
+      pointerEvents: 'auto',
+    }
   },
   content: {
     flexGrow: 1,
@@ -335,46 +382,56 @@ export default function WikiSidebar(
   const context = useContext(UserContext);
   const isAdmin = context.user?.isAdmin == true;
   return (
-    <div {...stylex.props(styles.body)}>
-      <div {...stylex.props(styles.content)}>
-        <DndContext
-          sensors={sensors}
-          collisionDetection={closestCenter}
-          onDragEnd={onDragEnd}
-          onDragOver={onDragOver}
-        >
-          {
-            rootFolder.children.map((child, index) =>
-              <WikiSidebarItemComponent
-                key={child.id}
-                item={child}
-                parentFolderId={rootFolder.id}
-                selectedId={hoverId}
-                afterId={rootFolder.children.at(index + 1)?.id}
-                beforeId={rootFolder.children.at(index - 1)?.id}
-                editModeEnabled={!isRequestInFlight && isAdmin && sidebarEditingEnabled}
-              />
-            )
-          }
-        </DndContext>
-      </div>
+    <>
+      <div
+        {...stylex.props(
+          styles.mobileOverlay,
+          props.mobileOpen && styles.mobileOverlayVisible
+        )}
+        onClick={props.onRequestClose}
+      />
+      <div {...stylex.props(styles.body, props.mobileOpen && styles.bodyMobileOpen)}>
+        <div {...stylex.props(styles.content)}>
+          <DndContext
+            sensors={sensors}
+            collisionDetection={closestCenter}
+            onDragEnd={onDragEnd}
+            onDragOver={onDragOver}
+          >
+            {
+              rootFolder.children.map((child, index) =>
+                <WikiSidebarItemComponent
+                  key={child.id}
+                  item={child}
+                  parentFolderId={rootFolder.id}
+                  selectedId={hoverId}
+                  afterId={rootFolder.children.at(index + 1)?.id}
+                  beforeId={rootFolder.children.at(index - 1)?.id}
+                  editModeEnabled={!isRequestInFlight && isAdmin && sidebarEditingEnabled}
+                  onNavigate={props.onRequestClose}
+                />
+              )
+            }
+          </DndContext>
+        </div>
 
-      <div {...stylex.props(styles.bottomContainer)}>
-        <WikiSidebarMenuFlyout ref={ref} items={items} visible={menuOpen}/>
-        <AdminComponentGating>
-          <Button
-            state={isRequestInFlight ? 'loading' : 'active'}
-            text={"Menu"}
-            icon={Menu}
-            style={'dark'}
-            onClick={() => {
-              setMenuOpen(!menuOpen)
-            }
-            }
-          />
-        </AdminComponentGating>
+        <div {...stylex.props(styles.bottomContainer)}>
+          <WikiSidebarMenuFlyout ref={ref} items={items} visible={menuOpen}/>
+          <AdminComponentGating>
+            <Button
+              state={isRequestInFlight ? 'loading' : 'active'}
+              text={"Menu"}
+              icon={Menu}
+              style={'dark'}
+              onClick={() => {
+                setMenuOpen(!menuOpen)
+              }
+              }
+            />
+          </AdminComponentGating>
+        </div>
       </div>
-    </div>
+    </>
   );
 }
 

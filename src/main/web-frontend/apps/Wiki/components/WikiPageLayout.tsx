@@ -2,7 +2,7 @@ import WikiSidebar from "apps/Wiki/components/WikiSidebar";
 import {WikiSidebar_wiki$key} from "__generated__/relay/WikiSidebar_wiki.graphql";
 import * as stylex from "@stylexjs/stylex";
 import WikiPageWrapper from "apps/Wiki/components/WikiPageWrapper";
-import React from "react";
+import React, {useState} from "react";
 import {WikiStyles} from "./WikiStyles.stylex";
 
 const styles = stylex.create({
@@ -12,7 +12,10 @@ const styles = stylex.create({
     height: '100%',
   },
   content: {
-    marginLeft: WikiStyles.sidebarWidth,
+    marginLeft: {
+      default: WikiStyles.sidebarWidth,
+      '@media only screen and (max-width: 600px)': 0
+    },
     height: '100%',
     width: '100%',
   }
@@ -26,10 +29,19 @@ type Props = {
 }
 
 export default function WikiPageLayout({ wikiName, wikiId, wiki, children }: Props) {
+  const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
   return (
-    <WikiPageWrapper wikiName={wikiName}>
+    <WikiPageWrapper
+      wikiName={wikiName}
+      onMenuButtonClick={() => setMobileSidebarOpen(true)}
+    >
       <div {...stylex.props(styles.body)}>
-        <WikiSidebar wikiId={wikiId} wiki={wiki}/>
+        <WikiSidebar
+          wikiId={wikiId}
+          wiki={wiki}
+          mobileOpen={mobileSidebarOpen}
+          onRequestClose={() => setMobileSidebarOpen(false)}
+        />
         <div {...stylex.props(styles.content)}>
           {children}
         </div>

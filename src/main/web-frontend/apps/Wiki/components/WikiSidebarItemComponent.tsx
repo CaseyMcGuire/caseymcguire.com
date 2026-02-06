@@ -14,7 +14,8 @@ type CommonProps = {
   parentFolderId: string,
   beforeId: string | null | undefined,
   afterId: string | null | undefined,
-  editModeEnabled: boolean
+  editModeEnabled: boolean,
+  onNavigate?: () => void,
 }
 
 type WikiSidebarFolderProps = {
@@ -85,6 +86,7 @@ export default function WikiSidebarItemComponent(props: WikiSidebarItemProps) {
         beforeId={props.beforeId}
         afterId={props.afterId}
         editModeEnabled={props.editModeEnabled}
+        onNavigate={props.onNavigate}
       />;
     case "WikiSidebarFolder":
       return <WikiSidebarFolderComponent
@@ -94,6 +96,7 @@ export default function WikiSidebarItemComponent(props: WikiSidebarItemProps) {
         beforeId={props.beforeId}
         afterId={props.afterId}
         editModeEnabled={props.editModeEnabled}
+        onNavigate={props.onNavigate}
       />;
     default:
       return null;
@@ -105,7 +108,10 @@ function WikiSidebarPageComponent(props: WikiSidebarPageProps) {
   const page = props.page;
   const wikiId = props.page.wikiId;
   const navigate = useNavigate();
-  const onClick = () => navigate(`/wiki/${wikiId}/${page.id}`);
+  const onClick = () => {
+    navigate(`/wiki/${wikiId}/${page.id}`);
+    props.onNavigate?.();
+  };
 
   const data: HoverData = {
     type: 'page',
@@ -249,6 +255,7 @@ function WikiSidebarFolderComponent(props: WikiSidebarFolderProps) {
               afterId={folder.children.at(index + 1)?.id}
               beforeId={folder.children.at(index - 1)?.id}
               editModeEnabled={props.editModeEnabled}
+              onNavigate={props.onNavigate}
             />
           ))
         }
