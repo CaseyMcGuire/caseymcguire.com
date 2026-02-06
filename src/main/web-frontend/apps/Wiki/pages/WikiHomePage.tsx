@@ -12,9 +12,9 @@ const styles = stylex.create({
   container: {
     display: 'flex',
     flexDirection: 'column',
-    justifyContent: 'center',
     alignItems: 'center',
     height: '100%',
+    marginTop: 64,
   },
   buttonContainer: {
     display: 'flex',
