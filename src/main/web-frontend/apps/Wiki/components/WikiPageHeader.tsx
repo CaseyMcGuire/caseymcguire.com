@@ -26,6 +26,7 @@ const styles = stylex.create({
   menuButton: {
     borderStyle: 'none',
     backgroundColor: 'transparent',
+    color: 'rgb(0, 0, 0)',
     padding: 6,
     borderRadius: 6,
     display: 'flex',
