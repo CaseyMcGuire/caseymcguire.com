@@ -14,7 +14,7 @@ export default function ViewWikiPage() {
       wiki: wikiById(id: $wikiId) {
         id
         name
-        ...WikiSidebar_wiki
+        ...WikiSidebarFragment_wiki
       }
       wikiPageById(id: $wikiPageId) {
         ...WikiPageContent_page

@@ -44,7 +44,7 @@ export default function WikiSidebarItemName(props: Props) {
           __typename
           ... on SuccessfulUpdateWikiPageNameResponse {
             wiki {
-              ...WikiSidebar_wiki
+              ...WikiSidebarFragment_wiki
             }
           }
           ... on FailedWikiResponse {

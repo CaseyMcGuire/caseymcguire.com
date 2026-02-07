@@ -87,7 +87,7 @@ function DeleteWikiPageModal(props: DeleteWikiPageModalProps) {
           __typename
           ... on SuccessfulDeleteWikiItem {
             wiki {
-              ...WikiSidebar_wiki
+              ...WikiSidebarFragment_wiki
             }
           }
           ... on FailedWikiResponse {

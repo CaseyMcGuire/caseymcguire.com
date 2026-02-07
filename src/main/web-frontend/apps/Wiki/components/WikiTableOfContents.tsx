@@ -1,119 +1,122 @@
-import {TableOfContentsNode} from "utils/MarkdownUtils";
-import * as stylex from '@stylexjs/stylex';
-import {useScrollSpy} from "hooks/ScrollSpyHook";
-import {useMemo} from "react";
-import {WikiStyles} from "./WikiStyles.stylex";
+import {readInlineData} from "react-relay/hooks";
+import {createWikiNavigationModel, sidebarFragment} from "apps/Wiki/components/WikiSidebarFragment";
+import {WikiSidebarFragment_wiki$key} from "__generated__/relay/WikiSidebarFragment_wiki.graphql";
+import {WikiSidebarFolder, WikiSidebarItem, WikiSidebarPage} from "apps/Wiki/models/WikiModels";
+import {Link} from "react-router";
+import * as stylex from "@stylexjs/stylex";
 
 type Props = {
-  headings: TableOfContentsNode[]
+  wiki: WikiSidebarFragment_wiki$key | null | undefined;
 }
 
 const styles = stylex.create({
   container: {
-    marginTop: 40,
-    marginLeft: 24,
     display: 'flex',
-    flexDirection: 'column',
     alignItems: 'center',
-    top: WikiStyles.tableOfContentsTop,
-    position: 'sticky',
-    '@media only screen and (max-width: 1300px)': {
-      display: 'none'
-    }
+    flexDirection: 'column',
+    padding: 16,
+    alignSelf: 'center',
+    width: '100%',
+    maxWidth: 360,
+    backgroundColor: 'rgb(249, 250, 251)',
+    borderRadius: 8,
   },
-  body: {
-    marginTop: 8,
-    borderLeftWidth: '1px',
+  title: {
+    fontWeight: 800,
+    fontSize: 16,
+    letterSpacing: '0.04em',
+    textTransform: 'uppercase',
+    color: 'rgb(107, 114, 128)',
+    marginBottom: 10,
+  },
+  list: {
+    listStyleType: 'none',
+    paddingLeft: 0,
+    margin: 0,
+  },
+  nestedList: {
+    listStyleType: 'none',
+    paddingLeft: 16,
+    margin: 0,
+    borderLeftWidth: 1,
     borderLeftStyle: 'solid',
-    borderLeftColor: "rgb(229, 231, 235)",
-    minHeight: 64,
-    width: 256
+    borderLeftColor: 'rgb(229, 231, 235)',
   },
-  level: {
-    paddingLeft: 8,
-    listStyle: 'none',
+  listItem: {
+    marginBottom: 8,
+    fontSize: 16,
+    lineHeight: 1.4,
   },
-  levelBlock: {
-    margin: 4
+  folderName: {
+    fontWeight: 700,
+    color: 'rgb(17, 24, 39)',
+    marginBottom: 6,
   },
   link: {
     textDecoration: 'none',
+    cursor: 'pointer',
   },
-  linkContents: {
-    color: 'rgb(82, 88, 96)',
-    ':hover': {
-      color: 'rgb(53, 120, 229)',
-    }
+  linkText: {
+    color: 'rgb(107, 114, 128)',
+    fontWeight: 500,
   },
-  header: {
-    marginLeft: 12
-  },
-  activeLinkContents: {
-    color: 'rgb(53, 120, 229)',
-  }
-})
+});
 
 export default function WikiTableOfContents(props: Props) {
-  const allIds = useMemo(() => {
-    const ids: string[] = [];
-    const traverse = (nodes: TableOfContentsNode[]) => {
-      nodes.forEach((node) => {
-        ids.push(node.id);
-        if (node.children) {
-          traverse(node.children);
-        }
-      });
-    };
-    traverse(props.headings);
-    return ids;
-  }, [props.headings]);
+  const data = readInlineData(
+    sidebarFragment,
+    props.wiki
+  );
 
-  const activeId = useScrollSpy(allIds);
+  const navigation = data ? createWikiNavigationModel(data) : null;
+
+  if (!navigation) {
+    return null;
+  }
 
   return (
     <div {...stylex.props(styles.container)}>
-      <div {...stylex.props(styles.body)}>
-        <h4 {...stylex.props(styles.header)}>Table of Contents</h4>
-        <WikiTableOfContentsItem activeId={activeId} nodes={props.headings}/>
-      </div>
+      <div {...stylex.props(styles.title)}>Table of Contents</div>
+      <ul {...stylex.props(styles.list)}>
+        {navigation.children.map(item => (
+          <WikiTableOfContentsItem key={item.id} item={item} />
+        ))}
+      </ul>
     </div>
   );
 }
 
-function WikiTableOfContentsItem(props: {
-  nodes: TableOfContentsNode[],
-  activeId: string
-}) {
-  if (props.nodes.length === 0) {
-    return null;
+function WikiTableOfContentsItem({ item }: { item: WikiSidebarItem }) {
+  if (item.type === "WikiSidebarPage") {
+    return <WikiTableOfContentsPage page={item} />;
   }
-  return (
-    <ul {...stylex.props(styles.level)}>
-      {
-        props.nodes.map(node => {
-          const isActive = node.id === props.activeId;
-            return (
-              <li
-                {...stylex.props(styles.levelBlock)}
-                key={node.id}>
-                <a
-                  {...stylex.props(styles.link)}
-                  href={`#${node.id}`}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    document.getElementById(node.id)?.scrollIntoView({ behavior: 'smooth' });
-                  }}>
-                <span {...stylex.props(!isActive && styles.linkContents, isActive && styles.activeLinkContents)}>
-                  {node.text}
-                </span>
-                </a>
-                <WikiTableOfContentsItem activeId={props.activeId} nodes={node.children}/>
-              </li>
-            )
-          }
-        )
-      }
-    </ul>
-  )
+  return <WikiTableOfContentsFolder folder={item} />;
+}
 
+function WikiTableOfContentsPage({ page }: { page: WikiSidebarPage }) {
+  return (
+    <li {...stylex.props(styles.listItem)}>
+      <Link
+        {...stylex.props(styles.link)}
+        to={`/wiki/${page.wikiId}/${page.id}`}
+      >
+        <span {...stylex.props(styles.linkText)}>{page.name}</span>
+      </Link>
+    </li>
+  );
+}
+
+function WikiTableOfContentsFolder({ folder }: { folder: WikiSidebarFolder }) {
+  return (
+    <li {...stylex.props(styles.listItem)}>
+      <div {...stylex.props(styles.folderName)}>{folder.name}</div>
+      {folder.children.length > 0 && (
+        <ol {...stylex.props(styles.nestedList)}>
+          {folder.children.map(item => (
+            <WikiTableOfContentsItem key={item.id} item={item} />
+          ))}
+        </ol>
+      )}
+    </li>
+  );
 }

@@ -6,7 +6,7 @@ import {WikiStyles} from "./WikiStyles.stylex";
 import {useMemo} from "react";
 import {convertMarkdownToHtml} from "utils/MarkdownUtils";
 import 'assets/stylesheets/markdown.css'
-import WikiTableOfContents from "apps/Wiki/components/WikiTableOfContents";
+import WikiPageTableOfContents from "apps/Wiki/components/WikiPageTableOfContents";
 import WikiPageBody from "apps/Wiki/components/WikiPageBody";
 
 type Props = {
@@ -59,7 +59,7 @@ export default function WikiPageContent(props: Props) {
                       title={data?.name ?? ''}
                       html={result.html}
         />
-        <WikiTableOfContents headings={result.tableOfContents}/>
+        <WikiPageTableOfContents headings={result.tableOfContents}/>
       </div>
       <div {...stylex.props(styles.footer)} />
     </>

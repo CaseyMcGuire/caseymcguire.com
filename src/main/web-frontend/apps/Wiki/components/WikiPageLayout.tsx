@@ -1,5 +1,5 @@
 import WikiSidebar from "apps/Wiki/components/WikiSidebar";
-import {WikiSidebar_wiki$key} from "__generated__/relay/WikiSidebar_wiki.graphql";
+import {WikiSidebarFragment_wiki$key} from "__generated__/relay/WikiSidebarFragment_wiki.graphql";
 import * as stylex from "@stylexjs/stylex";
 import WikiPageWrapper from "apps/Wiki/components/WikiPageWrapper";
 import React, {useState} from "react";
@@ -24,7 +24,7 @@ const styles = stylex.create({
 type Props = {
   wikiName: string;
   wikiId: string;
-  wiki: WikiSidebar_wiki$key | null | undefined;
+  wiki: WikiSidebarFragment_wiki$key | null | undefined;
   children: React.ReactNode;
 }
 

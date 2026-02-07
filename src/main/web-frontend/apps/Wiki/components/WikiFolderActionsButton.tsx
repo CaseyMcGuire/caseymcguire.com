@@ -16,7 +16,7 @@ export default function WikiFolderActionsButton(props: Props) {
           __typename
           ... on SuccessfulDeleteWikiItem {
             wiki {
-              ...WikiSidebar_wiki
+              ...WikiSidebarFragment_wiki
             }
           }
           ... on FailedWikiResponse {

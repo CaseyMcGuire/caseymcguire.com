@@ -23,6 +23,12 @@ const styles = stylex.create({
     borderBottomColor: 'rgb(229, 231, 235)',
     paddingBottom: 8,
   },
+  title: {
+    fontSize: 32,
+    fontWeight: 700,
+    lineHeight: 1.2,
+    margin: 0,
+  },
   contentContainer: {
     display: 'flex',
     flexDirection: 'column',
@@ -46,7 +52,7 @@ export default function WikiPageBody(props: Props) {
   return (
     <div {...stylex.props(styles.contentContainer)}>
       <div {...stylex.props(styles.titleContainer)}>
-        <h1>{props.title}</h1>
+        <h1 {...stylex.props(styles.title)}>{props.title}</h1>
         <AdminComponentGating>
           {props.showEditButton && <Link to={`/wiki/${props.wikiId}/${props.pageId}/edit`}>Edit</Link>}
         </AdminComponentGating>

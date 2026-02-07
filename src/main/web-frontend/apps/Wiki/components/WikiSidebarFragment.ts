@@ -1,0 +1,151 @@
+import {graphql} from "react-relay";
+import {WikiSidebarFragment_wiki$data} from "__generated__/relay/WikiSidebarFragment_wiki.graphql";
+import {WikiSidebarFolder, WikiSidebarItem} from "apps/Wiki/models/WikiModels";
+
+export const sidebarFragment =
+  graphql`
+    fragment WikiSidebarFragment_wiki on GqlWiki @inline {
+      id
+      name
+      rootFolder {
+        id
+        name
+        children {
+          __typename
+          ... on GqlWikiFolder {
+            id
+            name
+            children {
+              __typename
+              ... on GqlWikiFolder {
+                id
+                name
+                # We only allow two levels of nesting 
+                children {
+                  ... on GqlWikiPage {
+                    id
+                    name
+                  }
+                }
+              }
+              ... on GqlWikiPage {
+                id
+                name
+              }
+            }
+          }
+          ... on GqlWikiPage {
+            id
+            name
+          }
+        }
+      }
+    }
+  `;
+
+export function createWikiNavigationModel(data: WikiSidebarFragment_wiki$data): WikiSidebarFolder | null {
+
+  const wikiId = data.id;
+  const rootFolder = data.rootFolder;
+  const rootChildren: Array<WikiSidebarItem> = [];
+  rootFolder?.children?.forEach(child => {
+    if (child.__typename === "GqlWikiPage") {
+      const rootId = child.id;
+      const rootName = child.name;
+
+      if (rootId == null || rootName == null) {
+        return;
+      }
+
+      rootChildren.push({
+        type: "WikiSidebarPage",
+        id: rootId,
+        name: rootName,
+        wikiId
+      })
+    } else if (child.__typename === "GqlWikiFolder") {
+      const rootId = child.id;
+      const rootName = child.name;
+
+      if (rootId == null || rootName == null) {
+        return;
+      }
+
+      const folderChildren: Array<WikiSidebarItem> = []
+      child.children?.forEach(nestedChild => {
+        if (nestedChild.__typename === "GqlWikiPage") {
+          const nestedChildId = nestedChild.id;
+          const nestedChildName = nestedChild.name;
+
+          if (nestedChildId == null || nestedChildName == null) {
+            return;
+          }
+
+          folderChildren.push({
+            type: "WikiSidebarPage",
+            id: nestedChildId,
+            name: nestedChildName,
+            wikiId
+          })
+
+        } else if (nestedChild.__typename === "GqlWikiFolder") {
+          const nestedChildId = nestedChild.id;
+          const nestedChildName = nestedChild.name;
+          if (nestedChildId == null || nestedChildName == null) {
+            return;
+          }
+
+          const grandChildPages: Array<WikiSidebarItem> = [];
+          nestedChild.children?.forEach(grandChildPage => {
+            const grandChildId = grandChildPage.id;
+            const grandChildName = grandChildPage.name;
+            if (grandChildId == null || grandChildName == null) {
+              return;
+            }
+
+            grandChildPages.push({
+              id: grandChildId,
+              name: grandChildName,
+              type: "WikiSidebarPage",
+              wikiId
+            })
+          });
+
+          folderChildren.push(
+            {
+              type: "WikiSidebarFolder",
+              id: nestedChildId,
+              name: nestedChildName,
+              children: grandChildPages,
+              wikiId
+            }
+          )
+        }
+      })
+
+      rootChildren.push({
+        type: "WikiSidebarFolder",
+        id: rootId,
+        name: rootName,
+        children: folderChildren,
+        wikiId
+      })
+    }
+
+  });
+
+  const id = data.rootFolder?.id;
+  const name = data.rootFolder?.name;
+
+  if (id == null || name == null) {
+    return null;
+  }
+
+  return {
+    type: "WikiSidebarFolder",
+    id,
+    name,
+    children: rootChildren,
+    wikiId
+  }
+}
