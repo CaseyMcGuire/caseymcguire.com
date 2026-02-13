@@ -35,13 +35,13 @@ const styles = stylex.create({
     alignItems: 'center',
     maxWidth: '100%',
     width: {
-      '@media only screen and (max-width: 600px)': '100%'
+      '@media (max-width: 600px)': '100%'
     }
   },
   content: {
     width: {
       default: '850px',
-      '@media only screen and (max-width: 600px)': '100%'
+      '@media (max-width: 600px)': '100%'
     },
     maxWidth: '100%',
     overflowX: 'auto',

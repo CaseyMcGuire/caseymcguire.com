@@ -20,7 +20,7 @@ const styles = stylex.create({
     marginRight: 8,
     display: {
       default: 'none',
-      '@media only screen and (max-width: 600px)': 'block'
+      '@media (max-width: 600px)': 'block'
     }
   },
   menuButton: {

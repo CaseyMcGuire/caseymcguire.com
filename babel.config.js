@@ -1,18 +1,6 @@
 module.exports = {
   plugins: [
-    "relay",
-    [
-      "@stylexjs/babel-plugin",
-        {
-          dev: false,
-          test: false,
-          runtimeInjection: false,
-          treeshakeCompensation: true,
-          unstable_moduleResolution: {
-              type: "commonJS",
-          },
-        },
-    ]
+    "relay"
   ],
   presets: [
     "@babel/preset-env",

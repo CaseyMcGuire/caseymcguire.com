@@ -14,7 +14,7 @@ const styles = stylex.create({
   content: {
     marginLeft: {
       default: WikiStyles.sidebarWidth,
-      '@media only screen and (max-width: 600px)': 0
+      '@media (max-width: 600px)': 0
     },
     height: '100%',
     width: '100%',

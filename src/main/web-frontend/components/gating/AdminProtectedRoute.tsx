@@ -7,6 +7,7 @@ import {redirect} from "react-router";
 type Props = {
   children: React.JSX.Element  | null
 }
+
 export default function AdminProtectedRoute(props: Props) {
   const context = useContext(UserContext)
   if (context.user?.isAdmin != true) {

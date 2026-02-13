@@ -21,7 +21,7 @@ const styles = stylex.create({
     display: 'flex',
     justifyContent: {
       default: 'center',
-      '@media only screen and (max-width: 1300px)': 'flex-start'
+      '@media (max-width: 1300px)': 'flex-start'
     },
     alignItems: 'flex-start',
     padding: 16,

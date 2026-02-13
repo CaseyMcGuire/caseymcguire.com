@@ -87,6 +87,14 @@ class ReactPage(
             """.trimIndent()
           }
         }
+        link {
+          rel = "stylesheet"
+          href = "/bundles/stylex.css"
+        }
+        link {
+          rel = "stylesheet"
+          href = "/bundles/${bundleName}.css"
+        }
         customHead?.invoke(this)
       }
       body {

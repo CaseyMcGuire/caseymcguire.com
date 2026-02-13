@@ -8,7 +8,7 @@ const styles = stylex.create({
     display: 'flex',
     flexDirection: {
       default: 'row',
-      '@media only screen and (max-width: 600px)': 'column'
+      '@media (max-width: 600px)': 'column'
     },
     justifyContent: 'center'
   },

@@ -2,11 +2,16 @@ import path from "path";
 
 import { Configuration } from "webpack";
 import entries from "./SinglePageApplicationBundles";
+import stylexPlugin from "@stylexjs/unplugin";
+import MiniCssExtractPlugin from "mini-css-extract-plugin";
 
 const config : Configuration = {
   entry: mergeUnique(
     {
       graphiql: './src/main/web-frontend/apps/Graphiql/GraphiqlPage',
+      // for some reason, stylex only allows emitting a single CSS file. As such, we use this dummy entry and collate
+      // all CSS rules into it below.
+      stylex: './src/main/web-frontend/stylex-entry',
     },
    entries
   ),
@@ -49,13 +54,19 @@ const config : Configuration = {
       },
       {
         test: /\.css$/i,
-        use: ['style-loader', 'css-loader', 'postcss-loader'],
+        use: [MiniCssExtractPlugin.loader, 'css-loader'],
         // Graphiql doesn't work without this
         sideEffects: true,
       },
     ]
   },
-  plugins: [],
+  plugins: [
+    stylexPlugin.webpack({
+      useCSSLayers: true,
+      cssInjectionTarget: (fileName: string) => fileName === 'stylex.css',
+    }),
+    new MiniCssExtractPlugin()
+  ],
   externalsType: "module",
   externals: [
     'sanitize-html',

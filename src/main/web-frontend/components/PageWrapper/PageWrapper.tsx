@@ -1,10 +1,6 @@
-import 'components/PageWrapper/styles.css';
 import {ReactNode, Suspense} from "react";
 import {RelayConfig} from "relay/RelayConfig";
 import {RelayEnvironmentProvider} from "react-relay/hooks";
-
-// Stylex styles will be stored here at build time
-import 'components/PageWrapper/styles.css';
 import {IEnvironment} from "relay-runtime";
 
 type Props = {

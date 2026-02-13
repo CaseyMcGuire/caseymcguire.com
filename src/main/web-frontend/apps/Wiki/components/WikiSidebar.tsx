@@ -33,7 +33,7 @@ const styles = stylex.create({
   mobileOverlay: {
     display: {
       default: 'none',
-      '@media only screen and (max-width: 600px)': 'block'
+      '@media (max-width: 600px)': 'block'
     },
     position: 'fixed',
     top: WikiStyles.headerHeight,
@@ -65,7 +65,7 @@ const styles = stylex.create({
     left: 0,
     transitionProperty: 'transform',
     transitionDuration: '0.35s',
-    '@media only screen and (max-width: 600px)': {
+    '@media (max-width: 600px)': {
       right: 0,
       left: 'auto',
       width: '75%',
@@ -81,7 +81,7 @@ const styles = stylex.create({
     }
   },
   bodyMobileOpen: {
-    '@media only screen and (max-width: 600px)': {
+    '@media (max-width: 600px)': {
       transform: 'translateX(0)',
       pointerEvents: 'auto',
     }
