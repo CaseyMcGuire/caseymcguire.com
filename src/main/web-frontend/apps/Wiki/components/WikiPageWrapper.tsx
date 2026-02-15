@@ -1,5 +1,5 @@
 import * as stylex from "@stylexjs/stylex";
-import {WikiStyles} from "./WikiStyles.stylex";
+import {WikiStyles} from "apps/Wiki/components/WikiStyles.stylex";
 import {ReactNode} from "react";
 import WikiPageHeader from "apps/Wiki/components/WikiPageHeader";
 

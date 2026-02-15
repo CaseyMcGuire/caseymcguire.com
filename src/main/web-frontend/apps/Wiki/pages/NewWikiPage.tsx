@@ -3,7 +3,7 @@ import {useContext, useMemo, useState} from "react";
 import {graphql, useMutation} from "react-relay";
 import {Navigate, useNavigate} from "react-router";
 import * as stylex from "@stylexjs/stylex";
-import {WikiStyles} from "../components/WikiStyles.stylex";
+import {WikiStyles} from "apps/Wiki/components/WikiStyles.stylex";
 import UserContext from "components/context/UserContext";
 import Button from "components/buttons/Button";
 import WikiPageWrapper from "apps/Wiki/components/WikiPageWrapper";

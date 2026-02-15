@@ -63,6 +63,10 @@ const config : Configuration = {
   plugins: [
     stylexPlugin.webpack({
       useCSSLayers: true,
+      treeshakeCompensation: true,
+      aliases: {
+        "*": path.resolve("./src/main/web-frontend/*"),
+      },
       cssInjectionTarget: (fileName: string) => fileName === 'stylex.css',
     }),
     new MiniCssExtractPlugin()

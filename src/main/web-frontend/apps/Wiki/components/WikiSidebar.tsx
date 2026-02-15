@@ -4,7 +4,7 @@ import {WikiSidebarFragment_wiki$data, WikiSidebarFragment_wiki$key} from "__gen
 import * as stylex from "@stylexjs/stylex";
 import {WikiSidebarFolder, WikiSidebarItem} from "apps/Wiki/models/WikiModels";
 import WikiSidebarItemComponent, {HoverData} from "apps/Wiki/components/WikiSidebarItemComponent";
-import {WikiStyles} from "./WikiStyles.stylex";
+import {WikiStyles} from "apps/Wiki/components/WikiStyles.stylex";
 import {closestCenter, DndContext, DragOverEvent, PointerSensor, useSensor, useSensors} from "@dnd-kit/core";
 import type {DragEndEvent} from "@dnd-kit/core/dist/types";
 import React, {useContext, useMemo, useRef, useState} from "react";

@@ -3,7 +3,7 @@ import {WikiSidebarFragment_wiki$key} from "__generated__/relay/WikiSidebarFragm
 import * as stylex from "@stylexjs/stylex";
 import WikiPageWrapper from "apps/Wiki/components/WikiPageWrapper";
 import React, {useState} from "react";
-import {WikiStyles} from "./WikiStyles.stylex";
+import {WikiStyles} from "apps/Wiki/components/WikiStyles.stylex";
 
 const styles = stylex.create({
   body: {

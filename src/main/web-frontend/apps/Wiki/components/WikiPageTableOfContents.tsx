@@ -2,7 +2,7 @@ import {TableOfContentsNode} from "utils/MarkdownUtils";
 import * as stylex from '@stylexjs/stylex';
 import {useScrollSpy} from "hooks/ScrollSpyHook";
 import {useMemo} from "react";
-import {WikiStyles} from "./WikiStyles.stylex";
+import {WikiStyles} from "apps/Wiki/components/WikiStyles.stylex";
 
 type Props = {
   headings: TableOfContentsNode[]

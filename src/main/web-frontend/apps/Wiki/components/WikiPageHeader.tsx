@@ -1,6 +1,6 @@
 import * as stylex from "@stylexjs/stylex";
 import {Link} from "react-router";
-import {WikiStyles} from "./WikiStyles.stylex";
+import {WikiStyles} from "apps/Wiki/components/WikiStyles.stylex";
 import {Menu} from "lucide-react";
 
 const styles = stylex.create({
