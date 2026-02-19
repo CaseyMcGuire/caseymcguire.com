@@ -12,6 +12,8 @@ import WikiPageActionsButton from "apps/Wiki/components/WikiPageActionsButton";
 type CommonProps = {
   selectedId: string | null,
   parentFolderId: string,
+  currentPageId?: string,
+  depth: number,
   beforeId: string | null | undefined,
   afterId: string | null | undefined,
   editModeEnabled: boolean,
@@ -41,9 +43,26 @@ export type HoverData = {
   isOpen?: boolean
 }
 
+function itemContainsPage(item: WikiSidebarItem, pageId: string): boolean {
+  switch (item.type) {
+    case "WikiSidebarPage":
+      return item.id === pageId;
+    case "WikiSidebarFolder":
+      return item.children.some((child) => itemContainsPage(child, pageId));
+  }
+}
+
+function folderContainsPage(folder: WikiSidebarFolder, pageId: string | undefined): boolean {
+  if (pageId == null) {
+    return false;
+  }
+
+  return folder.children.some((child) => itemContainsPage(child, pageId));
+}
+
 const styles = stylex.create({
   container: {
-    paddingInline: '12px'
+    paddingInline: 0,
   },
   item: {
     cursor: "pointer",
@@ -52,7 +71,8 @@ const styles = stylex.create({
       backgroundColor: 'rgba(0,0,0,0.05)'
     },
     paddingBlock: '8px',
-    paddingInline: '12px',
+    paddingInlineStart: '12px',
+    paddingInlineEnd: '12px',
     display: "flex",
     alignItems: "center",
     justifyContent: "space-between",
@@ -65,6 +85,15 @@ const styles = stylex.create({
     borderBottomWidth: '2px',
     borderBottomStyle: 'solid',
     borderBottomColor: 'rgb(229, 231, 235)',
+  },
+  activePageItem: {
+    backgroundColor: 'rgb(233, 243, 255)',
+    color: 'rgb(20, 68, 154)',
+    fontWeight: 600,
+    ':hover': {
+      backgroundColor: 'rgb(233, 243, 255)',
+      color: 'rgb(20, 68, 154)',
+    },
   },
   hoverEmptyFolder: {
     backgroundColor: 'rgb(229, 231, 235)'
@@ -82,6 +111,8 @@ export default function WikiSidebarItemComponent(props: WikiSidebarItemProps) {
       return <WikiSidebarPageComponent
         page={props.item}
         parentFolderId={props.parentFolderId}
+        currentPageId={props.currentPageId}
+        depth={props.depth}
         selectedId={props.selectedId}
         beforeId={props.beforeId}
         afterId={props.afterId}
@@ -92,6 +123,8 @@ export default function WikiSidebarItemComponent(props: WikiSidebarItemProps) {
       return <WikiSidebarFolderComponent
         folder={props.item}
         parentFolderId={props.parentFolderId}
+        currentPageId={props.currentPageId}
+        depth={props.depth}
         selectedId={props.selectedId}
         beforeId={props.beforeId}
         afterId={props.afterId}
@@ -134,9 +167,11 @@ function WikiSidebarPageComponent(props: WikiSidebarPageProps) {
 
   const style = {
     transform: CSS.Translate.toString(transform),
+    paddingInlineStart: `${12 + props.depth * 12}px`,
   };
 
   const isHovering = !draggable.isDragging && props.selectedId === page.id;
+  const isCurrentPage = props.currentPageId === page.id;
 
   return (
     <div
@@ -148,6 +183,7 @@ function WikiSidebarPageComponent(props: WikiSidebarPageProps) {
       style={style}
       {...stylex.props(
         styles.item,
+        isCurrentPage && styles.activePageItem,
         isHovering && styles.hoverItem,
       )}
       {...listeners}
@@ -171,7 +207,8 @@ function WikiSidebarPageComponent(props: WikiSidebarPageProps) {
 
 function WikiSidebarFolderComponent(props: WikiSidebarFolderProps) {
   const folder = props.folder;
-  const [isOpen, setIsOpen] = useState(false);
+  const shouldAutoOpen = folderContainsPage(folder, props.currentPageId);
+  const [isOpen, setIsOpen] = useState(shouldAutoOpen);
   const toggleOpen = () => setIsOpen(!isOpen);
 
 
@@ -197,6 +234,7 @@ function WikiSidebarFolderComponent(props: WikiSidebarFolderProps) {
   const {attributes, listeners, transform} = draggable;
   const style = {
     transform: CSS.Translate.toString(transform),
+    paddingInlineStart: `${12 + props.depth * 12}px`,
   };
 
   const isHovering = !draggable.isDragging && props.selectedId === folder.id;
@@ -207,6 +245,12 @@ function WikiSidebarFolderComponent(props: WikiSidebarFolderProps) {
       setIsOpen(false);
     }
   }, [draggable.isDragging, isOpen]);
+
+  useEffect(() => {
+    if (shouldAutoOpen) {
+      setIsOpen(true);
+    }
+  }, [shouldAutoOpen]);
 
 
   return (
@@ -251,6 +295,8 @@ function WikiSidebarFolderComponent(props: WikiSidebarFolderProps) {
               key={item.id}
               item={item}
               parentFolderId={folder.id}
+              currentPageId={props.currentPageId}
+              depth={props.depth + 1}
               selectedId={props.selectedId}
               afterId={folder.children.at(index + 1)?.id}
               beforeId={folder.children.at(index - 1)?.id}

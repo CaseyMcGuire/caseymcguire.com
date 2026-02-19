@@ -16,8 +16,12 @@ const styles = stylex.create({
       default: WikiStyles.sidebarWidth,
       '@media (max-width: 600px)': 0
     },
+    minWidth: 0,
     height: '100%',
-    width: '100%',
+    width: {
+      default: `calc(100% - ${WikiStyles.sidebarWidth})`,
+      '@media (max-width: 600px)': '100%'
+    },
   }
 })
 
@@ -25,10 +29,11 @@ type Props = {
   wikiName: string;
   wikiId: string;
   wiki: WikiSidebarFragment_wiki$key | null | undefined;
+  currentPageId?: string;
   children: React.ReactNode;
 }
 
-export default function WikiPageLayout({ wikiName, wikiId, wiki, children }: Props) {
+export default function WikiPageLayout({ wikiName, wikiId, wiki, currentPageId, children }: Props) {
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
   return (
     <WikiPageWrapper
@@ -39,6 +44,7 @@ export default function WikiPageLayout({ wikiName, wikiId, wiki, children }: Pro
         <WikiSidebar
           wikiId={wikiId}
           wiki={wiki}
+          currentPageId={currentPageId}
           mobileOpen={mobileSidebarOpen}
           onRequestClose={() => setMobileSidebarOpen(false)}
         />

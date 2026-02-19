@@ -24,6 +24,7 @@ import {createWikiNavigationModel, sidebarFragment} from "apps/Wiki/components/W
 type Props = {
   wikiId: string,
   wiki: WikiSidebarFragment_wiki$key | null | undefined;
+  currentPageId?: string;
   mobileOpen: boolean,
   onRequestClose: () => void,
 }
@@ -364,6 +365,8 @@ export default function WikiSidebar(
                   key={child.id}
                   item={child}
                   parentFolderId={rootFolder.id}
+                  currentPageId={props.currentPageId}
+                  depth={0}
                   selectedId={hoverId}
                   afterId={rootFolder.children.at(index + 1)?.id}
                   beforeId={rootFolder.children.at(index - 1)?.id}

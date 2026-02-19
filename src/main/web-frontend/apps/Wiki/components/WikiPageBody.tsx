@@ -32,19 +32,14 @@ const styles = stylex.create({
   contentContainer: {
     display: 'flex',
     flexDirection: 'column',
-    alignItems: 'center',
-    maxWidth: '100%',
-    width: {
-      '@media (max-width: 600px)': '100%'
-    }
+    alignItems: 'stretch',
+    width: '100%',
+    maxWidth: '850px',
+    minWidth: 0,
   },
   content: {
-    width: {
-      default: '850px',
-      '@media (max-width: 600px)': '100%'
-    },
-    maxWidth: '100%',
-    overflowX: 'auto',
+    width: '100%',
+    minWidth: 0,
   }
 })
 

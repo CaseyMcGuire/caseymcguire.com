@@ -17,12 +17,9 @@ type Props = {
 
 const styles = stylex.create({
   body: {
-    //width: '100%',
+    width: '100%',
     display: 'flex',
-    justifyContent: {
-      default: 'center',
-      '@media (max-width: 1300px)': 'flex-start'
-    },
+    justifyContent: 'center',
     alignItems: 'flex-start',
     padding: 16,
   },

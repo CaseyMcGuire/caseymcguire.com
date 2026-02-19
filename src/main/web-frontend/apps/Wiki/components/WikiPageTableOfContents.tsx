@@ -17,7 +17,7 @@ const styles = stylex.create({
     alignItems: 'center',
     top: WikiStyles.tableOfContentsTop,
     position: 'sticky',
-    '@media (max-width: 1300px)': {
+    '@media (max-width: 1450px)': {
       display: 'none'
     }
   },
