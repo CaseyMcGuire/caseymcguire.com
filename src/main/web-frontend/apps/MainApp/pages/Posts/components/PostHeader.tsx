@@ -1,8 +1,21 @@
 import {Link} from "react-router";
-import {postStyles} from "apps/MainApp/pages/Posts/components/PostStyles";
 import * as React from "react";
 import AdminComponentGating from "components/gating/AdminComponentGating";
 import * as stylex from '@stylexjs/stylex';
+
+const styles = stylex.create({
+  titleLink: {
+    textDecorationLine: 'none',
+  },
+  subtitle: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    padding: '4px 0px',
+  },
+  date: {
+    color: 'grey',
+  },
+});
 
 type Props = {
   id?: number,
@@ -18,14 +31,14 @@ export default function PostHeader(props: Props) {
     showEditButton,
     publishedDate
   } = props;
-  const blogTitleElement = id ? <Link {...stylex.props(postStyles.postTitleLink)} to={"/posts/" + id}>{title}</Link> : title;
+  const blogTitleElement = id ? <Link {...stylex.props(styles.titleLink)} to={"/posts/" + id}>{title}</Link> : title;
   const editButton = id ? <Link to={"/posts/" + id + "/edit"}>Edit</Link> : null;
   return (
     <div>
       <h2>{blogTitleElement}</h2>
-      <div sx={postStyles.postSubtitle}>
+      <div sx={styles.subtitle}>
         {publishedDate != null ? (
-          <span sx={postStyles.date}>{publishedDate}</span>
+          <span sx={styles.date}>{publishedDate}</span>
         ) : null}
         {showEditButton === true ? (
           <AdminComponentGating>{editButton}</AdminComponentGating>

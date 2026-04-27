@@ -1,8 +1,6 @@
 import * as React from "react";
-import {postStyles} from "apps/MainApp/pages/Posts/components/PostStyles";
-import * as stylex from '@stylexjs/stylex';
-void stylex;
 import PostHeader from "apps/MainApp/pages/Posts/components/PostHeader";
+import PostShell from "apps/MainApp/pages/Posts/components/PostShell";
 import 'assets/stylesheets/markdown.css'
 import {useMemo} from "react";
 import {convertMarkdownToHtml} from "utils/MarkdownUtils";
@@ -31,20 +29,19 @@ export default function Post(props: Props) {
   }, [contents]);
 
   return (
-    <div sx={postStyles.postContainer}>
-      <div sx={postStyles.postTitleContainer}>
+    <PostShell>
+      <PostShell.Title>
         <PostHeader
           id={id}
           title={title}
           publishedDate={publishedDate}
           showEditButton={showEditButton}
         />
-      </div>
-      <div
-        sx={postStyles.postContentsContainer}
+      </PostShell.Title>
+      <PostShell.Contents
         data-post-contents
         dangerouslySetInnerHTML={{ __html: sanitizedHtml }}
       />
-    </div>
+    </PostShell>
   );
 }
