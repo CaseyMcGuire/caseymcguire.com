@@ -20,7 +20,7 @@ const styles = stylex.create({
 
 export default function WikiChevronIcon(props: Props) {
   return (
-    <div {...stylex.props(styles.icon, props.isOpen && styles.open)}>
+    <div sx={[styles.icon, props.isOpen && styles.open]}>
       <ChevronRight size={"1.5rem"}
                     color="rgb(81,83,85)"
       />

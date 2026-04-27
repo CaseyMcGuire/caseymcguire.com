@@ -55,7 +55,7 @@ export default function WorkoutTrackerExerciseSection(
 
   return (
     <WorkoutTrackerBox>
-      <div {...stylex.props(styles.exerciseDropdownContainer)}>
+      <div sx={styles.exerciseDropdownContainer}>
         <WorkoutTrackerDropdown
           name={"exercises"}
           label={"Exercise Type"}

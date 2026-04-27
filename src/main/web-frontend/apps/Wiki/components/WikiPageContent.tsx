@@ -49,7 +49,7 @@ export default function WikiPageContent(props: Props) {
   // work.
   return (
     <>
-      <div {...stylex.props(styles.body)}>
+      <div sx={styles.body}>
         <WikiPageBody pageId={props.pageId}
                       showEditButton={true}
                       wikiId={props.wikiId}
@@ -58,7 +58,7 @@ export default function WikiPageContent(props: Props) {
         />
         <WikiPageTableOfContents headings={result.tableOfContents}/>
       </div>
-      <div {...stylex.props(styles.footer)} />
+      <div sx={styles.footer} />
     </>
   );
 }

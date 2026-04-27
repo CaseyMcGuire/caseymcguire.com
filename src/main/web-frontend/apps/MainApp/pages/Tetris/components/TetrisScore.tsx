@@ -19,7 +19,7 @@ const styles = stylex.create({
 
 export default function TetrisScore(props: Props) {
   return (
-    <div {...stylex.props(styles.tetrisScore)}>
+    <div sx={styles.tetrisScore}>
       <span>Score</span>
       {props.score}
     </div>

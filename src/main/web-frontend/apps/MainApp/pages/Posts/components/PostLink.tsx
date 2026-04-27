@@ -17,7 +17,7 @@ const styles = stylex.create({
 export default function PostLink(props: Props) {
 
   return (
-    <div {...stylex.props(styles.container)}>
+    <div sx={styles.container}>
       <PostHeader
         id={props.postId}
         title={props.title}

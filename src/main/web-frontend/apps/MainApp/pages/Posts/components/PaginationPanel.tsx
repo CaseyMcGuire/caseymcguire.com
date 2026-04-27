@@ -37,12 +37,12 @@ export default function PaginationPanel(props: Props) {
   const disableRight = !props.hasNextPage;
   const disableLeft = !props.hasPreviousPage;
   return (
-    <div {...stylex.props(styles.paginationPanel)}>
-      <div {...stylex.props(disableLeft && styles.hideArrow)}>
+    <div sx={styles.paginationPanel}>
+      <div sx={disableLeft && styles.hideArrow}>
         <Link to={path + (props.pageNumber - 1)}>&lsaquo;</Link>
       </div>
       <div>{props.pageNumber}</div>
-      <div {...stylex.props(disableRight && styles.hideArrow)}>
+      <div sx={disableRight && styles.hideArrow}>
         <Link to={path + (props.pageNumber + 1)}>&rsaquo;</Link>
       </div>
     </div>

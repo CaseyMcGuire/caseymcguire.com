@@ -54,16 +54,16 @@ export default function SideMenu(props: Props) {
     <div>
       <div
         onClick={props.onCloseClick}
-        {...stylex.props(
+        sx={[
           styles.sideMenuGlass,
           props.display && styles.sideMenuGlassVisible,
-        )}
+        ]}
       />
       <div
-        {...stylex.props(
+        sx={[
           styles.sideMenu,
           props.display && styles.sideMenuVisible,
-        )}
+        ]}
       >
         <NavigationLinksList isMobile />
       </div>

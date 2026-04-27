@@ -35,14 +35,14 @@ export default function WorkoutTrackerSetCreationTable(
   props: WorkoutTrackerSetCreationTableProps,
 ) {
   return (
-    <div {...stylex.props(styles.setCreationRowContainer)}>
-      <div {...stylex.props(styles.row)}>
-        <div {...stylex.props(styles.rowCell, styles.rowHeader)}>#</div>
-        <div {...stylex.props(styles.rowCell, styles.rowHeader)}>
+    <div sx={styles.setCreationRowContainer}>
+      <div sx={styles.row}>
+        <div sx={[styles.rowCell, styles.rowHeader]}>#</div>
+        <div sx={[styles.rowCell, styles.rowHeader]}>
           Weight (lbs)
         </div>
-        <div {...stylex.props(styles.rowCell, styles.rowHeader)}>Reps</div>
-        <div {...stylex.props(styles.rowCell, styles.rowHeader)}>Status</div>
+        <div sx={[styles.rowCell, styles.rowHeader]}>Reps</div>
+        <div sx={[styles.rowCell, styles.rowHeader]}>Status</div>
       </div>
       <WorkoutTrackerSetCreationRow />
     </div>
@@ -51,21 +51,21 @@ export default function WorkoutTrackerSetCreationTable(
 
 function WorkoutTrackerSetCreationRow() {
   return (
-    <div {...stylex.props(styles.row)}>
-      <div {...stylex.props(styles.rowCell)}>1</div>
-      <div {...stylex.props(styles.rowCell)}>
+    <div sx={styles.row}>
+      <div sx={styles.rowCell}>1</div>
+      <div sx={styles.rowCell}>
         <WorkoutTrackerInputField
           name={"weightDropdown"}
           handleTextChange={text => {}}
         />
       </div>
-      <div {...stylex.props(styles.rowCell)}>
+      <div sx={styles.rowCell}>
         <WorkoutTrackerInputField
           name={"numberOfReps"}
           handleTextChange={() => {}}
         />
       </div>
-      <div {...stylex.props(styles.rowCell)}>Complete</div>
+      <div sx={styles.rowCell}>Complete</div>
     </div>
   );
 }

@@ -25,8 +25,8 @@ const styles = stylex.create({
 })
 
 export default function AuthFormContainer(props: { children: React.ReactNode }) {
-  return (<div {...stylex.props(styles.loginFormContainer)}>
-    <div {...stylex.props(styles.loginForm)}>
+  return (<div sx={styles.loginFormContainer}>
+    <div sx={styles.loginForm}>
       {props.children}
     </div>
   </div>

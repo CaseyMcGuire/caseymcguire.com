@@ -71,9 +71,9 @@ export default function WikiPageTableOfContents(props: Props) {
   const activeId = useScrollSpy(allIds);
 
   return (
-    <div {...stylex.props(styles.container)}>
-      <div {...stylex.props(styles.body)}>
-        <h4 {...stylex.props(styles.header)}>Table of Contents</h4>
+    <div sx={styles.container}>
+      <div sx={styles.body}>
+        <h4 sx={styles.header}>Table of Contents</h4>
         <WikiTableOfContentsItem activeId={activeId} nodes={props.headings}/>
       </div>
     </div>
@@ -88,22 +88,22 @@ function WikiTableOfContentsItem(props: {
     return null;
   }
   return (
-    <ul {...stylex.props(styles.level)}>
+    <ul sx={styles.level}>
       {
         props.nodes.map(node => {
           const isActive = node.id === props.activeId;
             return (
               <li
-                {...stylex.props(styles.levelBlock)}
+                sx={styles.levelBlock}
                 key={node.id}>
                 <a
-                  {...stylex.props(styles.link)}
+                  sx={styles.link}
                   href={`#${node.id}`}
                   onClick={(e) => {
                     e.preventDefault();
                     document.getElementById(node.id)?.scrollIntoView({ behavior: 'smooth' });
                   }}>
-                <span {...stylex.props(!isActive && styles.linkContents, isActive && styles.activeLinkContents)}>
+                <span sx={[!isActive && styles.linkContents, isActive && styles.activeLinkContents]}>
                   {node.text}
                 </span>
                 </a>

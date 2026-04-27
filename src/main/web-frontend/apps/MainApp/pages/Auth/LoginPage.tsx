@@ -59,19 +59,19 @@ export default function LoginPage() {
   return (
     <Page>
       <AuthFormContainer>
-          <div {...stylex.props(styles.loginHeader)}>
+          <div sx={styles.loginHeader}>
             {'Sign In'}
           </div>
           <ErrorBanner isVisible={params.error != null} />
           <form action="/login" method="POST">
             <CsrfToken />
-            <div {...stylex.props(styles.formContainer)}>
+            <div sx={styles.formContainer}>
               <FormField labelText={"Email"} formName={"username"} placeholder={"Enter your Email"} type={"text"}/>
             </div>
-            <div {...stylex.props(styles.formContainer)}>
+            <div sx={styles.formContainer}>
               <FormField labelText={"Password"} formName={"password"} placeholder={"Enter your password"} type={"password"}/>
             </div>
-            <input {...stylex.props(styles.submitButton)} name="submit" type="submit" value="Sign In" />
+            <input sx={styles.submitButton} name="submit" type="submit" value="Sign In" />
           </form>
       </AuthFormContainer>
     </Page>
@@ -83,7 +83,7 @@ function ErrorBanner(props: {isVisible: boolean}) {
     return null
   }
   return (
-    <div {...stylex.props(styles.errorAlert)}>
+    <div sx={styles.errorAlert}>
       Incorrect username or password
     </div>
   )

@@ -100,21 +100,21 @@ function DeleteWikiPageModal(props: DeleteWikiPageModalProps) {
 
   return (
     <Modal isVisible={props.isOpen}>
-      <div  {...stylex.props(styles.modalContainer)}>
-        <div {...stylex.props(styles.modalContents)}>
-          <div {...stylex.props(styles.textContainer)}>
+      <div  sx={styles.modalContainer}>
+        <div sx={styles.modalContents}>
+          <div sx={styles.textContainer}>
             Are you sure you want to delete the page <strong>{props.pageName}</strong>?
             If so, enter the page name in the box below to confirm.
           </div>
           <input
-            {...stylex.props(styles.input)}
+            sx={styles.input}
             type="text"
             value={inputText}
             onChange={(e) => setInputText(e.target.value)}
           />
         </div>
-        <div {...stylex.props(styles.buttonContainer)}>
-          <div {...stylex.props(styles.deleteButtonContainer)}>
+        <div sx={styles.buttonContainer}>
+          <div sx={styles.deleteButtonContainer}>
             <Button
               text={"Delete"}
               style={'danger'}

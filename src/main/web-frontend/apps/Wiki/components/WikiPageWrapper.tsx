@@ -21,7 +21,7 @@ export default function WikiPageWrapper(
   return (
     <div>
       <WikiPageHeader onMenuButtonClick={props.onMenuButtonClick}/>
-      <div {...stylex.props(styles.container)}>
+      <div sx={styles.container}>
         {props.children}
       </div>
     </div>

@@ -59,22 +59,22 @@ export default function EmploymentCard(props: Props) {
   const { title, employmentDate, companyName, location, description } = props;
 
   return (
-    <div {...stylex.props(styles.employmentCardContainer)}>
-      <div {...stylex.props(styles.header)}>
-        <div {...stylex.props(styles.companyEmploymentDateContainer)}>
+    <div sx={styles.employmentCardContainer}>
+      <div sx={styles.header}>
+        <div sx={styles.companyEmploymentDateContainer}>
           <div>
-            <span {...stylex.props(styles.title)}>{title}</span>
+            <span sx={styles.title}>{title}</span>
           </div>
           <div>
             <span>{employmentDate}</span>
           </div>
         </div>
-        <div {...stylex.props(styles.companyNameLocationContainer)}>
+        <div sx={styles.companyNameLocationContainer}>
           <div>
-            <span {...stylex.props(styles.companyName)}>{companyName}</span>
+            <span sx={styles.companyName}>{companyName}</span>
           </div>
-          <div {...stylex.props(styles.locationContainer)}>
-            <span {...stylex.props(styles.location)}>{location}</span>
+          <div sx={styles.locationContainer}>
+            <span sx={styles.location}>{location}</span>
           </div>
         </div>
       </div>

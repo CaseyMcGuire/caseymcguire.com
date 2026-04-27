@@ -20,7 +20,7 @@ const styles = stylex.create({
 
 export default function TetrisSidePanel(props: Props) {
   return (
-    <div {...stylex.props(styles.sidePanel)}>
+    <div sx={styles.sidePanel}>
       <NextTetrominoView nextTetromino={props.state.nextTetromino} />
       <TetrisScore score={props.state.score} />
     </div>

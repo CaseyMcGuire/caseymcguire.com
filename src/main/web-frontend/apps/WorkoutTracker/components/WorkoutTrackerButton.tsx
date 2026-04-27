@@ -29,7 +29,7 @@ type Props = {
 
 export default function WorkoutTrackerButton(props: Props) {
   return (
-    <button {...stylex.props(styles.button)} onClick={props.onClick}>
+    <button sx={styles.button} onClick={props.onClick}>
       {props.text}
     </button>
   );

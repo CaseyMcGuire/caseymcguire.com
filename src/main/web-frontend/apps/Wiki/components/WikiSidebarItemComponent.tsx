@@ -181,11 +181,11 @@ function WikiSidebarPageComponent(props: WikiSidebarPageProps) {
         draggable.setNodeRef(node);
       }}
       style={style}
-      {...stylex.props(
+      sx={[
         styles.item,
         isCurrentPage && styles.activePageItem,
         isHovering && styles.hoverItem,
-      )}
+      ]}
       {...listeners}
       {...attributes}
     >
@@ -256,11 +256,11 @@ function WikiSidebarFolderComponent(props: WikiSidebarFolderProps) {
   return (
     <div>
       <div
-        {...stylex.props(
+        sx={[
           styles.item,
           (isHovering && !isEmpty) && styles.hoverItem,
           (isHovering && (isEmpty || isOpen)) && styles.hoverEmptyFolder,
-        )}
+        ]}
         onClick={toggleOpen}
         ref={(node) => {
           draggable.setNodeRef(node);
@@ -275,7 +275,7 @@ function WikiSidebarFolderComponent(props: WikiSidebarFolderProps) {
           name={folder.name}
           isEditable={props.editModeEnabled}
         />
-        <div {...stylex.props(styles.actions)}>
+        <div sx={styles.actions}>
           <WikiChevronIcon isOpen={isOpen}/>
           {props.editModeEnabled &&
               <WikiFolderActionsButton
@@ -285,10 +285,10 @@ function WikiSidebarFolderComponent(props: WikiSidebarFolderProps) {
           }
         </div>
       </div>
-      <div {...stylex.props(
+      <div sx={[
         styles.container,
         !isOpen && styles.children
-      )}>
+      ]}>
         {
           folder.children.map((item, index) => (
             <WikiSidebarItemComponent

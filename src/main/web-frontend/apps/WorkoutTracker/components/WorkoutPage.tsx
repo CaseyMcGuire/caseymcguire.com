@@ -48,10 +48,10 @@ const styles = stylex.create({
 
 export default function WorkoutPage(props: Props) {
   return (
-    <div {...stylex.props(styles.pageContainer)}>
+    <div sx={styles.pageContainer}>
       <WorkoutSidebar selectedMenuItemId={props.selectedMenuItemId} />
-      <div {...stylex.props(styles.contentsContainer)}>
-        <div {...stylex.props(styles.contents)}>
+      <div sx={styles.contentsContainer}>
+        <div sx={styles.contents}>
           <Suspense fallback={<div>Loading</div>}>
             {props.title && (
               <WorkoutTrackerPageHeader
@@ -77,8 +77,8 @@ function WorkoutTrackerPageHeader(props: WorkoutPageHeaderProps) {
   const { link } = props;
 
   return (
-    <div {...stylex.props(styles.titleContainer)}>
-      <span {...stylex.props(styles.title)}>{props.title}</span>
+    <div sx={styles.titleContainer}>
+      <span sx={styles.title}>{props.title}</span>
       {link && (
         <WorkoutTrackerButton
           text={"Create Exercise"}

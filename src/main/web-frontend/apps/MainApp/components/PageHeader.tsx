@@ -21,9 +21,9 @@ interface Props {
 
 export default function PageHeader(props: Props) {
   return (
-    <div {...stylex.props(styles.pageHeaderContainer)}>
+    <div sx={styles.pageHeaderContainer}>
       <div>
-        <span {...stylex.props(styles.name)}>Casey McGuire</span>
+        <span sx={styles.name}>Casey McGuire</span>
       </div>
       <NavigationBar onMenuButtonClick={props.onMenuButtonClick} />
     </div>

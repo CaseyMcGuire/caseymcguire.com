@@ -168,13 +168,13 @@ export default function NewWikiPage() {
 
   return (
     <WikiPageWrapper>
-      <div {...stylex.props(styles.content)}>
-        <div {...stylex.props(styles.container)}>
-          <h1 {...stylex.props(styles.title)}>Create a new wiki</h1>
-          <div {...stylex.props(styles.card)}>
-            <div {...stylex.props(styles.inputLabel)}>Wiki name</div>
+      <div sx={styles.content}>
+        <div sx={styles.container}>
+          <h1 sx={styles.title}>Create a new wiki</h1>
+          <div sx={styles.card}>
+            <div sx={styles.inputLabel}>Wiki name</div>
             <input
-              {...stylex.props(styles.input)}
+              sx={styles.input}
               type="text"
               placeholder="e.g. My Wiki"
               value={name}
@@ -190,8 +190,8 @@ export default function NewWikiPage() {
                 }
               }}
             />
-            {error && <div {...stylex.props(styles.errorText)}>{error}</div>}
-            <div {...stylex.props(styles.actions)}>
+            {error && <div sx={styles.errorText}>{error}</div>}
+            <div sx={styles.actions}>
               <Button
                 text="Create wiki"
                 state={buttonState}

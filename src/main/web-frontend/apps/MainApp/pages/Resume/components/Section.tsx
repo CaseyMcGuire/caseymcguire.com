@@ -25,11 +25,11 @@ interface Props {
 
 export default function Section(props: Props) {
   return (
-    <div {...stylex.props(styles.sectionContainer)}>
-      <div {...stylex.props(styles.sectionTitleContainer)}>
-        <span {...stylex.props(styles.sectionTitle)}>{props.title}</span>
+    <div sx={styles.sectionContainer}>
+      <div sx={styles.sectionTitleContainer}>
+        <span sx={styles.sectionTitle}>{props.title}</span>
       </div>
-      <div {...stylex.props(styles.sectionContentContainer)}>
+      <div sx={styles.sectionContentContainer}>
         {props.children}
       </div>
     </div>

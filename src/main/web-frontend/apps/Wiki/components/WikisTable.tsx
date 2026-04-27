@@ -62,25 +62,25 @@ export default function WikisTable(props: Props) {
   const navigate = useNavigate()
 
   return (
-    <div {...stylex.props(styles.tableContainer)}>
-      <table {...stylex.props(styles.table)}>
+    <div sx={styles.tableContainer}>
+      <table sx={styles.table}>
         <thead>
         <tr>
-          <th {...stylex.props(styles.cell, styles.nameCell)}>Wiki Name</th>
-          <th {...stylex.props(styles.cell)}>Created At</th>
+          <th sx={[styles.cell, styles.nameCell]}>Wiki Name</th>
+          <th sx={styles.cell}>Created At</th>
         </tr>
         </thead>
         <tbody>
         {
           data?.wikis?.edges?.map(edge => {
             return (
-              <tr {...stylex.props(styles.tableRow)} onClick={() => {
+              <tr sx={styles.tableRow} onClick={() => {
                 navigate(`/wiki/${edge?.node?.id}`)
               }}>
-                <td {...stylex.props(styles.cell, styles.nameCell)}>
-                  <span {...stylex.props(styles.wikiName)}>{edge?.node?.name}</span>
+                <td sx={[styles.cell, styles.nameCell]}>
+                  <span sx={styles.wikiName}>{edge?.node?.name}</span>
                 </td>
-                <td {...stylex.props(styles.cell)}>
+                <td sx={styles.cell}>
                   {edge?.node?.createdAt}
                 </td>
               </tr>

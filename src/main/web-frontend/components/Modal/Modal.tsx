@@ -38,9 +38,9 @@ export default function Modal(props: Props) {
   const modalRef = useRef<HTMLDivElement>(null);
 
   return (props.isVisible && createPortal(
-      <div {...stylex.props(styles.container)}>
+      <div sx={styles.container}>
         <div
-          {...stylex.props(styles.modal)}
+          sx={styles.modal}
           role="dialog"
           aria-modal="true"
           tabIndex={-1}

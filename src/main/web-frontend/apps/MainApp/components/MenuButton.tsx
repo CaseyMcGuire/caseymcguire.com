@@ -22,13 +22,13 @@ interface Props {
 
 export default function MenuButton(props: Props) {
   return (
-    <div {...stylex.props(styles.menuButton)} onClick={props.onClick}>
-      <div {...stylex.props(styles.menuButtonLine)} />
+    <div sx={styles.menuButton} onClick={props.onClick}>
+      <div sx={styles.menuButtonLine} />
       <div
-        {...stylex.props(styles.menuButtonLine, styles.menuButtonLineOffset)}
+        sx={[styles.menuButtonLine, styles.menuButtonLineOffset]}
       />
       <div
-        {...stylex.props(styles.menuButtonLine, styles.menuButtonLineOffset)}
+        sx={[styles.menuButtonLine, styles.menuButtonLineOffset]}
       />
     </div>
   );

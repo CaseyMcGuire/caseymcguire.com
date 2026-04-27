@@ -29,7 +29,7 @@ type Props = {
 export default function WorkoutTrackerInputField(props: Props) {
   return (
     <div>
-      <div {...stylex.props(styles.formElementContainer)}>
+      <div sx={styles.formElementContainer}>
         {props.label && (
           <WorkoutTrackerInputLabel
             labelText={props.label}
@@ -37,7 +37,7 @@ export default function WorkoutTrackerInputField(props: Props) {
           />
         )}
         <input
-          {...stylex.props(styles.textInput)}
+          sx={styles.textInput}
           name={props.name}
           type="text"
           onChange={event => props.handleTextChange(event.target.value)}

@@ -4,6 +4,7 @@ import LoadingShimmer from "apps/MainApp/components/LoadingShimmer";
 import {useDelay} from "utils/useDelay";
 import * as stylex from "@stylexjs/stylex";
 
+void stylex;
 export default function LoadingPost() {
   const isVisible = useDelay(500);
   if (!isVisible) {
@@ -11,12 +12,12 @@ export default function LoadingPost() {
   }
 
   return (
-    <div {...stylex.props(postStyles.postContainer)}>
-      <div {...stylex.props(postStyles.postTitleContainer)}>
+    <div sx={postStyles.postContainer}>
+      <div sx={postStyles.postTitleContainer}>
         <LoadingShimmer marginBottom={4} height={16} width={150} />
         <LoadingShimmer marginBottom={4} height={16} width={50} />
       </div>
-      <div {...stylex.props(postStyles.postContentsContainer)}>
+      <div sx={postStyles.postContentsContainer}>
         <LoadingShimmer marginBottom={4} height={16} width="100%" />
         <LoadingShimmer marginBottom={4} height={16} width="100%" />
         <LoadingShimmer marginBottom={4} height={16} width="100%" />

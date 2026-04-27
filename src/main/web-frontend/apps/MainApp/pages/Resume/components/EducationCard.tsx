@@ -34,10 +34,10 @@ export default function EducationCard(props: Props) {
   const { universityName, major, minor, graduationDate } = props;
 
   return (
-    <div {...stylex.props(styles.educationCardContainer)}>
-      <div {...stylex.props(styles.schoolInfoContainer)}>
+    <div sx={styles.educationCardContainer}>
+      <div sx={styles.schoolInfoContainer}>
         <div>
-          <span {...stylex.props(styles.universityName)}>
+          <span sx={styles.universityName}>
             {universityName}
           </span>
         </div>
@@ -49,7 +49,7 @@ export default function EducationCard(props: Props) {
         </div>
       </div>
       <div>
-        <span {...stylex.props(styles.graduationDate)}>
+        <span sx={styles.graduationDate}>
           Graduated {graduationDate}
         </span>
       </div>

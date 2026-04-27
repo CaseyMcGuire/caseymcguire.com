@@ -29,11 +29,11 @@ type Props = {
 
 export default function MovieRoot(props: Props) {
   return (
-    <div {...stylex.props(styles.root)}>
-      <div {...stylex.props(styles.sidebar)}>
+    <div sx={styles.root}>
+      <div sx={styles.sidebar}>
         <MovieSidebar />
       </div>
-      <div {...stylex.props(styles.content)}>{props.children}</div>
+      <div sx={styles.content}>{props.children}</div>
     </div>
   );
 }

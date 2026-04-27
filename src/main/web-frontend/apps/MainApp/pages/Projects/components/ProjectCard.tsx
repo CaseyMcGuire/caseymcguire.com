@@ -42,17 +42,17 @@ type CardProps = {
 
 export default function ProjectCard(props: CardProps) {
   return (
-    <div {...stylex.props(styles.card)}>
+    <div sx={styles.card}>
       <div>
-        <h2 {...stylex.props(styles.title)}>
+        <h2 sx={styles.title}>
           {props.title}
         </h2>
-        <div {...stylex.props(styles.description)}>
+        <div sx={styles.description}>
           {props.description}
         </div>
       </div>
-      <div {...stylex.props(styles.linksContainer)}>
-        <div {...stylex.props(styles.linkContainer)}>
+      <div sx={styles.linksContainer}>
+        <div sx={styles.linkContainer}>
           <Link to={props.href}>{'View'}</Link>
         </div>
         <div>

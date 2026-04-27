@@ -38,10 +38,10 @@ export default function WikiHomePage() {
 
   return (
     <WikiPageWrapper wikiName={"Home"}>
-      <div {...stylex.props(styles.container)}>
+      <div sx={styles.container}>
         <div>
           <AdminComponentGating>
-            <div {...stylex.props(styles.buttonContainer)}>
+            <div sx={styles.buttonContainer}>
               <Button text={"Create Wiki"} onClick={() => {
                 navigate('/wiki/new')
               }}/>

@@ -41,7 +41,7 @@ export default function WorkoutTrackerExercisesIndexPage() {
         return (
           <div
             key={elem.id}
-            {...stylex.props(styles.exerciseContainer)}
+            sx={styles.exerciseContainer}
           >
             <WorkoutTrackerContainer>{elem.name}</WorkoutTrackerContainer>
           </div>

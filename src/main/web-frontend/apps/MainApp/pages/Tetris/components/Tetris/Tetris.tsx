@@ -49,7 +49,7 @@ export default function Tetris() {
   }, [dispatch]);
 
   return (
-    <div {...stylex.props(styles.tetrisContainer)}>
+    <div sx={styles.tetrisContainer}>
       <TetrisBoard
         board={state.board}
         isPaused={state.isPaused}

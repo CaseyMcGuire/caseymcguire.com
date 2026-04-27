@@ -14,7 +14,7 @@ const styles = stylex.create({
 export default function ProjectsPage() {
   return (
     <Page>
-      <div {...stylex.props(styles.cardContainer)}>
+      <div sx={styles.cardContainer}>
         <ProjectCard title={"Personal Website"}
                      description={"This is the source code for this website. It's written using Spring Boot and Kotlin on the backend, and TypeScript and React on the frontend. "}
                      sourceHref={"https://github.com/CaseyMcGuire/caseymcguire.com"}

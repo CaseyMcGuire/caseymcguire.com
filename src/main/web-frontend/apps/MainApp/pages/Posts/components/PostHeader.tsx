@@ -23,9 +23,9 @@ export default function PostHeader(props: Props) {
   return (
     <div>
       <h2>{blogTitleElement}</h2>
-      <div {...stylex.props(postStyles.postSubtitle)}>
+      <div sx={postStyles.postSubtitle}>
         {publishedDate != null ? (
-          <span {...stylex.props(postStyles.date)}>{publishedDate}</span>
+          <span sx={postStyles.date}>{publishedDate}</span>
         ) : null}
         {showEditButton === true ? (
           <AdminComponentGating>{editButton}</AdminComponentGating>

@@ -70,7 +70,7 @@ export default function WorkoutTrackerCreateExercisePage() {
       selectedMenuItemId={WorkoutSidebarMenuId.EXERCISES}
     >
       <WorkoutTrackerContainer>
-        <div {...stylex.props(styles.exerciseNameContainer)}>
+        <div sx={styles.exerciseNameContainer}>
           <WorkoutTrackerInputField
             label={"exerciseName"}
             name={"Exercise Name"}

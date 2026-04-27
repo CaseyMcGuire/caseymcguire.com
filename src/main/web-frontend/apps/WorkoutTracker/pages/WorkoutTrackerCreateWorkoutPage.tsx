@@ -99,7 +99,7 @@ export default function WorkoutTrackerCreateWorkoutPage() {
           name={"Workout Description"}
           handleTextChange={text => setState({ description: text })}
         />
-        <div {...stylex.props(styles.buttonContainer)}>
+        <div sx={styles.buttonContainer}>
           <WorkoutTrackerButton text={"Save"} onClick={onClick} />
         </div>
       </WorkoutTrackerContainer>

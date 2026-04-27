@@ -80,20 +80,18 @@ export default function Button(props: Props) {
   const isDisabled = buttonState != 'active';
   return (
     <button
-      {
-        ...stylex.props(
+      sx={[
           styles.button,
           styles[buttonState],
           styles[buttonStyle],
           isDisabled && styles.disabled
-        )
-      }
+        ]}
       disabled={isDisabled}
       onClick={buttonState == 'active' ? props.onClick : undefined}
     >
       {
         props.icon && (
-          <div {...stylex.props(styles.iconContainer)}>
+          <div sx={styles.iconContainer}>
             <props.icon color={'white'} size={16}/>
           </div>
         )

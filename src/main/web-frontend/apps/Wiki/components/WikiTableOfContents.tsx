@@ -75,9 +75,9 @@ export default function WikiTableOfContents(props: Props) {
   }
 
   return (
-    <div {...stylex.props(styles.container)}>
-      <div {...stylex.props(styles.title)}>Table of Contents</div>
-      <ul {...stylex.props(styles.list)}>
+    <div sx={styles.container}>
+      <div sx={styles.title}>Table of Contents</div>
+      <ul sx={styles.list}>
         {navigation.children.map(item => (
           <WikiTableOfContentsItem key={item.id} item={item} />
         ))}
@@ -95,12 +95,12 @@ function WikiTableOfContentsItem({ item }: { item: WikiSidebarItem }) {
 
 function WikiTableOfContentsPage({ page }: { page: WikiSidebarPage }) {
   return (
-    <li {...stylex.props(styles.listItem)}>
+    <li sx={styles.listItem}>
       <Link
         {...stylex.props(styles.link)}
         to={`/wiki/${page.wikiId}/${page.id}`}
       >
-        <span {...stylex.props(styles.linkText)}>{page.name}</span>
+        <span sx={styles.linkText}>{page.name}</span>
       </Link>
     </li>
   );
@@ -108,10 +108,10 @@ function WikiTableOfContentsPage({ page }: { page: WikiSidebarPage }) {
 
 function WikiTableOfContentsFolder({ folder }: { folder: WikiSidebarFolder }) {
   return (
-    <li {...stylex.props(styles.listItem)}>
-      <div {...stylex.props(styles.folderName)}>{folder.name}</div>
+    <li sx={styles.listItem}>
+      <div sx={styles.folderName}>{folder.name}</div>
       {folder.children.length > 0 && (
-        <ol {...stylex.props(styles.nestedList)}>
+        <ol sx={styles.nestedList}>
           {folder.children.map(item => (
             <WikiTableOfContentsItem key={item.id} item={item} />
           ))}

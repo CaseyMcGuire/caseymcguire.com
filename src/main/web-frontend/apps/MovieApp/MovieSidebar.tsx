@@ -35,30 +35,30 @@ const styles = stylex.create({
 
 export default function MovieSidebar() {
   return (
-    <div {...stylex.props(styles.sidebar)}>
-      <div {...stylex.props(styles.sidebarContents)}>
+    <div sx={styles.sidebar}>
+      <div sx={styles.sidebarContents}>
         <img
-          {...stylex.props(styles.logo)}
+          sx={styles.logo}
           src={"/assets/images/movies/logo.svg"}
         />
         <Link to={"/movies"}>
           <img
-            {...stylex.props(styles.navIcon)}
+            sx={styles.navIcon}
             src={"/assets/images/movies/icon-nav-home.svg"}
           />
         </Link>
         <img
-          {...stylex.props(styles.navIcon)}
+          sx={styles.navIcon}
           src={"/assets/images/movies/icon-nav-movies.svg"}
         />
         <Link to={"/tv"}>
           <img
-            {...stylex.props(styles.navIcon)}
+            sx={styles.navIcon}
             src={"/assets/images/movies/icon-nav-tv-series.svg"}
           />
         </Link>
         <img
-          {...stylex.props(styles.navIcon)}
+          sx={styles.navIcon}
           src={"/assets/images/movies/icon-nav-bookmark.svg"}
         />
       </div>

@@ -53,16 +53,16 @@ export default function WikiSidebarMenuFlyout(props: Props) {
   return (
     <div
       ref={props.ref}
-      {...stylex.props(styles.body, !props.visible && styles.hide)}>
-      <ul {...stylex.props(styles.list)}>
+      sx={[styles.body, !props.visible && styles.hide]}>
+      <ul sx={styles.list}>
         {
           props.items.map(item => {
             return (
               <li
                 key={item.text}
-                {...stylex.props(styles.listItem)}
+                sx={styles.listItem}
                 onClick={item.onClick}>
-                <item.icon {...stylex.props(styles.icon)} size={16} color={'black'} />
+                <item.icon sx={styles.icon} size={16} color={'black'} />
                 {item.text}
               </li>
             )

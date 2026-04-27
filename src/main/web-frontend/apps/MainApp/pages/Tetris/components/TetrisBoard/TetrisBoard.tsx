@@ -64,7 +64,7 @@ export default function TetrisBoard(props: Props) {
         {row.map((elem, index) => (
           <td
             key={`${rowIndex}-${index}`}
-            {...stylex.props(styles.tetrisSquare)}
+            sx={styles.tetrisSquare}
             style={{ backgroundColor: elem }}
           />
         ))}
@@ -82,13 +82,13 @@ export default function TetrisBoard(props: Props) {
   }
 
   return (
-    <div {...stylex.props(styles.tetrisBoardContainer)}>
+    <div sx={styles.tetrisBoardContainer}>
       <TetrisCoverPanel
         isPaused={props.isPaused}
         isGameOver={props.isGameOver}
         handleClick={handleClick}
       />
-      <table {...stylex.props(styles.tetrisBoard)}>
+      <table sx={styles.tetrisBoard}>
         <tbody>{board}</tbody>
       </table>
     </div>
@@ -104,9 +104,9 @@ function TetrisCoverPanel(props: {
     return null;
   }
   return (
-    <div {...stylex.props(styles.pausePanel)}>
-      <div {...stylex.props(styles.pausePanelControls)}>
-        <div {...stylex.props(styles.continueButton)} onClick={props.handleClick}>
+    <div sx={styles.pausePanel}>
+      <div sx={styles.pausePanelControls}>
+        <div sx={styles.continueButton} onClick={props.handleClick}>
           {props.isGameOver ? 'Start over?' : 'Continue'}
         </div>
       </div>

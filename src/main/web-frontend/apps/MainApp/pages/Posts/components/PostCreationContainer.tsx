@@ -66,18 +66,18 @@ export default function PostCreationContainer(props: Props) {
   const [content, setContent] = React.useState(props.content ?? '');
 
   return (
-    <div {...stylex.props(styles.postContainer)}>
-      <div {...stylex.props(styles.titleContainer)}>
+    <div sx={styles.postContainer}>
+      <div sx={styles.titleContainer}>
         <input
           name="title"
-          {...stylex.props(styles.titleInput)}
+          sx={styles.titleInput}
           type="text"
           placeholder="Title"
           onChange={e => setTitle(e.target.value)}
           value={title ?? ''}
         />
       </div>
-      <div {...stylex.props(styles.editorContainer)}>
+      <div sx={styles.editorContainer}>
         <AceEditor
           height="500px"
           width={CONTENT_WIDTH}
@@ -90,10 +90,10 @@ export default function PostCreationContainer(props: Props) {
           showPrintMargin={false}
         />
       </div>
-      <div {...stylex.props(styles.submitButtonContainer)}>
+      <div sx={styles.submitButtonContainer}>
         <SubmitButton onClick={() => props.onSubmit(title, content)} />
       </div>
-      <div {...stylex.props(styles.divider)} />
+      <div sx={styles.divider} />
       {title.length > 0 || content.length > 0 ? (
         <Post title={title} contents={content} />
       ) : null}
@@ -103,7 +103,7 @@ export default function PostCreationContainer(props: Props) {
 
 function SubmitButton(props: { onClick: () => void }) {
   return (
-    <div {...stylex.props(styles.submitButton)} onClick={props.onClick}>
+    <div sx={styles.submitButton} onClick={props.onClick}>
       Submit
     </div>
   );

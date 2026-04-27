@@ -45,15 +45,15 @@ const styles = stylex.create({
 
 export default function WikiPageBody(props: Props) {
   return (
-    <div {...stylex.props(styles.contentContainer)}>
-      <div {...stylex.props(styles.titleContainer)}>
-        <h1 {...stylex.props(styles.title)}>{props.title}</h1>
+    <div sx={styles.contentContainer}>
+      <div sx={styles.titleContainer}>
+        <h1 sx={styles.title}>{props.title}</h1>
         <AdminComponentGating>
           {props.showEditButton && <Link to={`/wiki/${props.wikiId}/${props.pageId}/edit`}>Edit</Link>}
         </AdminComponentGating>
       </div>
       <div
-        {...stylex.props(styles.content)}
+        sx={styles.content}
         data-post-contents
         dangerouslySetInnerHTML={{ __html: props.html }} />
     </div>

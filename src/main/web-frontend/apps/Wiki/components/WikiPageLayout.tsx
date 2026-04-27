@@ -40,7 +40,7 @@ export default function WikiPageLayout({ wikiName, wikiId, wiki, currentPageId, 
       wikiName={wikiName}
       onMenuButtonClick={() => setMobileSidebarOpen(true)}
     >
-      <div {...stylex.props(styles.body)}>
+      <div sx={styles.body}>
         <WikiSidebar
           wikiId={wikiId}
           wiki={wiki}
@@ -48,7 +48,7 @@ export default function WikiPageLayout({ wikiName, wikiId, wiki, currentPageId, 
           mobileOpen={mobileSidebarOpen}
           onRequestClose={() => setMobileSidebarOpen(false)}
         />
-        <div {...stylex.props(styles.content)}>
+        <div sx={styles.content}>
           {children}
         </div>
       </div>

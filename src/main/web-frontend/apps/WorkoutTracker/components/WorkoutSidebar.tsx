@@ -48,12 +48,12 @@ type WorkoutSidebarProps = {
 
 export default function WorkoutSidebar(props: WorkoutSidebarProps) {
   return (
-    <div {...stylex.props(sidebarStyles.body)}>
-      <div {...stylex.props(sidebarStyles.header)}>
+    <div sx={sidebarStyles.body}>
+      <div sx={sidebarStyles.header}>
         <Dumbbell size={"2rem"} color="rgb(59, 130, 246)" />
-        <div {...stylex.props(sidebarStyles.headerTitle)}>FitTrack</div>
+        <div sx={sidebarStyles.headerTitle}>FitTrack</div>
       </div>
-      <div {...stylex.props(sidebarStyles.menuItemsContainer)}>
+      <div sx={sidebarStyles.menuItemsContainer}>
         {MENU_ITEMS.map(item => (
           <WorkoutSidebarMenuItem
             key={item.id}
@@ -149,19 +149,19 @@ function WorkoutSidebarMenuItem(props: MenuItemProps) {
   return (
     <Link {...stylex.props(menuItemStyles.link)} to={props.link}>
       <div
-        {...stylex.props(
+        sx={[
           menuItemStyles.menuItemContainer,
           props.isSelected
             ? menuItemStyles.menuItemContainerSelected
             : menuItemStyles.menuItemContainerNotSelected,
-        )}
+        ]}
       >
         <props.icon color={color} size={24} />
         <div
-          {...stylex.props(
+          sx={[
             menuItemStyles.menuItemText,
             props.isSelected && menuItemStyles.menuItemTextSelected,
-          )}
+          ]}
         >
           {props.text}
         </div>

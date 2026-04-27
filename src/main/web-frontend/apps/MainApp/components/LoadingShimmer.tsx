@@ -32,7 +32,7 @@ export default function LoadingShimmer(props: LoadingShimmerProps) {
 
   return (
     <div
-      {...stylex.props(styles.shimmerContainer)}
+      sx={styles.shimmerContainer}
       style={{
         height,
         width,

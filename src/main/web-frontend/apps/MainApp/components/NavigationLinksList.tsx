@@ -53,9 +53,7 @@ const styles = stylex.create({
 export default function NavigationLinksList(props: { isMobile: boolean }) {
   return (
     <ul
-      {...stylex.props(
-        props.isMobile ? styles.navigationListMobile : styles.navigationList,
-      )}
+      sx={props.isMobile ? styles.navigationListMobile : styles.navigationList}
     >
       <NavigationLink name="Home" link="/" isMobile={props.isMobile} />
       <NavigationLink name="Resume" link="/resume" isMobile={props.isMobile} />
@@ -81,17 +79,15 @@ export default function NavigationLinksList(props: { isMobile: boolean }) {
 function NavigationLogoutLink(props: { isMobile: boolean }) {
   return (
     <li
-      {...stylex.props(
-        props.isMobile ? styles.navBarItemMobile : styles.navBarItem,
-      )}
+      sx={props.isMobile ? styles.navBarItemMobile : styles.navBarItem}
     >
       <form method="POST" action="/logout">
         <CsrfToken />
         <input
-          {...stylex.props(
+          sx={[
             styles.logoutButton,
             !props.isMobile && styles.logoutButtonUnderline,
-          )}
+          ]}
           type="submit"
           value="Logout"
         />
@@ -115,9 +111,9 @@ function NavigationLink(props: {
     : styles.navBarItem;
 
   return (
-    <li {...stylex.props(itemStyles)}>
+    <li sx={itemStyles}>
       {props.useHardLink ? (
-        <a {...stylex.props(linkStyles)} href={props.link}>
+        <a sx={linkStyles} href={props.link}>
           {props.name}
         </a>
       ) : (

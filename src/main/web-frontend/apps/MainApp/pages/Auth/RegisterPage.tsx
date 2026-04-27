@@ -32,7 +32,7 @@ export default function RegisterPage() {
   return (
     <Page>
       <AuthFormContainer>
-        <div {...stylex.props(styles.loginHeader)}>
+        <div sx={styles.loginHeader}>
           {'Create Account'}
         </div>
     <div>
@@ -42,7 +42,7 @@ export default function RegisterPage() {
       <FormField formName={"Password"} placeholder={"Enter your password"} type={"password"} onChange={(text) => {
         setPassword(text);
       }}/>
-      <button {...stylex.props(styles.submitButton)} onClick={() => {
+      <button sx={styles.submitButton} onClick={() => {
         commit(email, password, (success) => {
           if (success) {
             navigate("/login?success=true")

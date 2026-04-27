@@ -16,7 +16,7 @@ const styles = stylex.create({
 // see https://www.frontendmentor.io/challenges/nft-preview-card-component-SbdUL_w0U
 function NftPreview() {
   return (
-    <div {...stylex.props(styles.app)}>
+    <div sx={styles.app}>
       <PreviewCard
         title={"Equilibrium #3429"}
         description={"Our Equilibrium collection promotes balance and calm."}

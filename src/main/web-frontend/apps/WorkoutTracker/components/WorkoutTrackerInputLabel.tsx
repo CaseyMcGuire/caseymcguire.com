@@ -17,7 +17,7 @@ const styles = stylex.create({
 
 export default function WorkoutTrackerInputLabel(props: Props) {
   return (
-    <label {...stylex.props(styles.label)} htmlFor={props.name}>
+    <label sx={styles.label} htmlFor={props.name}>
       {props.labelText}
     </label>
   );

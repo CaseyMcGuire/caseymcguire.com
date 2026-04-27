@@ -53,16 +53,16 @@ type Props = {
 
 export default function WikiPageHeader(props: Props) {
   return (
-    <div {...stylex.props(styles.header)}>
+    <div sx={styles.header}>
       <Link {...stylex.props(styles.headerLink)} to={"/wiki"}>
-        <span {...stylex.props(styles.headerText)}>WikiMate</span>
+        <span sx={styles.headerText}>WikiMate</span>
       </Link>
       {props.onMenuButtonClick && (
-        <div {...stylex.props(styles.menuContainer)}>
+        <div sx={styles.menuContainer}>
           <button
             type="button"
             aria-label="Open wiki sidebar"
-            {...stylex.props(styles.menuButton)}
+            sx={styles.menuButton}
             onClick={props.onMenuButtonClick}
           >
             <Menu size={28}/>

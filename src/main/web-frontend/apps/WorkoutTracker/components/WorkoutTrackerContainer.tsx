@@ -36,7 +36,7 @@ const styles = stylex.create({
 
 export default function WorkoutTrackerContainer(props: Props) {
   return (
-    <div {...stylex.props(styles.container)}>
+    <div sx={styles.container}>
       <WorkoutTrackerContainerHeader
         title={props.title}
         link={props.headerLink}
@@ -55,7 +55,7 @@ function WorkoutTrackerContainerHeader(props: { title?: string; link?: string })
   }
 
   const titleContainer =
-    title && <div {...stylex.props(styles.containerTitle)}>{title}</div>;
+    title && <div sx={styles.containerTitle}>{title}</div>;
 
   const buttonContainer =
     link && (
@@ -66,7 +66,7 @@ function WorkoutTrackerContainerHeader(props: { title?: string; link?: string })
     );
 
   return (
-    <div {...stylex.props(styles.containerHeader)}>
+    <div sx={styles.containerHeader}>
       {titleContainer}
       {buttonContainer}
     </div>

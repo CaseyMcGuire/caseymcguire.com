@@ -148,21 +148,21 @@ export default function EditWikiPage() {
 
   return (
     <WikiPageWrapper wikiName={wikiName}>
-      <div {...stylex.props(styles.container)}>
-        <div {...stylex.props(styles.textAreaContainer)}>
-          <div {...stylex.props(styles.nameInputContainer)}>
+      <div sx={styles.container}>
+        <div sx={styles.textAreaContainer}>
+          <div sx={styles.nameInputContainer}>
             <input
-              {...stylex.props(styles.nameInput)}
+              sx={styles.nameInput}
               value={name}
               onChange={event => setName(event.target.value)}
             />
           </div>
           <textarea
-            {...stylex.props(styles.textArea)}
+            sx={styles.textArea}
             value={contents}
             onChange={event => setContents(event.target.value)}
           />
-          <div {...stylex.props(styles.buttonContainer)}>
+          <div sx={styles.buttonContainer}>
             <Button
               text="Save"
               onClick={handleSaveClick}
@@ -170,7 +170,7 @@ export default function EditWikiPage() {
             />
           </div>
         </div>
-        <div {...stylex.props(styles.bodyContainer)}>
+        <div sx={styles.bodyContainer}>
           <WikiPageBody pageId={pageId!} showEditButton={false} wikiId={wikiId!} title={name} html={result.html}/>
         </div>
       </div>

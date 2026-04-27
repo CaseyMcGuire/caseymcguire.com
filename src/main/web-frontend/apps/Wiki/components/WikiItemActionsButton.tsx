@@ -75,12 +75,12 @@ export default function WikiItemActionsButton(props: Props) {
   return (
     <div
       ref={menuRef}
-      {...stylex.props(styles.menuContainer)}
+      sx={styles.menuContainer}
     >
       <button
         type="button"
         aria-label="Folder actions"
-        {...stylex.props(styles.menuButton)}
+        sx={styles.menuButton}
         onClick={(event) => {
           event.stopPropagation();
           setMenuOpen(!menuOpen);
@@ -88,11 +88,11 @@ export default function WikiItemActionsButton(props: Props) {
       >
         <MoreHorizontal size={16}/>
       </button>
-      <div {...stylex.props(styles.menuFlyout, !menuOpen && styles.menuHidden)}>
-        <ul {...stylex.props(styles.menuList)}>
+      <div sx={[styles.menuFlyout, !menuOpen && styles.menuHidden]}>
+        <ul sx={styles.menuList}>
           <li
             title={props.canDelete ? '' : 'Cannot delete folder because it is not empty.'}
-            {...stylex.props(styles.menuItem, !props.canDelete && styles.menuItemDisabled)}
+            sx={[styles.menuItem, !props.canDelete && styles.menuItemDisabled]}
             onClick={(event) => {
               event.stopPropagation();
               if (!props.canDelete) {

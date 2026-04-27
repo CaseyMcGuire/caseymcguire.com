@@ -56,8 +56,8 @@ export default function WikiIndexPage() {
 
   return (
     <WikiPageLayout wikiName={wikiName} wikiId={data.wiki!.id} wiki={data.wiki}>
-      <div {...stylex.props(styles.container)}>
-        <div {...stylex.props(styles.title)}>{wikiName}</div>
+      <div sx={styles.container}>
+        <div sx={styles.title}>{wikiName}</div>
         <WikiTableOfContents wiki={data.wiki} />
       </div>
     </WikiPageLayout>

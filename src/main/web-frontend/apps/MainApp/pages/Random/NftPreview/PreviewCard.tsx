@@ -138,48 +138,48 @@ export default function PreviewCard(props: Props) {
   }, []);
 
   return (
-    <div {...stylex.props(styles.cardContainer)}>
-      <div {...stylex.props(styles.imageContainer)}>
-        <div {...stylex.props(styles.imageCover)}>
+    <div sx={styles.cardContainer}>
+      <div sx={styles.imageContainer}>
+        <div sx={styles.imageCover}>
           <img src="/assets/images/icon-view.svg" />
         </div>
         <img
-          {...stylex.props(styles.image)}
+          sx={styles.image}
           src="/assets/images/image-equilibrium.jpg"
         />
       </div>
 
-      <div {...stylex.props(styles.titleContainer)}>
-        <span {...stylex.props(styles.title)}>{props.title}</span>
+      <div sx={styles.titleContainer}>
+        <span sx={styles.title}>{props.title}</span>
       </div>
 
-      <div {...stylex.props(styles.descriptionContainer)}>
-        <span {...stylex.props(styles.description)}>{props.description}</span>
+      <div sx={styles.descriptionContainer}>
+        <span sx={styles.description}>{props.description}</span>
       </div>
 
-      <div {...stylex.props(styles.priceAndTimeContainer)}>
-        <div {...stylex.props(styles.ethereumContainer)}>
+      <div sx={styles.priceAndTimeContainer}>
+        <div sx={styles.ethereumContainer}>
           <img
-            {...stylex.props(styles.ethereumIcon)}
+            sx={styles.ethereumIcon}
             src="/assets/images/icon-ethereum.svg"
           />
-          <span {...stylex.props(styles.price)}>{props.price}</span>
+          <span sx={styles.price}>{props.price}</span>
         </div>
-        <div {...stylex.props(styles.clockContainer)}>
+        <div sx={styles.clockContainer}>
           <img src="/assets/images/icon-clock.svg" />
-          <span {...stylex.props(styles.time)}>{props.timeLeft}</span>
+          <span sx={styles.time}>{props.timeLeft}</span>
         </div>
       </div>
 
-      <div {...stylex.props(styles.divider)} />
+      <div sx={styles.divider} />
 
-      <div {...stylex.props(styles.creatorContainer)}>
+      <div sx={styles.creatorContainer}>
         <img
-          {...stylex.props(styles.avatar)}
+          sx={styles.avatar}
           src="/assets/images/image-avatar.png"
         />
-        <span {...stylex.props(styles.creationText)}>Creation of</span>
-        <span {...stylex.props(styles.creatorText)}>{props.creator}</span>
+        <span sx={styles.creationText}>Creation of</span>
+        <span sx={styles.creatorText}>{props.creator}</span>
       </div>
     </div>
   );

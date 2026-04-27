@@ -37,7 +37,7 @@ interface Props {
 
 export default function TechnologyInfoCard(props: Props) {
   return (
-    <div {...stylex.props(styles.technologyInfoCardContainer)}>
+    <div sx={styles.technologyInfoCardContainer}>
       <TechnologySection
         title="Programming Languages"
         elements={props.programmingLanguages}
@@ -52,13 +52,13 @@ export default function TechnologyInfoCard(props: Props) {
 
 function TechnologySection(props: { title: string; elements: string[] }) {
   return (
-    <div {...stylex.props(styles.technologySectionContainer)}>
-      <div {...stylex.props(styles.technologySectionTitleContainer)}>
-        <span {...stylex.props(styles.technologyInfoCardTitle)}>
+    <div sx={styles.technologySectionContainer}>
+      <div sx={styles.technologySectionTitleContainer}>
+        <span sx={styles.technologyInfoCardTitle}>
           {props.title}:
         </span>
       </div>
-      <div {...stylex.props(styles.technologySectionContentContainer)}>
+      <div sx={styles.technologySectionContentContainer}>
         {formatElements(props.elements)}
       </div>
     </div>

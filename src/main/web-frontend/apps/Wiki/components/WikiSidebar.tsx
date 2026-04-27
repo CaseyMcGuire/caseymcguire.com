@@ -345,14 +345,14 @@ export default function WikiSidebar(
   return (
     <>
       <div
-        {...stylex.props(
+        sx={[
           styles.mobileOverlay,
           props.mobileOpen && styles.mobileOverlayVisible
-        )}
+        ]}
         onClick={props.onRequestClose}
       />
-      <div {...stylex.props(styles.body, props.mobileOpen && styles.bodyMobileOpen)}>
-        <div {...stylex.props(styles.content)}>
+      <div sx={[styles.body, props.mobileOpen && styles.bodyMobileOpen]}>
+        <div sx={styles.content}>
           <DndContext
             sensors={sensors}
             collisionDetection={closestCenter}
@@ -378,7 +378,7 @@ export default function WikiSidebar(
           </DndContext>
         </div>
 
-        <div {...stylex.props(styles.bottomContainer)}>
+        <div sx={styles.bottomContainer}>
           <WikiSidebarMenuFlyout ref={ref} items={items} visible={menuOpen}/>
           <AdminComponentGating>
             <Button

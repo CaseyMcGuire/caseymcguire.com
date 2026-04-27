@@ -43,11 +43,11 @@ interface Props {
 
 export default function NavigationBar(props: Props) {
   return (
-    <div {...stylex.props(styles.navigationBarContainer)}>
-      <div {...stylex.props(styles.navigationBarLinksContainer)}>
+    <div sx={styles.navigationBarContainer}>
+      <div sx={styles.navigationBarLinksContainer}>
         <NavigationLinksList isMobile={false} />
       </div>
-      <div {...stylex.props(styles.menuButtonContainer)}>
+      <div sx={styles.menuButtonContainer}>
         <MenuButton onClick={props.onMenuButtonClick} />
       </div>
     </div>

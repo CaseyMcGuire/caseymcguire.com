@@ -57,7 +57,7 @@ export default function WikiSidebarItemName(props: Props) {
 
   if (isActive && !isInFlight && isAdmin && props.isEditable) {
     return <input type="text"
-                  {...stylex.props(styles.input)}
+                  sx={styles.input}
                   value={name}
                   onChange={(e) => {
                     e.stopPropagation();
@@ -104,7 +104,7 @@ export default function WikiSidebarItemName(props: Props) {
 
   return (
     <span
-      {...stylex.props(styles.nameContainer)}
+      sx={styles.nameContainer}
       onDoubleClick={() => {
         if (!isAdmin) {
           return;

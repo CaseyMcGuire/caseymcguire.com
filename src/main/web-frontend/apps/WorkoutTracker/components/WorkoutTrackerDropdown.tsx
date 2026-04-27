@@ -33,12 +33,12 @@ const styles = stylex.create({
 
 export default function WorkoutTrackerDropdown(props: WorkoutTrackerDropdownProps) {
   return (
-    <div {...stylex.props(styles.workoutTrackerDropdownContainer)}>
+    <div sx={styles.workoutTrackerDropdownContainer}>
       {props.label && (
         <WorkoutTrackerInputLabel name={props.name} labelText={props.label} />
       )}
       <select
-        {...stylex.props(styles.dropdown)}
+        sx={styles.dropdown}
         name={props.name}
         value={props.selectedItem}
         onChange={(event) => props.onItemSelect(event.target.value)}

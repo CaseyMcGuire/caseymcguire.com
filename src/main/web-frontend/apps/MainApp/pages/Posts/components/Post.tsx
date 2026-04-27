@@ -1,6 +1,7 @@
 import * as React from "react";
 import {postStyles} from "apps/MainApp/pages/Posts/components/PostStyles";
 import * as stylex from '@stylexjs/stylex';
+void stylex;
 import PostHeader from "apps/MainApp/pages/Posts/components/PostHeader";
 import 'assets/stylesheets/markdown.css'
 import {useMemo} from "react";
@@ -30,8 +31,8 @@ export default function Post(props: Props) {
   }, [contents]);
 
   return (
-    <div {...stylex.props(postStyles.postContainer)}>
-      <div {...stylex.props(postStyles.postTitleContainer)}>
+    <div sx={postStyles.postContainer}>
+      <div sx={postStyles.postTitleContainer}>
         <PostHeader
           id={id}
           title={title}
@@ -40,7 +41,7 @@ export default function Post(props: Props) {
         />
       </div>
       <div
-        {...stylex.props(postStyles.postContentsContainer)}
+        sx={postStyles.postContentsContainer}
         data-post-contents
         dangerouslySetInnerHTML={{ __html: sanitizedHtml }}
       />

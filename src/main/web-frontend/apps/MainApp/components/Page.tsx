@@ -41,8 +41,8 @@ export default function Page(props: {
     setDisplaySideMenu(false)
   }, [location.pathname])
   return (
-    <div {...stylex.props(styles.pageContainer)}>
-      <div {...stylex.props(styles.pageContent)}>
+    <div sx={styles.pageContainer}>
+      <div sx={styles.pageContent}>
         <PageHeader
           onMenuButtonClick={() => setDisplaySideMenu(!displaySideMenu)}
         />

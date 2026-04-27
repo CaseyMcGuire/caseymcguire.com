@@ -16,5 +16,5 @@ const styles = stylex.create({
 });
 
 export default function WorkoutTrackerBox(props: Props) {
-  return <div {...stylex.props(styles.workoutTrackerBox)}>{props.children}</div>;
+  return <div sx={styles.workoutTrackerBox}>{props.children}</div>;
 }

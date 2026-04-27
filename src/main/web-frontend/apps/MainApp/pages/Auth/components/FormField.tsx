@@ -33,17 +33,17 @@ const styles = stylex.create({
 
 export default function FormField(props: Props) {
   return (
-    <div {...stylex.props(styles.formContainer)}>
+    <div sx={styles.formContainer}>
         {
           props.labelText && (
-            <div {...stylex.props(styles.formLabel)}>
+            <div sx={styles.formLabel}>
               <label htmlFor={props.formName}>
                 {props.labelText}
               </label>
             </div>
           )
         }
-        <input {...stylex.props(styles.formField)}
+        <input sx={styles.formField}
           placeholder={props.placeholder}
           name={props.formName}
           id={props.formName}
