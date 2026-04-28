@@ -1,6 +1,7 @@
 // THIS FILE IS GENERATED. DO NOT EDIT BY HAND.
 // Run './gradlew generateWebpackBundleEntries' to regenerate.
 export default {
+  ai_chat : "./src/main/web-frontend/apps/AiChat/AiChatRoot",
   casey_mcguire : "./src/main/web-frontend/apps/MainApp/MainAppRoot.tsx",
   movies : "./src/main/web-frontend/apps/MovieApp/MovieAppRoot",
   wiki : "./src/main/web-frontend/apps/Wiki/WikiRoot.tsx",
