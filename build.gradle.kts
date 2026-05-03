@@ -3,7 +3,7 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.springframework.boot.gradle.tasks.run.BootRun
 
-val springVersion = "3.5.5"
+val springVersion = "4.0.6"
 val kotlinVersion = "2.2.21"
 val jooqVersion = "3.20.8"
 val postgresVersion = "42.7.8"
@@ -20,7 +20,7 @@ plugins {
   // However, this plugin seems to fix both issues.
   // Read here for more info: https://kotlinlang.org/docs/all-open-plugin.html
   id("org.jetbrains.kotlin.plugin.spring") version "2.2.21"
-  id("org.springframework.boot") version "3.5.5" // can't use variable here :(
+  id("org.springframework.boot") version "4.0.6" // can't use variable here :(
   id("io.spring.dependency-management") version "1.1.7"
   id("com.github.node-gradle.node") version "7.1.0"
   id("org.jooq.jooq-codegen-gradle") version "3.20.8"
@@ -31,7 +31,7 @@ plugins {
 
 dependencyManagement {
   imports {
-    mavenBom("com.netflix.graphql.dgs:graphql-dgs-platform-dependencies:10.4.0")
+    mavenBom("com.netflix.graphql.dgs:graphql-dgs-platform-dependencies:12.0.0")
     mavenBom("org.springframework.boot:spring-boot-dependencies:${springVersion}")
   }
 }
@@ -48,6 +48,7 @@ dependencies {
   implementation("org.springframework.boot:spring-boot-starter-security")
   implementation("org.springframework.boot:spring-boot-starter-data-jpa")
   implementation("com.netflix.graphql.dgs:dgs-starter")
+  implementation("com.jayway.jsonpath:json-path:3.0.0")
   implementation("org.springframework.boot:spring-boot-starter-webflux")
 
   // for application runtime

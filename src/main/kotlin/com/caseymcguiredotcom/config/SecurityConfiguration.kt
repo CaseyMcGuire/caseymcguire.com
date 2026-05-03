@@ -13,8 +13,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.security.web.SecurityFilterChain
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler
-import org.springframework.security.web.csrf.CookieCsrfTokenRepository
-import org.springframework.security.web.csrf.CsrfTokenRequestAttributeHandler
 
 
 @EnableWebSecurity
@@ -23,7 +21,7 @@ import org.springframework.security.web.csrf.CsrfTokenRequestAttributeHandler
 open class SecurityConfiguration(private val userDetailsService: UserDetailsServiceImpl){
 
   @Bean
-  open fun passwordEncoder(): PasswordEncoder? {
+  fun passwordEncoder(): PasswordEncoder {
     return BCryptPasswordEncoder()
   }
 
@@ -40,13 +38,6 @@ open class SecurityConfiguration(private val userDetailsService: UserDetailsServ
   @Bean
   open fun filterChain(http: HttpSecurity): SecurityFilterChain {
 
-    // Spring Security 6 introduced new behavior around CSRF tokens. This was preventing
-    // me from logging in so I added the below code to opt out of the new default. It might
-    // be worth revisiting at some point because I didn't spend the time to figure out how to
-    // make it work
-    // https://docs.spring.io/spring-security/reference/5.8/migration/servlet/exploits.html#_i_need_to_opt_out_of_deferred_tokens_for_another_reason
-    val requestHandler = CsrfTokenRequestAttributeHandler()
-    requestHandler.setCsrfRequestAttributeName(null)
     http {
       authorizeHttpRequests {
         authorize("/posts/new", hasRole("ADMIN"))
@@ -59,18 +50,21 @@ open class SecurityConfiguration(private val userDetailsService: UserDetailsServ
         loginPage = "/login"
         defaultSuccessUrl("/", true)
         authenticationSuccessHandler = SavedRequestAwareAuthenticationSuccessHandler()
-        failureUrl = "/login?error=true"
+        // Match the LoginError union in LoginPage.tsx — keep these codes in sync.
+        failureUrl = "/login?error=invalid_credentials"
         // note usernameParameter and password parameter aren't available yet but they will be at some point:
         // https://github.com/spring-projects/spring-security/issues/14474
-      }
-      csrf {
-        csrfTokenRepository = CookieCsrfTokenRepository.withHttpOnlyFalse()
-        csrfTokenRequestHandler = requestHandler
       }
       logout {
         logoutSuccessUrl = "/"
       }
     }
+    // Drop into the Java DSL because the Kotlin `csrf { ... }` block doesn't expose `spa()` yet.
+    // `spa()` wires up the SPA-friendly setup: CookieCsrfTokenRepository.withHttpOnlyFalse(),
+    // a hybrid request handler (XOR for rendered tokens to mitigate BREACH, plain for header
+    // lookups so the JS frontend can echo the cookie back), and eager token loading so the
+    // XSRF-TOKEN cookie is actually emitted on read-only requests.
+    http.csrf { it.spa() }
 
     return http.build();
   }

@@ -142,14 +142,14 @@ class WikiFetcher(
 
   @DgsData(parentType = DgsConstants.GQLWIKIFOLDER.TYPE_NAME, field = DgsConstants.GQLWIKIFOLDER.Children)
   fun getWikiFolderChildren(dfe: DgsDataFetchingEnvironment): CompletableFuture<List<GqlWikiNode>> {
-    val folder = dfe.getSource<GqlWikiFolder>()
+    val folder = dfe.getSource<GqlWikiFolder>() ?: error("Missing parent GqlWikiFolder")
     val dataLoader = dfe.getDataLoader<String, List<GqlWikiNode>>(FolderIdToChildrenDataLoader::class.java)
     return dataLoader.load(folder.id)
   }
 
   @DgsData(parentType = DgsConstants.GQLWIKI.TYPE_NAME, field = DgsConstants.GQLWIKI.RootFolder)
   fun getRootFolderChildren(dfe: DgsDataFetchingEnvironment): GqlWikiFolder? {
-    val wiki = dfe.getSource<GqlWiki>()
+    val wiki = dfe.getSource<GqlWiki>() ?: error("Missing parent GqlWiki")
     return wikiService.getRootFolderByWikiId(fromGlobalIdOrThrow(wiki.id))?.toGraphqlType()
   }
 

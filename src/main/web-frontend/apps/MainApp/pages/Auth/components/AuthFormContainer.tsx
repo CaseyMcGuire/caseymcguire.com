@@ -1,6 +1,4 @@
 import * as stylex from "@stylexjs/stylex";
-import CsrfToken from "components/csrf/CsrfToken";
-import FormField from "apps/MainApp/pages/Auth/components/FormField";
 import * as React from "react";
 
 const styles = stylex.create({

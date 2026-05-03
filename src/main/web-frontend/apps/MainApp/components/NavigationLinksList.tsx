@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Link } from "react-router";
-import CsrfToken from "components/csrf/CsrfToken";
+import {postWithCsrfAndRedirect} from "components/csrf/CsrfUtils";
 import LoggedInComponentGating from "components/gating/LoggedInComponentGating";
 import * as stylex from "@stylexjs/stylex";
 
@@ -81,8 +81,17 @@ function NavigationLogoutLink(props: { isMobile: boolean }) {
     <li
       sx={props.isMobile ? styles.navBarItemMobile : styles.navBarItem}
     >
-      <form method="POST" action="/logout">
-        <CsrfToken />
+      <form
+        onSubmit={async (e) => {
+          e.preventDefault();
+          try {
+            await postWithCsrfAndRedirect('/logout');
+          } catch (err) {
+            console.error('Logout request failed:', err);
+            window.location.href = '/';
+          }
+        }}
+      >
         <input
           sx={[
             styles.logoutButton,

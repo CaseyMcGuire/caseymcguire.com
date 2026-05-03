@@ -18,7 +18,7 @@ class DataLoaderConfig {
     val delegate = ThreadPoolTaskExecutor().apply {
       corePoolSize = 16
       maxPoolSize = 64
-      threadNamePrefix = "dataloader-"
+      setThreadNamePrefix("dataloader-")
       initialize()
     }
     return DelegatingSecurityContextExecutor(delegate)

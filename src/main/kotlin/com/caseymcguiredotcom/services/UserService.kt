@@ -20,6 +20,7 @@ class UserService(
 
   fun registerUser(email: String, password: String) {
     val hashedPassword = passwordEncoder.encode(password)
+      ?: error("PasswordEncoder returned null for a non-null password")
     userRepository.save(email, hashedPassword)
   }
 

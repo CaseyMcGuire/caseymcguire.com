@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component
 class UserProvider {
 
   fun getLoggedInUser(): User? {
-    val authentication = SecurityContextHolder.getContext().authentication
+    val authentication = SecurityContextHolder.getContext().authentication ?: return null
     if (authentication is AnonymousAuthenticationToken) {
       return null
     }
