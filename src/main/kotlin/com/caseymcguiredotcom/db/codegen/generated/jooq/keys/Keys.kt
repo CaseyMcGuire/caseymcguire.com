@@ -5,6 +5,8 @@
 package generated.jooq.keys
 
 
+import generated.jooq.tables.AiChat
+import generated.jooq.tables.AiChatMessage
 import generated.jooq.tables.Exercise
 import generated.jooq.tables.Posts
 import generated.jooq.tables.Users
@@ -14,6 +16,8 @@ import generated.jooq.tables.WikiUsers
 import generated.jooq.tables.Wikis
 import generated.jooq.tables.Workout
 import generated.jooq.tables.WorkoutSet
+import generated.jooq.tables.records.AiChatMessageRecord
+import generated.jooq.tables.records.AiChatRecord
 import generated.jooq.tables.records.ExerciseRecord
 import generated.jooq.tables.records.PostsRecord
 import generated.jooq.tables.records.UsersRecord
@@ -36,6 +40,9 @@ import org.jooq.impl.QOM.ForeignKeyRule
 // UNIQUE and PRIMARY KEY definitions
 // -------------------------------------------------------------------------
 
+val AI_CHAT_CONVERSATION_ID_KEY: UniqueKey<AiChatRecord> = Internal.createUniqueKey(AiChat.AI_CHAT, DSL.name("ai_chat_conversation_id_key"), arrayOf(AiChat.AI_CHAT.CONVERSATION_ID), true)
+val AI_CHAT_PKEY: UniqueKey<AiChatRecord> = Internal.createUniqueKey(AiChat.AI_CHAT, DSL.name("ai_chat_pkey"), arrayOf(AiChat.AI_CHAT.ID), true)
+val AI_CHAT_MESSAGE_PKEY: UniqueKey<AiChatMessageRecord> = Internal.createUniqueKey(AiChatMessage.AI_CHAT_MESSAGE, DSL.name("ai_chat_message_pkey"), arrayOf(AiChatMessage.AI_CHAT_MESSAGE.ID), true)
 val EXERCISE_PKEY: UniqueKey<ExerciseRecord> = Internal.createUniqueKey(Exercise.EXERCISE, DSL.name("exercise_pkey"), arrayOf(Exercise.EXERCISE.ID), true)
 val POSTS_PKEY: UniqueKey<PostsRecord> = Internal.createUniqueKey(Posts.POSTS, DSL.name("posts_pkey"), arrayOf(Posts.POSTS.ID), true)
 val USERS_EMAIL_KEY: UniqueKey<UsersRecord> = Internal.createUniqueKey(Users.USERS, DSL.name("users_email_key"), arrayOf(Users.USERS.EMAIL), true)
@@ -54,6 +61,8 @@ val WORKOUT_SET_PKEY: UniqueKey<WorkoutSetRecord> = Internal.createUniqueKey(Wor
 // FOREIGN KEY definitions
 // -------------------------------------------------------------------------
 
+val AI_CHAT__FK_CHAT_USER_ID__ID: ForeignKey<AiChatRecord, UsersRecord> = Internal.createForeignKey(AiChat.AI_CHAT, DSL.name("fk_chat_user_id__id"), arrayOf(AiChat.AI_CHAT.USER_ID), generated.jooq.keys.USERS_PKEY, arrayOf(Users.USERS.ID), true, ForeignKeyRule.CASCADE, ForeignKeyRule.NO_ACTION)
+val AI_CHAT_MESSAGE__AI_CHAT_MESSAGE_CHAT_ID_FK: ForeignKey<AiChatMessageRecord, AiChatRecord> = Internal.createForeignKey(AiChatMessage.AI_CHAT_MESSAGE, DSL.name("ai_chat_message_chat_id_fk"), arrayOf(AiChatMessage.AI_CHAT_MESSAGE.CHAT_ID), generated.jooq.keys.AI_CHAT_PKEY, arrayOf(AiChat.AI_CHAT.ID), true, ForeignKeyRule.CASCADE, ForeignKeyRule.NO_ACTION)
 val POSTS__FK_ID: ForeignKey<PostsRecord, UsersRecord> = Internal.createForeignKey(Posts.POSTS, DSL.name("fk_id"), arrayOf(Posts.POSTS.USER_ID), generated.jooq.keys.USERS_PKEY, arrayOf(Users.USERS.ID), true, ForeignKeyRule.NO_ACTION, ForeignKeyRule.NO_ACTION)
 val WIKI_FOLDERS__FK_WIKI_FOLDERS_PARENT_FOLDER_ID__ID: ForeignKey<WikiFoldersRecord, WikiFoldersRecord> = Internal.createForeignKey(WikiFolders.WIKI_FOLDERS, DSL.name("fk_wiki_folders_parent_folder_id__id"), arrayOf(WikiFolders.WIKI_FOLDERS.PARENT_FOLDER_ID), generated.jooq.keys.WIKI_FOLDERS_PKEY, arrayOf(WikiFolders.WIKI_FOLDERS.ID), true, ForeignKeyRule.RESTRICT, ForeignKeyRule.RESTRICT)
 val WIKI_FOLDERS__FK_WIKI_FOLDERS_WIKI_ID__ID: ForeignKey<WikiFoldersRecord, WikisRecord> = Internal.createForeignKey(WikiFolders.WIKI_FOLDERS, DSL.name("fk_wiki_folders_wiki_id__id"), arrayOf(WikiFolders.WIKI_FOLDERS.WIKI_ID), generated.jooq.keys.WIKIS_PKEY, arrayOf(Wikis.WIKIS.ID), true, ForeignKeyRule.RESTRICT, ForeignKeyRule.RESTRICT)

@@ -5,6 +5,8 @@
 package generated.jooq.indexes
 
 
+import generated.jooq.tables.AiChat
+import generated.jooq.tables.AiChatMessage
 import generated.jooq.tables.WikiFolders
 
 import org.jooq.Index
@@ -17,4 +19,6 @@ import org.jooq.impl.Internal
 // INDEX definitions
 // -------------------------------------------------------------------------
 
+val AI_CHAT_MESSAGE_CHAT_ID_ID_IDX: Index = Internal.createIndex(DSL.name("ai_chat_message_chat_id_id_idx"), AiChatMessage.AI_CHAT_MESSAGE, arrayOf(AiChatMessage.AI_CHAT_MESSAGE.CHAT_ID, AiChatMessage.AI_CHAT_MESSAGE.ID), false)
+val AI_CHAT_USER_ID_UPDATED_AT_IDX: Index = Internal.createIndex(DSL.name("ai_chat_user_id_updated_at_idx"), AiChat.AI_CHAT, arrayOf(AiChat.AI_CHAT.USER_ID, AiChat.AI_CHAT.UPDATED_AT.desc()), false)
 val UQ_WIKI_ROOT_FOLDER: Index = Internal.createIndex(DSL.name("uq_wiki_root_folder"), WikiFolders.WIKI_FOLDERS, arrayOf(WikiFolders.WIKI_FOLDERS.WIKI_ID), true)

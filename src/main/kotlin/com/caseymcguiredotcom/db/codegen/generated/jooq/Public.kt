@@ -4,6 +4,8 @@
 package generated.jooq
 
 
+import generated.jooq.tables.AiChat
+import generated.jooq.tables.AiChatMessage
 import generated.jooq.tables.Exercise
 import generated.jooq.tables.Posts
 import generated.jooq.tables.Users
@@ -34,6 +36,16 @@ open class Public : SchemaImpl(DSL.name("public"), DefaultCatalog.DEFAULT_CATALO
          */
         val PUBLIC: Public = Public()
     }
+
+    /**
+     * The table <code>public.ai_chat</code>.
+     */
+    val AI_CHAT: AiChat get() = AiChat.AI_CHAT
+
+    /**
+     * The table <code>public.ai_chat_message</code>.
+     */
+    val AI_CHAT_MESSAGE: AiChatMessage get() = AiChatMessage.AI_CHAT_MESSAGE
 
     /**
      * The table <code>public.exercise</code>.
@@ -83,6 +95,8 @@ open class Public : SchemaImpl(DSL.name("public"), DefaultCatalog.DEFAULT_CATALO
     override fun getCatalog(): Catalog = DefaultCatalog.DEFAULT_CATALOG
 
     override fun getTables(): List<Table<*>> = listOf(
+        AiChat.AI_CHAT,
+        AiChatMessage.AI_CHAT_MESSAGE,
         Exercise.EXERCISE,
         Posts.POSTS,
         Users.USERS,

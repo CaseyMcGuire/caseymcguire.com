@@ -1,0 +1,23 @@
+extend type Mutation {
+  sendMessage(
+    conversationId: ID, # null if this is a new chat
+    message: String!
+  ): ChatResponse!
+}
+
+union ChatResponse = SuccessfulChatResponse | FailedChatResponse
+
+type SuccessfulChatResponse {
+  conversationId: ID!
+  reply: String!
+}
+
+type FailedChatResponse {
+  errorCode: ChatErrorCode!
+  userFacingErrorMessage: String!
+}
+
+enum ChatErrorCode {
+  CONVERSATION_NOT_FOUND
+  UNKNOWN
+}

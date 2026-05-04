@@ -1,7 +1,6 @@
 package com.caseymcguiredotcom.services
 
 import com.caseymcguiredotcom.repositories.WorkoutDao
-import com.caseymcguiredotcom.lib.UserProvider
 import com.caseymcguiredotcom.lib.exceptions.DuplicateEntityException
 import com.caseymcguiredotcom.lib.exceptions.EntityNotFoundException
 import com.caseymcguiredotcom.lib.exceptions.PermissionDeniedException
@@ -15,17 +14,17 @@ import org.springframework.stereotype.Component
 @PreAuthorize("hasRole('ADMIN')")
 class WorkoutService(
   private val workoutDao: WorkoutDao,
-  private val userProvider: UserProvider
+  private val sessionService: SessionService
 ) {
 
   fun getWorkouts(): List<Workout> {
-    val userId = userProvider.getLoggedInUser()?.getId()
+    val userId = sessionService.getLoggedInUser()?.getId()
       ?: throw UserNotLoggedInException()
     return workoutDao.getWorkouts(userId, 0)
   }
 
   fun getWorkoutById(id: Int): Workout? {
-    val userId = userProvider.getLoggedInUser()?.getId()
+    val userId = sessionService.getLoggedInUser()?.getId()
       ?: throw UserNotLoggedInException()
 
 
@@ -37,7 +36,7 @@ class WorkoutService(
   }
 
   fun createWorkout(description: String?): Workout? {
-    val userId = userProvider.getLoggedInUser()?.getId()
+    val userId = sessionService.getLoggedInUser()?.getId()
       ?: throw UserNotLoggedInException()
     val workoutId = workoutDao.createWorkout(userId, description)
       ?: return null
@@ -51,7 +50,7 @@ class WorkoutService(
     numReps: Int,
     weight: Int
   ): Workout {
-    val userId = userProvider.getLoggedInUser()?.getId()
+    val userId = sessionService.getLoggedInUser()?.getId()
       ?: throw UserNotLoggedInException()
     val workout = workoutDao.getWorkout(workoutId)
       ?: throw EntityNotFoundException("No workout with id: $workoutId")
@@ -75,7 +74,7 @@ class WorkoutService(
   }
 
   fun createExercise(name: String): Int {
-    userProvider.getLoggedInUser()
+    sessionService.getLoggedInUser()
       ?: throw UserNotLoggedInException()
     val existingExercise = workoutDao.getExerciseByName(name)
     if (existingExercise != null) {

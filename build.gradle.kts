@@ -33,6 +33,7 @@ dependencyManagement {
   imports {
     mavenBom("com.netflix.graphql.dgs:graphql-dgs-platform-dependencies:12.0.0")
     mavenBom("org.springframework.boot:spring-boot-dependencies:${springVersion}")
+    mavenBom("org.springframework.ai:spring-ai-bom:2.0.0-M5")
   }
 }
 
@@ -41,6 +42,7 @@ version = "1.0-SNAPSHOT"
 
 repositories {
   mavenCentral()
+  maven { url = uri("https://repo.spring.io/milestone") }
 }
 
 dependencies {
@@ -50,6 +52,9 @@ dependencies {
   implementation("com.netflix.graphql.dgs:dgs-starter")
   implementation("com.jayway.jsonpath:json-path:3.0.0")
   implementation("org.springframework.boot:spring-boot-starter-webflux")
+  implementation("org.springframework.ai:spring-ai-starter-model-anthropic")
+  implementation("org.springframework.ai:spring-ai-starter-model-openai")
+  implementation("org.springframework.ai:spring-ai-starter-model-google-genai")
 
   // for application runtime
   implementation("org.jooq:jooq:$jooqVersion")
@@ -63,7 +68,7 @@ dependencies {
   jooqCodegen(project(":customgenerator"))
 
   implementation("org.postgresql:postgresql:$postgresVersion")
-  implementation("org.flywaydb:flyway-core:11.16.0")
+  implementation("org.springframework.boot:spring-boot-starter-flyway")
   implementation("org.flywaydb:flyway-database-postgresql:11.16.0")
   implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
   implementation("org.jetbrains.kotlinx:kotlinx-html-jvm:0.12.0")

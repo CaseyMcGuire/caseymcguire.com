@@ -6,6 +6,7 @@ import com.caseymcguiredotcom.codegen.graphql.types.PostPage
 import com.caseymcguiredotcom.codegen.graphql.types.User
 import models.Role
 import com.caseymcguiredotcom.services.PostService
+import com.caseymcguiredotcom.services.SessionService
 import com.caseymcguiredotcom.services.UserService
 import com.netflix.graphql.dgs.DgsComponent
 import com.netflix.graphql.dgs.DgsMutation
@@ -14,12 +15,13 @@ import com.netflix.graphql.dgs.DgsQuery
 @DgsComponent
 class QueryDataFetcher(
   val userService: UserService,
-  val postService: PostService
+  val postService: PostService,
+  val sessionService: SessionService
 ) {
 
   @DgsQuery(field = "currentUser")
   fun getCurrentUser(): User? {
-    val loggedInUser = userService.getLoggedInUser() ?: return null
+    val loggedInUser = sessionService.getLoggedInUser() ?: return null
     return User(loggedInUser.getEmail(), loggedInUser.getId(), loggedInUser.getRole() == Role.ADMIN.name)
   }
 

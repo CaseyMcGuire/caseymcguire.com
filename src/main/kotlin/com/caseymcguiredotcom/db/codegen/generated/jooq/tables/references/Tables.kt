@@ -5,6 +5,8 @@
 package generated.jooq.tables.references
 
 
+import generated.jooq.tables.AiChat
+import generated.jooq.tables.AiChatMessage
 import generated.jooq.tables.Exercise
 import generated.jooq.tables.Posts
 import generated.jooq.tables.Users
@@ -16,6 +18,16 @@ import generated.jooq.tables.Workout
 import generated.jooq.tables.WorkoutSet
 
 
+
+/**
+ * The table <code>public.ai_chat</code>.
+ */
+val AI_CHAT: AiChat = AiChat.AI_CHAT
+
+/**
+ * The table <code>public.ai_chat_message</code>.
+ */
+val AI_CHAT_MESSAGE: AiChatMessage = AiChatMessage.AI_CHAT_MESSAGE
 
 /**
  * The table <code>public.exercise</code>.

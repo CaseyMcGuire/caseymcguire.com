@@ -1,7 +1,6 @@
 import * as React from "react";
-import {useEffect} from "react";
 import * as stylex from "@stylexjs/stylex";
-import * as WebFont from "webfontloader";
+import AiChatSidebar from "apps/AiChat/components/AiChatSidebar";
 
 const styles = stylex.create({
   container: {
@@ -24,18 +23,10 @@ const styles = stylex.create({
 });
 
 export default function AiChatPage() {
-  useEffect(() => {
-    WebFont.load({
-      google: {
-        families: ["Inter"],
-      },
-    });
-  }, []);
-
   return (
     <div sx={styles.container}>
       <div sx={styles.sidebar}>
-        AI Chat
+        <AiChatSidebar />
       </div>
       <div sx={styles.content}>
 

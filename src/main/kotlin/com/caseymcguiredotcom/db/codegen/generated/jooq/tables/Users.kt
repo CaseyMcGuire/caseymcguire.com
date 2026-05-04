@@ -5,11 +5,13 @@ package generated.jooq.tables
 
 
 import generated.jooq.Public
+import generated.jooq.keys.AI_CHAT__FK_CHAT_USER_ID__ID
 import generated.jooq.keys.POSTS__FK_ID
 import generated.jooq.keys.USERS_EMAIL_KEY
 import generated.jooq.keys.USERS_PKEY
 import generated.jooq.keys.WIKI_USERS__FK_WIKI_USERS_USER_ID__ID
 import generated.jooq.keys.WORKOUT__FK_USER
+import generated.jooq.tables.AiChat.AiChatPath
 import generated.jooq.tables.Posts.PostsPath
 import generated.jooq.tables.WikiUsers.WikiUsersPath
 import generated.jooq.tables.Wikis.WikisPath
@@ -135,6 +137,22 @@ open class Users(
     override fun getIdentity(): Identity<UsersRecord, Int?> = super.getIdentity() as Identity<UsersRecord, Int?>
     override fun getPrimaryKey(): UniqueKey<UsersRecord> = USERS_PKEY
     override fun getUniqueKeys(): List<UniqueKey<UsersRecord>> = listOf(USERS_EMAIL_KEY)
+
+    private lateinit var _aiChat: AiChatPath
+
+    /**
+     * Get the implicit to-many join path to the <code>public.ai_chat</code>
+     * table
+     */
+    fun aiChat(): AiChatPath {
+        if (!this::_aiChat.isInitialized)
+            _aiChat = AiChatPath(this, null, AI_CHAT__FK_CHAT_USER_ID__ID.inverseKey)
+
+        return _aiChat;
+    }
+
+    val aiChat: AiChatPath
+        get(): AiChatPath = aiChat()
 
     private lateinit var _posts: PostsPath
 

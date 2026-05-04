@@ -16,7 +16,7 @@ import java.util.UUID
 @Service
 class WikiService(
   private val wikiRepository: WikiRepository,
-  private val userService: UserService
+  private val sessionService: SessionService
 ) {
   @Transactional(readOnly = true)
   fun getWikiByName(name: String): Wiki? {
@@ -175,7 +175,7 @@ class WikiService(
   }
 
   private fun checkUserHasPermission() {
-    val user = userService.getLoggedInUser() ?:
+    val user = sessionService.getLoggedInUser() ?:
     throw UserNotLoggedInException()
     if (!user.isAdmin()) {
       throw PermissionDeniedException("No permission to modify a wiki")

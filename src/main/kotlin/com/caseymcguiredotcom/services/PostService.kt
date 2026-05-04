@@ -7,8 +7,8 @@ import org.springframework.stereotype.Service
 
 @Service
 class PostService(
-  private val userService: UserService,
-  private val postRepository: PostRepository
+  private val postRepository: PostRepository,
+  private val sessionService: SessionService
 ) {
 
   fun getPosts(): List<Post> {
@@ -23,7 +23,7 @@ class PostService(
 
 
   fun savePost(id: Int?, title: String, content: String): Post? {
-    val user = userService.getLoggedInUser() ?: return null
+    val user = sessionService.getLoggedInUser() ?: return null
     if (!user.isAdmin()) {
       return null
     }

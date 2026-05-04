@@ -7,4 +7,5 @@
 -- atlas:import tables/workout.sql
 -- atlas:import tables/exercise.sql
 -- atlas:import tables/workout_set.sql
-
+-- atlas:import tables/ai_chat.sql
+-- atlas:import tables/ai_chat_message.sql
