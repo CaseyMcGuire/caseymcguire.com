@@ -6,8 +6,6 @@ import com.caseymcguiredotcom.db.models.wiki.WikiNode
 import com.caseymcguiredotcom.db.models.wiki.WikiPage
 import com.caseymcguiredotcom.graphql.query.WikiGlobalId
 import com.caseymcguiredotcom.lib.exceptions.DuplicateEntityException
-import com.caseymcguiredotcom.lib.exceptions.PermissionDeniedException
-import com.caseymcguiredotcom.lib.exceptions.UserNotLoggedInException
 import com.caseymcguiredotcom.repositories.wiki.WikiRepository
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -175,10 +173,6 @@ class WikiService(
   }
 
   private fun checkUserHasPermission() {
-    val user = sessionService.getLoggedInUser() ?:
-    throw UserNotLoggedInException()
-    if (!user.isAdmin()) {
-      throw PermissionDeniedException("No permission to modify a wiki")
-    }
+    sessionService.requireAdmin()
   }
 }

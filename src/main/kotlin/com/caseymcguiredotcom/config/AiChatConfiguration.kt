@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Configuration
 open class AiChatConfiguration {
 
   @Bean
-  open fun chatClient(anthropicChatModel: AnthropicChatModel): ChatClient {
+  fun chatClient(anthropicChatModel: AnthropicChatModel): ChatClient {
     return ChatClient.builder(anthropicChatModel).build()
   }
 }

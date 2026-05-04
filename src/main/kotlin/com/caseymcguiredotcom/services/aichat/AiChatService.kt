@@ -1,7 +1,6 @@
 package com.caseymcguiredotcom.services.aichat
 
 import com.caseymcguiredotcom.lib.exceptions.EntityNotFoundException
-import com.caseymcguiredotcom.lib.exceptions.UserNotLoggedInException
 import com.caseymcguiredotcom.repositories.AiChatRepository
 import com.caseymcguiredotcom.services.SessionService
 import generated.jooq.enums.AiChatMessageRole
@@ -21,8 +20,7 @@ class AiChatService(
 
   @Transactional
   fun sendMessage(conversationId: String?, message: String): ChatResult {
-    val userId = sessionService.getLoggedInUser()?.getId()
-      ?: throw UserNotLoggedInException()
+    val userId = sessionService.requireAdmin().getId()
 
     val (chatId, conversationUuid, history) = if (conversationId != null) {
       val uuid = UUID.fromString(conversationId)

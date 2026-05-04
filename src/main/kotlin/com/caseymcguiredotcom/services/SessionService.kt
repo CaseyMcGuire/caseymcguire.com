@@ -1,5 +1,7 @@
 package com.caseymcguiredotcom.services
 
+import com.caseymcguiredotcom.lib.exceptions.PermissionDeniedException
+import com.caseymcguiredotcom.lib.exceptions.UserNotLoggedInException
 import models.User
 import models.UserDetailsImpl
 import org.springframework.security.authentication.AnonymousAuthenticationToken
@@ -17,5 +19,16 @@ class SessionService {
       is UserDetailsImpl -> principal.user
       else -> null
     }
+  }
+
+  fun requireLoggedInUser(): User =
+    getLoggedInUser() ?: throw UserNotLoggedInException()
+
+  fun requireAdmin(): User {
+    val user = requireLoggedInUser()
+    if (!user.isAdmin()) {
+      throw PermissionDeniedException("Admin access required")
+    }
+    return user
   }
 }
