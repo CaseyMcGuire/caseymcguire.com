@@ -1,6 +1,9 @@
 import * as React from "react";
 import * as stylex from "@stylexjs/stylex";
 import AiChatSidebar from "apps/AiChat/components/AiChatSidebar";
+import {graphql} from "react-relay";
+import {useLazyLoadQuery} from "react-relay/hooks";
+import {AiChatPageQuery} from "__generated__/relay/AiChatPageQuery.graphql";
 
 const styles = stylex.create({
   container: {
@@ -22,11 +25,18 @@ const styles = stylex.create({
   }
 });
 
+const query = graphql`
+  query AiChatPageQuery {
+    ...AiChatSidebar_query
+  }
+`;
+
 export default function AiChatPage() {
+  const data = useLazyLoadQuery<AiChatPageQuery>(query, {});
   return (
     <div sx={styles.container}>
       <div sx={styles.sidebar}>
-        <AiChatSidebar />
+        <AiChatSidebar query={data} />
       </div>
       <div sx={styles.content}>
 
