@@ -305,6 +305,12 @@ tasks.withType<com.netflix.graphql.dgs.codegen.gradle.GenerateJavaTask> {
   language = "kotlin"
 }
 
+tasks.register("generateDgs") {
+  group = "build"
+  description = "Alias for generateJava — runs DGS GraphQL codegen."
+  dependsOn("generateJava")
+}
+
 // Prevent the -plain jar from being created because it doesn't contain a manifest file
 // Since Heroku attempts to run all jar in 'build/libs', the build was failing.
 tasks.getByName<Jar>("jar") {

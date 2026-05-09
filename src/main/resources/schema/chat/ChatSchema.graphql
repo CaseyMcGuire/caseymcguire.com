@@ -1,0 +1,24 @@
+
+extend type Query {
+  aiConversations(
+    first: Int
+    after: String
+    last: Int
+    before: String
+  ): AiConversationConnection
+}
+
+type AiConversationConnection {
+  pageInfo: PageInfo!
+  edges: [AiConversationEdge!]!
+}
+
+type AiConversationEdge {
+  node: AiConversation!
+  cursor: String!
+}
+
+type AiConversation {
+  id: ID!
+  title: String!
+}

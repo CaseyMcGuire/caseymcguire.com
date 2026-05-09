@@ -16,3 +16,4 @@ src/main/resources/static/bundles
 stats.json
 
 .kotlin
+.claude
