@@ -45,7 +45,8 @@ class ChatDataFetcher(
       val result = aiChatService.sendMessage(conversationId, message)
       SuccessfulChatResponse(
         conversationId = result.conversationId,
-        reply = result.reply,
+        userMessageEdge = result.userMessage.toAiMessageEdge(),
+        assistantMessageEdge = result.assistantMessage.toAiMessageEdge(),
       )
     } catch (e: Exception) {
       log.error("Failed to send message", e)
@@ -183,6 +184,11 @@ class ChatDataFetcher(
     role = role.toGqlRole(),
     content = content,
     createdAt = createdAt.toString(),
+  )
+
+  private fun AiChatMessage.toAiMessageEdge(): AiMessageEdge = AiMessageEdge(
+    node = toGqlAiMessage(),
+    cursor = cursorService.encode(AiMessageCursor(messageId = id)),
   )
 
   private fun AiChatMessageRole.toGqlRole(): AiMessageRole = when (this) {

@@ -9,7 +9,8 @@ union ChatResponse = SuccessfulChatResponse | FailedChatResponse
 
 type SuccessfulChatResponse {
   conversationId: ID!
-  reply: String!
+  userMessageEdge: AiMessageEdge!
+  assistantMessageEdge: AiMessageEdge!
 }
 
 type FailedChatResponse {

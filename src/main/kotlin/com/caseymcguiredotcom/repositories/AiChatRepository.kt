@@ -160,16 +160,20 @@ class AiChatRepository(private val dslContext: DSLContext) {
       .map { AiChatMessage(it) }
   }
 
-  fun appendMessage(chatId: Long, role: AiChatMessageRole, content: String) {
-    dslContext
+  fun appendMessage(chatId: Long, role: AiChatMessageRole, content: String): AiChatMessage {
+    val inserted = dslContext
       .insertInto(AI_CHAT_MESSAGE, AI_CHAT_MESSAGE.CHAT_ID, AI_CHAT_MESSAGE.ROLE, AI_CHAT_MESSAGE.CONTENT)
       .values(chatId, role, content)
-      .execute()
+      .returning()
+      .fetchOne()
+      ?.into(AiChatMessageTableRow::class.java)
+      ?: error("Failed to insert ai_chat_message row")
     dslContext
       .update(AI_CHAT)
       .set(AI_CHAT.UPDATED_AT, OffsetDateTime.now())
       .where(AI_CHAT.ID.eq(chatId))
       .execute()
+    return AiChatMessage(inserted)
   }
 
   fun deleteByConversationId(conversationId: UUID) {

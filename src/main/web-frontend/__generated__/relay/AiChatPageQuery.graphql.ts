@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<bda7c8bf76633bf0b65a03a75927aa82>>
+ * @generated SignedSource<<ca239723229bb559f59984ff75499b58>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -48,7 +48,53 @@ v2 = {
   "kind": "ScalarField",
   "name": "id",
   "storageKey": null
-};
+},
+v3 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "__typename",
+  "storageKey": null
+},
+v4 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "cursor",
+  "storageKey": null
+},
+v5 = {
+  "alias": null,
+  "args": null,
+  "concreteType": "PageInfo",
+  "kind": "LinkedField",
+  "name": "pageInfo",
+  "plural": false,
+  "selections": [
+    {
+      "alias": null,
+      "args": null,
+      "kind": "ScalarField",
+      "name": "endCursor",
+      "storageKey": null
+    },
+    {
+      "alias": null,
+      "args": null,
+      "kind": "ScalarField",
+      "name": "hasNextPage",
+      "storageKey": null
+    }
+  ],
+  "storageKey": null
+},
+v6 = [
+  {
+    "kind": "Literal",
+    "name": "first",
+    "value": 50
+  }
+];
 return {
   "fragment": {
     "argumentDefinitions": (v0/*: any*/),
@@ -121,51 +167,15 @@ return {
                     "name": "title",
                     "storageKey": null
                   },
-                  {
-                    "alias": null,
-                    "args": null,
-                    "kind": "ScalarField",
-                    "name": "__typename",
-                    "storageKey": null
-                  }
+                  (v3/*: any*/)
                 ],
                 "storageKey": null
               },
-              {
-                "alias": null,
-                "args": null,
-                "kind": "ScalarField",
-                "name": "cursor",
-                "storageKey": null
-              }
+              (v4/*: any*/)
             ],
             "storageKey": null
           },
-          {
-            "alias": null,
-            "args": null,
-            "concreteType": "PageInfo",
-            "kind": "LinkedField",
-            "name": "pageInfo",
-            "plural": false,
-            "selections": [
-              {
-                "alias": null,
-                "args": null,
-                "kind": "ScalarField",
-                "name": "endCursor",
-                "storageKey": null
-              },
-              {
-                "alias": null,
-                "args": null,
-                "kind": "ScalarField",
-                "name": "hasNextPage",
-                "storageKey": null
-              }
-            ],
-            "storageKey": null
-          }
+          (v5/*: any*/)
         ],
         "storageKey": "aiConversations(first:20)"
       },
@@ -200,7 +210,7 @@ return {
               (v2/*: any*/),
               {
                 "alias": null,
-                "args": null,
+                "args": (v6/*: any*/),
                 "concreteType": "AiMessageConnection",
                 "kind": "LinkedField",
                 "name": "messages",
@@ -236,15 +246,27 @@ return {
                             "kind": "ScalarField",
                             "name": "content",
                             "storageKey": null
-                          }
+                          },
+                          (v3/*: any*/)
                         ],
                         "storageKey": null
-                      }
+                      },
+                      (v4/*: any*/)
                     ],
                     "storageKey": null
-                  }
+                  },
+                  (v5/*: any*/)
                 ],
-                "storageKey": null
+                "storageKey": "messages(first:50)"
+              },
+              {
+                "alias": null,
+                "args": (v6/*: any*/),
+                "filters": null,
+                "handle": "connection",
+                "key": "AiChatMessageList_messages",
+                "kind": "LinkedHandle",
+                "name": "messages"
               }
             ],
             "storageKey": null
@@ -254,12 +276,12 @@ return {
     ]
   },
   "params": {
-    "cacheID": "e44baeefe7c40486a7c9b17e917d6dde",
+    "cacheID": "c75d4efb73faa02a90d4e7e7907af5e8",
     "id": null,
     "metadata": {},
     "name": "AiChatPageQuery",
     "operationKind": "query",
-    "text": "query AiChatPageQuery(\n  $conversationId: ID!\n  $hasConversation: Boolean!\n) {\n  ...AiChatSidebar_query\n  ...AiChatMessageList_query_Q3aoS @include(if: $hasConversation)\n}\n\nfragment AiChatMessageList_query_Q3aoS on Query {\n  aiConversation(id: $conversationId) {\n    id\n    messages {\n      edges {\n        node {\n          id\n          ...AiChatMessage_message\n        }\n      }\n    }\n  }\n}\n\nfragment AiChatMessage_message on AiMessage {\n  role\n  content\n}\n\nfragment AiChatSidebar_query on Query {\n  aiConversations(first: 20) {\n    edges {\n      node {\n        id\n        title\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n    }\n  }\n}\n"
+    "text": "query AiChatPageQuery(\n  $conversationId: ID!\n  $hasConversation: Boolean!\n) {\n  ...AiChatSidebar_query\n  ...AiChatMessageList_query_Q3aoS @include(if: $hasConversation)\n}\n\nfragment AiChatMessageList_query_Q3aoS on Query {\n  aiConversation(id: $conversationId) {\n    id\n    messages(first: 50) {\n      edges {\n        node {\n          id\n          ...AiChatMessage_message\n          __typename\n        }\n        cursor\n      }\n      pageInfo {\n        endCursor\n        hasNextPage\n      }\n    }\n  }\n}\n\nfragment AiChatMessage_message on AiMessage {\n  role\n  content\n}\n\nfragment AiChatSidebar_query on Query {\n  aiConversations(first: 20) {\n    edges {\n      node {\n        id\n        title\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n    }\n  }\n}\n"
   }
 };
 })();

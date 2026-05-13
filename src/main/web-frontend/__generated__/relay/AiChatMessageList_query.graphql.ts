@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<54465b02943a1b6f16297a171601d4cd>>
+ * @generated SignedSource<<ae457f728591401ad7abcfdf10ee787b>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -42,11 +42,33 @@ return {
     {
       "defaultValue": null,
       "kind": "LocalArgument",
+      "name": "after"
+    },
+    {
+      "defaultValue": null,
+      "kind": "LocalArgument",
       "name": "conversationId"
+    },
+    {
+      "defaultValue": 50,
+      "kind": "LocalArgument",
+      "name": "first"
     }
   ],
   "kind": "Fragment",
-  "metadata": null,
+  "metadata": {
+    "connection": [
+      {
+        "count": "first",
+        "cursor": "after",
+        "direction": "forward",
+        "path": [
+          "aiConversation",
+          "messages"
+        ]
+      }
+    ]
+  },
   "name": "AiChatMessageList_query",
   "selections": [
     {
@@ -65,11 +87,11 @@ return {
       "selections": [
         (v0/*: any*/),
         {
-          "alias": null,
+          "alias": "messages",
           "args": null,
           "concreteType": "AiMessageConnection",
           "kind": "LinkedField",
-          "name": "messages",
+          "name": "__AiChatMessageList_messages_connection",
           "plural": false,
           "selections": [
             {
@@ -93,8 +115,47 @@ return {
                       "args": null,
                       "kind": "FragmentSpread",
                       "name": "AiChatMessage_message"
+                    },
+                    {
+                      "alias": null,
+                      "args": null,
+                      "kind": "ScalarField",
+                      "name": "__typename",
+                      "storageKey": null
                     }
                   ],
+                  "storageKey": null
+                },
+                {
+                  "alias": null,
+                  "args": null,
+                  "kind": "ScalarField",
+                  "name": "cursor",
+                  "storageKey": null
+                }
+              ],
+              "storageKey": null
+            },
+            {
+              "alias": null,
+              "args": null,
+              "concreteType": "PageInfo",
+              "kind": "LinkedField",
+              "name": "pageInfo",
+              "plural": false,
+              "selections": [
+                {
+                  "alias": null,
+                  "args": null,
+                  "kind": "ScalarField",
+                  "name": "endCursor",
+                  "storageKey": null
+                },
+                {
+                  "alias": null,
+                  "args": null,
+                  "kind": "ScalarField",
+                  "name": "hasNextPage",
                   "storageKey": null
                 }
               ],
@@ -112,6 +173,6 @@ return {
 };
 })();
 
-(node as any).hash = "b757a5c2bc24d04ea71821c5c5422910";
+(node as any).hash = "820a829f79cfea4e1a57da75875be4ee";
 
 export default node;

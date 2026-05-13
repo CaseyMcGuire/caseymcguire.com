@@ -44,10 +44,10 @@ class AiChatService(
       .call()
       .content() ?: error("AI returned no content")
 
-    aiChatRepository.appendMessage(chat.id, AiChatMessageRole.user, message)
-    aiChatRepository.appendMessage(chat.id, AiChatMessageRole.assistant, reply)
+    val userMessage = aiChatRepository.appendMessage(chat.id, AiChatMessageRole.user, message)
+    val assistantMessage = aiChatRepository.appendMessage(chat.id, AiChatMessageRole.assistant, reply)
 
-    return ChatResult(chat.conversationId.toString(), reply)
+    return ChatResult(chat.conversationId.toString(), userMessage, assistantMessage)
   }
 
   fun getConversationsForCurrentUser(
@@ -117,7 +117,8 @@ class AiChatService(
 
 data class ChatResult(
   val conversationId: String,
-  val reply: String,
+  val userMessage: AiChatMessage,
+  val assistantMessage: AiChatMessage,
 )
 
 enum class PageDirection {
