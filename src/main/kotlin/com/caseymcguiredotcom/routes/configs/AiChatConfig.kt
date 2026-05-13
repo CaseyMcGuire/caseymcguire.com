@@ -13,6 +13,7 @@ import org.springframework.web.servlet.function.ServerResponse
 class AiChatConfig : SinglePageApplicationConfig {
   override val routes: List<SinglePageApplicationRoute> = listOf(
     SinglePageApplicationRoute("", "AI_CHAT_INDEX"),
+    SinglePageApplicationRoute("chat/{conversationId}", "VIEW_CHAT"),
   )
 
   override val name: String = "AI Chat"

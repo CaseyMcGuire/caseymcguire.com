@@ -5,11 +5,16 @@ import AiChatHomePage from "apps/AiChat/pages/AiChatHomePage";
 import {AIChatRoutes} from "__generated__/routes/AIChatRoutes";
 import PageWrapper from "components/PageWrapper/PageWrapper";
 import UserContextProvider from "components/context/UserContextProvider";
+import AiViewChatPage from "apps/AiChat/pages/AiViewChatPage";
 
 const router = createBrowserRouter([
   {
     path: AIChatRoutes.AI_CHAT_INDEX,
     element: <AiChatHomePage />,
+  },
+  {
+    path: AIChatRoutes.VIEW_CHAT,
+    element: <AiViewChatPage />,
   },
 ]);
 

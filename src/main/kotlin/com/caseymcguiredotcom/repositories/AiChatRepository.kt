@@ -112,6 +112,54 @@ class AiChatRepository(private val dslContext: DSLContext) {
       .map { AiChatMessage(it) }
   }
 
+  fun findMessagesForConversationOrderedById(
+    conversationId: UUID,
+    limit: Int,
+    descending: Boolean,
+  ): List<AiChatMessage> {
+    return fetchMessagesOrderedById(
+      condition = AI_CHAT.CONVERSATION_ID.eq(conversationId),
+      limit = limit,
+      descending = descending,
+    )
+  }
+
+  fun findMessagesForConversationAfterCursorOrderedById(
+    conversationId: UUID,
+    cursorMessageId: Long,
+    limit: Int,
+    descending: Boolean,
+  ): List<AiChatMessage> {
+    val cursorCondition = if (descending) {
+      AI_CHAT_MESSAGE.ID.lt(cursorMessageId)
+    } else {
+      AI_CHAT_MESSAGE.ID.gt(cursorMessageId)
+    }
+    return fetchMessagesOrderedById(
+      condition = AI_CHAT.CONVERSATION_ID.eq(conversationId).and(cursorCondition),
+      limit = limit,
+      descending = descending,
+    )
+  }
+
+  private fun fetchMessagesOrderedById(
+    condition: org.jooq.Condition,
+    limit: Int,
+    descending: Boolean,
+  ): List<AiChatMessage> {
+    val orderBy = if (descending) AI_CHAT_MESSAGE.ID.desc() else AI_CHAT_MESSAGE.ID.asc()
+    return dslContext
+      .select(AI_CHAT_MESSAGE.asterisk())
+      .from(AI_CHAT_MESSAGE)
+      .join(AI_CHAT).on(AI_CHAT_MESSAGE.CHAT_ID.eq(AI_CHAT.ID))
+      .where(condition)
+      .orderBy(orderBy)
+      .limit(limit)
+      .fetch()
+      .into(AiChatMessageTableRow::class.java)
+      .map { AiChatMessage(it) }
+  }
+
   fun appendMessage(chatId: Long, role: AiChatMessageRole, content: String) {
     dslContext
       .insertInto(AI_CHAT_MESSAGE, AI_CHAT_MESSAGE.CHAT_ID, AI_CHAT_MESSAGE.ROLE, AI_CHAT_MESSAGE.CONTENT)

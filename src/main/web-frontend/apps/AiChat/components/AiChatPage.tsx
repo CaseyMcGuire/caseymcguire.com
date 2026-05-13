@@ -1,5 +1,6 @@
 import * as React from "react";
 import * as stylex from "@stylexjs/stylex";
+import AiChatConversation from "apps/AiChat/components/AiChatConversation";
 import AiChatSidebar from "apps/AiChat/components/AiChatSidebar";
 import {graphql} from "react-relay";
 import {useLazyLoadQuery} from "react-relay/hooks";
@@ -25,21 +26,39 @@ const styles = stylex.create({
   }
 });
 
+// Placeholder ID used when no conversation is selected — the messages fragment
+// is skipped via @include in that case, so this value is never actually queried.
+const PLACEHOLDER_CONVERSATION_ID = "00000000-0000-0000-0000-000000000000"
+
 const query = graphql`
-  query AiChatPageQuery {
+  query AiChatPageQuery($conversationId: ID!, $hasConversation: Boolean!) {
     ...AiChatSidebar_query
+    ...AiChatMessageList_query
+      @arguments(conversationId: $conversationId)
+      @include(if: $hasConversation)
   }
 `;
 
-export default function AiChatPage() {
-  const data = useLazyLoadQuery<AiChatPageQuery>(query, {});
+type Props = {
+  conversationId?: string,
+}
+
+export default function AiChatPage(props: Props) {
+  const hasConversation = props.conversationId != null
+  const data = useLazyLoadQuery<AiChatPageQuery>(query, {
+    conversationId: props.conversationId ?? PLACEHOLDER_CONVERSATION_ID,
+    hasConversation,
+  });
   return (
     <div sx={styles.container}>
       <div sx={styles.sidebar}>
         <AiChatSidebar query={data} />
       </div>
       <div sx={styles.content}>
-
+        <AiChatConversation
+          conversationId={props.conversationId}
+          query={hasConversation ? data : null}
+        />
       </div>
     </div>
   )

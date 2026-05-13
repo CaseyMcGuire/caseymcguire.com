@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<390dc819b17a93f179232c831dbe6f20>>
+ * @generated SignedSource<<bda7c8bf76633bf0b65a03a75927aa82>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -10,9 +10,12 @@
 
 import { ConcreteRequest } from 'relay-runtime';
 import { FragmentRefs } from "relay-runtime";
-export type AiChatPageQuery$variables = Record<PropertyKey, never>;
+export type AiChatPageQuery$variables = {
+  conversationId: string;
+  hasConversation: boolean;
+};
 export type AiChatPageQuery$data = {
-  readonly " $fragmentSpreads": FragmentRefs<"AiChatSidebar_query">;
+  readonly " $fragmentSpreads": FragmentRefs<"AiChatMessageList_query" | "AiChatSidebar_query">;
 };
 export type AiChatPageQuery = {
   response: AiChatPageQuery$data;
@@ -22,14 +25,33 @@ export type AiChatPageQuery = {
 const node: ConcreteRequest = (function(){
 var v0 = [
   {
+    "defaultValue": null,
+    "kind": "LocalArgument",
+    "name": "conversationId"
+  },
+  {
+    "defaultValue": null,
+    "kind": "LocalArgument",
+    "name": "hasConversation"
+  }
+],
+v1 = [
+  {
     "kind": "Literal",
     "name": "first",
     "value": 20
   }
-];
+],
+v2 = {
+  "alias": null,
+  "args": null,
+  "kind": "ScalarField",
+  "name": "id",
+  "storageKey": null
+};
 return {
   "fragment": {
-    "argumentDefinitions": [],
+    "argumentDefinitions": (v0/*: any*/),
     "kind": "Fragment",
     "metadata": null,
     "name": "AiChatPageQuery",
@@ -38,6 +60,24 @@ return {
         "args": null,
         "kind": "FragmentSpread",
         "name": "AiChatSidebar_query"
+      },
+      {
+        "condition": "hasConversation",
+        "kind": "Condition",
+        "passingValue": true,
+        "selections": [
+          {
+            "args": [
+              {
+                "kind": "Variable",
+                "name": "conversationId",
+                "variableName": "conversationId"
+              }
+            ],
+            "kind": "FragmentSpread",
+            "name": "AiChatMessageList_query"
+          }
+        ]
       }
     ],
     "type": "Query",
@@ -45,13 +85,13 @@ return {
   },
   "kind": "Request",
   "operation": {
-    "argumentDefinitions": [],
+    "argumentDefinitions": (v0/*: any*/),
     "kind": "Operation",
     "name": "AiChatPageQuery",
     "selections": [
       {
         "alias": null,
-        "args": (v0/*: any*/),
+        "args": (v1/*: any*/),
         "concreteType": "AiConversationConnection",
         "kind": "LinkedField",
         "name": "aiConversations",
@@ -73,13 +113,7 @@ return {
                 "name": "node",
                 "plural": false,
                 "selections": [
-                  {
-                    "alias": null,
-                    "args": null,
-                    "kind": "ScalarField",
-                    "name": "id",
-                    "storageKey": null
-                  },
+                  (v2/*: any*/),
                   {
                     "alias": null,
                     "args": null,
@@ -137,26 +171,99 @@ return {
       },
       {
         "alias": null,
-        "args": (v0/*: any*/),
+        "args": (v1/*: any*/),
         "filters": null,
         "handle": "connection",
         "key": "AiChatSidebar_aiConversations",
         "kind": "LinkedHandle",
         "name": "aiConversations"
+      },
+      {
+        "condition": "hasConversation",
+        "kind": "Condition",
+        "passingValue": true,
+        "selections": [
+          {
+            "alias": null,
+            "args": [
+              {
+                "kind": "Variable",
+                "name": "id",
+                "variableName": "conversationId"
+              }
+            ],
+            "concreteType": "AiConversation",
+            "kind": "LinkedField",
+            "name": "aiConversation",
+            "plural": false,
+            "selections": [
+              (v2/*: any*/),
+              {
+                "alias": null,
+                "args": null,
+                "concreteType": "AiMessageConnection",
+                "kind": "LinkedField",
+                "name": "messages",
+                "plural": false,
+                "selections": [
+                  {
+                    "alias": null,
+                    "args": null,
+                    "concreteType": "AiMessageEdge",
+                    "kind": "LinkedField",
+                    "name": "edges",
+                    "plural": true,
+                    "selections": [
+                      {
+                        "alias": null,
+                        "args": null,
+                        "concreteType": "AiMessage",
+                        "kind": "LinkedField",
+                        "name": "node",
+                        "plural": false,
+                        "selections": [
+                          (v2/*: any*/),
+                          {
+                            "alias": null,
+                            "args": null,
+                            "kind": "ScalarField",
+                            "name": "role",
+                            "storageKey": null
+                          },
+                          {
+                            "alias": null,
+                            "args": null,
+                            "kind": "ScalarField",
+                            "name": "content",
+                            "storageKey": null
+                          }
+                        ],
+                        "storageKey": null
+                      }
+                    ],
+                    "storageKey": null
+                  }
+                ],
+                "storageKey": null
+              }
+            ],
+            "storageKey": null
+          }
+        ]
       }
     ]
   },
   "params": {
-    "cacheID": "9172ffcf4b6394598992e99382076f59",
+    "cacheID": "e44baeefe7c40486a7c9b17e917d6dde",
     "id": null,
     "metadata": {},
     "name": "AiChatPageQuery",
     "operationKind": "query",
-    "text": "query AiChatPageQuery {\n  ...AiChatSidebar_query\n}\n\nfragment AiChatSidebar_query on Query {\n  aiConversations(first: 20) {\n    edges {\n      node {\n        id\n        title\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n    }\n  }\n}\n"
+    "text": "query AiChatPageQuery(\n  $conversationId: ID!\n  $hasConversation: Boolean!\n) {\n  ...AiChatSidebar_query\n  ...AiChatMessageList_query_Q3aoS @include(if: $hasConversation)\n}\n\nfragment AiChatMessageList_query_Q3aoS on Query {\n  aiConversation(id: $conversationId) {\n    id\n    messages {\n      edges {\n        node {\n          id\n          ...AiChatMessage_message\n        }\n      }\n    }\n  }\n}\n\nfragment AiChatMessage_message on AiMessage {\n  role\n  content\n}\n\nfragment AiChatSidebar_query on Query {\n  aiConversations(first: 20) {\n    edges {\n      node {\n        id\n        title\n        __typename\n      }\n      cursor\n    }\n    pageInfo {\n      endCursor\n      hasNextPage\n    }\n  }\n}\n"
   }
 };
 })();
 
-(node as any).hash = "6f6fafc53a4e9077380b0176df39a774";
+(node as any).hash = "d4f4deda1204bb1e6bdff9f0dfbf81b0";
 
 export default node;

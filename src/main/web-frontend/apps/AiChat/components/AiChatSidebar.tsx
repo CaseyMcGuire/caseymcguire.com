@@ -3,6 +3,8 @@ import AiChatNewChatButton from "apps/AiChat/components/AiChatNewChatButton";
 import {graphql, usePaginationFragment} from "react-relay";
 import {AiChatSidebar_query$key} from "__generated__/relay/AiChatSidebar_query.graphql";
 import {AiChatSidebarPaginationQuery} from "__generated__/relay/AiChatSidebarPaginationQuery.graphql";
+import {AIChatRoutes} from "__generated__/routes/AIChatRoutes";
+import {useNavigate} from "react-router";
 
 const styles = stylex.create({
   container: {
@@ -42,6 +44,7 @@ type Props = {
 }
 
 export default function AiChatSidebar(props: Props) {
+  const navigate = useNavigate()
   const {data, loadNext, hasNext, isLoadingNext} = usePaginationFragment<
     AiChatSidebarPaginationQuery,
     AiChatSidebar_query$key
@@ -77,7 +80,15 @@ export default function AiChatSidebar(props: Props) {
         </div>
         <div>
           {edges.map(edge => (
-            <div key={edge?.node?.id} sx={styles.chat}>
+            <div
+              key={edge?.node?.id}
+              sx={styles.chat}
+              onClick={() => {
+                if (edge?.node?.id) {
+                  navigate(AIChatRoutes.VIEW_CHAT.replace(':conversationId', edge.node.id))
+                }
+              }}
+            >
               {edge?.node?.title}
             </div>
           ))}

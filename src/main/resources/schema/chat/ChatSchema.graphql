@@ -6,6 +6,9 @@ extend type Query {
     last: Int
     before: String
   ): AiConversationConnection
+  aiConversation(
+    id: ID!
+  ): AiConversation
 }
 
 type AiConversationConnection {
@@ -21,4 +24,34 @@ type AiConversationEdge {
 type AiConversation {
   id: ID!
   title: String!
+  messages(
+    first: Int
+    after: String
+    last: Int
+    before: String
+  ): AiMessageConnection
+}
+
+type AiMessageConnection {
+  pageInfo: PageInfo!
+  edges: [AiMessageEdge!]!
+}
+
+type AiMessageEdge {
+  node: AiMessage!
+  cursor: String!
+}
+
+type AiMessage {
+  id: ID!
+  role: AiMessageRole!
+  content: String!
+  createdAt: String!
+}
+
+enum AiMessageRole {
+  USER
+  ASSISTANT
+  SYSTEM
+  TOOL
 }

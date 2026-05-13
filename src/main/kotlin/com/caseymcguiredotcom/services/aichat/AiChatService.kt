@@ -75,7 +75,31 @@ class AiChatService(
     )
   }
 
-  private fun findByConversationId(
+  fun getMessagesForConversation(
+    conversationId: UUID,
+    cursorMessageId: Long? = null,
+    limit: Int = 20,
+    descending: Boolean = false,
+  ): List<AiChatMessage> {
+    findByConversationId(conversationId)
+      ?: throw EntityNotFoundException("Conversation not found: $conversationId")
+    return if (cursorMessageId == null) {
+      aiChatRepository.findMessagesForConversationOrderedById(
+        conversationId = conversationId,
+        limit = limit,
+        descending = descending,
+      )
+    } else {
+      aiChatRepository.findMessagesForConversationAfterCursorOrderedById(
+        conversationId = conversationId,
+        cursorMessageId = cursorMessageId,
+        limit = limit,
+        descending = descending,
+      )
+    }
+  }
+
+  fun findByConversationId(
     conversationId: UUID
   ): AiChat? {
     val userId = sessionService.requireAdmin().getId()
