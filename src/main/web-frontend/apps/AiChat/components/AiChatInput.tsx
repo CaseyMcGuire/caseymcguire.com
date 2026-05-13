@@ -23,7 +23,7 @@ const styles = stylex.create({
     borderStyle: 'solid',
     borderWidth: 1,
     borderColor: '#ccc',
-    fontFamily: 'inherit',
+    fontFamily: '"Noto Sans", sans-serif',
     fieldSizing: 'content',
     resize: 'none',
     maxHeight: 200,

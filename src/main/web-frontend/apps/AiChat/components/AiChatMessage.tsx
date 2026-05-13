@@ -20,16 +20,16 @@ const styles = stylex.create({
   },
   message: {
     maxWidth: '75%',
-    padding: 8
+    padding: 8,
+    fontSize: 14,
+    fontFamily: '"Noto Sans", sans-serif',
   },
   aiMessage: {
-    direction: 'ltr',
     backgroundColor: 'rgb(243, 244, 246)',
     borderRadius: 8,
     padding: 8,
   },
   userMessage: {
-    direction: 'rtl',
     backgroundColor: 'rgb(229, 231, 235)',
     borderRadius: 8,
   }
