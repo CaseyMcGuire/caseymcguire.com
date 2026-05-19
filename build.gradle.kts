@@ -72,6 +72,8 @@ dependencies {
   implementation("org.flywaydb:flyway-database-postgresql:11.16.0")
   implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
   implementation("org.jetbrains.kotlinx:kotlinx-html-jvm:0.12.0")
+  implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")
+  implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactive")
 
   implementation("io.github.classgraph:classgraph:4.8.184")
   implementation("com.github.vertical-blank:sql-formatter:2.0.5")

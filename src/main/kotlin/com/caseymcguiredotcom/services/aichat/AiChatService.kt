@@ -11,10 +11,13 @@ import org.springframework.ai.chat.messages.AssistantMessage
 import org.springframework.ai.chat.messages.Message
 import org.springframework.ai.chat.messages.SystemMessage
 import org.springframework.ai.chat.messages.UserMessage
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.reactive.asFlow
+import kotlinx.coroutines.withContext
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import reactor.core.publisher.Flux
-import reactor.core.publisher.Mono
 import java.util.UUID
 
 private const val MAX_TITLE_LENGTH = 80
@@ -112,8 +115,8 @@ class AiChatService(
   fun sendMessageStream(
     conversationId: String?,
     message: String,
-  ): Flux<ChatStreamEvent> {
-    return Mono.fromCallable {
+  ): Flow<ChatStreamEvent> = flow {
+    val (chat, userMessage) = withContext(Dispatchers.IO) {
       val userId = sessionService.requireAdmin().getId()
       val chat = if (conversationId != null) {
         findByConversationId(UUID.fromString(conversationId))
@@ -121,31 +124,31 @@ class AiChatService(
       } else {
         aiChatRepository.createChat(userId, UUID.randomUUID(), message.take(MAX_TITLE_LENGTH))
       }
-      val userMessage = aiChatRepository.appendMessage(chat.id, AiChatMessageRole.user, message)
-      chat to userMessage
-    }.flatMapMany { (chat, userMessage) ->
-      val history = aiChatRepository.findMessagesByConversationId(chat.conversationId)
+      chat to aiChatRepository.appendMessage(chat.id, AiChatMessageRole.user, message)
+    }
+
+    emit(ChatStreamEvent.Started(chat.conversationId))
+
+    val history = withContext(Dispatchers.IO) {
+      aiChatRepository.findMessagesByConversationId(chat.conversationId)
         .map { it.toSpringMessage() }
+    }
 
-      val accumulator = StringBuilder()
-
-      val started = Mono.just<ChatStreamEvent>(ChatStreamEvent.Started(chat.conversationId))
-      val chunks: Flux<ChatStreamEvent> = chatClient.prompt()
-        .messages(history)
-        .stream()
-        .content()
-        .doOnNext { accumulator.append(it) }
-        .map { ChatStreamEvent.Chunk(chat.conversationId, it) }
-
-      val complete = Mono.fromCallable<ChatStreamEvent> {
-        val assistantMessage = aiChatRepository.appendMessage(
-          chat.id, AiChatMessageRole.assistant, accumulator.toString(),
-        )
-        ChatStreamEvent.Complete(chat.conversationId, userMessage, assistantMessage)
+    val accumulator = StringBuilder()
+    chatClient.prompt()
+      .messages(history)
+      .stream()
+      .content()
+      .asFlow()
+      .collect { delta ->
+        accumulator.append(delta)
+        emit(ChatStreamEvent.Chunk(chat.conversationId, delta))
       }
 
-      Flux.concat(started, chunks, complete)
+    val assistantMessage = withContext(Dispatchers.IO) {
+      aiChatRepository.appendMessage(chat.id, AiChatMessageRole.assistant, accumulator.toString())
     }
+    emit(ChatStreamEvent.Complete(chat.conversationId, userMessage, assistantMessage))
   }
 
   private fun AiChatMessage.toSpringMessage(): Message = when (role) {

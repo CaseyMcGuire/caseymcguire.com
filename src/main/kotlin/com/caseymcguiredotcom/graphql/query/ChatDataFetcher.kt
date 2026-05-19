@@ -31,6 +31,9 @@ import com.caseymcguiredotcom.services.aichat.ChatStreamEvent
 import com.netflix.graphql.dgs.DgsSubscription
 import com.netflix.graphql.dgs.InputArgument
 import generated.jooq.enums.AiChatMessageRole
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.reactor.asFlux
 import models.AiChatMessage
 import org.slf4j.LoggerFactory
 import reactor.core.publisher.Flux
@@ -187,14 +190,14 @@ class ChatDataFetcher(
     )
   }
 
-  @DgsSubscription(field = "sendMessage")
+  @DgsSubscription(field = DgsConstants.SUBSCRIPTION.SendMessage)
   fun sendMessageStream(
     conversationId: String?,
     message: String,
   ): Flux<AiMessageStreamEvent> {
     return aiChatService.sendMessageStream(conversationId, message)
-      .map { it.toGqlEvent() }
-      .onErrorResume { e ->
+      .map { event -> event.toGqlEvent() }
+      .catch { e ->
         log.error("Failed to stream message", e)
         val event: AiMessageStreamEvent = when (e) {
           is EntityNotFoundException -> AiMessageErrorEvent(
@@ -206,8 +209,9 @@ class ChatDataFetcher(
             userFacingErrorMessage = "Something went wrong. Please try again.",
           )
         }
-        Flux.just(event)
+        emit(event)
       }
+      .asFlux()
   }
 
   private fun ChatStreamEvent.toGqlEvent(): AiMessageStreamEvent = when (this) {
