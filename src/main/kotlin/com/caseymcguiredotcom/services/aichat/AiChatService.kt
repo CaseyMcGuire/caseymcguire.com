@@ -1,9 +1,13 @@
 package com.caseymcguiredotcom.services.aichat
 
 import com.caseymcguiredotcom.lib.exceptions.EntityNotFoundException
+import com.caseymcguiredotcom.lib.withSecurityContextOnIo
 import com.caseymcguiredotcom.repositories.AiChatRepository
 import com.caseymcguiredotcom.services.SessionService
 import generated.jooq.enums.AiChatMessageRole
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.reactive.asFlow
 import models.AiChat
 import models.AiChatMessage
 import org.springframework.ai.chat.client.ChatClient
@@ -11,11 +15,6 @@ import org.springframework.ai.chat.messages.AssistantMessage
 import org.springframework.ai.chat.messages.Message
 import org.springframework.ai.chat.messages.SystemMessage
 import org.springframework.ai.chat.messages.UserMessage
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.reactive.asFlow
-import kotlinx.coroutines.withContext
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.util.UUID
@@ -116,7 +115,7 @@ class AiChatService(
     conversationId: String?,
     message: String,
   ): Flow<ChatStreamEvent> = flow {
-    val (chat, userMessage) = withContext(Dispatchers.IO) {
+    val (chat, userMessage) = withSecurityContextOnIo {
       val userId = sessionService.requireAdmin().getId()
       val chat = if (conversationId != null) {
         findByConversationId(UUID.fromString(conversationId))
@@ -129,7 +128,7 @@ class AiChatService(
 
     emit(ChatStreamEvent.Started(chat.conversationId))
 
-    val history = withContext(Dispatchers.IO) {
+    val history = withSecurityContextOnIo {
       aiChatRepository.findMessagesByConversationId(chat.conversationId)
         .map { it.toSpringMessage() }
     }
@@ -145,7 +144,7 @@ class AiChatService(
         emit(ChatStreamEvent.Chunk(chat.conversationId, delta))
       }
 
-    val assistantMessage = withContext(Dispatchers.IO) {
+    val assistantMessage = withSecurityContextOnIo {
       aiChatRepository.appendMessage(chat.id, AiChatMessageRole.assistant, accumulator.toString())
     }
     emit(ChatStreamEvent.Complete(chat.conversationId, userMessage, assistantMessage))
