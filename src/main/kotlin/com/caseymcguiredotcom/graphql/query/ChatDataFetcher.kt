@@ -5,6 +5,9 @@ import com.caseymcguiredotcom.codegen.graphql.types.AiConversation
 import com.caseymcguiredotcom.codegen.graphql.types.AiConversationConnection
 import com.caseymcguiredotcom.codegen.graphql.types.AiConversationEdge
 import com.caseymcguiredotcom.codegen.graphql.types.AiMessage
+import com.caseymcguiredotcom.codegen.graphql.types.AiMessageChunkEvent
+import com.caseymcguiredotcom.codegen.graphql.types.AiMessageCompleteEvent
+import com.caseymcguiredotcom.codegen.graphql.types.AiMessageErrorEvent
 import com.caseymcguiredotcom.codegen.graphql.types.AiMessageConnection
 import com.caseymcguiredotcom.codegen.graphql.types.AiMessageEdge
 import com.caseymcguiredotcom.codegen.graphql.types.ChatErrorCode
@@ -22,10 +25,15 @@ import com.netflix.graphql.dgs.DgsDataFetchingEnvironment
 import com.netflix.graphql.dgs.DgsMutation
 import com.netflix.graphql.dgs.DgsQuery
 import com.caseymcguiredotcom.codegen.graphql.types.AiMessageRole
+import com.caseymcguiredotcom.codegen.graphql.types.AiMessageStartedEvent
+import com.caseymcguiredotcom.codegen.graphql.types.AiMessageStreamEvent
+import com.caseymcguiredotcom.services.aichat.ChatStreamEvent
+import com.netflix.graphql.dgs.DgsSubscription
 import com.netflix.graphql.dgs.InputArgument
 import generated.jooq.enums.AiChatMessageRole
 import models.AiChatMessage
 import org.slf4j.LoggerFactory
+import reactor.core.publisher.Flux
 import java.util.UUID
 
 private const val MAX_PAGE_SIZE = 100
@@ -66,7 +74,7 @@ class ChatDataFetcher(
   }
 
   @DgsQuery(field = DgsConstants.QUERY.AiConversations)
-  fun getAiChatConversation(
+  fun getAiChatConversations(
     first: Int?,
     after: String?,
     last: Int?,
@@ -176,6 +184,43 @@ class ChatDataFetcher(
         endCursor = edges.lastOrNull()?.cursor,
       ),
       edges = edges,
+    )
+  }
+
+  @DgsSubscription(field = "sendMessage")
+  fun sendMessageStream(
+    conversationId: String?,
+    message: String,
+  ): Flux<AiMessageStreamEvent> {
+    return aiChatService.sendMessageStream(conversationId, message)
+      .map { it.toGqlEvent() }
+      .onErrorResume { e ->
+        log.error("Failed to stream message", e)
+        val event: AiMessageStreamEvent = when (e) {
+          is EntityNotFoundException -> AiMessageErrorEvent(
+            errorCode = ChatErrorCode.CONVERSATION_NOT_FOUND,
+            userFacingErrorMessage = e.message ?: "Conversation not found.",
+          )
+          else -> AiMessageErrorEvent(
+            errorCode = ChatErrorCode.UNKNOWN,
+            userFacingErrorMessage = "Something went wrong. Please try again.",
+          )
+        }
+        Flux.just(event)
+      }
+  }
+
+  private fun ChatStreamEvent.toGqlEvent(): AiMessageStreamEvent = when (this) {
+    is ChatStreamEvent.Started -> AiMessageStartedEvent(
+      conversationId = conversationId.toString(),
+    )
+    is ChatStreamEvent.Chunk -> AiMessageChunkEvent(
+      delta = delta,
+    )
+    is ChatStreamEvent.Complete -> AiMessageCompleteEvent(
+      conversationId = conversationId.toString(),
+      userMessageEdge = userMessage.toAiMessageEdge(),
+      assistantMessageEdge = assistantMessage.toAiMessageEdge(),
     )
   }
 

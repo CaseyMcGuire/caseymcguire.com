@@ -1,0 +1,31 @@
+type Subscription {
+  sendMessage(
+    conversationId: ID, # null if this is a new chat
+    message: String!
+  ): AiMessageStreamEvent!
+}
+
+union AiMessageStreamEvent =
+    AiMessageStartedEvent
+  | AiMessageChunkEvent
+  | AiMessageCompleteEvent
+  | AiMessageErrorEvent
+
+type AiMessageChunkEvent {
+  delta: String!
+}
+
+type AiMessageStartedEvent {
+  conversationId: ID!
+}
+
+type AiMessageCompleteEvent {
+  conversationId: ID!
+  userMessageEdge: AiMessageEdge!
+  assistantMessageEdge: AiMessageEdge!
+}
+
+type AiMessageErrorEvent {
+  errorCode: ChatErrorCode!
+  userFacingErrorMessage: String!
+}
