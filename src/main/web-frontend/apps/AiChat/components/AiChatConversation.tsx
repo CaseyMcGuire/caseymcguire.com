@@ -2,6 +2,7 @@ import * as stylex from "@stylexjs/stylex";
 import AiChatInput from "apps/AiChat/components/AiChatInput";
 import AiChatMessageList, {AI_CHAT_MESSAGES_CONNECTION_KEY} from "apps/AiChat/components/AiChatMessageList";
 import AiChatMessageBubble from "apps/AiChat/components/AiChatMessageBubble";
+import AiChatErrorBanner from "apps/AiChat/components/AiChatErrorBanner";
 import {AiChatMessageList_query$key} from "__generated__/relay/AiChatMessageList_query.graphql";
 import {ConnectionHandler, graphql, requestSubscription, useRelayEnvironment} from "react-relay";
 import {AiChatConversationSendMessageSubscription} from "__generated__/relay/AiChatConversationSendMessageSubscription.graphql";
@@ -52,11 +53,13 @@ export default function AiChatConversation(props: Props) {
   const navigate = useNavigate()
   const [isInFlight, setIsInFlight] = useState(false)
   const [streaming, setStreaming] = useState<StreamingState | null>(null)
+  const [errorMessage, setErrorMessage] = useState<string | null>(null)
 
   const handleSubmit = (text: string) => {
     if (isInFlight) {
       return
     }
+    setErrorMessage(null)
     setIsInFlight(true)
     setStreaming({userText: text, assistantText: ''})
 
@@ -138,13 +141,14 @@ export default function AiChatConversation(props: Props) {
           case "AiMessageErrorEvent":
             setStreaming(null)
             setIsInFlight(false)
-            console.error(event.userFacingErrorMessage)
+            setErrorMessage(event.userFacingErrorMessage)
             break
         }
       },
       onError: (error) => {
         setStreaming(null)
         setIsInFlight(false)
+        setErrorMessage("Something went wrong. Please try again.")
         console.error(error)
       },
     })
@@ -163,6 +167,7 @@ export default function AiChatConversation(props: Props) {
               <AiChatMessageBubble role="ASSISTANT" content={streaming.assistantText} />
             </>
           )}
+          {errorMessage && <AiChatErrorBanner message={errorMessage} />}
         </div>
       </div>
       <div sx={styles.inputContainer}>

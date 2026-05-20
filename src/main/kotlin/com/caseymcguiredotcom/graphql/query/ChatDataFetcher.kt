@@ -16,6 +16,7 @@ import com.caseymcguiredotcom.codegen.graphql.types.FailedChatResponse
 import com.caseymcguiredotcom.codegen.graphql.types.PageInfo
 import com.caseymcguiredotcom.codegen.graphql.types.SuccessfulChatResponse
 import com.caseymcguiredotcom.lib.exceptions.EntityNotFoundException
+import com.caseymcguiredotcom.lib.exceptions.UserNotLoggedInException
 import com.caseymcguiredotcom.services.CursorService
 import com.caseymcguiredotcom.services.aichat.AiChatService
 import com.caseymcguiredotcom.services.aichat.PageDirection
@@ -62,6 +63,10 @@ class ChatDataFetcher(
     } catch (e: Exception) {
       log.error("Failed to send message", e)
       when (e) {
+        is UserNotLoggedInException -> FailedChatResponse(
+          errorCode = ChatErrorCode.NOT_LOGGED_IN,
+          userFacingErrorMessage = "You're not logged in. Please log in and try again.",
+        )
         is EntityNotFoundException -> FailedChatResponse(
           errorCode = ChatErrorCode.CONVERSATION_NOT_FOUND,
           userFacingErrorMessage = e.message ?: "Conversation not found.",
@@ -200,6 +205,10 @@ class ChatDataFetcher(
       .catch { e ->
         log.error("Failed to stream message", e)
         val event: AiMessageStreamEvent = when (e) {
+          is UserNotLoggedInException -> AiMessageErrorEvent(
+            errorCode = ChatErrorCode.NOT_LOGGED_IN,
+            userFacingErrorMessage = "You're not logged in. Please log in and try again.",
+          )
           is EntityNotFoundException -> AiMessageErrorEvent(
             errorCode = ChatErrorCode.CONVERSATION_NOT_FOUND,
             userFacingErrorMessage = e.message ?: "Conversation not found.",

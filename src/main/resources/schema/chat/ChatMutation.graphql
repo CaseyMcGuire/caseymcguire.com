@@ -20,5 +20,6 @@ type FailedChatResponse {
 
 enum ChatErrorCode {
   CONVERSATION_NOT_FOUND
+  NOT_LOGGED_IN
   UNKNOWN
 }
