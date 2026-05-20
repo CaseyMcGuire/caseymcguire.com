@@ -33,6 +33,7 @@
     "@stylexjs/stylex": "^0.18.3",
     "ace-builds": "^1.43.4",
     "graphiql": "^5.2.1",
+    "graphql-sse": "^2.6.0",
     "graphql-tools": "^9.0.24",
     "graphql-ws": "^6.0.6",
     "images": "^3.2.4",

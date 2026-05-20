@@ -1,5 +1,5 @@
 /**
- * @generated SignedSource<<ea3fa9c119ab77886108f524c2d766f3>>
+ * @generated SignedSource<<76a67436f526603a3be6d28594f4c111>>
  * @lightSyntaxTransform
  * @nogrep
  */
@@ -11,18 +11,17 @@
 import { ConcreteRequest } from 'relay-runtime';
 import { FragmentRefs } from "relay-runtime";
 export type ChatErrorCode = "CONVERSATION_NOT_FOUND" | "UNKNOWN" | "%future added value";
-export type AiChatConversationSendMessageMutation$variables = {
+export type AiChatConversationSendMessageSubscription$variables = {
   connections: ReadonlyArray<string>;
   conversationId?: string | null | undefined;
   message: string;
 };
-export type AiChatConversationSendMessageMutation$data = {
+export type AiChatConversationSendMessageSubscription$data = {
   readonly sendMessage: {
-    readonly __typename: "FailedChatResponse";
-    readonly errorCode: ChatErrorCode;
-    readonly userFacingErrorMessage: string;
+    readonly __typename: "AiMessageChunkEvent";
+    readonly delta: string;
   } | {
-    readonly __typename: "SuccessfulChatResponse";
+    readonly __typename: "AiMessageCompleteEvent";
     readonly assistantMessageEdge: {
       readonly cursor: string;
       readonly node: {
@@ -39,14 +38,21 @@ export type AiChatConversationSendMessageMutation$data = {
       };
     };
   } | {
+    readonly __typename: "AiMessageErrorEvent";
+    readonly errorCode: ChatErrorCode;
+    readonly userFacingErrorMessage: string;
+  } | {
+    readonly __typename: "AiMessageStartedEvent";
+    readonly conversationId: string;
+  } | {
     // This will never be '%other', but we need some
     // value in case none of the concrete values match.
     readonly __typename: "%other";
   };
 };
-export type AiChatConversationSendMessageMutation = {
-  response: AiChatConversationSendMessageMutation$data;
-  variables: AiChatConversationSendMessageMutation$variables;
+export type AiChatConversationSendMessageSubscription = {
+  response: AiChatConversationSendMessageSubscription$data;
+  variables: AiChatConversationSendMessageSubscription$variables;
 };
 
 const node: ConcreteRequest = (function(){
@@ -92,21 +98,43 @@ v5 = {
   "storageKey": null
 },
 v6 = {
+  "kind": "InlineFragment",
+  "selections": [
+    (v5/*: any*/)
+  ],
+  "type": "AiMessageStartedEvent",
+  "abstractKey": null
+},
+v7 = {
+  "kind": "InlineFragment",
+  "selections": [
+    {
+      "alias": null,
+      "args": null,
+      "kind": "ScalarField",
+      "name": "delta",
+      "storageKey": null
+    }
+  ],
+  "type": "AiMessageChunkEvent",
+  "abstractKey": null
+},
+v8 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
   "name": "cursor",
   "storageKey": null
 },
-v7 = {
+v9 = {
   "alias": null,
   "args": null,
   "kind": "ScalarField",
   "name": "id",
   "storageKey": null
 },
-v8 = [
-  (v6/*: any*/),
+v10 = [
+  (v8/*: any*/),
   {
     "alias": null,
     "args": null,
@@ -115,7 +143,7 @@ v8 = [
     "name": "node",
     "plural": false,
     "selections": [
-      (v7/*: any*/),
+      (v9/*: any*/),
       {
         "args": null,
         "kind": "FragmentSpread",
@@ -125,7 +153,7 @@ v8 = [
     "storageKey": null
   }
 ],
-v9 = {
+v11 = {
   "kind": "InlineFragment",
   "selections": [
     {
@@ -143,11 +171,11 @@ v9 = {
       "storageKey": null
     }
   ],
-  "type": "FailedChatResponse",
+  "type": "AiMessageErrorEvent",
   "abstractKey": null
 },
-v10 = [
-  (v6/*: any*/),
+v12 = [
+  (v8/*: any*/),
   {
     "alias": null,
     "args": null,
@@ -156,7 +184,7 @@ v10 = [
     "name": "node",
     "plural": false,
     "selections": [
-      (v7/*: any*/),
+      (v9/*: any*/),
       {
         "alias": null,
         "args": null,
@@ -175,7 +203,7 @@ v10 = [
     "storageKey": null
   }
 ],
-v11 = [
+v13 = [
   {
     "kind": "Variable",
     "name": "connections",
@@ -191,7 +219,7 @@ return {
     ],
     "kind": "Fragment",
     "metadata": null,
-    "name": "AiChatConversationSendMessageMutation",
+    "name": "AiChatConversationSendMessageSubscription",
     "selections": [
       {
         "alias": null,
@@ -202,6 +230,8 @@ return {
         "plural": false,
         "selections": [
           (v4/*: any*/),
+          (v6/*: any*/),
+          (v7/*: any*/),
           {
             "kind": "InlineFragment",
             "selections": [
@@ -213,7 +243,7 @@ return {
                 "kind": "LinkedField",
                 "name": "userMessageEdge",
                 "plural": false,
-                "selections": (v8/*: any*/),
+                "selections": (v10/*: any*/),
                 "storageKey": null
               },
               {
@@ -223,19 +253,19 @@ return {
                 "kind": "LinkedField",
                 "name": "assistantMessageEdge",
                 "plural": false,
-                "selections": (v8/*: any*/),
+                "selections": (v10/*: any*/),
                 "storageKey": null
               }
             ],
-            "type": "SuccessfulChatResponse",
+            "type": "AiMessageCompleteEvent",
             "abstractKey": null
           },
-          (v9/*: any*/)
+          (v11/*: any*/)
         ],
         "storageKey": null
       }
     ],
-    "type": "Mutation",
+    "type": "Subscription",
     "abstractKey": null
   },
   "kind": "Request",
@@ -246,7 +276,7 @@ return {
       (v0/*: any*/)
     ],
     "kind": "Operation",
-    "name": "AiChatConversationSendMessageMutation",
+    "name": "AiChatConversationSendMessageSubscription",
     "selections": [
       {
         "alias": null,
@@ -257,6 +287,8 @@ return {
         "plural": false,
         "selections": [
           (v4/*: any*/),
+          (v6/*: any*/),
+          (v7/*: any*/),
           {
             "kind": "InlineFragment",
             "selections": [
@@ -268,7 +300,7 @@ return {
                 "kind": "LinkedField",
                 "name": "userMessageEdge",
                 "plural": false,
-                "selections": (v10/*: any*/),
+                "selections": (v12/*: any*/),
                 "storageKey": null
               },
               {
@@ -279,7 +311,7 @@ return {
                 "key": "",
                 "kind": "LinkedHandle",
                 "name": "userMessageEdge",
-                "handleArgs": (v11/*: any*/)
+                "handleArgs": (v13/*: any*/)
               },
               {
                 "alias": null,
@@ -288,7 +320,7 @@ return {
                 "kind": "LinkedField",
                 "name": "assistantMessageEdge",
                 "plural": false,
-                "selections": (v10/*: any*/),
+                "selections": (v12/*: any*/),
                 "storageKey": null
               },
               {
@@ -299,29 +331,29 @@ return {
                 "key": "",
                 "kind": "LinkedHandle",
                 "name": "assistantMessageEdge",
-                "handleArgs": (v11/*: any*/)
+                "handleArgs": (v13/*: any*/)
               }
             ],
-            "type": "SuccessfulChatResponse",
+            "type": "AiMessageCompleteEvent",
             "abstractKey": null
           },
-          (v9/*: any*/)
+          (v11/*: any*/)
         ],
         "storageKey": null
       }
     ]
   },
   "params": {
-    "cacheID": "b3f5d8da56ce96887c79adbebf7104bc",
+    "cacheID": "0ae3e0a836b08cc9c1b71b4ea971930e",
     "id": null,
     "metadata": {},
-    "name": "AiChatConversationSendMessageMutation",
-    "operationKind": "mutation",
-    "text": "mutation AiChatConversationSendMessageMutation(\n  $conversationId: ID\n  $message: String!\n) {\n  sendMessage(conversationId: $conversationId, message: $message) {\n    __typename\n    ... on SuccessfulChatResponse {\n      conversationId\n      userMessageEdge {\n        cursor\n        node {\n          id\n          ...AiChatMessage_message\n        }\n      }\n      assistantMessageEdge {\n        cursor\n        node {\n          id\n          ...AiChatMessage_message\n        }\n      }\n    }\n    ... on FailedChatResponse {\n      errorCode\n      userFacingErrorMessage\n    }\n  }\n}\n\nfragment AiChatMessage_message on AiMessage {\n  role\n  content\n}\n"
+    "name": "AiChatConversationSendMessageSubscription",
+    "operationKind": "subscription",
+    "text": "subscription AiChatConversationSendMessageSubscription(\n  $conversationId: ID\n  $message: String!\n) {\n  sendMessage(conversationId: $conversationId, message: $message) {\n    __typename\n    ... on AiMessageStartedEvent {\n      conversationId\n    }\n    ... on AiMessageChunkEvent {\n      delta\n    }\n    ... on AiMessageCompleteEvent {\n      conversationId\n      userMessageEdge {\n        cursor\n        node {\n          id\n          ...AiChatMessage_message\n        }\n      }\n      assistantMessageEdge {\n        cursor\n        node {\n          id\n          ...AiChatMessage_message\n        }\n      }\n    }\n    ... on AiMessageErrorEvent {\n      errorCode\n      userFacingErrorMessage\n    }\n  }\n}\n\nfragment AiChatMessage_message on AiMessage {\n  role\n  content\n}\n"
   }
 };
 })();
 
-(node as any).hash = "7bd6237cd24b349a409dc82247fb6c34";
+(node as any).hash = "0443938ea0d94dd375038ad298a065b4";
 
 export default node;

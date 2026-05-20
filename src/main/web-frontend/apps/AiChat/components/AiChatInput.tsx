@@ -3,7 +3,8 @@ import {Send} from "lucide-react";
 import {KeyboardEvent, useState} from "react";
 
 type Props = {
-  onSubmit: (text: string) => void
+  onSubmit: (text: string) => void,
+  disabled?: boolean,
 }
 
 const styles = stylex.create({
@@ -58,6 +59,9 @@ export default function AiChatInput(props: Props) {
   const [text, setText] = useState("")
 
   const submit = () => {
+    if (props.disabled) {
+      return
+    }
     const trimmed = text.trim()
     if (trimmed.length === 0) {
       return
@@ -82,12 +86,13 @@ export default function AiChatInput(props: Props) {
         onChange={(e) => setText(e.target.value)}
         onKeyDown={handleKeyDown}
         placeholder="Send a message…"
+        disabled={props.disabled}
       />
       <button
         sx={styles.sendButton}
         type="button"
         onClick={submit}
-        disabled={text.trim().length === 0}
+        disabled={props.disabled || text.trim().length === 0}
         aria-label="Send message"
       >
         <Send size={18} />
