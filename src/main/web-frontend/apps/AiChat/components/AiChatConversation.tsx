@@ -3,6 +3,7 @@ import AiChatInput from "apps/AiChat/components/AiChatInput";
 import AiChatMessageList, {AI_CHAT_MESSAGES_CONNECTION_KEY} from "apps/AiChat/components/AiChatMessageList";
 import AiChatMessageBubble from "apps/AiChat/components/AiChatMessageBubble";
 import AiChatErrorBanner from "apps/AiChat/components/AiChatErrorBanner";
+import AiChatThinkingIndicator from "apps/AiChat/components/AiChatThinkingIndicator";
 import {AiChatMessageList_query$key} from "__generated__/relay/AiChatMessageList_query.graphql";
 import {ConnectionHandler, graphql, requestSubscription, useRelayEnvironment} from "react-relay";
 import {AiChatConversationSendMessageSubscription} from "__generated__/relay/AiChatConversationSendMessageSubscription.graphql";
@@ -164,7 +165,9 @@ export default function AiChatConversation(props: Props) {
           {streaming && (
             <>
               <AiChatMessageBubble role="USER" content={streaming.userText} />
-              <AiChatMessageBubble role="ASSISTANT" content={streaming.assistantText} />
+              {streaming.assistantText === ''
+                ? <AiChatThinkingIndicator />
+                : <AiChatMessageBubble role="ASSISTANT" content={streaming.assistantText} />}
             </>
           )}
           {errorMessage && <AiChatErrorBanner message={errorMessage} />}
