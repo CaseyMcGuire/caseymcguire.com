@@ -1,5 +1,7 @@
 import {BotMessageSquare, SquarePen} from "lucide-react";
 import * as stylex from "@stylexjs/stylex";
+import {useNavigate} from "react-router";
+import {AIChatRoutes} from "__generated__/routes/AIChatRoutes";
 
 const styles = stylex.create({
   button: {
@@ -23,8 +25,9 @@ const styles = stylex.create({
 })
 
 export default function AiChatNewChatButton() {
+  const navigate = useNavigate()
   return (
-    <div sx={styles.button}>
+    <div sx={styles.button} onClick={() => navigate(AIChatRoutes.AI_CHAT_INDEX)}>
       <SquarePen size={24} />
       <span sx={styles.text}>New Chat</span>
     </div>

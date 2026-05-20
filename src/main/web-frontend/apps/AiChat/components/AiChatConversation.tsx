@@ -1,11 +1,13 @@
 import * as stylex from "@stylexjs/stylex";
 import AiChatInput from "apps/AiChat/components/AiChatInput";
 import AiChatMessageList, {AI_CHAT_MESSAGES_CONNECTION_KEY} from "apps/AiChat/components/AiChatMessageList";
+import AiChatMessageBubble from "apps/AiChat/components/AiChatMessageBubble";
 import {AiChatMessageList_query$key} from "__generated__/relay/AiChatMessageList_query.graphql";
 import {ConnectionHandler, graphql, requestSubscription, useRelayEnvironment} from "react-relay";
-import {RecordSourceSelectorProxy, commitLocalUpdate} from "relay-runtime";
 import {AiChatConversationSendMessageSubscription} from "__generated__/relay/AiChatConversationSendMessageSubscription.graphql";
 import {useState} from "react";
+import {useNavigate} from "react-router";
+import {AIChatRoutes} from "__generated__/routes/AIChatRoutes";
 
 const styles = stylex.create({
   container: {
@@ -22,6 +24,7 @@ const styles = stylex.create({
   },
   messages: {
     maxWidth: '700px',
+    width: '100%',
   },
   inputContainer: {
     display: 'flex',
@@ -34,6 +37,11 @@ const styles = stylex.create({
   },
 })
 
+type StreamingState = {
+  userText: string,
+  assistantText: string,
+}
+
 type Props = {
   conversationId?: string,
   query: AiChatMessageList_query$key | null,
@@ -41,42 +49,23 @@ type Props = {
 
 export default function AiChatConversation(props: Props) {
   const environment = useRelayEnvironment()
+  const navigate = useNavigate()
   const [isInFlight, setIsInFlight] = useState(false)
+  const [streaming, setStreaming] = useState<StreamingState | null>(null)
 
   const handleSubmit = (text: string) => {
     if (isInFlight) {
       return
     }
     setIsInFlight(true)
+    setStreaming({userText: text, assistantText: ''})
+
     const connections = props.conversationId
       ? [ConnectionHandler.getConnectionID(props.conversationId, AI_CHAT_MESSAGES_CONNECTION_KEY)]
       : []
 
-    const tempUserMessageId = `client:user-message:${Date.now()}`
-    const tempAssistantMessageId = `client:assistant-message:${Date.now()}`
-
-    // Optimistic user message — added immediately to the local store.
-    if (props.conversationId) {
-      commitLocalUpdate(environment, (store: RecordSourceSelectorProxy) => {
-        const connectionId = ConnectionHandler.getConnectionID(
-          props.conversationId!,
-          AI_CHAT_MESSAGES_CONNECTION_KEY,
-        )
-        const connection = store.get(connectionId)
-        if (!connection) {
-          return
-        }
-
-        const record = store.create(tempUserMessageId, "AiMessage")
-        record.setValue(tempUserMessageId, "id")
-        record.setValue("USER", "role")
-        record.setValue(text, "content")
-        record.setValue(new Date().toISOString(), "createdAt")
-
-        const edge = ConnectionHandler.createEdge(store, connection, record, "AiMessageEdge")
-        ConnectionHandler.insertEdgeAfter(connection, edge)
-      })
-    }
+    // Captured across events. Set on Started, used on Complete to navigate for new conversations.
+    let newConversationId: string | null = null
 
     requestSubscription<AiChatConversationSendMessageSubscription>(environment, {
       subscription: graphql`
@@ -124,63 +113,39 @@ export default function AiChatConversation(props: Props) {
       },
       onNext: (response) => {
         const event = response?.sendMessage
-        if (event?.__typename === "AiMessageErrorEvent") {
-          console.error(event.userFacingErrorMessage)
-          setIsInFlight(false)
-        } else if (event?.__typename === "AiMessageCompleteEvent") {
-          setIsInFlight(false)
+        if (!event) {
+          return
+        }
+        switch (event.__typename) {
+          case "AiMessageStartedEvent":
+            newConversationId = event.conversationId
+            break
+          case "AiMessageChunkEvent":
+            setStreaming(prev =>
+              prev ? {...prev, assistantText: prev.assistantText + event.delta} : null
+            )
+            break
+          case "AiMessageCompleteEvent":
+            setStreaming(null)
+            setIsInFlight(false)
+            // New-conversation path: subscription was started with no connection to append into,
+            // so the @appendEdge above is a no-op. Navigate so the page re-queries and pulls in
+            // both persisted messages.
+            if (!props.conversationId && newConversationId) {
+              navigate(AIChatRoutes.VIEW_CHAT.replace(':conversationId', newConversationId))
+            }
+            break
+          case "AiMessageErrorEvent":
+            setStreaming(null)
+            setIsInFlight(false)
+            console.error(event.userFacingErrorMessage)
+            break
         }
       },
       onError: (error) => {
-        console.error(error)
+        setStreaming(null)
         setIsInFlight(false)
-      },
-      updater: (store, data) => {
-        const event = data?.sendMessage
-        const conversationId = props.conversationId
-        if (!event || !conversationId) {
-          return
-        }
-
-        const connectionId = ConnectionHandler.getConnectionID(
-          conversationId,
-          AI_CHAT_MESSAGES_CONNECTION_KEY,
-        )
-        const connection = store.get(connectionId)
-        if (!connection) {
-          return
-        }
-
-        switch (event.__typename) {
-          case "AiMessageChunkEvent": {
-            // Insert or append to a streaming-in-progress assistant message.
-            let record = store.get(tempAssistantMessageId)
-            if (!record) {
-              record = store.create(tempAssistantMessageId, "AiMessage")
-              record.setValue(tempAssistantMessageId, "id")
-              record.setValue("ASSISTANT", "role")
-              record.setValue("", "content")
-              record.setValue(new Date().toISOString(), "createdAt")
-              const edge = ConnectionHandler.createEdge(store, connection, record, "AiMessageEdge")
-              ConnectionHandler.insertEdgeAfter(connection, edge)
-            }
-            const current = (record.getValue("content") as string | null) ?? ""
-            record.setValue(current + event.delta, "content")
-            break
-          }
-          case "AiMessageCompleteEvent": {
-            // Server's real edges have been @appendEdge'd; remove the temp records.
-            ConnectionHandler.deleteNode(connection, tempUserMessageId)
-            ConnectionHandler.deleteNode(connection, tempAssistantMessageId)
-            break
-          }
-          case "AiMessageErrorEvent": {
-            // Roll back any optimistic state on error.
-            ConnectionHandler.deleteNode(connection, tempUserMessageId)
-            ConnectionHandler.deleteNode(connection, tempAssistantMessageId)
-            break
-          }
-        }
+        console.error(error)
       },
     })
   }
@@ -192,6 +157,12 @@ export default function AiChatConversation(props: Props) {
           {
             props.conversationId && props.query && <AiChatMessageList query={props.query} />
           }
+          {streaming && (
+            <>
+              <AiChatMessageBubble role="USER" content={streaming.userText} />
+              <AiChatMessageBubble role="ASSISTANT" content={streaming.assistantText} />
+            </>
+          )}
         </div>
       </div>
       <div sx={styles.inputContainer}>
