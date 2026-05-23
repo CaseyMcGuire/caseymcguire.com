@@ -23,6 +23,10 @@ const styles = stylex.create({
     alignItems: 'center',
     flexDirection: 'column',
     flexGrow: 1,
+    overflowY: 'auto',
+    // minHeight: 0 is required so this flex child can shrink below its content
+    // size and let overflow scrolling kick in instead of growing the parent.
+    minHeight: 0,
   },
   messages: {
     maxWidth: '700px',
@@ -36,6 +40,7 @@ const styles = stylex.create({
     borderTopWidth: 1,
     borderTopColor: '#E5E5E5',
     padding: 16,
+    flexShrink: 0,
   },
 })
 
