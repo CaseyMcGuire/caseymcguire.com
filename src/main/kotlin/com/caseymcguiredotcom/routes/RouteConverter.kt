@@ -63,5 +63,3 @@ class RouteConverter {
     return route
   }
 }
-
-data class ConversionResult(val route: String, val warning: String? = null)

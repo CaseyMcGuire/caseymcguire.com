@@ -11,11 +11,11 @@ type MovieRoute = {
 export default function getMovieAppRoutes(): Array<MovieRoute> {
   return [
     {
-      path: MoviesRoutes.MOVIES_INDEX,
+      path: MoviesRoutes.MoviesIndex,
       element: <MovieHomePage />
     },
     {
-      path: MoviesRoutes.TELEVISION_INDEX,
+      path: MoviesRoutes.TelevisionIndex,
       element: <MovieAppTvPage />
     }
   ];

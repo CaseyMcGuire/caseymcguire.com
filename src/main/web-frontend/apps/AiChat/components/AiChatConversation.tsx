@@ -141,7 +141,7 @@ export default function AiChatConversation(props: Props) {
             // so the @appendEdge above is a no-op. Navigate so the page re-queries and pulls in
             // both persisted messages.
             if (!props.conversationId && newConversationId) {
-              navigate(AIChatRoutes.VIEW_CHAT.replace(':conversationId', newConversationId))
+              navigate(AIChatRoutes.ViewChat.replace(':conversationId', newConversationId))
             }
             break
           case "AiMessageErrorEvent":

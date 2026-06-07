@@ -1,0 +1,17 @@
+extend type Query {
+  spaRouteResponse(
+    applicationId: String!
+    routeId: String!
+    parameters: [SpaRouteParameterInput!]
+  ): SpaRouteHttpResponse!
+}
+
+input SpaRouteParameterInput {
+  name: String!
+  value: String!
+}
+
+type SpaRouteHttpResponse {
+  statusCode: Int!
+  location: String
+}

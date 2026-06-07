@@ -1,4 +1,5 @@
 import com.github.gradle.node.npm.task.NpmTask
+import org.gradle.api.tasks.SourceSetContainer
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.springframework.boot.gradle.tasks.run.BootRun
@@ -9,6 +10,7 @@ val jooqVersion = "3.20.8"
 val postgresVersion = "42.7.8"
 val migrationScriptPath = "com.caseymcguiredotcom.scripts.GenerateMigrationScriptKt"
 val clientRoutePath = "com.caseymcguiredotcom.scripts.GenerateClientRoutesKt"
+val serverRoutePath = "com.caseymcguiredotcom.sparoutecontract.codegen.GenerateServerRoutesKt"
 val webpackEntryPath = "com.caseymcguiredotcom.scripts.GenerateWebpackBundleEntriesKt"
 
 plugins {
@@ -46,6 +48,8 @@ repositories {
 }
 
 dependencies {
+  implementation(project(":spa-routing"))
+
   implementation("org.springframework.boot:spring-boot-starter-web")
   implementation("org.springframework.boot:spring-boot-starter-security")
   implementation("org.springframework.boot:spring-boot-starter-data-jpa")
@@ -142,6 +146,11 @@ kotlin {
   compilerOptions {
     jvmTarget.set(JvmTarget.JVM_21)
   }
+  sourceSets {
+    main {
+      kotlin.srcDir(layout.buildDirectory.dir("generated/source/spaRoutes/main"))
+    }
+  }
 }
 
 // For Java sources, prefer 'release' over source/target pairs
@@ -208,26 +217,47 @@ tasks.register<Exec>("generateDbMigration") {
   commandLine("bash", "-lc", "./bin/generate_db_migration.sh")
 }
 
+val spaApplicationSourceDir = project(":spa-routing")
+  .layout
+  .projectDirectory
+  .dir("src/main/kotlin/com/caseymcguiredotcom/sparoutecontract/applications")
+  .asFile
+  .absolutePath
+
 tasks.register<JavaExec>("generateClientRoutes") {
   description = "Generates React Routes for the client."
   classpath = sourceSets.main.get().runtimeClasspath
-  environment = envVariables
   mainClass.set(clientRoutePath)
-  // Use a different port so it doesn't conflict with running instance using the
-  // port from the .env file
-  systemProperty("server.port", "0")
   systemProperty("route.output.dir", "src/main/web-frontend/__generated__/routes")
+  systemProperty("spa.application.source.dir", spaApplicationSourceDir)
+}
+
+val generatedServerSpaRoutesDir = layout.buildDirectory.dir("generated/source/spaRoutes/main/com/caseymcguiredotcom/generated/spa/routes")
+
+tasks.register<JavaExec>("generateServerSpaRoutes") {
+  description = "Generates typed Kotlin SPA route objects for the server."
+  dependsOn(":spa-routing:classes")
+  classpath = project(":spa-routing")
+    .extensions
+    .getByType<SourceSetContainer>()
+    .named("main")
+    .get()
+    .runtimeClasspath
+  mainClass.set(serverRoutePath)
+  systemProperty("route.output.dir", generatedServerSpaRoutesDir.get().asFile.absolutePath)
+  systemProperty("spa.application.source.dir", spaApplicationSourceDir)
+}
+
+tasks.withType<KotlinCompile>().configureEach {
+  dependsOn("generateServerSpaRoutes")
 }
 
 tasks.register<JavaExec>("generateWebpackBundleEntries") {
   description = "Generates a file containing the path to each React app's entry point."
   classpath = sourceSets.main.get().runtimeClasspath
-  environment = envVariables
   mainClass.set(webpackEntryPath)
-  // Use a different port so it doesn't conflict with running instance using the
-  // port from the .env file
-  systemProperty("server.port", "0")
   systemProperty("route.output.dir", "SinglePageApplicationBundles.ts")
+  systemProperty("spa.application.source.dir", spaApplicationSourceDir)
 }
 
 // For reasons I don't understand, adding this task causes Gradle to bug-out

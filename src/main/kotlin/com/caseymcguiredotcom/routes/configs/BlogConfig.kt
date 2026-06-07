@@ -1,42 +1,30 @@
 package com.caseymcguiredotcom.routes.configs
 
-import com.caseymcguiredotcom.routes.RequestHandler
+import com.caseymcguiredotcom.generated.spa.routes.CaseyMcGuireRoutes
+import com.caseymcguiredotcom.routes.RequireAdmin
 import com.caseymcguiredotcom.routes.SinglePageApplicationConfig
-import com.caseymcguiredotcom.routes.SinglePageApplicationRoute
+import com.caseymcguiredotcom.routes.SpaRouteRule
+import com.caseymcguiredotcom.sparoutecontract.SpaApplicationDefinition
+import com.caseymcguiredotcom.sparoutecontract.SpaRouteKey
+import com.caseymcguiredotcom.sparoutecontract.applications.BlogSpaApplication
 import com.caseymcguiredotcom.views.BlogPage
 import org.springframework.http.MediaType
 import org.springframework.stereotype.Component
-import org.springframework.web.servlet.function.ServerRequest
 import org.springframework.web.servlet.function.ServerResponse
 
 @Component
-class BlogConfig() : SinglePageApplicationConfig {
-  override val routes = listOf(
-    SinglePageApplicationRoute("", "BLOG_INDEX"),
-    SinglePageApplicationRoute("resume", "RESUME"),
-    SinglePageApplicationRoute("posts", "POSTS_INDEX"),
-    SinglePageApplicationRoute("posts/{id}", "VIEW_POST"),
-    SinglePageApplicationRoute("posts/{id}/edit", "EDIT_POST"),
-    SinglePageApplicationRoute("posts/page/{id}", "VIEW_POSTS_PAGE"),
-    SinglePageApplicationRoute("posts/new", "NEW_POST"),
-    SinglePageApplicationRoute("login", "LOGIN"),
-    SinglePageApplicationRoute("register", "REGISTER"),
-    SinglePageApplicationRoute("tetris", "TETRIS"),
-    SinglePageApplicationRoute("projects", "PROJECTS"),
-    SinglePageApplicationRoute("nft-preview", "NFT_PREVIEW")
+class BlogConfig(
+  private val requireAdmin: RequireAdmin
+) : SinglePageApplicationConfig {
+  override val application: SpaApplicationDefinition = BlogSpaApplication
+  override val routeRules: Map<SpaRouteKey, List<SpaRouteRule>> = mapOf(
+    CaseyMcGuireRoutes.NewPost to listOf(requireAdmin),
+    CaseyMcGuireRoutes.EditPost to listOf(requireAdmin)
   )
 
-  override val name = "Casey McGuire"
-  override val urlPrefix = ""
-  override val appRootPath: String = "./src/main/web-frontend/apps/MainApp/MainAppRoot.tsx"
-
-  override val requestHandler = object: RequestHandler {
-    override fun handle(request: ServerRequest, config: SinglePageApplicationConfig): ServerResponse {
-      return ServerResponse.ok()
-        .contentType(MediaType.TEXT_HTML)
-        .body(BlogPage().render())
-    }
+  override fun renderHtml(): ServerResponse {
+    return ServerResponse.ok()
+      .contentType(MediaType.TEXT_HTML)
+      .body(BlogPage().render())
   }
-
-
 }

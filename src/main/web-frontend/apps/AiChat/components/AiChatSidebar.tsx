@@ -85,7 +85,7 @@ export default function AiChatSidebar(props: Props) {
               sx={styles.chat}
               onClick={() => {
                 if (edge?.node?.id) {
-                  navigate(AIChatRoutes.VIEW_CHAT.replace(':conversationId', edge.node.id))
+                  navigate(AIChatRoutes.ViewChat.replace(':conversationId', edge.node.id))
                 }
               }}
             >

@@ -1,37 +1,33 @@
 package com.caseymcguiredotcom.routes.configs
 
-import com.caseymcguiredotcom.routes.RequestHandler
+import com.caseymcguiredotcom.generated.spa.routes.WikiRoutes
+import com.caseymcguiredotcom.routes.RequireAdmin
 import com.caseymcguiredotcom.routes.SinglePageApplicationConfig
-import com.caseymcguiredotcom.routes.SinglePageApplicationRoute
+import com.caseymcguiredotcom.routes.SpaRouteRule
+import com.caseymcguiredotcom.sparoutecontract.SpaApplicationDefinition
+import com.caseymcguiredotcom.sparoutecontract.SpaRouteKey
+import com.caseymcguiredotcom.sparoutecontract.applications.WikiSpaApplication
 import com.caseymcguiredotcom.views.WikiPage
 import org.springframework.http.MediaType
 import org.springframework.stereotype.Component
-import org.springframework.web.servlet.function.ServerRequest
 import org.springframework.web.servlet.function.ServerResponse
 
 @Component
-class WikiSinglePageApplicationConfig : SinglePageApplicationConfig  {
-  override val routes: List<SinglePageApplicationRoute> = listOf(
-    SinglePageApplicationRoute("", "WIKI_HOME"),
-    SinglePageApplicationRoute("{wikiId}", "WIKI_INDEX"),
-    SinglePageApplicationRoute("{wikiId}/{pageId}", "WIKI_PAGE"),
-    SinglePageApplicationRoute("{wikiId}/{pageId}/edit", "EDIT_WIKI_PAGE"),
-    SinglePageApplicationRoute("new", "NEW_WIKI_PAGE")
+class WikiSinglePageApplicationConfig(
+  private val requireAdmin: RequireAdmin
+) : SinglePageApplicationConfig  {
+  override val application: SpaApplicationDefinition = WikiSpaApplication
+  override val routeRules: Map<SpaRouteKey, List<SpaRouteRule>> = mapOf(
+    WikiRoutes.NewWikiPage to listOf(requireAdmin),
+    WikiRoutes.EditWikiPage to listOf(requireAdmin)
   )
-  override val name: String = "Wiki"
-  override val urlPrefix: String = "wiki"
-  override val appRootPath = "./src/main/web-frontend/apps/Wiki/WikiRoot.tsx"
-  override val requestHandler = object : RequestHandler {
-    override fun handle(
-      request: ServerRequest,
-      config: SinglePageApplicationConfig
-    ): ServerResponse {
-      return ServerResponse.ok()
-        .contentType(MediaType.TEXT_HTML)
-        .body(
-          WikiPage(config)
-            .render()
-        )
-    }
+
+  override fun renderHtml(): ServerResponse {
+    return ServerResponse.ok()
+      .contentType(MediaType.TEXT_HTML)
+      .body(
+        WikiPage(this)
+          .render()
+      )
   }
 }

@@ -40,11 +40,7 @@ open class SecurityConfiguration(private val userDetailsService: UserDetailsServ
 
     http {
       authorizeHttpRequests {
-        authorize("/posts/new", hasRole("ADMIN"))
-        authorize("/posts/*/edit", hasRole("ADMIN"))
         authorize("/graphiql/**", hasRole("ADMIN"))
-        authorize("/workout_tracker/**", hasRole("ADMIN"))
-        authorize("/ai_chat/**", hasRole("ADMIN"))
         authorize("/**", permitAll)
       }
       formLogin {
