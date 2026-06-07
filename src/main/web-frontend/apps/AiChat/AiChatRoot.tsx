@@ -9,11 +9,11 @@ import AiViewChatPage from "apps/AiChat/pages/AiViewChatPage";
 
 const router = createBrowserRouter([
   {
-    path: AIChatRoutes.AiChatIndex,
+    path: AIChatRoutes.AiChatIndex.path,
     element: <AiChatHomePage />,
   },
   {
-    path: AIChatRoutes.ViewChat,
+    path: AIChatRoutes.ViewChat.path,
     element: <AiViewChatPage />,
   },
 ]);

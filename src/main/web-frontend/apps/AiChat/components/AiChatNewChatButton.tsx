@@ -27,7 +27,7 @@ const styles = stylex.create({
 export default function AiChatNewChatButton() {
   const navigate = useNavigate()
   return (
-    <div sx={styles.button} onClick={() => navigate(AIChatRoutes.AiChatIndex)}>
+    <div sx={styles.button} onClick={() => navigate(AIChatRoutes.AiChatIndex())}>
       <SquarePen size={24} />
       <span sx={styles.text}>New Chat</span>
     </div>

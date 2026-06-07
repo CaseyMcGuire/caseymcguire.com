@@ -11,31 +11,31 @@ import {WorkoutTrackerRoutes} from "__generated__/routes/WorkoutTrackerRoutes";
 
 const router = createBrowserRouter([
   {
-    path: WorkoutTrackerRoutes.WorkoutIndex,
+    path: WorkoutTrackerRoutes.WorkoutIndex.path,
     element: <WorkoutTrackerHomePage text={"Home"}/>,
   },
   {
-    path: WorkoutTrackerRoutes.ViewWorkouts,
+    path: WorkoutTrackerRoutes.ViewWorkouts.path,
     element: <WorkoutTrackerHomePage text={"Workouts"} />
   },
   {
-    path: WorkoutTrackerRoutes.CreateWorkout,
+    path: WorkoutTrackerRoutes.CreateWorkout.path,
     element: <WorkoutTrackerCreateWorkoutPage />
   },
   {
-    path: WorkoutTrackerRoutes.ExerciseIndex,
+    path: WorkoutTrackerRoutes.ExerciseIndex.path,
     element: <WorkoutTrackerExerciseIndexPage />
   },
   {
-    path: WorkoutTrackerRoutes.CreateExercise,
+    path: WorkoutTrackerRoutes.CreateExercise.path,
     element: <WorkoutTrackerCreateExercisePage />
   },
   {
-    path: WorkoutTrackerRoutes.ViewWorkout,
+    path: WorkoutTrackerRoutes.ViewWorkout.path,
     element: <WorkoutTrackerShowWorkoutPage />
   },
   {
-    path: WorkoutTrackerRoutes.UpdateWorkout,
+    path: WorkoutTrackerRoutes.UpdateWorkout.path,
     element: <WorkoutTrackerHomePage text={"Workout History"}/>,
   }
 ]);

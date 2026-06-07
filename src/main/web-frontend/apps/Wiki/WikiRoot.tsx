@@ -12,23 +12,23 @@ import WikiHomePage from "apps/Wiki/pages/WikiHomePage";
 
 const router = createBrowserRouter([
   {
-    path: WikiRoutes.WikiHome,
+    path: WikiRoutes.WikiHome.path,
     element: <WikiHomePage />
   },
   {
-    path: WikiRoutes.NewWikiPage,
+    path: WikiRoutes.NewWikiPage.path,
     element: <NewWikiPage />,
   },
   {
-    path: WikiRoutes.WikiIndex,
+    path: WikiRoutes.WikiIndex.path,
     element: <WikiIndexPage />
   },
   {
-    path: WikiRoutes.WikiPage,
+    path: WikiRoutes.WikiPage.path,
     element: <ViewWikiPage />
   },
   {
-    path: WikiRoutes.EditWikiPage,
+    path: WikiRoutes.EditWikiPage.path,
     element: <EditWikiPage />
   }
 ]);

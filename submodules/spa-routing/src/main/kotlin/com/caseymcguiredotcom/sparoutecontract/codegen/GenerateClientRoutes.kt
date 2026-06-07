@@ -1,6 +1,8 @@
 package com.caseymcguiredotcom.sparoutecontract.codegen
 
 import com.caseymcguiredotcom.sparoutecontract.SpaApplicationDefinitionDiscovery
+import com.caseymcguiredotcom.sparoutecontract.SpaRouteParameter
+import com.caseymcguiredotcom.sparoutecontract.SpaRouteParameterType
 import java.nio.file.Files
 import java.nio.file.Path
 import kotlin.system.exitProcess
@@ -26,7 +28,8 @@ fun main() {
       }
       TypeScriptRouteConfig(
         routeId,
-        routeConverter.convertToReactRouter(config.getFullUrl(route.path))
+        routeConverter.convertToReactRouter(config.getFullUrl(route.path)),
+        route.parameters
       )
     }
   }
@@ -40,9 +43,25 @@ fun main() {
       appendLine("// THIS FILE IS GENERATED. DO NOT EDIT BY HAND.")
       appendLine("// Run './gradlew generateClientRoutes' to regenerate.")
       appendLine()
+      appendLine("function routeWithoutParams(path: string) {")
+      appendLine("  return Object.assign(() => path, { path });")
+      appendLine("}")
+      appendLine()
+      if (typescriptObjectEntries.any { it.parameters.isNotEmpty() }) {
+        appendLine("type RouteParamValue = string | number;")
+        appendLine()
+        appendLine("function encodeRouteParam(value: RouteParamValue): string {")
+        appendLine("  return encodeURIComponent(String(value));")
+        appendLine("}")
+        appendLine()
+        appendLine("function route<TParams extends object>(path: string, buildPath: (params: TParams) => string) {")
+        appendLine("  return Object.assign(buildPath, { path });")
+        appendLine("}")
+        appendLine()
+      }
       appendLine("export const $objectName = {")
-      typescriptObjectEntries.forEach { (key, value) ->
-        appendLine("""  $key: "$value",""")
+      typescriptObjectEntries.forEach { route ->
+        append(route.toTypeScriptObjectEntry())
       }
       appendLine("} as const;")
       appendLine()
@@ -71,4 +90,84 @@ fun main() {
   exitProcess(0)
 }
 
-private data class TypeScriptRouteConfig(val key: String, val value: String)
+private data class TypeScriptRouteConfig(
+  val key: String,
+  val path: String,
+  val parameters: List<SpaRouteParameter>
+)
+
+private fun TypeScriptRouteConfig.toTypeScriptObjectEntry(): String {
+  if (parameters.isEmpty()) {
+    return "  $key: routeWithoutParams(\"${path.toTypeScriptString()}\"),\n"
+  }
+
+  return buildString {
+    appendLine("  $key: route(")
+    appendLine("    \"${path.toTypeScriptString()}\",")
+    appendLine("    (params: ${parameters.toTypeScriptParameterObject()}) => ${path.toTypeScriptTemplate(parameters)}")
+    appendLine("  ),")
+  }
+}
+
+private fun List<SpaRouteParameter>.toTypeScriptParameterObject(): String {
+  return joinToString(
+    prefix = "{ ",
+    separator = "; ",
+    postfix = " }"
+  ) { parameter ->
+    val optionalMarker = if (parameter.optional) "?" else ""
+    "${parameter.name.toTypeScriptPropertyName()}$optionalMarker: ${parameter.toTypeScriptType()}"
+  }
+}
+
+private fun SpaRouteParameter.toTypeScriptType(): String {
+  return when (type) {
+    SpaRouteParameterType.STRING -> "string"
+    SpaRouteParameterType.INT -> "number"
+    SpaRouteParameterType.UUID -> "string"
+  }
+}
+
+private fun String.toTypeScriptTemplate(parameters: List<SpaRouteParameter>): String {
+  var template = this.toTypeScriptTemplateString()
+  parameters.forEach { parameter ->
+    val propertyAccess = parameter.name.toTypeScriptPropertyAccess()
+    val valueExpression = if (parameter.optional) {
+      "\${params$propertyAccess == null ? \"\" : encodeRouteParam(params$propertyAccess)}"
+    } else {
+      "\${encodeRouteParam(params$propertyAccess)}"
+    }
+    template = template.replace(":${parameter.name}", valueExpression)
+  }
+  return "`$template`"
+}
+
+private fun String.toTypeScriptPropertyName(): String {
+  return if (isTypeScriptIdentifier()) {
+    this
+  } else {
+    "\"${toTypeScriptString()}\""
+  }
+}
+
+private fun String.toTypeScriptPropertyAccess(): String {
+  return if (isTypeScriptIdentifier()) {
+    ".$this"
+  } else {
+    "[\"${toTypeScriptString()}\"]"
+  }
+}
+
+private fun String.isTypeScriptIdentifier(): Boolean {
+  return Regex("[A-Za-z_$][A-Za-z0-9_$]*").matches(this)
+}
+
+private fun String.toTypeScriptString(): String {
+  return replace("\\", "\\\\").replace("\"", "\\\"")
+}
+
+private fun String.toTypeScriptTemplateString(): String {
+  return replace("\\", "\\\\")
+    .replace("`", "\\`")
+    .replace("\$", "\\$")
+}
