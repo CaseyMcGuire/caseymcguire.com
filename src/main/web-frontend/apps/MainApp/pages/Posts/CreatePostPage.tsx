@@ -3,6 +3,7 @@ import PostCreationContainer from "apps/MainApp/pages/Posts/components/PostCreat
 import {commit} from "apps/MainApp/mutations/CreateOrEditPostMutation";
 import {useNavigate} from "react-router";
 import Page from "apps/MainApp/components/Page";
+import {CaseyMcGuireRoutes} from "__generated__/routes/CaseyMcGuireRoutes";
 
 export default function CreatePostPage() {
   const navigate = useNavigate();
@@ -15,7 +16,7 @@ export default function CreatePostPage() {
             console.log("error... ")
           }
           else {
-            navigate("/posts/" + id)
+            navigate(CaseyMcGuireRoutes.ViewPost({ id }))
           }
         })
       }} />

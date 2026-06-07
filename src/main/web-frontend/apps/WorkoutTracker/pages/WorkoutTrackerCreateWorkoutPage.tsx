@@ -9,6 +9,7 @@ import WorkoutTrackerButton from "../components/WorkoutTrackerButton";
 import WorkoutTrackerInputField from "../components/WorkoutTrackerInputField";
 import { WorkoutSidebarMenuId } from "../components/WorkoutSidebar";
 import * as stylex from "@stylexjs/stylex";
+import {WorkoutTrackerRoutes} from "__generated__/routes/WorkoutTrackerRoutes";
 
 const styles = stylex.create({
   formElementContainer: {
@@ -83,7 +84,7 @@ export default function WorkoutTrackerCreateWorkoutPage() {
           console.log("Request Failed");
           return;
         }
-        navigate(`/workout_tracker/workout/${id}`);
+        navigate(WorkoutTrackerRoutes.ViewWorkout({ id: Number(id) }));
       },
     });
   };

@@ -6,6 +6,7 @@ import { useNavigate } from "react-router";
 import Page from "apps/MainApp/components/Page";
 import AuthFormContainer from "apps/MainApp/pages/Auth/components/AuthFormContainer";
 import * as stylex from "@stylexjs/stylex";
+import {CaseyMcGuireRoutes} from "__generated__/routes/CaseyMcGuireRoutes";
 
 const styles = stylex.create({
   submitButton: {
@@ -45,7 +46,7 @@ export default function RegisterPage() {
       <button sx={styles.submitButton} onClick={() => {
         commit(email, password, (success) => {
           if (success) {
-            navigate("/login?success=true")
+            navigate(`${CaseyMcGuireRoutes.Login()}?success=true`)
           }
         })
       }

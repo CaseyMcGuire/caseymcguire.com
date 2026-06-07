@@ -8,6 +8,7 @@ import PaginationPanel from "apps/MainApp/pages/Posts/components/PaginationPanel
 import PostLink from "apps/MainApp/pages/Posts/components/PostLink";
 import {useLazyLoadQuery} from "react-relay/hooks";
 import {Suspense} from "react";
+import {CaseyMcGuireRoutes} from "__generated__/routes/CaseyMcGuireRoutes";
 
 export default function IndexPostPage() {
   const params = useParams();
@@ -17,7 +18,7 @@ export default function IndexPostPage() {
   const page = parseInt(id);
   const isInvalidId = Number.isNaN(page) || page < 0;
   if (isInvalidId) {
-    navigate("/")
+    navigate(CaseyMcGuireRoutes.BlogIndex())
     return null;
   }
   return (
@@ -66,7 +67,7 @@ function IndexPostPageImpl(props: {page: number}) {
   const hasNextPage = response.page.hasNextPage
   const hasPreviousPage = response.page.hasPreviousPage
   if (posts == null) {
-    redirect("/500")
+    redirect(CaseyMcGuireRoutes.InternalServerError())
     return null;
   }
 

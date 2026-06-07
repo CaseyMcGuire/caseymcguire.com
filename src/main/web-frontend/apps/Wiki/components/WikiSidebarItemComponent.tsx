@@ -8,6 +8,7 @@ import {useDraggable, useDroppable} from "@dnd-kit/core";
 import WikiSidebarItemName from "apps/Wiki/components/WikiSidebarItemName";
 import WikiFolderActionsButton from "apps/Wiki/components/WikiFolderActionsButton";
 import WikiPageActionsButton from "apps/Wiki/components/WikiPageActionsButton";
+import {WikiRoutes} from "__generated__/routes/WikiRoutes";
 
 type CommonProps = {
   selectedId: string | null,
@@ -142,7 +143,7 @@ function WikiSidebarPageComponent(props: WikiSidebarPageProps) {
   const wikiId = props.page.wikiId;
   const navigate = useNavigate();
   const onClick = () => {
-    navigate(`/wiki/${wikiId}/${page.id}`);
+    navigate(WikiRoutes.WikiPage({ wikiId, pageId: page.id }));
     props.onNavigate?.();
   };
 

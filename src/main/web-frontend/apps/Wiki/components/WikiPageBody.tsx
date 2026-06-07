@@ -1,7 +1,7 @@
 import * as stylex from "@stylexjs/stylex";
 import AdminComponentGating from "components/gating/AdminComponentGating";
-import Button from "components/buttons/Button";
-import {Link, useNavigate} from "react-router";
+import {Link} from "react-router";
+import {WikiRoutes} from "__generated__/routes/WikiRoutes";
 
 type Props = {
   title: string,
@@ -49,7 +49,7 @@ export default function WikiPageBody(props: Props) {
       <div sx={styles.titleContainer}>
         <h1 sx={styles.title}>{props.title}</h1>
         <AdminComponentGating>
-          {props.showEditButton && <Link to={`/wiki/${props.wikiId}/${props.pageId}/edit`}>Edit</Link>}
+          {props.showEditButton && <Link to={WikiRoutes.EditWikiPage({ wikiId: props.wikiId, pageId: props.pageId })}>Edit</Link>}
         </AdminComponentGating>
       </div>
       <div

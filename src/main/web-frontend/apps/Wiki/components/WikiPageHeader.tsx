@@ -2,6 +2,7 @@ import * as stylex from "@stylexjs/stylex";
 import {Link} from "react-router";
 import {WikiStyles} from "apps/Wiki/components/WikiStyles.stylex";
 import {Menu} from "lucide-react";
+import {WikiRoutes} from "__generated__/routes/WikiRoutes";
 
 const styles = stylex.create({
   header: {
@@ -54,7 +55,7 @@ type Props = {
 export default function WikiPageHeader(props: Props) {
   return (
     <div sx={styles.header}>
-      <Link {...stylex.props(styles.headerLink)} to={"/wiki"}>
+      <Link {...stylex.props(styles.headerLink)} to={WikiRoutes.WikiHome()}>
         <span sx={styles.headerText}>WikiMate</span>
       </Link>
       {props.onMenuButtonClick && (

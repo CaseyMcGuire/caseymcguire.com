@@ -7,6 +7,7 @@ import {WikiHomePageQuery} from "__generated__/relay/WikiHomePageQuery.graphql";
 import Button from "components/buttons/Button";
 import {useNavigate} from "react-router";
 import AdminComponentGating from "components/gating/AdminComponentGating";
+import {WikiRoutes} from "__generated__/routes/WikiRoutes";
 
 const styles = stylex.create({
   container: {
@@ -43,7 +44,7 @@ export default function WikiHomePage() {
           <AdminComponentGating>
             <div sx={styles.buttonContainer}>
               <Button text={"Create Wiki"} onClick={() => {
-                navigate('/wiki/new')
+                navigate(WikiRoutes.NewWikiPage())
               }}/>
             </div>
           </AdminComponentGating>

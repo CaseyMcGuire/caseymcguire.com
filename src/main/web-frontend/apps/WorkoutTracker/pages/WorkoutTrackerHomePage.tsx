@@ -6,6 +6,7 @@ import {WorkoutTrackerHomePageQuery} from "__generated__/relay/WorkoutTrackerHom
 import WorkoutTrackerContainer from "../components/WorkoutTrackerContainer";
 import {Link} from "react-router";
 import {WorkoutSidebarMenuId} from "../components/WorkoutSidebar";
+import {WorkoutTrackerRoutes} from "__generated__/routes/WorkoutTrackerRoutes";
 
 type Props = {
   text: string
@@ -28,14 +29,14 @@ export function WorkoutTrackerHomePage(props: Props) {
 
   return (
       <WorkoutPage title={"Dashboard"} selectedMenuItemId={WorkoutSidebarMenuId.DASHBOARD}>
-        <WorkoutTrackerContainer title={"Recent Workouts"} headerLink={"/workout_tracker/workout/create"}>
+        <WorkoutTrackerContainer title={"Recent Workouts"} headerLink={WorkoutTrackerRoutes.CreateWorkout()}>
          {
             result.workoutTracker?.workouts?.map(workout => {
             const id = workout?.id
             if (id == null) {
               return null
             }
-            return <div><Link to={`/workout_tracker/workout/${id}`}>{id}</Link></div>
+            return <div><Link to={WorkoutTrackerRoutes.ViewWorkout({ id: Number(id) })}>{id}</Link></div>
         })
       }
     </WorkoutTrackerContainer>

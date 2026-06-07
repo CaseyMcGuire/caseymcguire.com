@@ -8,6 +8,7 @@ import Page from "apps/MainApp/components/Page";
 import {useLazyLoadQuery} from "react-relay/hooks";
 import {useContext} from "react";
 import UserContext from "components/context/UserContext";
+import {CaseyMcGuireRoutes} from "__generated__/routes/CaseyMcGuireRoutes";
 
 
 export default function SinglePostPage() {
@@ -15,12 +16,12 @@ export default function SinglePostPage() {
   const navigate = useNavigate();
   const idStr = params.id;
   if (idStr == null) {
-    navigate("/500")
+    navigate(CaseyMcGuireRoutes.InternalServerError())
     return null
   }
   const id = parseInt(idStr);
   if (Number.isNaN(id)) {
-    redirect("/404")
+    redirect(CaseyMcGuireRoutes.NotFound())
     return null;
   }
   const loadingPage = (
@@ -65,7 +66,7 @@ function SinglePostPageImpl(props: {
 
   const {post} = response;
   if (post == null) {
-    navigate("/404");
+    navigate(CaseyMcGuireRoutes.NotFound());
     return null;
   }
   return (

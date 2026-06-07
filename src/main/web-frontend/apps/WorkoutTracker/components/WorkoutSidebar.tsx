@@ -3,6 +3,7 @@ import { Dumbbell, LayoutDashboard, LucideIcon, Plus } from "lucide-react";
 import { Link } from "react-router";
 import * as stylex from "@stylexjs/stylex";
 import {WorkoutStyles} from "./WorkoutStyles.stylex";
+import {WorkoutTrackerRoutes} from "__generated__/routes/WorkoutTrackerRoutes";
 
 
 export enum WorkoutSidebarMenuId {
@@ -77,25 +78,25 @@ const MENU_ITEMS: MenuItemConfig[] = [
   {
     text: "Dashboard",
     icon: LayoutDashboard,
-    link: "/workout_tracker",
+    link: WorkoutTrackerRoutes.WorkoutIndex(),
     id: WorkoutSidebarMenuId.DASHBOARD,
   },
   {
     text: "New Workout",
     icon: Plus,
-    link: "/workout_tracker/workout/create",
+    link: WorkoutTrackerRoutes.CreateWorkout(),
     id: WorkoutSidebarMenuId.WORKOUT,
   },
   {
     text: "Exercises",
     icon: Dumbbell,
-    link: "/workout_tracker/exercise",
+    link: WorkoutTrackerRoutes.ExerciseIndex(),
     id: WorkoutSidebarMenuId.EXERCISES,
   },
   {
     text: "History",
     icon: Dumbbell,
-    link: "/workout_tracker/workout/history",
+    link: WorkoutTrackerRoutes.WorkoutHistory(),
     id: WorkoutSidebarMenuId.HISTORY,
   },
 ];
@@ -169,4 +170,3 @@ function WorkoutSidebarMenuItem(props: MenuItemProps) {
     </Link>
   );
 }
-

@@ -6,6 +6,7 @@ import {WikiIndexPageQuery} from "__generated__/relay/WikiIndexPageQuery.graphql
 import WikiPageLayout from "apps/Wiki/components/WikiPageLayout";
 import * as stylex from "@stylexjs/stylex";
 import WikiTableOfContents from "apps/Wiki/components/WikiTableOfContents";
+import {WikiRoutes} from "__generated__/routes/WikiRoutes";
 
 const styles = stylex.create({
   container: {
@@ -38,7 +39,7 @@ export default function WikiIndexPage() {
   `
   const {wikiId} = useParams<{ wikiId: string}>();
   if (!wikiId) {
-    return <Navigate to={`/wiki`} replace />
+    return <Navigate to={WikiRoutes.WikiHome()} replace />
   }
   const data = useLazyLoadQuery<WikiIndexPageQuery>(
     query,
@@ -50,7 +51,7 @@ export default function WikiIndexPage() {
   const wikiName = data.wiki?.name;
   if (!wikiName) {
     return (
-      <Navigate to={`/wiki`} replace />
+      <Navigate to={WikiRoutes.WikiHome()} replace />
     )
   }
 

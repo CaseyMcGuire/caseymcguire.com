@@ -2,6 +2,7 @@ import {Link} from "react-router";
 import * as React from "react";
 import AdminComponentGating from "components/gating/AdminComponentGating";
 import * as stylex from '@stylexjs/stylex';
+import {CaseyMcGuireRoutes} from "__generated__/routes/CaseyMcGuireRoutes";
 
 const styles = stylex.create({
   titleLink: {
@@ -31,8 +32,8 @@ export default function PostHeader(props: Props) {
     showEditButton,
     publishedDate
   } = props;
-  const blogTitleElement = id ? <Link {...stylex.props(styles.titleLink)} to={"/posts/" + id}>{title}</Link> : title;
-  const editButton = id ? <Link to={"/posts/" + id + "/edit"}>Edit</Link> : null;
+  const blogTitleElement = id ? <Link {...stylex.props(styles.titleLink)} to={CaseyMcGuireRoutes.ViewPost({ id })}>{title}</Link> : title;
+  const editButton = id ? <Link to={CaseyMcGuireRoutes.EditPost({ id })}>Edit</Link> : null;
   return (
     <div>
       <h2>{blogTitleElement}</h2>

@@ -11,6 +11,7 @@ import Page from "apps/MainApp/components/Page";
 import TetrisPage from "apps/MainApp/pages/Tetris/TetrisPage";
 import ProjectsPage from "apps/MainApp/pages/Projects/ProjectsPage";
 import NftPreview from "apps/MainApp/pages/Random/NftPreview/NftPreview";
+import {CaseyMcGuireRoutes} from "__generated__/routes/CaseyMcGuireRoutes";
 
 type AppRoute = {
   path: string,
@@ -20,64 +21,63 @@ type AppRoute = {
 
 const MainAppRoutes: Array<AppRoute> = [
   {
-    path: "/",
+    path: CaseyMcGuireRoutes.BlogIndex.path,
     element: <HomePage />
   },
   {
-    path: "/resume",
+    path: CaseyMcGuireRoutes.Resume.path,
     element: <ResumePage />
   },
   {
-    path: "/posts",
+    path: CaseyMcGuireRoutes.PostsIndex.path,
     element: <IndexPostPage />
   },
   {
-    path: "/posts/page/:id",
+    path: CaseyMcGuireRoutes.ViewPostsPage.path,
     element: <IndexPostPage />
   },
   {
-    path: "/posts/new",
+    path: CaseyMcGuireRoutes.NewPost.path,
     element: <CreatePostPage />,
     isGated: true
   },
   {
-    path: "/posts/:id",
+    path: CaseyMcGuireRoutes.ViewPost.path,
     element: <SinglePostPage />
   },
   {
-    path: "/posts/:id/edit",
+    path: CaseyMcGuireRoutes.EditPost.path,
     element: <EditPostPage />,
     isGated: true
   },
   {
-    path: "/login",
+    path: CaseyMcGuireRoutes.Login.path,
     element: <LoginPage />
   },
   {
-    path: "/register",
+    path: CaseyMcGuireRoutes.Register.path,
     element: <RegisterPage />
   },
   {
-    path: "/tetris",
+    path: CaseyMcGuireRoutes.Tetris.path,
     element: <TetrisPage />
   },
   {
-    path: "/404",
+    path: CaseyMcGuireRoutes.NotFound.path,
     element: <Page><div>404</div></Page>
   },
   {
-    path: "/500",
+    path: CaseyMcGuireRoutes.InternalServerError.path,
     element: <Page><div>500: Internal Server Error</div></Page>
   },
   {
-    path: "/projects",
+    path: CaseyMcGuireRoutes.Projects.path,
     element: <ProjectsPage />
   },
   {
-    path: "/nft-preview",
+    path: CaseyMcGuireRoutes.NftPreview.path,
     element:  <NftPreview />
   }
 ];
 
 export default MainAppRoutes;
-

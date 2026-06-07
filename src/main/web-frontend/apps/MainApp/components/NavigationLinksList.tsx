@@ -3,6 +3,7 @@ import { Link } from "react-router";
 import {postWithCsrfAndRedirect} from "components/csrf/CsrfUtils";
 import LoggedInComponentGating from "components/gating/LoggedInComponentGating";
 import * as stylex from "@stylexjs/stylex";
+import {CaseyMcGuireRoutes} from "__generated__/routes/CaseyMcGuireRoutes";
 
 const styles = stylex.create({
   navigationBarContainer: {
@@ -55,12 +56,12 @@ export default function NavigationLinksList(props: { isMobile: boolean }) {
     <ul
       sx={props.isMobile ? styles.navigationListMobile : styles.navigationList}
     >
-      <NavigationLink name="Home" link="/" isMobile={props.isMobile} />
-      <NavigationLink name="Resume" link="/resume" isMobile={props.isMobile} />
-      <NavigationLink name="Blog" link="/posts" isMobile={props.isMobile} />
+      <NavigationLink name="Home" link={CaseyMcGuireRoutes.BlogIndex()} isMobile={props.isMobile} />
+      <NavigationLink name="Resume" link={CaseyMcGuireRoutes.Resume()} isMobile={props.isMobile} />
+      <NavigationLink name="Blog" link={CaseyMcGuireRoutes.PostsIndex()} isMobile={props.isMobile} />
       <NavigationLink
         name="Projects"
-        link="/projects"
+        link={CaseyMcGuireRoutes.Projects()}
         isMobile={props.isMobile}
       />
       <NavigationLink
@@ -88,7 +89,7 @@ function NavigationLogoutLink(props: { isMobile: boolean }) {
             await postWithCsrfAndRedirect('/logout');
           } catch (err) {
             console.error('Logout request failed:', err);
-            window.location.href = '/';
+            window.location.href = CaseyMcGuireRoutes.BlogIndex();
           }
         }}
       >

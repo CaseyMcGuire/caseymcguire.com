@@ -5,6 +5,7 @@ import WikiPageContent from "apps/Wiki/components/WikiPageContent";
 import {Navigate, useParams} from "react-router";
 import WikiPageLayout from "apps/Wiki/components/WikiPageLayout";
 import {useEffect} from "react";
+import {WikiRoutes} from "__generated__/routes/WikiRoutes";
 
 export default function ViewWikiPage() {
   const query = graphql`
@@ -25,11 +26,11 @@ export default function ViewWikiPage() {
 
   const {pageId, wikiId} = useParams<{ wikiId: string, pageId: string }>();
   if (!pageId) {
-    return <Navigate to={`/wiki/${wikiId}`} replace />
+    return wikiId ? <Navigate to={WikiRoutes.WikiIndex({ wikiId })} replace /> : <Navigate to={WikiRoutes.WikiHome()} replace />
   }
   if (!wikiId) {
     return (
-      <Navigate to={`/wiki`} replace />
+      <Navigate to={WikiRoutes.WikiHome()} replace />
     )
   }
 
@@ -48,7 +49,7 @@ export default function ViewWikiPage() {
   const wikiName = data.wiki?.name;
   if (!wikiName) {
     return (
-      <Navigate to={`/wiki`} replace />
+      <Navigate to={WikiRoutes.WikiHome()} replace />
     )
   }
 

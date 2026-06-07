@@ -8,6 +8,7 @@ import UserContext from "components/context/UserContext";
 import Button from "components/buttons/Button";
 import WikiPageWrapper from "apps/Wiki/components/WikiPageWrapper";
 import {NewWikiPageMutation} from "__generated__/relay/NewWikiPageMutation.graphql";
+import {WikiRoutes} from "__generated__/routes/WikiRoutes";
 
 const styles = stylex.create({
   page: {
@@ -141,7 +142,7 @@ export default function NewWikiPage() {
       onCompleted: response => {
         switch (response.createWiki.__typename) {
           case "SuccessfulCreateWikiResponse": {
-            const nextPath = `/wiki/${response.createWiki.wiki.id}`;
+            const nextPath = WikiRoutes.WikiIndex({ wikiId: response.createWiki.wiki.id });
             navigate(nextPath);
             break;
           }
@@ -163,7 +164,7 @@ export default function NewWikiPage() {
   const buttonState = isInFlight ? "loading" : trimmedName ? "active" : "disabled";
 
   if (!isAdmin) {
-    return <Navigate to="/wiki" replace />;
+    return <Navigate to={WikiRoutes.WikiHome()} replace />;
   }
 
   return (

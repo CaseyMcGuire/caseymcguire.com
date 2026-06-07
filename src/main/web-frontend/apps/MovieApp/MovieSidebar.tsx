@@ -1,6 +1,7 @@
 import * as React from "react";
 import { Link } from "react-router";
 import * as stylex from "@stylexjs/stylex";
+import {MoviesRoutes} from "__generated__/routes/MoviesRoutes";
 
 const styles = stylex.create({
   sidebar: {
@@ -41,7 +42,7 @@ export default function MovieSidebar() {
           sx={styles.logo}
           src={"/assets/images/movies/logo.svg"}
         />
-        <Link to={"/movies"}>
+        <Link to={MoviesRoutes.MoviesIndex()}>
           <img
             sx={styles.navIcon}
             src={"/assets/images/movies/icon-nav-home.svg"}
@@ -51,7 +52,7 @@ export default function MovieSidebar() {
           sx={styles.navIcon}
           src={"/assets/images/movies/icon-nav-movies.svg"}
         />
-        <Link to={"/tv"}>
+        <Link to={MoviesRoutes.TelevisionIndex()}>
           <img
             sx={styles.navIcon}
             src={"/assets/images/movies/icon-nav-tv-series.svg"}

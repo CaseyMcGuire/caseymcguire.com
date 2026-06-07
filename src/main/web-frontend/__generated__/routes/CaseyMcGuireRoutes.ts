@@ -21,9 +21,11 @@ export const CaseyMcGuireRoutes = {
     "/posts/:id/edit",
     (params: { id: number }) => `/posts/${encodeRouteParam(params.id)}/edit`
   ),
+  InternalServerError: routeWithoutParams("/500"),
   Login: routeWithoutParams("/login"),
   NewPost: routeWithoutParams("/posts/new"),
   NftPreview: routeWithoutParams("/nft-preview"),
+  NotFound: routeWithoutParams("/404"),
   PostsIndex: routeWithoutParams("/posts"),
   Projects: routeWithoutParams("/projects"),
   Register: routeWithoutParams("/register"),

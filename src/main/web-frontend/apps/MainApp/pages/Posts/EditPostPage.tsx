@@ -8,18 +8,19 @@ import Page from "apps/MainApp/components/Page";
 import {useParams} from "react-router";
 import {redirect} from "react-router";
 import {useLazyLoadQuery} from "react-relay/hooks";
+import {CaseyMcGuireRoutes} from "__generated__/routes/CaseyMcGuireRoutes";
 
 
 export default function EditPostPage() {
   const params = useParams();
   const idStr = params.id
   if (idStr == null) {
-    redirect("/404")
+    redirect(CaseyMcGuireRoutes.NotFound())
     return null;
   }
   const id = parseInt(idStr);
   if (Number.isNaN(id)) {
-    redirect("/404")
+    redirect(CaseyMcGuireRoutes.NotFound())
     return null;
   }
   return <EditPostPageImpl id={id} />
@@ -51,7 +52,7 @@ function EditPostPageImpl(props: {id: number}) {
               console.log("error... ")
             }
             else {
-              navigate("/posts/" + id)
+              navigate(CaseyMcGuireRoutes.ViewPost({ id }))
             }
           })
         }}/>

@@ -10,6 +10,7 @@ import {WorkoutSidebarMenuId} from "../../components/WorkoutSidebar";
 import WorkoutTrackerDropdown, {WorkoutTrackerDropdownOption} from "../../components/WorkoutTrackerDropdown";
 import WorkoutTrackerSetCreationTable, {WorkoutTrackerSetCreationTableItem} from "./WorkoutTrackerSetCreationTable";
 import WorkoutTrackerExerciseSection from "./WorkoutTrackerExerciseSection";
+import {WorkoutTrackerRoutes} from "__generated__/routes/WorkoutTrackerRoutes";
 
 type Section = {
   exerciseId: string,
@@ -22,7 +23,7 @@ export default function WorkoutTrackerShowWorkoutPage() {
 
   useEffect(() => {
     if (id == null) {
-      navigate('/');
+      navigate(WorkoutTrackerRoutes.WorkoutIndex());
     }
   }, [id, navigate]);
 

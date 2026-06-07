@@ -2,6 +2,7 @@ import {graphql, useRefetchableFragment} from "react-relay";
 import {WikisTable_wikis$key} from "__generated__/relay/WikisTable_wikis.graphql";
 import * as stylex from "@stylexjs/stylex";
 import {useNavigate} from "react-router";
+import {WikiRoutes} from "__generated__/routes/WikiRoutes";
 
 type Props = {
   wikis: WikisTable_wikis$key
@@ -75,7 +76,9 @@ export default function WikisTable(props: Props) {
           data?.wikis?.edges?.map(edge => {
             return (
               <tr sx={styles.tableRow} onClick={() => {
-                navigate(`/wiki/${edge?.node?.id}`)
+                if (edge?.node?.id != null) {
+                  navigate(WikiRoutes.WikiIndex({ wikiId: edge.node.id }))
+                }
               }}>
                 <td sx={[styles.cell, styles.nameCell]}>
                   <span sx={styles.wikiName}>{edge?.node?.name}</span>

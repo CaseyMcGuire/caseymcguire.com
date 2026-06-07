@@ -4,6 +4,7 @@ import {postWithCsrfAndRedirect} from "components/csrf/CsrfUtils";
 import Page from "apps/MainApp/components/Page";
 import * as stylex from '@stylexjs/stylex';
 import AuthFormContainer from "apps/MainApp/pages/Auth/components/AuthFormContainer";
+import {CaseyMcGuireRoutes} from "__generated__/routes/CaseyMcGuireRoutes";
 
 const styles = stylex.create({
   loginFormContainer: {
@@ -86,7 +87,7 @@ async function handleLoginSubmit(e: React.FormEvent<HTMLFormElement>) {
     // Anything thrown here is an infrastructure problem (CSRF reject, network, 5xx). Log
     // so it's debuggable, then surface a distinct error to the user.
     console.error('Login request failed:', err);
-    window.location.href = '/login?error=unexpected';
+    window.location.href = `${CaseyMcGuireRoutes.Login()}?error=unexpected`;
   }
 }
 

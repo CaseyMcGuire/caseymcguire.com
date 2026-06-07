@@ -20,6 +20,8 @@ object BlogSpaApplication : SpaApplicationDefinition {
     route("login", "Login"),
     route("register", "Register"),
     route("tetris", "Tetris"),
+    route("404", "NotFound"),
+    route("500", "InternalServerError"),
     route("projects", "Projects"),
     route("nft-preview", "NftPreview")
   )

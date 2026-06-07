@@ -1,6 +1,7 @@
 import {Link} from "react-router";
 import * as React from "react";
 import * as stylex from "@stylexjs/stylex";
+import {CaseyMcGuireRoutes} from "__generated__/routes/CaseyMcGuireRoutes";
 
 const styles = stylex.create({
   paginationPanel: {
@@ -33,17 +34,16 @@ type Props = {
 }
 
 export default function PaginationPanel(props: Props) {
-  const path = "/posts/page/";
   const disableRight = !props.hasNextPage;
   const disableLeft = !props.hasPreviousPage;
   return (
     <div sx={styles.paginationPanel}>
       <div sx={disableLeft && styles.hideArrow}>
-        <Link to={path + (props.pageNumber - 1)}>&lsaquo;</Link>
+        <Link to={CaseyMcGuireRoutes.ViewPostsPage({ id: props.pageNumber - 1 })}>&lsaquo;</Link>
       </div>
       <div>{props.pageNumber}</div>
       <div sx={disableRight && styles.hideArrow}>
-        <Link to={path + (props.pageNumber + 1)}>&rsaquo;</Link>
+        <Link to={CaseyMcGuireRoutes.ViewPostsPage({ id: props.pageNumber + 1 })}>&rsaquo;</Link>
       </div>
     </div>
   );

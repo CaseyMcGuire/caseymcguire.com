@@ -9,6 +9,7 @@ import * as stylex from "@stylexjs/stylex";
 import Button from "components/buttons/Button";
 import {EditWikiPageMutation} from "__generated__/relay/EditWikiPageMutation.graphql";
 import WikiPageWrapper from "apps/Wiki/components/WikiPageWrapper";
+import {WikiRoutes} from "__generated__/routes/WikiRoutes";
 
 const styles = stylex.create({
   container: {
@@ -100,7 +101,7 @@ export default function EditWikiPage() {
 
   const {wikiId, pageId} = useParams<{ wikiId: string, pageId: string }>();
   if (!wikiId || !pageId) {
-    return <Navigate to="/wiki/404" replace />;
+    return <Navigate to={WikiRoutes.WikiHome()} replace />;
   }
   const navigate = useNavigate();
 
@@ -132,7 +133,7 @@ export default function EditWikiPage() {
         switch (data.updateWikiPageContent.__typename) {
           case 'SuccessfulUpdateWikiPageContentResponse':
             setContents(data.updateWikiPageContent.wikiPage.content);
-            navigate(`/wiki/${wikiId}/${pageId}`);
+            navigate(WikiRoutes.WikiPage({ wikiId, pageId }));
             break;
           case 'FailedWikiResponse':
             console.log(data.updateWikiPageContent.userFacingErrorMessage);
@@ -143,7 +144,7 @@ export default function EditWikiPage() {
 
   const wikiName = data.wiki?.name
   if (!wikiName) {
-    return <Navigate to="/wiki" replace />;
+    return <Navigate to={WikiRoutes.WikiHome()} replace />;
   }
 
   return (

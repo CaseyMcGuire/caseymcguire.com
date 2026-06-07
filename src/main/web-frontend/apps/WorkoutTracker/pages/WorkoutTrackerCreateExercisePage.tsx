@@ -10,6 +10,7 @@ import {
   WorkoutTrackerCreateExercisePageMutation,
 } from "__generated__/relay/WorkoutTrackerCreateExercisePageMutation.graphql";
 import * as stylex from "@stylexjs/stylex";
+import {WorkoutTrackerRoutes} from "__generated__/routes/WorkoutTrackerRoutes";
 
 type WorkoutTrackerCreateExercisePageState = {
   exerciseName: string | null;
@@ -59,7 +60,7 @@ export default function WorkoutTrackerCreateExercisePage() {
         name: state.exerciseName,
       },
       onCompleted(data) {
-        navigate("/workout_tracker/exercise");
+        navigate(WorkoutTrackerRoutes.ExerciseIndex());
       },
     });
   };

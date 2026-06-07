@@ -4,6 +4,7 @@ import {WikiSidebarFragment_wiki$key} from "__generated__/relay/WikiSidebarFragm
 import {WikiSidebarFolder, WikiSidebarItem, WikiSidebarPage} from "apps/Wiki/models/WikiModels";
 import {Link} from "react-router";
 import * as stylex from "@stylexjs/stylex";
+import {WikiRoutes} from "__generated__/routes/WikiRoutes";
 
 type Props = {
   wiki: WikiSidebarFragment_wiki$key | null | undefined;
@@ -98,7 +99,7 @@ function WikiTableOfContentsPage({ page }: { page: WikiSidebarPage }) {
     <li sx={styles.listItem}>
       <Link
         {...stylex.props(styles.link)}
-        to={`/wiki/${page.wikiId}/${page.id}`}
+        to={WikiRoutes.WikiPage({ wikiId: page.wikiId, pageId: page.id })}
       >
         <span sx={styles.linkText}>{page.name}</span>
       </Link>

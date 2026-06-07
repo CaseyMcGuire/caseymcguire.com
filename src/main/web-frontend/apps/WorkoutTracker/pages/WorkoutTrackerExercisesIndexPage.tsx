@@ -6,6 +6,7 @@ import { useLazyLoadQuery } from "react-relay/hooks";
 import { WorkoutTrackerExercisesIndexPageQuery } from "__generated__/relay/WorkoutTrackerExercisesIndexPageQuery.graphql";
 import WorkoutTrackerContainer from "apps/WorkoutTracker/components/WorkoutTrackerContainer";
 import * as stylex from "@stylexjs/stylex";
+import {WorkoutTrackerRoutes} from "__generated__/routes/WorkoutTrackerRoutes";
 
 const styles = stylex.create({
   exerciseContainer: {
@@ -33,7 +34,7 @@ export default function WorkoutTrackerExercisesIndexPage() {
   return (
     <WorkoutPage
       title="Exercises"
-      titleLink={"/workout_tracker/exercise/create"}
+      titleLink={WorkoutTrackerRoutes.CreateExercise()}
       selectedMenuItemId={WorkoutSidebarMenuId.EXERCISES}
     >
       {result.workoutTracker?.exercises?.map(elem => {
