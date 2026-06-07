@@ -1,11 +1,11 @@
-package com.caseymcguiredotcom.scripts
+package com.caseymcguiredotcom.sparoutecontract.codegen
 
 import com.caseymcguiredotcom.sparoutecontract.SpaApplicationDefinitionDiscovery
 import java.nio.file.Files
 import java.nio.file.Path
 import kotlin.system.exitProcess
 
-fun main(args: Array<String>) {
+fun main() {
   val outputDirectoryPath = System.getProperty("route.output.dir")
     ?: throw IllegalArgumentException("'route.output.dir' must be set in task config")
   val configs = SpaApplicationDefinitionDiscovery.discoverFromSystemProperty()
@@ -21,9 +21,7 @@ fun main(args: Array<String>) {
     appendLine("}")
   }
 
-  val outputPath =
-    Path.of(outputDirectoryPath)
-  Files.writeString(outputPath, fileContents)
+  Files.writeString(Path.of(outputDirectoryPath), fileContents)
 
   exitProcess(0)
 }

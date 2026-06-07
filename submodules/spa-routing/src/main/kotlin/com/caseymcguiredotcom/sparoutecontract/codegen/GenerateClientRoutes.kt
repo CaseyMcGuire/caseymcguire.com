@@ -1,17 +1,15 @@
-package com.caseymcguiredotcom.scripts
+package com.caseymcguiredotcom.sparoutecontract.codegen
 
-import com.caseymcguiredotcom.routes.RouteConverter
 import com.caseymcguiredotcom.sparoutecontract.SpaApplicationDefinitionDiscovery
 import java.nio.file.Files
 import java.nio.file.Path
 import kotlin.system.exitProcess
 
-
-fun main(args: Array<String>) {
+fun main() {
   val outputDirectoryPath = System.getProperty("route.output.dir")
     ?: throw IllegalArgumentException("'route.output.dir' must be set in task config")
   val configs = SpaApplicationDefinitionDiscovery.discoverFromSystemProperty()
-  val routeConverter = RouteConverter()
+  val routeConverter = RoutePathConverter()
 
   val configNameToTypeScriptObjectEntries = mutableMapOf<String, List<TypeScriptRouteConfig>>()
   for (config in configs) {
@@ -52,14 +50,12 @@ fun main(args: Array<String>) {
     }
   }.toMap()
 
-
   if (Files.notExists(Path.of(outputDirectoryPath))) {
     Files.createDirectories(Path.of(outputDirectoryPath))
   }
 
   for ((fileName, content) in fileNameToContent) {
-    val outputPath: Path =
-      Path.of("${outputDirectoryPath}/${fileName}.ts")
+    val outputPath = Path.of("${outputDirectoryPath}/${fileName}.ts")
     Files.writeString(outputPath, content)
   }
 
