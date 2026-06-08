@@ -49,6 +49,7 @@ repositories {
 
 dependencies {
   implementation(project(":spa-routing"))
+  implementation(project(":spa-route-definitions"))
 
   implementation("org.springframework.boot:spring-boot-starter-web")
   implementation("org.springframework.boot:spring-boot-starter-security")
@@ -217,14 +218,14 @@ tasks.register<Exec>("generateDbMigration") {
   commandLine("bash", "-lc", "./bin/generate_db_migration.sh")
 }
 
-val spaApplicationSourceDir = project(":spa-routing")
+val spaApplicationSourceDir = project(":spa-route-definitions")
   .layout
   .projectDirectory
   .dir("src/main/kotlin/com/caseymcguiredotcom/sparoutecontract/applications")
   .asFile
   .absolutePath
 
-fun spaRoutingRuntimeClasspath() = project(":spa-routing")
+fun spaRouteDefinitionsRuntimeClasspath() = project(":spa-route-definitions")
   .extensions
   .getByType<SourceSetContainer>()
   .named("main")
@@ -233,8 +234,8 @@ fun spaRoutingRuntimeClasspath() = project(":spa-routing")
 
 tasks.register<JavaExec>("generateClientRoutes") {
   description = "Generates React Routes for the client."
-  dependsOn(":spa-routing:classes")
-  classpath = spaRoutingRuntimeClasspath()
+  dependsOn(":spa-route-definitions:classes")
+  classpath = spaRouteDefinitionsRuntimeClasspath()
   mainClass.set(clientRoutePath)
   systemProperty("route.output.dir", "src/main/web-frontend/__generated__/routes")
   systemProperty("spa.application.source.dir", spaApplicationSourceDir)
@@ -244,8 +245,8 @@ val generatedServerSpaRoutesDir = layout.buildDirectory.dir("generated/source/sp
 
 tasks.register<JavaExec>("generateServerSpaRoutes") {
   description = "Generates typed Kotlin SPA route objects for the server."
-  dependsOn(":spa-routing:classes")
-  classpath = spaRoutingRuntimeClasspath()
+  dependsOn(":spa-route-definitions:classes")
+  classpath = spaRouteDefinitionsRuntimeClasspath()
   mainClass.set(serverRoutePath)
   systemProperty("route.output.dir", generatedServerSpaRoutesDir.get().asFile.absolutePath)
   systemProperty("spa.application.source.dir", spaApplicationSourceDir)
@@ -257,8 +258,8 @@ tasks.withType<KotlinCompile>().configureEach {
 
 tasks.register<JavaExec>("generateWebpackBundleEntries") {
   description = "Generates a file containing the path to each React app's entry point."
-  dependsOn(":spa-routing:classes")
-  classpath = spaRoutingRuntimeClasspath()
+  dependsOn(":spa-route-definitions:classes")
+  classpath = spaRouteDefinitionsRuntimeClasspath()
   mainClass.set(webpackEntryPath)
   systemProperty("route.output.dir", "SinglePageApplicationBundles.ts")
   systemProperty("spa.application.source.dir", spaApplicationSourceDir)
